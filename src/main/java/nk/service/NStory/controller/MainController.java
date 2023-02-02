@@ -13,6 +13,6 @@ public class MainController {
     public String main(@AuthenticationPrincipal CustomUserDetails customUserDetails, Model model) {
         boolean isLogin = customUserDetails != null;
         model.addAttribute("IsLogin", isLogin);
-        return "Test";
+        return "Main";
     }
 }
