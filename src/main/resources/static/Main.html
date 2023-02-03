@@ -34,41 +34,43 @@
 </div>
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
     <h2 class="sub-header">기록 LOG</h2>
+    <a sec:authorize="isAuthenticated()" class="btn btn-primary" href="javascript:openPop()">등록</a>
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
             <tr>
                 <th>#</th>
-                <th>Header</th>
-                <th>Header</th>
-                <th>Header</th>
-                <th>Header</th>
+                <th>내용</th>
+                <th>등록자</th>
+                <th>수정일자</th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>1,001</td>
-                <td>Lorem</td>
-                <td>ipsum</td>
-                <td>dolor</td>
-                <td>sit</td>
-            </tr>
-            <tr>
-                <td>1,014</td>
-                <td>per</td>
-                <td>inceptos</td>
-                <td>himenaeos</td>
-                <td>Curabitur</td>
-            </tr>
-            <tr>
-                <td>1,015</td>
-                <td>sodales</td>
-                <td>ligula</td>
-                <td>in</td>
-                <td>libero</td>
+            <tr th:each="list : ${recordLogList}">
+                <td th:text="${list.id}"></td>
+                <td th:text="${list.contents}"></td>
+                <td th:text="${list.name}"></td>
+                <td th:text="${list.time}"></td>
             </tr>
             </tbody>
         </table>
+    </div>
+</div>
+<div class="popup_layer" id="popup_layer" style="display: none;">
+    <div class="popup_box">
+        <div style="height: 10px; width: 375px; float: top;">
+            <a href="javascript:closePop();">X</a>
+        </div>
+        <!--팝업 컨텐츠 영역-->
+        <form method="post" action="/frmlog">
+        <div class="popup_cont">
+            <textarea name="contents" maxlength="20" placeholder="내용을 입력해 주세요." style="resize: none; width: 400px; height: 300px; padding: 10px;"></textarea>
+        </div>
+        <!--팝업 버튼 영역-->
+        <div class="popup_btn" style="float: bottom; margin-top: 5px;">
+            <a><input type="submit" value="등록"></a>
+        </div>
+        </form>
     </div>
 </div>
 </body>
@@ -79,4 +81,6 @@
 <link rel="stylesheet" href="css/dashboard.css">
 <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<script src="js/popup.js"></script>
+<link rel="stylesheet" href="css/popup.css">
 </html>
