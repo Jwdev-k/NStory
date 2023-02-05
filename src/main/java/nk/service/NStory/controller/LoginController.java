@@ -1,14 +1,18 @@
 package nk.service.NStory.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import nk.service.NStory.dto.AccountDTO;
 import nk.service.NStory.security.CustomUserDetails;
 import nk.service.NStory.service.impl.LoginService;
+import nk.service.NStory.utils.ScriptUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -22,7 +26,15 @@ public class LoginController {
     private BCryptPasswordEncoder passwordEncoder;
 
     @GetMapping(value = "/login")
-    public String Login(){
+    public String Login(@AuthenticationPrincipal CustomUserDetails userDetails, HttpServletRequest request){
+        if (userDetails != null) {
+            return "redirect:" + request.getHeader("Referer");
+        }
+        return "Login";
+    }
+
+    @PostMapping(value = "/faildlogin")
+    public String faildLogin() {
         return "Login";
     }
 
@@ -33,15 +45,15 @@ public class LoginController {
 
     @RequestMapping(value = "/sign_up")
     public String Register(@AuthenticationPrincipal CustomUserDetails userDetails, HttpServletRequest request
-            , @RequestParam(required = false) String email, @RequestParam(required = false) String password
-            , @RequestParam(required = false) String name) throws Exception {
+            ,HttpServletResponse response, @RequestParam(required = false) String email
+            , @RequestParam(required = false) String password, @RequestParam(required = false) String name) throws Exception {
         if (userDetails != null) {
             return "redirect:" + request.getHeader("Referer");
         }
         if (email != null && password != null && name != null) {
             loginService.register(new AccountDTO(0, email, passwordEncoder.encode(password), name, "", null
                     , "USER", LocalDateTime.now(), true));
-            return "redirect:/login";
+            ScriptUtils.alertAndMovePage(response, "회원가입 성공!", "/login");
         }
         return "Sign_Up";
     }

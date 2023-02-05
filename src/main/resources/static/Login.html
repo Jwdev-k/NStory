@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
 	<title>NStory</title>
 	<meta charset="UTF-8">
@@ -36,11 +36,11 @@
 	<div class="limiter">
 		<div class="container-login100" style="background-image: url('images/bg-01.jpg');">
 			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
-				<form class="login100-form validate-form" method="post" action="/perform_login">
+				<form class="login100-form validate-form" method="post">
 					<span class="login100-form-title p-b-49">
 						로그인
 					</span>
-
+					<span th:text="${errMsg}" style="font-size: 16px; color: #de3a00"></span>
 					<div class="wrap-input100 validate-input m-b-23" data-validate = "email is reauired">
 						<span class="label-input100">Email</span>
 						<input class="input100" type="text" name="email" placeholder="email">
@@ -49,7 +49,7 @@
 
 					<div class="wrap-input100 validate-input" data-validate="Password is required">
 						<span class="label-input100">Password</span>
-						<input class="input100" type="password" name="password" placeholder="password">
+						<input class="input100" type="password" name="password" placeholder="password" maxlength="16">
 						<span class="focus-input100" data-symbol="&#xf190;"></span>
 					</div>
 					

@@ -46,7 +46,7 @@ public class SecurityConfig {
                 .authenticationManager(authenticationManager).anonymous().disable();
         http.formLogin()
                 .loginPage("/login").usernameParameter("email").passwordParameter("password")
-                .loginProcessingUrl("/perform_login").successHandler(new SuccessHandler())
+                .loginProcessingUrl("/login").successHandler(new SuccessHandler())
                 .failureHandler(new FailureHandler());
         /*                .oauth2Login()
                 .loginPage("/login").permitAll()
@@ -61,7 +61,6 @@ public class SecurityConfig {
         http.sessionManagement()
                 .invalidSessionUrl("/login").maximumSessions(1).maxSessionsPreventsLogin(true).expiredUrl("/login")
                 .sessionRegistry(sessionRegistry());
-
         return http.build();
     }
 

@@ -38,9 +38,8 @@ public class LoginService implements UserDetailsService, LoginServiceIF {
     @Transactional
     @Override
     public void register(AccountDTO accountDTO) throws Exception {
-        boolean emailType = Pattern.matches("/^([a-zA-Z0-9_\\-\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)" +
-                        "|(([a-zA-Z0-9\\-]+\\.)+))([a-zA-Z]{1,5}|[0-9]{1,3})(\\]?)$/"
-                , accountDTO.getEmail());
+        String regex = "^[_a-z0-9-]+(.[_a-z0-9-]+)*@(?:\\w+\\.)+\\w+$";
+        boolean emailType = Pattern.matches(regex, accountDTO.getEmail());
         if (emailType) {
             boolean result = loginMapper.register(accountDTO);
             if (result) {
