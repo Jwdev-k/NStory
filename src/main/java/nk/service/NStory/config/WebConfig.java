@@ -1,6 +1,6 @@
 package nk.service.NStory.config;
 
-import nk.service.NStory.Interceptor.LoginInterceptor;
+import nk.service.NStory.interceptor.LoginInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;

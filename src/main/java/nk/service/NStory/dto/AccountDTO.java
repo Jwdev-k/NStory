@@ -3,8 +3,6 @@ package nk.service.NStory.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.time.LocalDateTime;
-
 @AllArgsConstructor
 @Getter
 public class AccountDTO {
@@ -15,6 +13,6 @@ public class AccountDTO {
     private String comment;
     private byte[] profileImg;
     private String role;
-    private LocalDateTime creationDate;
+    private String creationDate; //19byte
     private boolean isEnable;
 }

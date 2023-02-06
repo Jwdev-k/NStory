@@ -1,17 +1,20 @@
-package nk.service.NStory.Interceptor;
+package nk.service.NStory.interceptor;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
 
-@Component @Slf4j
+@Component
 public class LoginInterceptor implements HandlerInterceptor {
 
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(LoginInterceptor.class);
+
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
         boolean value = false; // 로그인 상태 여부
         Cookie[] clientCookie =  request.getCookies();
         if (clientCookie != null) {
@@ -22,6 +25,6 @@ public class LoginInterceptor implements HandlerInterceptor {
                 }
             }
         }
-        return !value;
+        request.setAttribute("isLogin", value);
     }
 }

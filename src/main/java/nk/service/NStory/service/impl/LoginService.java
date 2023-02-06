@@ -6,6 +6,7 @@ import nk.service.NStory.dto.AccountDTO;
 import nk.service.NStory.security.CustomUserDetails;
 import nk.service.NStory.service.LoginServiceIF;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -24,9 +25,12 @@ public class LoginService implements UserDetailsService, LoginServiceIF {
 
     @SneakyThrows
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username)  {
         AccountDTO account = loginMapper.login(username);
         if (account != null) {
+            if (!account.isEnable()) {
+                throw new AuthenticationCredentialsNotFoundException("인증 요청 거부 (계정 비활성화 상태)");
+            }
             return new CustomUserDetails(account.getName(), account.getEmail(), account.getPassword()
                     , account.isEnable(), true, true, true
                     , Collections.singleton(new SimpleGrantedAuthority("ROLE_" + account.getRole())));
