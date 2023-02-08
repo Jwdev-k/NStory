@@ -13,8 +13,6 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 
 @Component @Slf4j
 public class FailureHandler implements AuthenticationFailureHandler {
@@ -37,6 +35,6 @@ public class FailureHandler implements AuthenticationFailureHandler {
             errMsg = "알 수 없는 이유로 로그인에 실패하였습니다 관리자에게 문의하세요.";
         }
         request.setAttribute("errMsg", errMsg);
-        request.getRequestDispatcher("/faildlogin").forward(request,response);
+        request.getRequestDispatcher("/login").forward(request,response);
     }
 }

@@ -46,7 +46,7 @@ public class SecurityConfig {
                 .authenticationManager(authenticationManager).anonymous().disable();
         http.formLogin()
                 .loginPage("/login").usernameParameter("email").passwordParameter("password")
-                .loginProcessingUrl("/login").successHandler(new SuccessHandler())
+                .loginProcessingUrl("/perform_login").successHandler(new SuccessHandler())
                 .failureHandler(new FailureHandler());
         /*                .oauth2Login()
                 .loginPage("/login").permitAll()

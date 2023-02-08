@@ -3,6 +3,7 @@ package nk.service.NStory.service.impl;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import nk.service.NStory.dto.AccountDTO;
+import nk.service.NStory.repository.LoginMapper;
 import nk.service.NStory.security.CustomUserDetails;
 import nk.service.NStory.service.LoginServiceIF;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import nk.service.NStory.repository.LoginMapper;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
@@ -52,6 +52,11 @@ public class LoginService implements UserDetailsService, LoginServiceIF {
                 log.info("계정 등록 실패");
             }
         }
+    }
+
+    @Override
+    public boolean checkEmail(String email) throws Exception {
+        return loginMapper.checkEmail(email);
     }
 
     @Override

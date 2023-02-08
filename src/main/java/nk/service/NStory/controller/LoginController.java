@@ -12,7 +12,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -23,16 +22,8 @@ public class LoginController {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
-    @GetMapping(value = "/login")
+    @RequestMapping(value = "/login")
     public String Login(@AuthenticationPrincipal CustomUserDetails userDetails){
-        if (userDetails != null) {
-            return "redirect:/";
-        }
-        return "Login";
-    }
-
-    @PostMapping(value = "/faildlogin")
-    public String faildLogin(@AuthenticationPrincipal CustomUserDetails userDetails) {
         if (userDetails != null) {
             return "redirect:/";
         }
@@ -51,7 +42,7 @@ public class LoginController {
         if (userDetails != null) {
             return "redirect:" + request.getHeader("Referer");
         }
-        if (email != null && password != null && name != null) {
+        if (email != null && password != null && name != null && loginService.checkEmail(email)) {
             loginService.register(new AccountDTO(0, email, passwordEncoder.encode(password), name, "", null
                     , "USER", CurrentTime.getTime(), true));
             ScriptUtils.alertAndMovePage(response, "회원가입 성공!", "/login");

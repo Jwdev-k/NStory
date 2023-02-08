@@ -2,7 +2,6 @@ package nk.service.NStory.repository;
 
 import nk.service.NStory.dto.AccountDTO;
 import org.apache.ibatis.annotations.Insert;
-
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -12,4 +11,6 @@ public interface LoginMapper {
     boolean register(AccountDTO accountDTO) throws Exception;
     @Select("SELECT * FROM account WHERE isEnable = 1 AND email = #{email}")
     AccountDTO login(String email) throws Exception;
+    @Select("SELECT EXISTS (SELECT email FROM account WHERE email = #{email})")
+    boolean checkEmail(String email) throws Exception;
 }
