@@ -3,10 +3,11 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>NStory</title>
 </head>
 <body>
-<nav class="navbar navbar-inverse navbar-fixed-top">
+<nav class="navbar navbar-inverse navbar-fixed-top" style="background-color: black;">
     <div class="container-fluid">
         <div class="navbar-header">
             <a class="navbar-brand" href="/">NStory</a>
@@ -26,17 +27,17 @@
 </nav>
 <div class="col-sm-3 col-md-2 sidebar">
     <ul class="nav nav-sidebar">
-        <li class="active"><a>Active</a></li>
-        <li><a href="#">Sample1</a></li>
-        <li><a href="#">Sample2</a></li>
-        <li><a href="#">Sample3</a></li>
+        <li class="active"><a>방명록</a></li>
+        <li><a href="#">유저 목록</a></li>
+        <li><a href="#">랭킹</a></li>
+        <li><a href="#">NStory SHOP</a></li>
     </ul>
 </div>
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-    <h2 class="sub-header">기록 LOG</h2>
-    <a sec:authorize="isAuthenticated()" class="btn btn-primary" href="javascript:openPop()">등록</a>
+    <h2 class="sub-header" style="background-color: #4d5154; color: white; width: 1000px;">기록 LOG</h2>
+    <a sec:authorize="isAuthenticated()" class="btn btn-info" style="position: relative; left: 950px;" href="javascript:openPop()">등록</a>
     <div class="table-responsive">
-        <table class="table table-striped">
+        <table class="table table-striped" style="width: 1000px; height: 300px;">
             <thead>
             <tr>
                 <th>#</th>
@@ -64,7 +65,7 @@
         <!--팝업 컨텐츠 영역-->
         <form method="post" action="/frmlog">
         <div class="popup_cont">
-            <textarea name="contents" maxlength="20" placeholder="내용을 입력해 주세요." style="resize: none; width: 400px; height: 300px; padding: 10px;"></textarea>
+            <textarea name="contents" maxlength="50" placeholder="내용을 입력해 주세요." style="resize: none; width: 400px; height: 300px; padding: 10px;"></textarea>
         </div>
         <!--팝업 버튼 영역-->
         <div class="popup_btn" style="float: bottom; margin-top: 5px;">
@@ -78,9 +79,13 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <!-- 부가적인 테마 -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
 <link rel="stylesheet" href="css/dashboard.css">
+<link rel="stylesheet" href="css/popup.css">
+
+<!-- 제이쿼리 -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <script src="js/popup.js"></script>
-<link rel="stylesheet" href="css/popup.css">
 </html>
