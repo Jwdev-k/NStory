@@ -40,9 +40,9 @@ public class LoginController {
             ,HttpServletResponse response, @RequestParam(required = false) String email
             , @RequestParam(required = false) String password, @RequestParam(required = false) String name) throws Exception {
         if (userDetails != null) {
-            return "redirect:" + request.getHeader("Referer");
+            return "redirect:" + request.getHeader("referer");
         }
-        if (email != null && password != null && name != null && loginService.checkEmail(email)) {
+        if (email != null && password != null && name != null && !loginService.checkEmail(email)) {
             loginService.register(new AccountDTO(0, email, passwordEncoder.encode(password), name, "", null
                     , "USER", CurrentTime.getTime(), true));
             ScriptUtils.alertAndMovePage(response, "회원가입 성공!", "/login");

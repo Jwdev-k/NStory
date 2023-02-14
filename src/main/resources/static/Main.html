@@ -5,6 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>NStory</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+    </style>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -25,31 +33,44 @@
             </ul>
     </div>
 </nav>
-<nav class="col-sm-3 col-md-2 nav flex-column" style="position: absolute;">
-    <a class="nav-link disabled">방명록</a>
-    <a class="nav-link" href="#">유저 목록</a>
-    <a class="nav-link" href="#">랭킹</a>
-    <a class="nav-link" href="#">NStory SHOP</a>
+<nav class="col-sm-3 col-md-2 nav nav-tabs flex-column" style="position: fixed; padding: 30px; width: 200px">
+    <h4 class="nav-item text-center">메뉴</h4>
+    <a class="nav-link text-center disabled">방명록</a>
+    <a class="nav-link text-center" href="#">유저 목록</a>
+    <a class="nav-link text-center" href="#">랭킹</a>
+    <a class="nav-link text-center" href="#">NStory SHOP</a>
 </nav>
-<div class="container" style="padding: 30px;">
-    <h2 class="table-header" style="background-color: #4d5154; color: white; width: 1000px;">기록 LOG</h2>
-    <a sec:authorize="isAuthenticated()" class="btn btn-info" style="position: relative; left: 940px;" onclick="openPop()">등록</a>
+<div class="container align-content-center" style="padding: 30px;">
+    <h2 class="table-header" style="background-color: #4d5154; color: white; width: auto; height: 45px">방명록 LOG</h2>
+    <button sec:authorize="isAuthenticated()" class="btn btn-info"
+            style="position: sticky; left: 2000px" onclick="openPop()">등록</button>
     <div class="table-responsive">
-        <table class="table table-striped" style="width: 1000px; height: 300px;">
+        <table class="table table-striped">
             <thead>
-            <tr>
+            <tr class="text-center">
                 <th>#</th>
                 <th>내용</th>
                 <th>등록자</th>
                 <th>수정일자</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody class="text-center">
             <tr th:each="list : ${recordLogList}">
                 <td th:text="${list.id}"></td>
                 <td th:text="${list.contents}"></td>
                 <td th:text="${list.name}"></td>
                 <td th:text="${list.time}"></td>
+                <th:block th:if="${#strings.equals(Email,list.email)}">
+                    <form method="post" action="/frmlog_delete">
+                        <td><button class="btn btn-danger" type="submit"
+                                    onclick="if(!confirm('삭제하시면 복구할수 없습니다. \n 정말로 삭제하시겠습니까??')){
+                                                return false;
+                                            }">삭제</button></td>
+                        <input type="hidden" name="id" th:value="${list.id}">
+                        <input type="hidden" name="email" th:value="${list.email}">
+                    </form>
+                </th:block>
+                <td th:unless="${#strings.equals(Email,list.email)}"></td>
             </tr>
             </tbody>
         </table>
@@ -76,7 +97,7 @@
     </div>
 </div>
 <!-- Footer -->
-<footer class="py-5 bg-dark" style="transform: translateY(500%)">
+<footer class="py-5 bg-dark" style="transform: translateY(500%);">
     <div class="container">
         <p class="m-0 text-center text-white">Copyright &copy; NStory 2023</p>
     </div>

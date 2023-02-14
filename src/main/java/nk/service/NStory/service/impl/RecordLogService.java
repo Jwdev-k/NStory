@@ -24,4 +24,10 @@ public class RecordLogService implements RecordLogIF {
     public void addLog(RecordLogDTO recordLogDTO) throws Exception {
         recordLogMapper.addLog(recordLogDTO);
     }
+
+    @Transactional
+    @Override
+    public void deleteLog(int id, String email) throws Exception {
+        recordLogMapper.deleteLog(id,email);
+    }
 }
