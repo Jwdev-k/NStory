@@ -7,10 +7,12 @@ import java.util.ArrayList;
 
 @Mapper
 public interface RecordLogMapper {
-    @Select("SELECT * FROM recordlog ORDER BY id DESC")
-    ArrayList<RecordLogDTO> recordLogList() throws Exception;
+    @Select("SELECT * FROM recordlog ORDER BY id DESC LIMIT #{start}, 100")
+    ArrayList<RecordLogDTO> recordLogList(int start) throws Exception;
     @Insert("INSERT INTO recordlog VALUE(null, #{contents}, #{email}, #{name}, #{time})")
     void addLog(RecordLogDTO recordLogDTO) throws Exception;
     @Delete("DELETE FROM recordlog WHERE id = #{id} AND email = #{email}")
     void deleteLog(@Param("id") int id, @Param("email") String email) throws Exception;
+    @Select("SELECT count(*) FROM recordlog")
+    int totalCount() throws Exception;
 }

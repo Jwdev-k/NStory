@@ -14,90 +14,38 @@
         }
     </style>
 </head>
-<body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<body style="overflow-x: hidden; height: 100%; background-color: #212529;">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="border-bottom:1px solid gold;">
     <div class="container">
         <a class="navbar-brand" href="/">NStory</a>
-            <ul class="navbar-nav right-0">
-                <li class="nav-item" sec:authorize="isAuthenticated()">
-                    <a class="nav-link" th:text="${#authentication.name}"></a></li>
-                <li class="nav-item" sec:authorize="isAuthenticated()">
-                    <a class="nav-link" th:text="${#authentication.authorities}"></a></li>
-                <li class="nav-item" th:if="${IsLogin}">
-                    <a class="nav-link" href="/logout">로그아웃</a></li>
-                <li class="nav-item" th:unless="${IsLogin}">
-                    <a class="nav-link" href="/login">로그인</a></li>
-    <!--            <form class="navbar-form">
-                    <input type="text" class="form-control" placeholder="Search...">
-                </form>-->
-            </ul>
+        <ul class="navbar-nav right-0">
+            <li class="nav-item" sec:authorize="isAuthenticated()">
+                <a class="nav-link" th:text="${#authentication.name}"></a></li>
+            <li class="nav-item" sec:authorize="isAuthenticated()">
+                <a class="nav-link" th:text="${#authentication.authorities}"></a></li>
+            <li class="nav-item" th:if="${#authentication != null}">
+                <a class="nav-link" href="/logout">로그아웃</a></li>
+            <li class="nav-item" th:unless="${#authentication != null}">
+                <a class="nav-link" href="/login">로그인</a></li>
+            <!--            <form class="navbar-form">
+                            <input type="text" class="form-control" placeholder="Search...">
+                        </form>-->
+        </ul>
     </div>
 </nav>
-<nav class="col-sm-3 col-md-2 nav nav-tabs flex-column" style="position: fixed; padding: 30px; width: 200px">
+<nav class="col-sm-3 col-md-2 nav nav-tabs flex-column bg-light-subtle" style="position: fixed; padding: 30px;
+ width: 200px; box-shadow: 3px 3px 3px 3px gray; border-radius: 40px 40px;">
     <h4 class="nav-item text-center">메뉴</h4>
-    <a class="nav-link text-center disabled">방명록</a>
+    <a class="nav-link text-center" href="/record">방명록</a>
     <a class="nav-link text-center" href="#">유저 목록</a>
     <a class="nav-link text-center" href="#">랭킹</a>
     <a class="nav-link text-center" href="#">NStory SHOP</a>
 </nav>
-<div class="container align-content-center" style="padding: 30px;">
-    <h2 class="table-header" style="background-color: #4d5154; color: white; width: auto; height: 45px">방명록 LOG</h2>
-    <button sec:authorize="isAuthenticated()" class="btn btn-info"
-            style="position: sticky; left: 2000px" onclick="openPop()">등록</button>
-    <div class="table-responsive">
-        <table class="table table-striped">
-            <thead>
-            <tr class="text-center">
-                <th>#</th>
-                <th>내용</th>
-                <th>등록자</th>
-                <th>수정일자</th>
-            </tr>
-            </thead>
-            <tbody class="text-center">
-            <tr th:each="list : ${recordLogList}">
-                <td th:text="${list.id}"></td>
-                <td th:text="${list.contents}"></td>
-                <td th:text="${list.name}"></td>
-                <td th:text="${list.time}"></td>
-                <th:block th:if="${#strings.equals(Email,list.email)}">
-                    <form method="post" action="/frmlog_delete">
-                        <td><button class="btn btn-danger" type="submit"
-                                    onclick="if(!confirm('삭제하시면 복구할수 없습니다. \n 정말로 삭제하시겠습니까??')){
-                                                return false;
-                                            }">삭제</button></td>
-                        <input type="hidden" name="id" th:value="${list.id}">
-                        <input type="hidden" name="email" th:value="${list.email}">
-                    </form>
-                </th:block>
-                <td th:unless="${#strings.equals(Email,list.email)}"></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
-<div class="modal" id="popup_layer" tabindex="-1" style="display: none;">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">등록하기</h5>
-                <button class="btn-close" onclick="closePop()" aria-label="Close"></button>
-            </div>
-            <!--팝업 컨텐츠 영역-->
-            <form method="post" action="/frmlog">
-                <div class="modal-body">
-                    <textarea name="contents" maxlength="50" placeholder="내용을 입력해 주세요." style="resize: none; width: 470px; height: 300px; padding: 10px;"></textarea>
-                </div>
-                <div class="modal-footer">
-                    <a class="btn btn-secondary" onclick="closePop()">닫기</a>
-                    <button type="submit" class="btn btn-primary">등록</button>
-                </div>
-            </form>
-        </div>
-    </div>
+<div class="container" style="height: 100%; padding: 100px;">
+ <h1 class="text-white">개발중</h1>
 </div>
 <!-- Footer -->
-<footer class="py-5 bg-dark" style="transform: translateY(500%);">
+<footer class="py-5 bg-dark container-fluid navbar-fixed-bottom" style="border-top:1px solid gold;">
     <div class="container">
         <p class="m-0 text-center text-white">Copyright &copy; NStory 2023</p>
     </div>

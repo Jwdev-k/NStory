@@ -15,8 +15,12 @@ public class RecordLogService implements RecordLogIF {
     private RecordLogMapper recordLogMapper;
 
     @Override
-    public ArrayList<RecordLogDTO> recordLogList() throws Exception {
-        return recordLogMapper.recordLogList();
+    public ArrayList<RecordLogDTO> recordLogList(int start) throws Exception {
+        if (start == 1) {
+            return recordLogMapper.recordLogList(0);
+        } else {
+            return recordLogMapper.recordLogList((start - 1) * 100);
+        }
     }
 
     @Transactional
@@ -29,5 +33,10 @@ public class RecordLogService implements RecordLogIF {
     @Override
     public void deleteLog(int id, String email) throws Exception {
         recordLogMapper.deleteLog(id,email);
+    }
+
+    @Override
+    public int totalCount() throws Exception {
+        return recordLogMapper.totalCount();
     }
 }
