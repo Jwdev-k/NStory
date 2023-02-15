@@ -4,7 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import nk.service.NStory.dto.AccountDTO;
 import nk.service.NStory.security.CustomUserDetails;
-import nk.service.NStory.service.impl.LoginService;
+import nk.service.NStory.service.impl.AccountService;
 import nk.service.NStory.utils.CurrentTime;
 import nk.service.NStory.utils.ScriptUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class LoginController {
     @Autowired
-    private LoginService loginService;
+    private AccountService accountService;
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
@@ -42,9 +42,9 @@ public class LoginController {
         if (userDetails != null) {
             return "redirect:" + request.getHeader("referer");
         }
-        if (email != null && password != null && name != null && !loginService.checkEmail(email)) {
-            loginService.register(new AccountDTO(0, email, passwordEncoder.encode(password), name, "", null
-                    , "USER", CurrentTime.getTime(), true));
+        if (email != null && password != null && name != null && !accountService.checkEmail(email)) {
+            accountService.register(new AccountDTO(0, email, passwordEncoder.encode(password), name, "", null
+                    , "USER", CurrentTime.getTime(), 1,0,0,true));
             ScriptUtils.alertAndMovePage(response, "회원가입 성공!", "/login");
         }
         return "Sign_Up";

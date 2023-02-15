@@ -3,9 +3,9 @@ package nk.service.NStory.service.impl;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import nk.service.NStory.dto.AccountDTO;
-import nk.service.NStory.repository.LoginMapper;
+import nk.service.NStory.repository.AccountMapper;
 import nk.service.NStory.security.CustomUserDetails;
-import nk.service.NStory.service.LoginServiceIF;
+import nk.service.NStory.service.AccountServiceIF;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,14 +19,14 @@ import java.util.Collections;
 import java.util.regex.Pattern;
 
 @Service @Slf4j
-public class LoginService implements UserDetailsService, LoginServiceIF {
+public class AccountService implements UserDetailsService, AccountServiceIF {
     @Autowired
-    private LoginMapper loginMapper;
+    private AccountMapper accountMapper;
 
     @SneakyThrows
     @Override
     public UserDetails loadUserByUsername(String username)  {
-        AccountDTO account = loginMapper.login(username);
+        AccountDTO account = accountMapper.login(username);
         if (account != null) {
             if (!account.isEnable()) {
                 throw new AuthenticationCredentialsNotFoundException("인증 요청 거부 (계정 비활성화 상태)");
@@ -35,7 +35,7 @@ public class LoginService implements UserDetailsService, LoginServiceIF {
                     , account.isEnable(), true, true, true
                     , Collections.singleton(new SimpleGrantedAuthority("ROLE_" + account.getRole())));
         } else {
-            throw new UsernameNotFoundException(username + " 해당 이메일 아이디 NULL");
+            throw new UsernameNotFoundException(username + " 해당 이메일 존재 하지 않음.");
         }
     }
 
@@ -45,7 +45,7 @@ public class LoginService implements UserDetailsService, LoginServiceIF {
         String regex = "^[_a-z0-9-]+(.[_a-z0-9-]+)*@(?:\\w+\\.)+\\w+$";
         boolean emailType = Pattern.matches(regex, accountDTO.getEmail());
         if (emailType) {
-            boolean result = loginMapper.register(accountDTO);
+            boolean result = accountMapper.register(accountDTO);
             if (result) {
                 log.info("계정 등록 성공");
             } else {
@@ -56,7 +56,22 @@ public class LoginService implements UserDetailsService, LoginServiceIF {
 
     @Override
     public boolean checkEmail(String email) throws Exception {
-        return loginMapper.checkEmail(email);
+        return accountMapper.checkEmail(email);
+    }
+
+    @Override
+    public void UpdateLevel(int level) throws Exception {
+        accountMapper.UpdateLevel(level);
+    }
+
+    @Override
+    public void UpdateExp(int exp) throws Exception {
+        accountMapper.UpdateExp(exp);
+    }
+
+    @Override
+    public void UpdateCoin(int nCoin) throws Exception {
+        accountMapper.UpdateCoin(nCoin);
     }
 
     @Override

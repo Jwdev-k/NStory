@@ -2,7 +2,7 @@ package nk.service.NStory.security;
 
 import nk.service.NStory.security.handler.FailureHandler;
 import nk.service.NStory.security.handler.SuccessHandler;
-import nk.service.NStory.service.impl.LoginService;
+import nk.service.NStory.service.impl.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -27,7 +27,7 @@ public class SecurityConfig {
     AuthenticationManager authenticationManager;
 
     @Autowired
-    private LoginService loginService;
+    private AccountService accountService;
 
     @Bean //정적 파일 ignoring
     public WebSecurityCustomizer customizer() {
@@ -37,7 +37,7 @@ public class SecurityConfig {
     @Bean //웹 필터
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
-        authenticationManagerBuilder.userDetailsService(loginService);
+        authenticationManagerBuilder.userDetailsService(accountService);
         authenticationManager = authenticationManagerBuilder.build();
 
         http.csrf().disable()
