@@ -19,7 +19,7 @@ public class RecordLogService implements RecordLogIF {
         if (start == 1) {
             return recordLogMapper.recordLogList(0);
         } else {
-            return recordLogMapper.recordLogList((start - 1) * 100);
+            return recordLogMapper.recordLogList((start - 1) * 50);
         }
     }
 

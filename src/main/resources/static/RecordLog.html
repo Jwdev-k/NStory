@@ -14,23 +14,23 @@
         }
     </style>
 </head>
-<body style="overflow-x: hidden; height: 100%; background-color: #212529;">
+<body style="overflow-x: hidden; background-color: #212529;">
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="border-bottom:1px solid gold">
     <div class="container">
         <a class="navbar-brand" href="/">NStory</a>
-            <ul class="navbar-nav right-0">
-                <li class="nav-item" sec:authorize="isAuthenticated()">
-                    <a class="nav-link" th:text="${#authentication.name}"></a></li>
-                <li class="nav-item" sec:authorize="isAuthenticated()">
-                    <a class="nav-link" th:text="${#authentication.authorities}"></a></li>
-                <li class="nav-item" th:if="${#authentication != null}">
-                    <a class="nav-link" href="/logout">로그아웃</a></li>
-                <li class="nav-item" th:unless="${#authentication != null}">
-                    <a class="nav-link" href="/login">로그인</a></li>
-    <!--            <form class="navbar-form">
-                    <input type="text" class="form-control" placeholder="Search...">
-                </form>-->
-            </ul>
+        <ul class="navbar-nav right-0">
+            <li class="nav-item" sec:authorize="isAuthenticated()">
+                <a class="nav-link" th:text="${#authentication.name}"></a></li>
+            <li class="nav-item" sec:authorize="isAuthenticated()">
+                <a class="nav-link" th:text="${#authentication.authorities}"></a></li>
+            <li class="nav-item" th:if="${#authentication != null}">
+                <a class="nav-link" href="/logout">로그아웃</a></li>
+            <li class="nav-item" th:unless="${#authentication != null}">
+                <a class="nav-link" href="/login">로그인</a></li>
+            <!--            <form class="navbar-form">
+                            <input type="text" class="form-control" placeholder="Search...">
+                        </form>-->
+        </ul>
     </div>
 </nav>
 <nav class="col-sm-3 col-md-2 nav nav-tabs flex-column bg-light-subtle" style="position: fixed; padding: 30px;
@@ -41,10 +41,11 @@
     <a class="nav-link text-center" href="#">랭킹</a>
     <a class="nav-link text-center" href="#">NStory SHOP</a>
 </nav>
-<div class="container align-content-center" style="padding: 30px;">
+<main class="container" style="padding-top: 30px;">
     <h2 class="table-header" style="background-color: #4d5154; color: white; width: auto; height: 45px">방명록 LOG</h2>
     <button sec:authorize="isAuthenticated()" class="btn btn-info"
-            style="position: sticky; left: 2000px;" onclick="openPop()">등록</button>
+            style="position: sticky; left: 2000px;" onclick="openPop()">등록
+    </button>
     <div class="table-responsive" style="padding: 20px">
         <table class="table table-dark">
             <thead>
@@ -64,10 +65,13 @@
                 <td th:text="${list.time}"></td>
                 <th:block th:if="${#strings.equals(Email,list.email)}">
                     <form method="post" action="/record/frmlog_delete">
-                        <td><button class="btn btn-danger" type="submit"
+                        <td>
+                            <button class="btn btn-danger" type="submit"
                                     onclick="if(!confirm('삭제하시면 복구할수 없습니다. \n 정말로 삭제하시겠습니까??')){
-                                                return false;
-                                            }">삭제</button></td>
+                                                    return false;
+                                                }">삭제
+                            </button>
+                        </td>
                         <input type="hidden" name="id" th:value="${list.id}">
                         <input type="hidden" name="email" th:value="${list.email}">
                     </form>
@@ -77,10 +81,11 @@
             </tbody>
         </table>
     </div>
-    <nav th:object="${pageMaker}" style="position:relative;left: 400px; padding: 50px;">
+    <div class="container" th:object="${pageMaker}" style="padding: 50px; bottom: 10px; margin-left: 35%">
         <ul class="pagination">
             <li class="page-item">
-                <a class="page-link bg-dark" th:href="@{/record(page=${pageMaker.startPage})}" style="color: ghostwhite;" aria-label="Previous">
+                <a class="page-link bg-dark" th:href="@{/record(page=${pageMaker.startPage})}"
+                   style="color: ghostwhite;" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
@@ -95,13 +100,15 @@
                 </li>
             </th:block>
             <li class="page-item">
-                <a class="page-link bg-dark" th:href="@{/record(page=${pageMaker.endPage})}" style="color: ghostwhite;" aria-label="Next">
+                <a class="page-link bg-dark" th:href="@{/record(page=${pageMaker.endPage})}" style="color: ghostwhite;"
+                   aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>
         </ul>
-    </nav>
-</div>
+    </div>
+</main>
+
 <div class="modal" id="popup_layer" tabindex="-1" style="display: none;">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -112,7 +119,8 @@
             <!--팝업 컨텐츠 영역-->
             <form method="post" action="/record/frmlog">
                 <div class="modal-body">
-                    <textarea name="contents" maxlength="50" placeholder="내용을 입력해 주세요." style="resize: none; width: 470px; height: 300px; padding: 10px;"></textarea>
+                    <textarea name="contents" maxlength="50" placeholder="내용을 입력해 주세요."
+                              style="resize: none; width: 470px; height: 300px; padding: 10px;"></textarea>
                 </div>
                 <div class="modal-footer">
                     <a class="btn btn-secondary" onclick="closePop()">닫기</a>
@@ -123,9 +131,10 @@
     </div>
 </div>
 <!-- Footer -->
-<footer class="py-5 bg-dark container-fluid navbar-fixed-bottom" style="border-top:1px solid gold">
-    <div class="">
+<footer class="py-3 bg-dark" style="position: relative;border-top:1px solid gold; transform: translateY(-50%)">
+    <div class="container">
         <p class="m-0 text-center text-white">Copyright &copy; NStory 2023</p>
+        <p class="m-0 text-center text-white">Discord : Gom._.Gom#3502</p>
     </div>
 </footer>
 </body>

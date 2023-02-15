@@ -37,12 +37,12 @@ public class RecordLogController {
     }
 
     @PostMapping(value = "/record/frmlog")
-    public String FrmLogAdd(@RequestParam String contents
+    public String FrmLogAdd(HttpServletRequest request, @RequestParam String contents
             , @AuthenticationPrincipal CustomUserDetails customUserDetails) throws Exception {
         if (customUserDetails != null) {
             recordLogService.addLog(new RecordLogDTO(0, contents, customUserDetails.getEmail(), customUserDetails.getUsername(), CurrentTime.getTime()));
         }
-        return "redirect:/";
+        return "redirect:" + request.getHeader("referer");
     }
     @PostMapping(value = "/record/frmlog_delete")
     public String FrmLogDelete(@AuthenticationPrincipal CustomUserDetails customUserDetails, HttpServletResponse response
