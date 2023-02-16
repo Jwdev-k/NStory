@@ -38,9 +38,9 @@
  width: 200px; box-shadow: 3px 3px 3px 3px gray; border-radius: 40px 40px;">
     <h4 class="nav-item text-center">메뉴</h4>
     <a class="nav-link text-center disabled">방명록</a>
-    <a class="nav-link text-center" href="#">유저 목록</a>
-    <a class="nav-link text-center" href="#">랭킹</a>
-    <a class="nav-link text-center" href="#">NStory SHOP</a>
+    <a class="nav-link text-center" sec:authorize="hasRole('ROLE_ADMIN')" href="#">유저 목록</a>
+    <a class="nav-link text-center" href="/ranking">랭킹</a>
+    <a class="nav-link text-center" href="/shop">NStory SHOP</a>
 </nav>
 <main class="container" style="padding-top: 30px;">
     <h2 class="table-header" style="background-color: #4d5154; color: white; width: auto; height: 45px">방명록 LOG</h2>
@@ -55,7 +55,7 @@
                 <th>내용</th>
                 <th>등록자</th>
                 <th>수정일자</th>
-                <th></th>
+                <th>Actions</th>
             </tr>
             </thead>
             <tbody class="text-center">
