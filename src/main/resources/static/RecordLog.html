@@ -34,7 +34,7 @@
         </ul>
     </div>
 </nav>
-<nav class="col-sm-3 col-md-2 nav nav-tabs flex-column bg-light-subtle" style="position: fixed; padding: 30px;
+<nav class="col-sm-3 col-md-2 nav nav-tabs flex-column bg-light-subtle" style="position: fixed; padding: 30px; margin: 3%;
  width: 200px; box-shadow: 3px 3px 3px 3px gray; border-radius: 40px 40px;">
     <h4 class="nav-item text-center">메뉴</h4>
     <a class="nav-link text-center disabled">방명록</a>
@@ -42,12 +42,12 @@
     <a class="nav-link text-center" href="/ranking">랭킹</a>
     <a class="nav-link text-center" href="/shop">NStory SHOP</a>
 </nav>
-<main class="container" style="padding-top: 30px;">
+<main class="container col-lg-9" style="padding-top: 5%; padding-bottom: 30px;">
     <h2 class="table-header" style="background-color: #4d5154; color: white; width: auto; height: 45px">방명록 LOG</h2>
     <button sec:authorize="isAuthenticated()" class="btn btn-info"
             style="position: sticky; left: 2000px;" onclick="openPop()">등록
     </button>
-    <div class="table-responsive" style="padding: 20px">
+    <div class="table-responsive">
         <table class="table table-dark">
             <thead>
             <tr class="text-center">
@@ -82,7 +82,7 @@
             </tbody>
         </table>
     </div>
-    <div class="container" th:object="${pageMaker}" style="padding: 50px; bottom: 10px; margin-left: 35%">
+    <div class="container" th:object="${pageMaker}" style="padding: 50px; bottom: 10px; margin-left: 35%;">
         <ul class="pagination">
             <li class="page-item">
                 <a class="page-link bg-dark" th:href="@{/record(page=${pageMaker.startPage})}"
@@ -132,7 +132,7 @@
     </div>
 </div>
 <!-- Footer -->
-<footer class="py-3 bg-dark" style="position: relative;border-top:1px solid gold; transform: translateY(-50%)">
+<footer class="py-3 bg-dark" style="position: relative; padding: 0; margin: 0; border-top:1px solid gold;">
     <div class="container">
         <p class="m-0 text-center text-white">Copyright &copy; NStory 2023</p>
         <p class="m-0 text-center text-white">Discord : Gom._.Gom#3502</p>

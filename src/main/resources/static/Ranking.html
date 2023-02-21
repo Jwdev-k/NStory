@@ -15,7 +15,7 @@
         }
     </style>
 </head>
-<body style="overflow-x: hidden;min-height: 80%;background-color: #212529;">
+<body style="overflow-x: hidden;background-color: #212529;">
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="border-bottom:1px solid gold;">
     <div class="container">
         <a class="navbar-brand" href="/">NStory</a>
@@ -34,19 +34,19 @@
         </ul>
     </div>
 </nav>
-<nav class="col-sm-3 col-md-2 nav nav-tabs flex-column bg-light-subtle" style="position: fixed; padding: 30px;
+<nav class="col-sm-3 col-md-2 nav nav-tabs flex-column bg-light-subtle" style="position: fixed; padding: 30px; margin: 3%;
  width: 200px; box-shadow: 3px 3px 3px 3px gray; border-radius: 40px 40px;">
     <h4 class="nav-item text-center">메뉴</h4>
     <a class="nav-link text-center" href="/record">방명록</a>
     <a class="nav-link text-center" sec:authorize="hasRole('ROLE_ADMIN')" href="#">유저 목록</a>
-    <a class="nav-link text-center" href="/ranking">랭킹</a>
+    <a class="nav-link text-center disabled" href="/ranking">랭킹</a>
     <a class="nav-link text-center" href="/shop">NStory SHOP</a>
 </nav>
-<main class="container" style="padding-top: 30px; padding-bottom: 50%;">
+<main class="container" style="padding-top: 5%; padding-bottom: 50%;">
 
 </main>
 <!-- Footer -->
-<footer class="py-3 bg-dark" style="position: relative;border-top:1px solid gold;">
+<footer class="py-3 bg-dark" style="padding: 0; margin: 0; border-top:1px solid gold;">
     <div class="container">
         <p class="m-0 text-center text-white">Copyright &copy; NStory 2023</p>
         <p class="m-0 text-center text-white">Discord : Gom._.Gom#3502</p>
