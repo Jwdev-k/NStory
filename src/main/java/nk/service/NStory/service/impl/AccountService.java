@@ -6,6 +6,7 @@ import nk.service.NStory.dto.AccountDTO;
 import nk.service.NStory.repository.AccountMapper;
 import nk.service.NStory.security.CustomUserDetails;
 import nk.service.NStory.service.AccountServiceIF;
+import nk.service.NStory.utils.CurrentTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -15,6 +16,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.regex.Pattern;
 
@@ -27,13 +30,24 @@ public class AccountService implements UserDetailsService, AccountServiceIF {
     @Override
     public UserDetails loadUserByUsername(String username)  {
         AccountDTO account = accountMapper.login(username);
+        boolean firstLogin = false;
         if (account != null) {
             if (!account.isEnable()) {
                 throw new AuthenticationCredentialsNotFoundException("인증 요청 거부 (계정 비활성화 상태)");
+            } else {
+                if (account.getLastDateTime() != null) {
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                    LocalDate lastDate = LocalDate.parse(account.getLastDateTime().substring(0, 10), formatter);
+                    if (LocalDate.now().isAfter(lastDate)) {
+                        firstLogin = true;
+                        UpdateExp(account.getExp() + 100, username);
+                    }
+                }
+                UpdateLastLoginDate(CurrentTime.getTime(), username);
+                return new CustomUserDetails(account.getName(), account.getEmail(), account.getPassword()
+                        , account.isEnable(), true, true, true
+                        , Collections.singleton(new SimpleGrantedAuthority("ROLE_" + account.getRole())), firstLogin);
             }
-            return new CustomUserDetails(account.getName(), account.getEmail(), account.getPassword()
-                    , account.isEnable(), true, true, true
-                    , Collections.singleton(new SimpleGrantedAuthority("ROLE_" + account.getRole())));
         } else {
             throw new UsernameNotFoundException(username + " 해당 이메일 존재 하지 않음.");
         }
@@ -59,19 +73,28 @@ public class AccountService implements UserDetailsService, AccountServiceIF {
         return accountMapper.checkEmail(email);
     }
 
+    @Transactional
     @Override
-    public void UpdateLevel(int level) throws Exception {
-        accountMapper.UpdateLevel(level);
+    public void UpdateLevel(int level, String email) throws Exception {
+        accountMapper.UpdateLevel(level, email);
     }
 
+    @Transactional
     @Override
-    public void UpdateExp(int exp) throws Exception {
-        accountMapper.UpdateExp(exp);
+    public void UpdateExp(int exp, String email) throws Exception {
+        accountMapper.UpdateExp(exp, email);
     }
 
+    @Transactional
     @Override
-    public void UpdateCoin(int nCoin) throws Exception {
-        accountMapper.UpdateCoin(nCoin);
+    public void UpdateCoin(int nCoin, String email) throws Exception {
+        accountMapper.UpdateCoin(nCoin,email);
+    }
+
+    @Transactional
+    @Override
+    public void UpdateLastLoginDate(String lastLoginDate, String email) throws Exception {
+        accountMapper.UpdateLastLoginDate(lastLoginDate,email);
     }
 
     @Override

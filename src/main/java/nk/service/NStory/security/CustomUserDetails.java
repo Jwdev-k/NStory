@@ -23,11 +23,12 @@ public class CustomUserDetails implements UserDetails {
     private boolean isAccountNonLocked; //계정 잠김 여부
     private boolean isCredentialsNonExpired; // 계정 비밀번호 만료 여부
     private Collection<? extends GrantedAuthority> authorities;// 권한 목록
+    private boolean firstLogin;
 
     //Login
     public CustomUserDetails(String username, String email, String password
             , boolean isEnabled, boolean isAccountNonExpired, boolean isAccountNonLocked
-            , boolean isCredentialsNonExpired, Collection<? extends GrantedAuthority> authorities) {
+            , boolean isCredentialsNonExpired, Collection<? extends GrantedAuthority> authorities, boolean firstLogin) {
         this.username = username;
         this.email = email;
         this.password = password;
@@ -36,5 +37,6 @@ public class CustomUserDetails implements UserDetails {
         this.isAccountNonLocked = isAccountNonLocked;
         this.isCredentialsNonExpired = isCredentialsNonExpired;
         this.authorities = authorities;
+        this.firstLogin = firstLogin;
     }
 }

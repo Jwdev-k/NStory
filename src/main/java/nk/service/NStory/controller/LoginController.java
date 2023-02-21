@@ -44,7 +44,7 @@ public class LoginController {
         }
         if (email != null && password != null && name != null && !accountService.checkEmail(email)) {
             accountService.register(new AccountDTO(0, email, passwordEncoder.encode(password), name, "", null
-                    , "USER", CurrentTime.getTime(), 1,0,0,true));
+                    , "USER", CurrentTime.getTime(), null, 1,0,0,true));
             ScriptUtils.alertAndMovePage(response, "회원가입 성공!", "/login");
         }
         return "Sign_Up";
