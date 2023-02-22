@@ -13,9 +13,9 @@ public interface AccountMapper {
     boolean checkEmail(String email) throws Exception;
     @Update("UPDATE account SET level = #{level} WHERE email = #{email}")
     void UpdateLevel(@Param("level")int level, @Param("email")String email) throws Exception;
-    @Update("UPDATE account SET exp = #{exp} WHERE email = #{email}")
+    @Update("UPDATE account SET exp = exp + #{exp} WHERE email = #{email}")
     void UpdateExp(@Param("exp")int exp, @Param("email")String email) throws Exception;
-    @Update("UPDATE account SET level = #{nCoin} WHERE email = #{email}")
+    @Update("UPDATE account SET nCoin = nCoin + #{nCoin} WHERE email = #{email}")
     void UpdateCoin(@Param("nCoin")int nCoin, @Param("email")String email) throws Exception;
     @Update("UPDATE account SET lastLoginDate = #{lastLoginDate} WHERE email = #{email}")
     void UpdateLastLoginDate(@Param("lastLoginDate")String lastLoginDate, @Param("email")String email) throws Exception;

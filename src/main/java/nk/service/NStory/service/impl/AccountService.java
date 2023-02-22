@@ -7,6 +7,7 @@ import nk.service.NStory.repository.AccountMapper;
 import nk.service.NStory.security.CustomUserDetails;
 import nk.service.NStory.service.AccountServiceIF;
 import nk.service.NStory.utils.CurrentTime;
+import nk.service.NStory.utils.UpdateStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -25,6 +26,8 @@ import java.util.regex.Pattern;
 public class AccountService implements UserDetailsService, AccountServiceIF {
     @Autowired
     private AccountMapper accountMapper;
+    @Autowired
+    private UpdateStatus updateStatus;
 
     @SneakyThrows
     @Override
@@ -40,7 +43,7 @@ public class AccountService implements UserDetailsService, AccountServiceIF {
                     LocalDate lastDate = LocalDate.parse(account.getLastDateTime().substring(0, 10), formatter);
                     if (LocalDate.now().isAfter(lastDate)) {
                         firstLogin = true;
-                        UpdateExp(account.getExp() + 100, username);
+                        updateStatus.addExp(100, username, account.getLevel());
                     }
                 }
                 UpdateLastLoginDate(CurrentTime.getTime(), username);
@@ -71,24 +74,6 @@ public class AccountService implements UserDetailsService, AccountServiceIF {
     @Override
     public boolean checkEmail(String email) throws Exception {
         return accountMapper.checkEmail(email);
-    }
-
-    @Transactional
-    @Override
-    public void UpdateLevel(int level, String email) throws Exception {
-        accountMapper.UpdateLevel(level, email);
-    }
-
-    @Transactional
-    @Override
-    public void UpdateExp(int exp, String email) throws Exception {
-        accountMapper.UpdateExp(exp, email);
-    }
-
-    @Transactional
-    @Override
-    public void UpdateCoin(int nCoin, String email) throws Exception {
-        accountMapper.UpdateCoin(nCoin,email);
     }
 
     @Transactional
