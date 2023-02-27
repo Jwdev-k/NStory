@@ -16,8 +16,8 @@ public class CustomUserDetails implements UserDetails {
     private static final long serialVersionUID = -6613434008874770290L;
 
     private String username;
-    private String email;
     private String password;
+    private String email;
     private boolean isEnabled; // 계정 활성화 여부
     private boolean isAccountNonExpired; //계정 만료 여부
     private boolean isAccountNonLocked; //계정 잠김 여부
@@ -26,9 +26,9 @@ public class CustomUserDetails implements UserDetails {
     private boolean firstLogin;
 
     //Login
-    public CustomUserDetails(String username, String email, String password
-            , boolean isEnabled, boolean isAccountNonExpired, boolean isAccountNonLocked
-            , boolean isCredentialsNonExpired, Collection<? extends GrantedAuthority> authorities, boolean firstLogin) {
+    public CustomUserDetails(String username, String email, String password, boolean isEnabled
+            , boolean isAccountNonExpired, boolean isAccountNonLocked, boolean isCredentialsNonExpired
+            , Collection<? extends GrantedAuthority> authorities, boolean firstLogin) {
         this.username = username;
         this.email = email;
         this.password = password;

@@ -2,8 +2,10 @@ package nk.service.NStory.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 public class AccountDTO {
     private int id;
@@ -19,4 +21,11 @@ public class AccountDTO {
     private int exp; //경험치
     private int nCoin; // 코인 갯수 max 100000000
     private boolean isEnable;
+
+    public AccountDTO(String email, String name, String comment, byte[] profileImg) {
+        this.email = email;
+        this.name = name;
+        this.comment = comment;
+        this.profileImg = profileImg;
+    }
 }

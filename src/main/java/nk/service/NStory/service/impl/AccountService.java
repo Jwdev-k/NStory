@@ -10,7 +10,10 @@ import nk.service.NStory.utils.CurrentTime;
 import nk.service.NStory.utils.UpdateStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -47,9 +50,9 @@ public class AccountService implements UserDetailsService, AccountServiceIF {
                     }
                 }
                 UpdateLastLoginDate(CurrentTime.getTime(), username);
-                return new CustomUserDetails(account.getName(), account.getEmail(), account.getPassword()
-                        , account.isEnable(), true, true, true
-                        , Collections.singleton(new SimpleGrantedAuthority("ROLE_" + account.getRole())), firstLogin);
+                return new CustomUserDetails(account.getName(), account.getEmail(), account.getPassword(),
+                        account.isEnable(), true, true, true,
+                        Collections.singleton(new SimpleGrantedAuthority("ROLE_" + account.getRole())), firstLogin);
             }
         } else {
             throw new UsernameNotFoundException(username + " 해당 이메일 존재 하지 않음.");
@@ -80,6 +83,16 @@ public class AccountService implements UserDetailsService, AccountServiceIF {
     @Override
     public void UpdateLastLoginDate(String lastLoginDate, String email) throws Exception {
         accountMapper.UpdateLastLoginDate(lastLoginDate,email);
+    }
+
+    @Transactional
+    @Override
+    public void UpdateAccountInfo(AccountDTO accountDTO, Authentication authentication) throws Exception {
+        accountMapper.UpdateAccountInfo(accountDTO);
+        Authentication auth = null;
+        auth = new UsernamePasswordAuthenticationToken(
+                authentication.getPrincipal(), authentication.getCredentials(), authentication.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(auth);
     }
 
     @Override

@@ -32,7 +32,7 @@ public class LoginController {
 
     @GetMapping(value = "/logout")
     public String Logout(HttpServletRequest request) {
-        return "redirect:" + request.getHeader("Referer");
+        return "redirect:" + request.getHeader("referer");
     }
 
     @RequestMapping(value = "/sign_up")
