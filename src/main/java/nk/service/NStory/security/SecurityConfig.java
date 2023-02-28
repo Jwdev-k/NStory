@@ -2,7 +2,8 @@ package nk.service.NStory.security;
 
 import nk.service.NStory.security.handler.FailureHandler;
 import nk.service.NStory.security.handler.SuccessHandler;
-import nk.service.NStory.service.impl.AccountService;
+import nk.service.NStory.service.impl.OAuth2LoginService;
+import nk.service.NStory.service.impl.UserLoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -27,7 +28,9 @@ public class SecurityConfig {
     AuthenticationManager authenticationManager;
 
     @Autowired
-    private AccountService accountService;
+    private UserLoginService userLoginService;
+    @Autowired
+    private OAuth2LoginService oAuth2LoginService;
 
     @Bean //정적 파일 ignoring
     public WebSecurityCustomizer customizer() {
@@ -37,7 +40,7 @@ public class SecurityConfig {
     @Bean //웹 필터
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
-        authenticationManagerBuilder.userDetailsService(accountService);
+        authenticationManagerBuilder.userDetailsService(userLoginService);
         authenticationManager = authenticationManagerBuilder.build();
 
         http.csrf().disable()
@@ -48,12 +51,12 @@ public class SecurityConfig {
                 .loginPage("/login").usernameParameter("email").passwordParameter("password")
                 .loginProcessingUrl("/perform_login").successHandler(new SuccessHandler())
                 .failureHandler(new FailureHandler());
-        /*                .oauth2Login()
-                .loginPage("/login").permitAll()
-                .failureUrl("/login").permitAll()
+        http.oauth2Login()
+                .loginPage("/login")
+                .failureUrl("/login")
                 .successHandler(new SuccessHandler())
                 .userInfoEndpoint()
-                .userService(); // 소셜 로그인을 위한 클래스 설정*/
+                .userService(oAuth2LoginService); // 소셜 로그인을 위한 클래스 설정*/
 
         http.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .clearAuthentication(true).logoutSuccessUrl("/login").invalidateHttpSession(true).deleteCookies("JSESSIONID");

@@ -5,6 +5,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>NStory</title>
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
@@ -12,6 +13,8 @@
 		* {
 			font-family: 'Noto Sans KR', sans-serif;
 			font-size: 14px;
+			white-space:nowrap;
+			overflow: auto;
 		}
 	</style>
 </head>
@@ -22,7 +25,7 @@
 		</div>
 	</div>
 </nav>
-<section class="vh-100">
+<div class="vh-100">
 	<div class="container py-5 h-100">
 		<div class="row d-flex align-items-center justify-content-center h-100">
 			<div class="col-md-8 col-lg-7 col-xl-6">
@@ -37,21 +40,21 @@
 					<span th:text="${errMsg}" style="font-size: 16px; color: #de3a00"></span>
 					<!-- Email input -->
 					<div class="form-outline mb-4" data-validate = "Email is reauired">
-						<input type="email" name="email" id="form1Example13" class="form-control form-control-lg"
+						<input type="email" name="email" class="form-control form-control-lg"
 							   placeholder="이메일" maxlength="50" required/>
 					</div>
 					<!-- Password input -->
 					<div class="form-outline mb-4" data-validate="Password is required">
-						<input type="password" name="password" id="form1Example23" class="form-control form-control-lg"
+						<input type="password" name="password" class="form-control form-control-lg"
 							   placeholder="패스워드" maxlength="16" autocomplete="off" required/>
 					</div>
 					<div class="d-flex justify-content-between align-items-center mb-4">
 						<!-- Checkbox -->
 						<div class="form-check">
-							<input class="form-check-input" type="checkbox" value="" id="form1Example3" checked />
-							<label class="form-check-label text-white" for="form1Example3">Remember me</label>
+							<input class="form-check-input" type="checkbox" id="saveEmail" checked />
+							<label class="form-check-label text-white" for="saveEmail">아이디 저장</label>
 						</div>
-						<a class="form-switch text-white" href="#">Forgot password?</a>
+						<a class="form-switch text-white" href="#">패스워드 찾기</a>
 					</div>
 					<!-- Submit button -->
 					<div class="d-grid gap-2 col-12 mx-auto">
@@ -64,14 +67,22 @@
 					<div class="d-grid align-items-center my-4">
 						<p class="text-center fw-bold mx-3 mb-0 text-white">또는</p>
 					</div>
-					<div class="d-grid align-items-center my-4">
-
+					<div class="d-flex justify-content-center my-4">
+						<div class="col-2">
+							<a href="/oauth2/authorization/naver"><img src="images/btnW_naver.png" width="50" height="50"></a>
+						</div>
+						<div class="col-2">
+							<a href="/oauth2/authorization/kakao"><img src="images/btn_kakao.png" width="50" height="50"></a>
+						</div>
+						<div class="col-2">
+							<a href="/oauth2/authorization/google">구글</a>
+						</div>
 					</div>
 				</form>
 			</div>
 		</div>
 	</div>
-</section>
+</div>
 <!-- Footer -->
 <footer class="py-3 bg-dark" style="padding: 0; margin: 0; border-top:1px solid gold;">
 	<div class="container">

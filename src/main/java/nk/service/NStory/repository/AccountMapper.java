@@ -5,7 +5,8 @@ import org.apache.ibatis.annotations.*;
 
 @Mapper
 public interface AccountMapper {
-    @Insert("INSERT INTO account VALUE(null,#{email},#{password},#{name},#{comment},#{profileImg},#{role},#{creationDate},#{lastDateTime},#{isEnable})")
+    @Insert("INSERT INTO account VALUE(null,#{email},#{password},#{name},#{comment},#{profileImg},#{role}" +
+            ",#{creationDate},#{lastDateTime},#{level},#{exp},#{nCoin},#{isEnable})")
     boolean register(AccountDTO accountDTO) throws Exception;
     @Select("SELECT * FROM account WHERE isEnable = 1 AND email = #{email}")
     AccountDTO login(String email) throws Exception;
