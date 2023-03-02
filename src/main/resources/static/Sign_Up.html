@@ -1,93 +1,78 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-	<title>NStory</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
-<!--===============================================================================================-->
+	<title>NStory</title>
 	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
-<!--===============================================================================================-->	
-	<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
-<!--===============================================================================================-->	
-	<link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="css/util.css">
-	<link rel="stylesheet" type="text/css" href="css/main.css">
-<!--===============================================================================================-->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+	<style>
+		* {
+			font-family: 'Noto Sans KR', sans-serif;
+			font-size: 14px;
+			white-space:nowrap;
+			overflow: auto;
+		}
+	</style>
 </head>
 <body style="background-color: #212529;">
-<nav class="navbar navbar-inverse navbar-fixed-top" style="border-bottom:1px solid gold;">
-	<div class="container-fluid">
-		<div class="navbar-header">
-			<a class="navbar-brand" href="/">NStory</a>
-		</div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="border-bottom:1px solid gold;">
+	<div class="container">
+		<a class="navbar-brand" href="/">NStory</a>
+	</div>
 	</div>
 </nav>
-	<div class="limiter">
-		<div class="container-login100">
-			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
-				<form class="login100-form validate-form" method="post">
-					<span class="login100-form-title p-b-49">
-						회원가입
-					</span>
-
-					<div class="wrap-input100 validate-input" data-validate="Name is required">
-						<span class="label-input100">Name</span>
-						<input class="input100" type="text" name="name" placeholder="name">
-						<span class="focus-input100" data-symbol="&#xf206;"></span>
-					</div>
-
-					<div class="wrap-input100 validate-input m-b-23" data-validate = "email is reauired">
-						<span class="label-input100">Email</span>
-						<input class="input100" type="email" name="email" placeholder="email">
-						<span class="focus-input100" data-symbol="&#x2709;"></span>
-					</div>
-
-					<div class="wrap-input100 validate-input" data-validate="Password is required">
-						<span class="label-input100">Password</span>
-						<input class="input100" type="password" name="password" placeholder="password" maxlength="16">
-						<span class="focus-input100" data-symbol="&#xf190;"></span>
-					</div>
-
-					<div class="container-login100-form-btn p-t-50">
-						<div class="wrap-login100-form-btn">
-							<div class="login100-form-bgbtn"></div>
-							<button class="login100-form-btn">
-								등록하기
-							</button>
-						</div>
-					</div>
-				</form>
-			</div>
+<div class="vh-100">
+	<div class="container">
+		<div class="container-fluid" style="width: 500px">
+			<form class="py-5 my-5" method="post">
+				<div class="d-grid">
+					<span class="text-lg-center my-4" style="font-size: 30px; color: gold;">사용자 등록</span>
+				</div>
+				<div class="d-grid">
+					<span class="text-lg-center my-4 text-info">STEP1</span>
+				</div>
+				<label class="text-white">닉네임</label>
+				<div class="input-group mb-3" data-validate="Name is required">
+					<span class="input-group-text" id="icon1"><i class="fa fa-fw">&#xf007;</i></span>
+					<input class="form-control form-control-lg" aria-describedby="icon1"
+						   type="text" name="name" placeholder="닉네임은 최소 2자 이상" minlength="2" required>
+				</div>
+				<label class="text-white">이메일</label>
+				<div class="input-group mb-3" data-validate = "email is reauired">
+					<span class="input-group-text" id="icon2"><i class="fa fa-fw">&#xf0e0;</i></span>
+					<input class="form-control form-control-lg" aria-describedby="icon2"
+						   type="email" name="email" placeholder="이메일 주소를 입력해 주세요." maxlength="50" required>
+				</div>
+				<label class="text-white">패스워드</label>
+				<div class="input-group mb-3" data-validate="Password is required">
+					<span class="input-group-text" id="icon3"><i class="fa fa-fw">&#xf023;</i></span>
+					<input class="form-control form-control-lg" aria-describedby="icon3"
+						   type="password" name="password" placeholder="최소 6자 이상 입력해 주세요." minlength="6" maxlength="16" required>
+				</div>
+				<div class="d-grid gap-2 col-12 my-5 mx-auto">
+					<button class="btn btn-primary fw-bold">등록하기</button>
+				</div>
+			</form>
 		</div>
 	</div>
-	<div id="dropDownSelect1"></div>
-<!--===============================================================================================-->
-	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
-<!--===============================================================================================-->
-	<script src="vendor/animsition/js/animsition.min.js"></script>
-<!--===============================================================================================-->
-	<script src="vendor/bootstrap/js/popper.js"></script>
-	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-<!--===============================================================================================-->
-	<script src="vendor/select2/select2.min.js"></script>
-<!--===============================================================================================-->
-	<script src="vendor/daterangepicker/moment.min.js"></script>
-	<script src="vendor/daterangepicker/daterangepicker.js"></script>
-<!--===============================================================================================-->
-	<script src="vendor/countdowntime/countdowntime.js"></script>
-<!--===============================================================================================-->
-	<script src="js/main.js"></script>
-
+</div>
+<!-- Footer -->
+<footer class="py-3 bg-dark" style="padding: 0; margin: 0; border-top:1px solid gold;">
+	<div class="container">
+		<p class="m-0 text-center text-white">Copyright &copy; NStory 2023</p>
+		<p class="m-0 text-center text-white">Discord : Gom._.Gom#3502</p>
+	</div>
+</footer>
+</body>
+<!-- 합쳐지고 최소화된 최신 CSS -->
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/bootstrap-utilities.css">
+<!-- 제이쿼리 -->
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+<script src="js/bootstrap.min.js"></script>
 </body>
 </html>
