@@ -66,11 +66,12 @@ public class OAuth2LoginService extends DefaultOAuth2UserService {
                 }
                 accountService.UpdateLastLoginDate(CurrentTime.getTime(), account.getEmail());
                 return new CustomUserDetails(oAuth2UserInfo, account.getName(), account.getEmail(), passwordEncoder.encode(provider),
+                        account.getComment(), account.getProfileImg(),
                         account.isEnable(), true, true, true
                         , Collections.singleton(new SimpleGrantedAuthority("ROLE_" + account.getRole())), firstLogin);
             }
-            return new CustomUserDetails(oAuth2UserInfo, name, email, passwordEncoder.encode(provider),
-                    true, true, true, true
+            return new CustomUserDetails(oAuth2UserInfo, name, email, passwordEncoder.encode(provider), null
+                    , null, true, true, true, true
                     , Collections.singleton(new SimpleGrantedAuthority("ROLE_" + "USER")), firstLogin);
         }
         return null;

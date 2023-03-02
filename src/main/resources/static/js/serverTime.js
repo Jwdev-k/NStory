@@ -11,7 +11,7 @@ function srvTime(){
         xmlHttp.open('HEAD', window.location.href.toString(), false); // window.location.href.toString() or Target URL
 
         xmlHttp.setRequestHeader("Content-Type", "text/html");
-        xmlHttp.send('');
+        xmlHttp.send('')
 
         return xmlHttp.getResponseHeader("Date");   //받은 헤더정보에서 Date 속성만 적출
 

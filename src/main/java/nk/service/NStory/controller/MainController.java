@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Base64;
+
 @Controller
 public class MainController {
     @Autowired
@@ -26,8 +28,12 @@ public class MainController {
     public String UpdateAccountInfo(HttpServletRequest request, @RequestParam String nickname, @RequestParam String comment
             , @RequestParam MultipartFile profileImg, Authentication authentication) throws Exception {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-        accountService.UpdateAccountInfo(new AccountDTO(userDetails.getEmail(), nickname, comment,
-                profileImg != null ? profileImg.getBytes() : null), authentication);
+        String base64Img = null;
+        if (profileImg != null) {
+            base64Img = Base64.getEncoder().encodeToString(profileImg.getBytes());
+        }
+        accountService.UpdateAccountInfo(
+                new AccountDTO(userDetails.getEmail(), nickname, comment, base64Img), authentication);
         return "redirect:" + request.getHeader("referer");
     }
 }

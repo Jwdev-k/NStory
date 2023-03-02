@@ -20,10 +20,14 @@
     <div class="container">
         <a class="navbar-brand" href="/">NStory</a>
         <ul class="navbar-nav right-0">
+            <li class="box" th:if="${account.profileImg != null}" sec:authorize="isAuthenticated()">
+                <img class="profile" th:src="'data:image/png;base64,' + ${account.profileImg}"></li>
+            <li class="box" th:unless="${account.profileImg != null}" sec:authorize="isAuthenticated()">
+                <img class="profile" src="images/default_profileImg.png" alt=""></li>
             <li class="nav-item" sec:authorize="isAuthenticated()">
-                <a class="nav-link" href="javascript:openUserInfo()" th:text="${#authentication.name}"></a></li>
+                <a class="nav-link" href="javascript:openUserInfo()" th:text="${account.username}"></a></li>
             <li class="nav-item" sec:authorize="isAuthenticated()">
-                <a class="nav-link" th:text="${#authentication.authorities}"></a></li>
+                <a class="nav-link" th:text="${account.authorities}"></a></li>
             <li class="nav-item" th:if="${#authentication != null}">
                 <a class="nav-link" href="/logout">로그아웃</a></li>
             <li class="nav-item" th:unless="${#authentication != null}">
@@ -44,11 +48,12 @@
             <!--팝업 컨텐츠 영역-->
             <form method="post" enctype="multipart/form-data" action="account/profile_update">
                 <label for="nickname">닉네임 :
-                    <input type="text" id="nickname" name="nickname" th:value="${#authentication.name}" required></label>
+                    <input type="text" id="nickname" name="nickname" th:value="${account.username}" required></label>
                 <label for="chooseImg">프로필 이미지 선택 :
                     <input type="file" id="chooseImg" name="profileImg" accept="image/jpeg, image/jpg, image/png"></label>
                 <label for="comment">소개글 :
-                    <input type="text" id="comment" name="comment" placeholder="소개글을 작성해주세요."></label>
+                    <input type="text" id="comment" name="comment" placeholder="소개글을 작성해주세요."
+                           th:value="${account.comment}"></label>
                 <div class="modal-footer">
                     <a class="btn btn-secondary" onclick="closeUserInfo()">닫기</a>
                     <button type="submit" class="btn btn-success"
@@ -213,8 +218,11 @@
 <!-- 합쳐지고 최소화된 최신 CSS -->
 <link rel="stylesheet" href="css/bootstrap.min.css">
 <link rel="stylesheet" href="css/bootstrap-utilities.css">
+<link rel="stylesheet" href="css/main.css">
 <!-- 제이쿼리 -->
-<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.3.js"
+        integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
+        crossorigin="anonymous"></script>
 <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
 <script src="js/bootstrap.min.js"></script>
 <script src="js/popup.js"></script>

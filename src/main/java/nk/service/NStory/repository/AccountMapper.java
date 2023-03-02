@@ -22,4 +22,6 @@ public interface AccountMapper {
     void UpdateLastLoginDate(@Param("lastLoginDate")String lastLoginDate, @Param("email")String email) throws Exception;
     @Update("UPDATE account SET name = #{name}, comment = #{comment}, profileImg = #{profileImg} WHERE email = #{email}")
     void UpdateAccountInfo(AccountDTO accountDTO) throws Exception;
+    @Update("UPDATE account SET name = #{name}, comment = #{comment} WHERE email = #{email}")
+    void UpdateAccountInfo2(AccountDTO accountDTO) throws Exception;
 }

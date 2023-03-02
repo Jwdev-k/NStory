@@ -42,8 +42,9 @@ public class UserLoginService implements UserDetailsService {
                     }
                 }
                 accountService.UpdateLastLoginDate(CurrentTime.getTime(), username);
-                return new CustomUserDetails(account.getName(), account.getEmail(), account.getPassword(),
-                        account.isEnable(), true, true, true
+                return new CustomUserDetails(account.getName(), account.getEmail(), account.getPassword()
+                        , account.getComment(), account.getProfileImg(), account.isEnable()
+                        , true, true, true
                         , Collections.singleton(new SimpleGrantedAuthority("ROLE_" + account.getRole()))
                         , firstLogin);
             }

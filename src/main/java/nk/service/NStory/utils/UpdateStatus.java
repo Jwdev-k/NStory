@@ -20,6 +20,7 @@ public class UpdateStatus {
         ExpTable newLevel = expTableMapper.getExpRange(email);
         if (currentLevel != newLevel.getLevel()) {
             accountMapper.UpdateLevel(newLevel.getLevel(), email);
+            accountMapper.UpdateCoin(100, email);
         }
     }
 }

@@ -2,7 +2,6 @@ package nk.service.NStory.security;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.ToString;
 import nk.service.NStory.dto.oauth2.OAuth2UserInfo;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,7 +12,7 @@ import java.util.Collection;
 import java.util.Map;
 
 @RequiredArgsConstructor
-@Getter @ToString
+@Getter
 public class CustomUserDetails implements UserDetails, OAuth2User {
     @Serial
     private static final long serialVersionUID = -6613434008874770290L;
@@ -23,6 +22,8 @@ public class CustomUserDetails implements UserDetails, OAuth2User {
     private String username;
     private String password;
     private String email;
+    private String comment;
+    private String profileImg;
     private boolean isEnabled; // 계정 활성화 여부
     private boolean isAccountNonExpired; //계정 만료 여부
     private boolean isAccountNonLocked; //계정 잠김 여부
@@ -31,12 +32,14 @@ public class CustomUserDetails implements UserDetails, OAuth2User {
     private boolean firstLogin;
 
     //Login
-    public CustomUserDetails(String username, String email, String password, boolean isEnabled
-            , boolean isAccountNonExpired, boolean isAccountNonLocked, boolean isCredentialsNonExpired
+    public CustomUserDetails(String username, String email, String password, String comment, String profileImg
+            , boolean isEnabled, boolean isAccountNonExpired, boolean isAccountNonLocked, boolean isCredentialsNonExpired
             , Collection<? extends GrantedAuthority> authorities, boolean firstLogin) {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.comment = comment;
+        this.profileImg = profileImg;
         this.isEnabled = isEnabled;
         this.isAccountNonExpired = isAccountNonExpired;
         this.isAccountNonLocked = isAccountNonLocked;
@@ -45,13 +48,16 @@ public class CustomUserDetails implements UserDetails, OAuth2User {
         this.firstLogin = firstLogin;
     }
 
-    public CustomUserDetails(OAuth2UserInfo attributes, String username, String email, String password
-            , boolean isEnabled, boolean isAccountNonExpired, boolean isAccountNonLocked
+    //OAuth2 로그인
+    public CustomUserDetails(OAuth2UserInfo attributes, String username, String email, String password, String comment
+            , String profileImg , boolean isEnabled, boolean isAccountNonExpired, boolean isAccountNonLocked
             , boolean isCredentialsNonExpired, Collection<? extends GrantedAuthority> authorities, boolean firstLogin) {
         this.oAuth2UserInfo = attributes;
         this.username = username;
         this.email = email;
         this.password = password;
+        this.comment = comment;
+        this.profileImg = profileImg;
         this.isEnabled = isEnabled;
         this.isAccountNonExpired = isAccountNonExpired;
         this.isAccountNonLocked = isAccountNonLocked;
@@ -68,5 +74,22 @@ public class CustomUserDetails implements UserDetails, OAuth2User {
     @Override
     public String getName() {
         return oAuth2UserInfo.getProvider();
+    }
+
+    @Override
+    public String toString() {
+        return "CustomUserDetails{" +
+                "oAuth2UserInfo=" + oAuth2UserInfo +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", comment='" + comment + '\'' +
+                ", isEnabled=" + isEnabled +
+                ", isAccountNonExpired=" + isAccountNonExpired +
+                ", isAccountNonLocked=" + isAccountNonLocked +
+                ", isCredentialsNonExpired=" + isCredentialsNonExpired +
+                ", authorities=" + authorities +
+                ", firstLogin=" + firstLogin +
+                '}';
     }
 }
