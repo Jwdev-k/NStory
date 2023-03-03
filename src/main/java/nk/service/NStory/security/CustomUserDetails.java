@@ -23,7 +23,7 @@ public class CustomUserDetails implements UserDetails, OAuth2User {
     private String password;
     private String email;
     private String comment;
-    private String profileImg;
+    private byte[] profileImg;
     private boolean isEnabled; // 계정 활성화 여부
     private boolean isAccountNonExpired; //계정 만료 여부
     private boolean isAccountNonLocked; //계정 잠김 여부
@@ -32,7 +32,7 @@ public class CustomUserDetails implements UserDetails, OAuth2User {
     private boolean firstLogin;
 
     //Login
-    public CustomUserDetails(String username, String email, String password, String comment, String profileImg
+    public CustomUserDetails(String username, String email, String password, String comment, byte[] profileImg
             , boolean isEnabled, boolean isAccountNonExpired, boolean isAccountNonLocked, boolean isCredentialsNonExpired
             , Collection<? extends GrantedAuthority> authorities, boolean firstLogin) {
         this.username = username;
@@ -50,7 +50,7 @@ public class CustomUserDetails implements UserDetails, OAuth2User {
 
     //OAuth2 로그인
     public CustomUserDetails(OAuth2UserInfo attributes, String username, String email, String password, String comment
-            , String profileImg , boolean isEnabled, boolean isAccountNonExpired, boolean isAccountNonLocked
+            , byte[] profileImg , boolean isEnabled, boolean isAccountNonExpired, boolean isAccountNonLocked
             , boolean isCredentialsNonExpired, Collection<? extends GrantedAuthority> authorities, boolean firstLogin) {
         this.oAuth2UserInfo = attributes;
         this.username = username;

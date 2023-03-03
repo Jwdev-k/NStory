@@ -11,7 +11,7 @@ public class AccountDTO {
     private String password;
     private String name;
     private String comment;
-    private String profileImg;
+    private byte[] profileImg;
     private String role;
     private String creationDate; //19byte
     private String lastDateTime;
@@ -20,7 +20,7 @@ public class AccountDTO {
     private int nCoin; // 코인 갯수 max 100000000
     private boolean isEnable;
 
-    public AccountDTO(String email, String name, String comment, String profileImg) {
+    public AccountDTO(String email, String name, String comment, byte[] profileImg) {
         this.email = email;
         this.name = name;
         this.comment = comment;

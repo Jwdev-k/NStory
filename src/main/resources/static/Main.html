@@ -21,7 +21,7 @@
         <a class="navbar-brand" href="/">NStory</a>
         <ul class="navbar-nav right-0">
             <li class="box" th:if="${account.profileImg != null}" sec:authorize="isAuthenticated()">
-                <img class="profile" th:src="'data:image/png;base64,' + ${account.profileImg}" alt=""></li>
+                <img class="profile" th:src="@{/storage/prf/img}" alt=""></li>
             <li class="box" th:unless="${account.profileImg != null}" sec:authorize="isAuthenticated()">
                 <img class="profile" src="images/default_profileImg.png" alt=""></li>
             <li class="nav-item" sec:authorize="isAuthenticated()">

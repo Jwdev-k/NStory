@@ -54,7 +54,7 @@ public class AccountService implements AccountServiceIF {
     @Transactional
     @Override
     public void UpdateAccountInfo(AccountDTO accountDTO, Authentication authentication) throws Exception {
-        if (accountDTO.getProfileImg().length() > 0) { // 프로필 정보 업데이트
+        if (accountDTO.getProfileImg().length > 0) { // 프로필 정보 업데이트
             accountMapper.UpdateAccountInfo(accountDTO);
         } else {
             accountMapper.UpdateAccountInfo2(accountDTO);
@@ -67,7 +67,7 @@ public class AccountService implements AccountServiceIF {
             auth = new OAuth2AuthenticationToken(
                     new CustomUserDetails(userDetails.getOAuth2UserInfo(), accountDTO.getName()
                             , userDetails.getEmail(), userDetails.getPassword(), accountDTO.getComment()
-                            , accountDTO.getProfileImg().length() > 0 ? accountDTO.getProfileImg() : userDetails.getProfileImg()
+                            , accountDTO.getProfileImg().length > 0 ? accountDTO.getProfileImg() : userDetails.getProfileImg()
                             , userDetails.isEnabled(), true, true, true,
                             userDetails.getAuthorities(), userDetails.isFirstLogin())
                     , oauthToken.getAuthorities()
@@ -76,7 +76,7 @@ public class AccountService implements AccountServiceIF {
             auth = new UsernamePasswordAuthenticationToken(
                     new CustomUserDetails(userDetails.getOAuth2UserInfo(), accountDTO.getName()
                             , userDetails.getEmail(), userDetails.getPassword(), accountDTO.getComment()
-                            , accountDTO.getProfileImg().length() > 0 ? accountDTO.getProfileImg() : userDetails.getProfileImg()
+                            , accountDTO.getProfileImg().length > 0 ? accountDTO.getProfileImg() : userDetails.getProfileImg()
                             , userDetails.isEnabled(), true, true, true,
                             userDetails.getAuthorities(), userDetails.isFirstLogin())
                     , authentication.getCredentials(), authentication.getAuthorities());
