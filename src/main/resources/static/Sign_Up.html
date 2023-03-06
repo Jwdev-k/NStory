@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -33,6 +33,7 @@
 				</div>
 				<div class="d-grid">
 					<span class="text-lg-center my-4 text-info">STEP1</span>
+					<span class="text-lg-center my-1 text-danger" th:text="${errMsg}"></span>
 				</div>
 				<label class="text-white">닉네임</label>
 				<div class="input-group mb-3" data-validate="Name is required">
@@ -50,8 +51,10 @@
 				<div class="input-group mb-3" data-validate="Password is required">
 					<span class="input-group-text" id="icon3"><i class="fa fa-fw">&#xf023;</i></span>
 					<input class="form-control form-control-lg" aria-describedby="icon3"
-						   type="password" name="password" placeholder="최소 6자 이상 입력해 주세요." minlength="6" maxlength="16" required>
+						   type="password" name="password" placeholder="최소 6자 이상 입력해 주세요."
+						   minlength="6" maxlength="16" required autocomplete="off">
 				</div>
+				<input type="hidden" id="token" name="token">
 				<div class="d-grid gap-2 col-12 my-5 mx-auto">
 					<button class="btn btn-primary fw-bold">등록하기</button>
 				</div>
@@ -76,4 +79,12 @@
 		crossorigin="anonymous"></script>
 <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
 <script src="js/bootstrap.min.js"></script>
+<script src="https://www.google.com/recaptcha/api.js?render=6Lc3e9MkAAAAAMtvj0WkECfN8sFXFWYS8mWGEe9P"></script>
+<script>
+	grecaptcha.ready(function() {
+		grecaptcha.execute('6Lc3e9MkAAAAAMtvj0WkECfN8sFXFWYS8mWGEe9P', {action: 'signup'}).then(function(token) {
+			$('#token').val(token);
+			});
+		});
+</script>
 </html>
