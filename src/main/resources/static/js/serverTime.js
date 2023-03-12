@@ -49,7 +49,7 @@ function dpTime() {
     document.getElementById("dpTime").innerHTML = "현재 시간 ( " + ampm + hours + ":" + minutes + ":" + seconds + " )";
 }
 
-setInterval("dpTime()", 100);
+setInterval("dpTime()", 1000);
 
 /*
 var st = srvTime();         // 한국 시간 -9
