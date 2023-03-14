@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 @Mapper
 public interface RecordLogMapper {
-    @Select("SELECT * FROM recordlog ORDER BY id DESC LIMIT #{start}, 50")
+    @Select("SELECT * FROM recordlog ORDER BY id DESC LIMIT #{start}, 20")
     ArrayList<RecordLogDTO> recordLogList(int start) throws Exception;
     @Insert("INSERT INTO recordlog VALUE(null, #{contents}, #{email}, #{name}, #{time})")
     void addLog(RecordLogDTO recordLogDTO) throws Exception;

@@ -17,7 +17,7 @@ public class PageUtil {
     private boolean isShortNext;
     private int displayPageNum = 10; // 한페이지당 페이징번호 갯수
     private int page = 1; // 현재페이지
-    private int perPageNum = 50; // 한 페이지 총 게시글 수
+    private int perPageNum = 20; // 한 페이지 총 게시글 수
     private int lastEndPage;
 
     public void setTotalCount(int totalCount) { // 총 게시글 수 설정
@@ -36,7 +36,7 @@ public class PageUtil {
             endPage = lastEndPage;
         }
         isNext = (endPage + 1) * getPerPageNum() < totalCount;
-        isShortNext = getEndPage() > getPage();
+        isShortNext = getLastEndPage() > getPage();
         isPrev = startPage != 1;
         isShortPrev = 1 < getPage();
     }

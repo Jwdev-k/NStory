@@ -119,9 +119,15 @@
         <div class="d-flex justify-content-center py-5" th:object="${pageMaker}">
             <ul class="pagination">
                 <li class="page-item">
-                    <a class="page-link bg-dark" th:href="@{/record(page=${pageMaker.startPage})}"
+                    <a class="page-link bg-dark" th:href="@{/record(page=1)}"
                        style="color: ghostwhite;" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li class="page-item" th:if="${pageMaker.isShortPrev}">
+                    <a class="page-link bg-dark" th:href="@{/record(page=${pageMaker.page - 1})}"
+                       style="color: ghostwhite;" aria-label="Previous">
+                        <span aria-hidden="true">&#60;</span>
                     </a>
                 </li>
                 <th:block th:each="page, count : ${#numbers.sequence(pageMaker.startPage,pageMaker.endPage)}">
@@ -134,8 +140,15 @@
                            th:href="@{/record(page=${page})}" th:text="${page}"></a>
                     </li>
                 </th:block>
+                <li class="page-item" th:if="${pageMaker.isShortNext}">
+                    <a class="page-link bg-dark" th:href="@{/record(page=${pageMaker.page + 1})}"
+                       style="color: ghostwhite;"
+                       aria-label="Next">
+                        <span aria-hidden="true">&#62;</span>
+                    </a>
+                </li>
                 <li class="page-item">
-                    <a class="page-link bg-dark" th:href="@{/record(page=${pageMaker.endPage})}"
+                    <a class="page-link bg-dark" th:href="@{/record(page=${pageMaker.lastEndPage})}"
                        style="color: ghostwhite;"
                        aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
