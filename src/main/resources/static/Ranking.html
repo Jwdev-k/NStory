@@ -75,8 +75,37 @@
     <a class="nav-link text-center" href="/shop">NStory SHOP</a>
 </nav>
 <main class="vh-100">
-    <div class="container" style="padding-top: 5%">
+    <h2 class="container table-header" style="background-color: #39393a; color: white; width: auto; padding: 10px;
+        border-radius: 1px 1px 10px 10px;">랭킹</h2>
+    <div class="container bg-light" style="border-radius: 10px 10px;">
+        <table class="table table-hover table-light caption-top" style="width: 80%; margin: auto;">
+            <caption class="bg-light">
+                <strong>유저 리스트</strong>
+            </caption>
+            <thead>
+            <tr style="text-align: center;">
+                <th scope="col">순위</th>
+                <th scope="col" style="width: 50px;"></th>
+                <th scope="col" style="width: 100px;">닉네임</th>
+                <th scope="col">레벨</th>
+                <th scope="col">경험치</th>
+                <th scope="col">nCoin</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="list : ${rankingList}"  style="text-align: center; vertical-align: middle;">
+                <th scope="row" th:if="${list.rank <= 3}" th:text="${list.rank}" style="font-size: 20px;"></th>
+                <th scope="row" th:unless="${list.rank <= 3}" th:text="${list.rank}"></th>
 
+                <td><img class="box2" style="object-fit: cover;" src="images/default_profileImg.png" alt=""></td>
+
+                <td th:text="${list.name}"></td>
+                <td th:text="'Lv.' + ${list.level}"></td>
+                <td th:text="${list.exp}"></td>
+                <td th:text="${list.nCoin}"></td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </main>
 <!-- Footer -->
