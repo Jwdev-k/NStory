@@ -1,18 +1,17 @@
 package nk.service.NStory.utils;
 
+import lombok.RequiredArgsConstructor;
 import nk.service.NStory.dto.ExpTable;
 import nk.service.NStory.repository.AccountMapper;
 import nk.service.NStory.repository.ExpTableMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component
+@RequiredArgsConstructor
 public class UpdateStatus {
-    @Autowired
-    private ExpTableMapper expTableMapper;
-    @Autowired
-    private AccountMapper accountMapper;
+    private final ExpTableMapper expTableMapper;
+    private final AccountMapper accountMapper;
 
     @Transactional
     public void addExp(int exp, String email, int currentLevel) throws Exception {

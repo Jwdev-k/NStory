@@ -1,5 +1,6 @@
 package nk.service.NStory.service.impl;
 
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import nk.service.NStory.dto.AccountDTO;
@@ -10,7 +11,6 @@ import nk.service.NStory.dto.oauth2.OAuth2UserInfo;
 import nk.service.NStory.security.CustomUserDetails;
 import nk.service.NStory.utils.CurrentTime;
 import nk.service.NStory.utils.UpdateStatus;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -25,11 +25,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 
 @Service @Slf4j
+@RequiredArgsConstructor
 public class OAuth2LoginService extends DefaultOAuth2UserService {
-    @Autowired
-    private AccountService accountService;
-    @Autowired
-    private UpdateStatus updateStatus;
+    private final AccountService accountService;
+    private final UpdateStatus updateStatus;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @SneakyThrows

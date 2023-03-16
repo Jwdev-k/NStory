@@ -1,18 +1,18 @@
 package nk.service.NStory.service.impl;
 
+import lombok.RequiredArgsConstructor;
 import nk.service.NStory.dto.RecordLogDTO;
 import nk.service.NStory.repository.RecordLogMapper;
 import nk.service.NStory.service.RecordLogIF;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 
 @Service
+@RequiredArgsConstructor
 public class RecordLogService implements RecordLogIF {
-    @Autowired
-    private RecordLogMapper recordLogMapper;
+    private final RecordLogMapper recordLogMapper;
 
     @Override
     public ArrayList<RecordLogDTO> recordLogList(int start) throws Exception {

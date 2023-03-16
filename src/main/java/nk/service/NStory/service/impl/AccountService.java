@@ -1,11 +1,11 @@
 package nk.service.NStory.service.impl;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nk.service.NStory.dto.AccountDTO;
 import nk.service.NStory.repository.AccountMapper;
 import nk.service.NStory.security.CustomUserDetails;
 import nk.service.NStory.service.AccountServiceIF;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,9 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.regex.Pattern;
 
 @Service @Slf4j
+@RequiredArgsConstructor
 public class AccountService implements AccountServiceIF {
-    @Autowired
-    private AccountMapper accountMapper;
+    private final AccountMapper accountMapper;
 
     @Transactional
     @Override

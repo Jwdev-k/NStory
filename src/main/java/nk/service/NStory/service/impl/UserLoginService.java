@@ -1,11 +1,11 @@
 package nk.service.NStory.service.impl;
 
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import nk.service.NStory.dto.AccountDTO;
 import nk.service.NStory.security.CustomUserDetails;
 import nk.service.NStory.utils.CurrentTime;
 import nk.service.NStory.utils.UpdateStatus;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,11 +18,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 
 @Service
+@RequiredArgsConstructor
 public class UserLoginService implements UserDetailsService {
-    @Autowired
-    private AccountService accountService;
-    @Autowired
-    private UpdateStatus updateStatus;
+    private final AccountService accountService;
+    private final UpdateStatus updateStatus;
 
     @SneakyThrows
     @Override

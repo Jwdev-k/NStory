@@ -80,7 +80,7 @@
     <div class="container bg-light" style="border-radius: 10px 10px;">
         <table class="table table-hover table-light caption-top" style="width: 80%; margin: auto;">
             <caption class="bg-light">
-                <strong>유저 리스트</strong>
+                <strong>※실시간 랭킹 리스트 입니다.</strong>
             </caption>
             <thead>
             <tr style="text-align: center;">
@@ -106,6 +106,46 @@
             </tr>
             </tbody>
         </table>
+        <div class="d-flex justify-content-center my-3" th:object="${pageMaker}">
+            <ul class="pagination">
+                <li class="page-item">
+                    <a class="page-link" th:href="@{/ranking(page=1)}"
+                       style="color: black;" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li class="page-item" th:if="${pageMaker.isShortPrev}">
+                    <a class="page-link" th:href="@{/ranking(page=${pageMaker.page - 1})}"
+                       style="color: black;" aria-label="Previous">
+                        <span aria-hidden="true">&#60;</span>
+                    </a>
+                </li>
+                <th:block th:each="page, count : ${#numbers.sequence(pageMaker.startPage,pageMaker.endPage)}">
+                    <li class="page-item" th:if="${crtPage == page}">
+                        <a class="page-link" style="color: red;"
+                           th:href="@{/ranking(page=${page})}" th:text="${page}"></a>
+                    </li>
+                    <li class="page-item" th:unless="${crtPage == page}">
+                        <a class="page-link" style="color: black;"
+                           th:href="@{/ranking(page=${page})}" th:text="${page}"></a>
+                    </li>
+                </th:block>
+                <li class="page-item" th:if="${pageMaker.isShortNext}">
+                    <a class="page-link" th:href="@{/ranking(page=${pageMaker.page + 1})}"
+                       style="color: black;"
+                       aria-label="Next">
+                        <span aria-hidden="true">&#62;</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" th:href="@{/ranking(page=${pageMaker.lastEndPage})}"
+                       style="color: black;"
+                       aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
 </main>
 <!-- Footer -->

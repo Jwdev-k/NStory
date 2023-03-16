@@ -16,7 +16,7 @@ public class RankingController {
 
     @RequestMapping(value = "/ranking")
     public String RankingMain(Model model, @RequestParam(required = false, defaultValue = "1") int page) throws Exception {
-        model.addAttribute("rankingList", rankingService.LevelRankingList(page));
+        model.addAttribute("rankingList", rankingService.ExpRankingList(page));
         pageUtil.setPage(page);
         pageUtil.setTotalCount(rankingService.totalCount());
         model.addAttribute("pageMaker", pageUtil);

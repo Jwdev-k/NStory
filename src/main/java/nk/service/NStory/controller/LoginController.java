@@ -2,6 +2,7 @@ package nk.service.NStory.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nk.service.NStory.config.RecaptchaConfig;
 import nk.service.NStory.dto.AccountDTO;
@@ -9,7 +10,6 @@ import nk.service.NStory.security.CustomUserDetails;
 import nk.service.NStory.service.impl.AccountService;
 import nk.service.NStory.utils.CurrentTime;
 import nk.service.NStory.utils.ScriptUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -19,11 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller @Slf4j
+@RequiredArgsConstructor
 public class LoginController {
-    @Autowired
-    private AccountService accountService;
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+    private final AccountService accountService;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @RequestMapping(value = "/login")
     public String Login(@AuthenticationPrincipal CustomUserDetails userDetails) {

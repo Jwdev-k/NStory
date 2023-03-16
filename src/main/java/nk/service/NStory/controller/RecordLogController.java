@@ -2,6 +2,7 @@ package nk.service.NStory.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nk.service.NStory.dto.RecordLogDTO;
 import nk.service.NStory.security.CustomUserDetails;
@@ -9,7 +10,6 @@ import nk.service.NStory.service.impl.RecordLogService;
 import nk.service.NStory.utils.CurrentTime;
 import nk.service.NStory.utils.PageUtil;
 import nk.service.NStory.utils.ScriptUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @Slf4j
+@RequiredArgsConstructor
 public class RecordLogController {
-    @Autowired
-    private RecordLogService recordLogService;
+    private final RecordLogService recordLogService;
     private static final PageUtil pageUtil = new PageUtil();
 
     @RequestMapping(value = "/record")

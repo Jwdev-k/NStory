@@ -1,10 +1,10 @@
 package nk.service.NStory.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import nk.service.NStory.dto.AccountDTO;
 import nk.service.NStory.security.CustomUserDetails;
 import nk.service.NStory.service.impl.AccountService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
+@RequiredArgsConstructor
 public class MainController {
-    @Autowired
-    private AccountService accountService;
+    private final AccountService accountService;
 
     @RequestMapping(value = "/")
     public String mainPage() {
