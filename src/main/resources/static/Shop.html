@@ -66,14 +66,19 @@
         </div>
     </div>
 </div>
-<nav class="col-sm-3 col-md-2 nav nav-tabs flex-column bg-light-subtle" style="position: fixed; padding: 30px; margin: 3%;
- width: 200px; box-shadow: 3px 3px 3px 3px gray; border-radius: 40px 40px;">
-    <h4 class="nav-item text-center">메뉴</h4>
-    <a class="nav-link text-center" href="/record">방명록</a>
-    <a class="nav-link text-center" sec:authorize="hasRole('ROLE_ADMIN')" href="#">유저 목록</a>
-    <a class="nav-link text-center" href="/ranking">랭킹</a>
-    <a class="nav-link text-center disabled" href="/shop">NStory SHOP</a>
-</nav>
+<div class="dropdown bg-light-subtle" style="position: fixed;">
+    <button type="button" id="dropdownMenuButton" aria-label="메뉴" style="height: 50px; width: 50px;"
+            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <img src="images/svg/menu.svg" alt="menu">
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item text-center" href="#">자유게시판</a>
+        <a class="dropdown-item text-center" href="/record">방명록</a>
+        <a class="dropdown-item text-center" href="/ranking">랭킹</a>
+        <a class="dropdown-item text-center disabled" href="/shop">NStory SHOP</a>
+        <a class="dropdown-item text-center" sec:authorize="hasRole('ROLE_ADMIN')" href="#">유저 관리</a>
+    </div>
+</div>
 <main>
     <div class="container col-lg-9" style="width: 50%; height: 50%;">
         <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
@@ -225,5 +230,6 @@
         crossorigin="anonymous"></script>
 <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
 <script src="js/bootstrap.min.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
 <script src="js/popup.js"></script>
 </html>

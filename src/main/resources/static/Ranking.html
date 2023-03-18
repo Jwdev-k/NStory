@@ -66,28 +66,40 @@
         </div>
     </div>
 </div>
-<nav class="col-sm-3 col-md-2 nav nav-tabs flex-column bg-light-subtle" style="position: fixed; padding: 30px; margin: 3%;
- width: 200px; box-shadow: 3px 3px 3px 3px gray; border-radius: 40px 40px;">
-    <h4 class="nav-item text-center">메뉴</h4>
-    <a class="nav-link text-center" href="/record">방명록</a>
-    <a class="nav-link text-center" sec:authorize="hasRole('ROLE_ADMIN')" href="#">유저 목록</a>
-    <a class="nav-link text-center disabled" href="/ranking">랭킹</a>
-    <a class="nav-link text-center" href="/shop">NStory SHOP</a>
-</nav>
+<div class="dropdown bg-light-subtle" style="position: fixed;">
+        <button type="button" id="dropdownMenuButton" aria-label="메뉴" style="height: 50px; width: 50px;"
+                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <img src="images/svg/menu.svg" alt="menu">
+        </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item text-center" href="#">자유게시판</a>
+        <a class="dropdown-item text-center" href="/record">방명록</a>
+        <a class="dropdown-item text-center disabled" href="/ranking">랭킹</a>
+        <a class="dropdown-item text-center" href="/shop">NStory SHOP</a>
+        <a class="dropdown-item text-center" sec:authorize="hasRole('ROLE_ADMIN')" href="#">유저 관리</a>
+    </div>
+</div>
 <main class="vh-100">
     <h2 class="container table-header" style="background-color: #39393a; color: white; width: auto; padding: 10px;
         border-radius: 1px 1px 10px 10px;">랭킹</h2>
     <div class="container bg-light" style="border-radius: 10px 10px;">
         <table class="table table-hover table-light caption-top" style="width: 80%; margin: auto;">
             <caption class="bg-light">
-                <strong>※실시간 랭킹 리스트 입니다.</strong>
+                <form method="post">
+                    <strong>※실시간 랭킹 리스트 입니다.</strong>
+                    <label style="float: right;">
+                        <input type="search" name="search" class="form-control-sm" autocomplete="off"
+                               placeholder="검색할 닉네임을 입력해주세요.">
+                        <button type="submit" class="btn btn-sm btn-secondary">검색</button>
+                    </label>
+                </form>
             </caption>
             <thead>
             <tr style="text-align: center;">
                 <th scope="col">순위</th>
                 <th scope="col" style="width: 50px;"></th>
                 <th scope="col" style="width: 100px;">닉네임</th>
-                <th scope="col">레벨</th>
+                <th scope="col" style="width: 100px;">레벨</th>
                 <th scope="col">경험치</th>
                 <th scope="col">nCoin</th>
             </tr>
@@ -97,7 +109,7 @@
                 <th scope="row" th:if="${list.rank <= 3}" th:text="${list.rank}" style="font-size: 20px;"></th>
                 <th scope="row" th:unless="${list.rank <= 3}" th:text="${list.rank}"></th>
 
-                <td><img class="box2" style="object-fit: cover;" src="images/default_profileImg.png" alt=""></td>
+                <td><img class="box2" style="object-fit: cover;" th:src="@{/ranking/prf/} + ${list.id}" alt=""></td>
 
                 <td th:text="${list.name}"></td>
                 <td th:text="'Lv.' + ${list.level}"></td>
@@ -166,5 +178,6 @@
         crossorigin="anonymous"></script>
 <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
 <script src="js/bootstrap.min.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
 <script src="js/popup.js"></script>
 </html>

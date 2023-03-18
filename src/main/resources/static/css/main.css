@@ -28,3 +28,11 @@ footer{
     padding: 30px 60px;
     border-radius: 20px 20px;
 }
+/* 드롭다운 메뉴 애니메이션 */
+.dropdown-menu {
+    opacity: 0; /* 초기값: 투명도 0 */
+    transition: all 0.3s ease-in-out; /* 애니메이션 효과 추가 */
+}
+.dropdown-menu.show {
+    opacity: 1; /* 드롭다운 메뉴가 표시될 때 투명도 1로 변경 */
+}

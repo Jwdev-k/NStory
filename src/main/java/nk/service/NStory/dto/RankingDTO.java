@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 public class RankingDTO {
     private int rank;
-    private String email;
+    private int id;
     private String name;
     private int level;
     private int exp;
