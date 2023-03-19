@@ -12,5 +12,5 @@ public interface RankingServiceIF {
     int totalCount() throws Exception;
     ByteImageDTO getUserImage(int id) throws Exception;
     ArrayList<RankingDTO> ExpRankNameSerach(int start, String name) throws Exception;
-    int searchTotalCount() throws Exception;
+    int searchTotalCount(String name) throws Exception;
 }

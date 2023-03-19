@@ -126,13 +126,13 @@
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
-                <li class="page-item" th:if="${pageMaker.isShortPrev}">
-                    <a class="page-link" th:href="@{/ranking(page=${pageMaker.page - 1})}"
+                <li class="page-item" th:if="${pageMaker.isPrev}">
+                    <a class="page-link" th:href="@{/ranking(page=${pageMaker.startPage - 10})}"
                        style="color: black;" aria-label="Previous">
                         <span aria-hidden="true">&#60;</span>
                     </a>
                 </li>
-                <th:block th:each="page, count : ${#numbers.sequence(pageMaker.startPage,pageMaker.endPage)}">
+                <th:block th:each="page : ${#numbers.sequence(pageMaker.startPage,pageMaker.endPage)}">
                     <li class="page-item" th:if="${crtPage == page}">
                         <a class="page-link" style="color: red;"
                            th:href="@{/ranking(page=${page})}" th:text="${page}"></a>
@@ -142,8 +142,8 @@
                            th:href="@{/ranking(page=${page})}" th:text="${page}"></a>
                     </li>
                 </th:block>
-                <li class="page-item" th:if="${pageMaker.isShortNext}">
-                    <a class="page-link" th:href="@{/ranking(page=${pageMaker.page + 1})}"
+                <li class="page-item" th:if="${pageMaker.isNext}">
+                    <a class="page-link" th:href="@{/ranking(page=${pageMaker.endPage + 1})}"
                        style="color: black;"
                        aria-label="Next">
                         <span aria-hidden="true">&#62;</span>

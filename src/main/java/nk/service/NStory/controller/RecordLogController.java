@@ -29,8 +29,9 @@ public class RecordLogController {
             ,@RequestParam(required = false, defaultValue = "1") int page) throws Exception {
         model.addAttribute("Email", customUserDetails != null ? customUserDetails.getEmail() : null);
         model.addAttribute("recordLogList", recordLogService.recordLogList(page));
+        int totalCount = recordLogService.totalCount();
         pageUtil.setPage(page);
-        pageUtil.setTotalCount(recordLogService.totalCount());
+        pageUtil.setTotalCount(totalCount > 0 ? totalCount : 1);
         model.addAttribute("pageMaker", pageUtil);
         model.addAttribute("crtPage", page);
         return "RecordLog";

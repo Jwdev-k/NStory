@@ -30,14 +30,20 @@ public class RankingController {
     @RequestMapping(value = "/ranking")
     public String RankingMain(Model model, @RequestParam(required = false, defaultValue = "1") int page
             , @RequestParam(required = false) String search) throws Exception {
+        int totalCount;
         if (search == null) {
             model.addAttribute("rankingList", rankingService.ExpRankingList(page));
             pageUtil.setPage(page);
-            pageUtil.setTotalCount(rankingService.totalCount());
+            totalCount = rankingService.totalCount();
         } else {
             model.addAttribute("rankingList", rankingService.ExpRankNameSerach(page, search));
             pageUtil.setPage(page);
-            pageUtil.setTotalCount(rankingService.searchTotalCount());
+            totalCount = rankingService.searchTotalCount(search);
+        }
+        if (totalCount > 0) {
+            pageUtil.setTotalCount(totalCount);
+        } else {
+            pageUtil.setTotalCount(1);
         }
         model.addAttribute("pageMaker", pageUtil);
         model.addAttribute("crtPage", page);

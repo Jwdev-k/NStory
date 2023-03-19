@@ -62,7 +62,7 @@ public class RankingService implements RankingServiceIF {
     }
 
     @Override
-    public int searchTotalCount() throws Exception {
-        return rankMapper.totalCount();
+    public int searchTotalCount(String name) throws Exception {
+        return rankMapper.searchTotalCount(name);
     }
 }

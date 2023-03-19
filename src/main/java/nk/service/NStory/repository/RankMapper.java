@@ -23,6 +23,6 @@ public interface RankMapper {
     @Select("select r.* from (SELECT ROW_NUMBER() OVER (ORDER BY exp DESC) as rank, id, name, level, exp, nCoin FROM account LIMIT #{start}, 20)" +
             " as r where name LIKE CONCAT('%', #{name},'%')")
     ArrayList<RankingDTO> ExpRankNameSerach(@Param("start")int start, @Param("name")String name) throws Exception;
-    @Select("SELECT count(*) FROM account WHERE name LIKE CONCAT('&', #{name},'&')")
-    int searchTotalCount() throws Exception;
+    @Select("SELECT count(*) FROM account WHERE name LIKE CONCAT('%', #{name},'%')")
+    int searchTotalCount(String name) throws Exception;
 }
