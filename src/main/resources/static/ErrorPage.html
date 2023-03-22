@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, blendtrans(duration=0)">
+  <title>NStory</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+  <style>
+    * {
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body style="overflow-x: hidden;background-color: #212529;">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="border-bottom:1px solid gold">
+  <div class="container">
+    <a class="navbar-brand" href="/">NStory</a>
+    <ul class="navbar-nav right-0">
+      <li class="box" th:if="${account.profileImg != null}" sec:authorize="isAuthenticated()">
+        <img class="profile" th:src="@{/storage/prf/img}" alt=""></li>
+      <li class="box" th:unless="${account.profileImg != null}" sec:authorize="isAuthenticated()">
+        <img class="profile" src="images/default_profileImg.png" alt=""></li>
+      <li class="nav-item" sec:authorize="isAuthenticated()">
+        <a class="nav-link" href="javascript:openUserInfo()" th:text="${account.username}"></a></li>
+      <li class="nav-item" sec:authorize="isAuthenticated()">
+        <a class="nav-link" th:text="${account.authorities}"></a></li>
+      <li class="nav-item" th:if="${#authentication != null}">
+        <a class="nav-link" href="/logout">로그아웃</a></li>
+      <li class="nav-item" th:unless="${#authentication != null}">
+        <a class="nav-link" href="/login">로그인</a></li>
+      <!--            <form class="navbar-form">
+                      <input type="text" class="form-control" placeholder="Search...">
+                  </form>-->
+    </ul>
+  </div>
+</nav>
+<div class="modal" id="userInfo" tabindex="-1" style="display: none;" sec:authorize="isAuthenticated()">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">프로필 정보 수정</h5>
+        <button class="btn-close" onclick="closeUserInfo()" aria-label="Close"></button>
+      </div>
+      <!--팝업 컨텐츠 영역-->
+      <form method="post" enctype="multipart/form-data" action="account/profile_update">
+        <label for="nickname">닉네임 :
+          <input type="text" id="nickname" name="nickname" th:value="${account.username}" required></label>
+        <label for="chooseImg">프로필 이미지 선택 :
+          <input type="file" id="chooseImg" name="profileImg" accept="image/jpeg, image/jpg, image/png"></label>
+        <label for="comment">소개글 :
+          <input type="text" id="comment" name="comment" placeholder="소개글을 작성해주세요."
+                 th:value="${account.comment}"></label>
+        <div class="modal-footer">
+          <a class="btn btn-secondary" onclick="closeUserInfo()">닫기</a>
+          <button type="submit" class="btn btn-success"
+                  onclick="if(!confirm('저장하시면 되돌릴수 없습니다. \n 정말로 저장하시겠습니까??')){
+                                return false;
+                            }">저장
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="dropdown bg-light-subtle" style="position: fixed;">
+  <button type="button" id="dropdownMenuButton" aria-label="메뉴" style="height: 50px; width: 50px;"
+          data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <img src="images/svg/menu.svg" alt="menu">
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <a class="dropdown-item drop text-center" href="#">자유게시판</a>
+    <a class="dropdown-item text-center" href="/record">방명록</a>
+    <a class="dropdown-item text-center" href="/ranking">랭킹</a>
+    <a class="dropdown-item text-center" href="/shop">NStory SHOP</a>
+    <a class="dropdown-item text-center" sec:authorize="hasRole('ROLE_ADMIN')" href="#">유저 관리</a>
+  </div>
+</div>
+<main class="container vh-100">
+    <div class="row justify-content-center" style="margin-top: 20%;">
+      <div class="col-md-6 text-center mt-5 text-white">
+        <h2 class="display-4">죄송합니다.</h2>
+        <p class="lead">요청을 처리하는 중에 오류가 발생했습니다. 나중에 다시 시도 해주십시오. </p>
+        <p class="font-weight-bold" th:text="'Error code: ' + ${ErrorCode}"></p>
+        <a href="/" class="btn btn-primary">메인페이지로 돌아가기</a>
+      </div>
+    </div>
+</main>
+<!-- Footer -->
+<footer class="py-3 bg-dark" >
+  <div class="container">
+    <p class="m-0 text-center text-white">Copyright &copy; NStory 2023</p>
+    <p class="m-0 text-center text-white">Discord : Gom._.Gom#3502</p>
+  </div>
+</footer>
+</body>
+<!-- 합쳐지고 최소화된 최신 CSS -->
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/bootstrap-utilities.css">
+<link rel="stylesheet" href="css/main.css">
+<!-- 제이쿼리 -->
+<script src="https://code.jquery.com/jquery-3.6.3.js"
+        integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
+        crossorigin="anonymous"></script>
+<!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+<script src="js/bootstrap.min.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
+<script src="js/popup.js"></script>
+</html>

@@ -16,7 +16,7 @@ public class RecordLogService implements RecordLogIF {
 
     @Override
     public ArrayList<RecordLogDTO> recordLogList(int start) throws Exception {
-        if (start == 1) {
+        if (start == 1 || start < 1) {
             return recordLogMapper.recordLogList(0);
         } else {
             return recordLogMapper.recordLogList((start - 1) * 20);
