@@ -38,12 +38,14 @@
 					</div>
 					<span th:text="${errMsg}" style="font-size: 16px; color: #de3a00"></span>
 					<!-- Email input -->
-					<div class="form-outline mb-4" data-validate = "Email is reauired">
+					<div class="input-group mb-4" data-validate = "Email is reauired">
+						<span class="input-group-text" id="icon2"><i class="fa fa-fw">&#xf0e0;</i></span>
 						<input type="email" id="email" name="email" class="form-control form-control-lg"
 							   placeholder="이메일" maxlength="50" required/>
 					</div>
 					<!-- Password input -->
-					<div class="form-outline mb-4" data-validate="Password is required">
+					<div class="input-group mb-4" data-validate="Password is required">
+						<span class="input-group-text" id="icon3"><i class="fa fa-fw">&#xf023;</i></span>
 						<input type="password" name="password" class="form-control form-control-lg"
 							   placeholder="패스워드" maxlength="16" autocomplete="off" required/>
 					</div>

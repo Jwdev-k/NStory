@@ -21,7 +21,6 @@ public class FailureHandler implements AuthenticationFailureHandler {
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response
             , AuthenticationException exception) throws IOException, ServletException {
         log.info("Try Login IP : " + request.getRemoteHost());
-        log.warn(exception.getMessage());
         String errMsg;
         if (exception instanceof BadCredentialsException) {
             errMsg = "아이디 또는 비밀번호가 맞지 않습니다. 다시 확인해 주세요.";
@@ -34,6 +33,7 @@ public class FailureHandler implements AuthenticationFailureHandler {
         } else {
             errMsg = "알 수 없는 이유로 로그인에 실패하였습니다 관리자에게 문의하세요.";
         }
+        log.warn(errMsg); // 로그인 에러 오류 메세지
         request.setAttribute("errMsg", errMsg);
         request.getRequestDispatcher("/login").forward(request,response);
     }

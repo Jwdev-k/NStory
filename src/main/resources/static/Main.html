@@ -82,8 +82,30 @@
 <main class="container vh-100">
     <div class="jumbotron">
         <h1 class="text-white">개발중</h1>
-        <p><span class="text-white" id="dpTime">loading...</span></p>
+        <p><span class="text-white" id="serverTime">loading...</span></p>
         <p class="text-white">현재 페이지는 개발중인 페이지입니다. 다양한 기능이 추가될 예정이니 기대해주세요!</p>
+    </div>
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="card border-0 shadow">
+                    <div class="card-body p-0">
+                        <div class="bg-dark text-light p-3">
+                            <h4 class="mb-0">채팅방</h4>
+                        </div>
+                        <div class="chatbox p-3">
+                            <p class="text-white" id="chat"></p>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" id="message" class="form-control" placeholder="메시지를 입력하세요">
+                            <div class="input-group-append">
+                                <button type="button" class="btn btn-primary" onclick="sendMessage()">전송</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </main>
 <!-- Footer -->
@@ -107,4 +129,5 @@
 <script src="js/bootstrap.bundle.min.js"></script>
 <script src="js/popup.js"></script>
 <script src="js/serverTime.js"></script>
+<script src="js/mainChat.js"></script>
 </html>

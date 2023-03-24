@@ -13,7 +13,7 @@ public class GlobalInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        if (request.getUserPrincipal() != null) { // 세큐리티 유저 객체 가져오기
+        if (request.getUserPrincipal() != null && request.getAttribute("account") == null) { // 세큐리티 유저 객체 가져오기
             SecurityContext context = SecurityContextHolder.getContext();
             CustomUserDetails userDetails = (CustomUserDetails) context.getAuthentication().getPrincipal();
             if (userDetails != null) {

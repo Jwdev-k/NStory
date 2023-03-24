@@ -42,13 +42,15 @@ public class RecordLogController {
             , @AuthenticationPrincipal CustomUserDetails customUserDetails) throws Exception {
         if (customUserDetails != null) {
             recordLogService.addLog(new RecordLogDTO(0, contents, customUserDetails.getEmail(), customUserDetails.getUsername(), CurrentTime.getTime()));
+            log.info("요청주소 : /record/frmlog\n" + "Action : record 작성" + "\n 요청자: " + customUserDetails.getEmail());
         }
         return "redirect:" + request.getHeader("referer");
     }
+
     @PostMapping(value = "/record/frmlog_delete")
     public String FrmLogDelete(@AuthenticationPrincipal CustomUserDetails customUserDetails, HttpServletResponse response
             , HttpServletRequest request, @RequestParam int id, @RequestParam String email) throws Exception {
-        log.info(id + ", " + email);
+        log.info("요청주소 : /record/frmlog_delete\n" + "Action :" + id + "번 게시물 삭제\n" + "요청자: " + email);
         if (customUserDetails.getEmail().equals(email)) {
             recordLogService.deleteLog(id, email);
         } else {

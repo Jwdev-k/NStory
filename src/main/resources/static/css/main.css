@@ -36,3 +36,8 @@ footer{
 .dropdown-menu.show {
     opacity: 1; /* 드롭다운 메뉴가 표시될 때 투명도 1로 변경 */
 }
+.chatbox {
+    height: 500px;
+    overflow-y: auto;
+    background-color: #39393a;
+}

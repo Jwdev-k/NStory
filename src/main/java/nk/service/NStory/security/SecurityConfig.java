@@ -1,10 +1,10 @@
 package nk.service.NStory.security;
 
+import lombok.RequiredArgsConstructor;
 import nk.service.NStory.security.handler.FailureHandler;
 import nk.service.NStory.security.handler.SuccessHandler;
 import nk.service.NStory.service.impl.OAuth2LoginService;
 import nk.service.NStory.service.impl.UserLoginService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,14 +23,12 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
 
     AuthenticationManager authenticationManager;
-
-    @Autowired
-    private UserLoginService userLoginService;
-    @Autowired
-    private OAuth2LoginService oAuth2LoginService;
+    private final UserLoginService userLoginService;
+    private final OAuth2LoginService oAuth2LoginService;
 
     @Bean //정적 파일 ignoring
     public WebSecurityCustomizer customizer() {
