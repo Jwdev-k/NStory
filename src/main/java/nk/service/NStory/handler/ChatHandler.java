@@ -24,8 +24,12 @@ public class ChatHandler extends TextWebSocketHandler {
        TextMessage tm;
         for (WebSocketSession s : sessions) {
             if (s.isOpen()) {
-                sb.append(CurrentTime.getTime2() + " 익명 : " + message.getPayload());
                 if (message.getPayloadLength() > 0) {
+                    if (session.getPrincipal() != null) {
+                        sb.append(CurrentTime.getTime2() + " " + session.getPrincipal().getName() +  " : " + message.getPayload());
+                    } else {
+                        sb.append(CurrentTime.getTime2() + " 익명 : " + message.getPayload());
+                    }
                     tm = new TextMessage(sb.toString());
                     s.sendMessage(tm);
                     sb.delete(0, sb.length());
