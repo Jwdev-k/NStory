@@ -12,11 +12,13 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ChatHandler extends TextWebSocketHandler {
 
     private static final List<WebSocketSession> sessions = new ArrayList<>();
-    private static final List<String> userList = new ArrayList<>();
+    private static final Map<String, String> userList = new ConcurrentHashMap<>();
     private final StringBuffer sb = new StringBuffer();
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -24,7 +26,7 @@ public class ChatHandler extends TextWebSocketHandler {
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         sessions.add(session);
         if (session.getPrincipal() != null) {
-            userList.add(session.getPrincipal().getName());
+            userList.put(session.getId(), session.getPrincipal().getName());
         }
         sendUserList();
     }
@@ -52,8 +54,9 @@ public class ChatHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         sessions.remove(session);
+        session.close();
         if (session.getPrincipal() != null) {
-            userList.remove(session.getPrincipal().getName());
+            userList.remove(session.getId());
         }
        sendUserList();
     }
@@ -61,7 +64,7 @@ public class ChatHandler extends TextWebSocketHandler {
     public void sendUserList() throws IOException {
         ChatMessage chatMessage = new ChatMessage();
         chatMessage.setChatType(ChatType.USER_LIST);
-        chatMessage.setContent(objectMapper.writeValueAsString(userList.toString()));
+        chatMessage.setContent(objectMapper.writeValueAsString(userList.values()));
         for (WebSocketSession s : sessions) {
             s.sendMessage(new TextMessage(objectMapper.writeValueAsString(chatMessage)));
         }
