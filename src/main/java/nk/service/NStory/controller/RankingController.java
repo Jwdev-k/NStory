@@ -3,7 +3,7 @@ package nk.service.NStory.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import nk.service.NStory.dto.ByteImageDTO;
+import nk.service.NStory.dto.ByteImageDAO;
 import nk.service.NStory.service.impl.RankingService;
 import nk.service.NStory.utils.PageUtil;
 import org.springframework.http.HttpStatus;
@@ -52,7 +52,7 @@ public class RankingController {
 
     @GetMapping(value = "/ranking/prf/{id}", produces = MediaType.IMAGE_PNG_VALUE)
     public ResponseEntity<byte[]> getProfileImage(HttpServletRequest request, @PathVariable int id) throws Exception {
-        ByteImageDTO ImageByteArray = rankingService.getUserImage(id);
+        ByteImageDAO ImageByteArray = rankingService.getUserImage(id);
         if (ImageByteArray != null && ImageByteArray.getImage().length > 0) {
             return new ResponseEntity<>(ImageByteArray.getImage(), HttpStatus.OK);
         }

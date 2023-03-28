@@ -5,6 +5,6 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class ByteImageDTO {
+public class ByteImageDAO {
     private byte[] image;
 }

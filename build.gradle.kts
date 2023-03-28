@@ -27,6 +27,7 @@ dependencies {
 	implementation ("org.springframework.boot:spring-boot-starter-websocket")
 	implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.1")
 	implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity6")
+	implementation ("de.codecentric:spring-boot-admin-starter-client:3.0.2")
 	compileOnly("org.projectlombok:lombok")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
