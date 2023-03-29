@@ -17,8 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@Controller
-@Slf4j
+@Controller @Slf4j
 @RequiredArgsConstructor
 public class RecordLogController {
     private final RecordLogService recordLogService;
@@ -41,6 +40,9 @@ public class RecordLogController {
     public String FrmLogAdd(HttpServletRequest request, @RequestParam String contents
             , @AuthenticationPrincipal CustomUserDetails customUserDetails) throws Exception {
         if (customUserDetails != null) {
+            if (contents.length() > 50) {
+                contents = contents.substring(0, 50);
+            }
             recordLogService.addLog(new RecordLogDTO(0, contents, customUserDetails.getEmail(), customUserDetails.getUsername(), CurrentTime.getTime()));
             log.info("요청주소 : /record/frmlog\n" + "Action : record 작성" + "\n 요청자: " + customUserDetails.getEmail());
         }
