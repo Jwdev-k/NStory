@@ -1,7 +1,7 @@
 package nk.service.NStory.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import nk.service.NStory.dto.ByteImageDAO;
+import nk.service.NStory.dto.ByteImageDTO;
 import nk.service.NStory.dto.RankingDTO;
 import nk.service.NStory.repository.RankMapper;
 import nk.service.NStory.service.RankingServiceIF;
@@ -47,7 +47,7 @@ public class RankingService implements RankingServiceIF {
     }
 
     @Override
-    public ByteImageDAO getUserImage(int id) throws Exception {
+    public ByteImageDTO getUserImage(int id) throws Exception {
         return rankMapper.getUserImage(id);
     }
 

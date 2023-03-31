@@ -83,99 +83,44 @@
 </div>
 <button class="menu-btn" style="height: 50px; width: 50px"><img src="images/svg/menu.svg" alt="Menu"></button>
 <main>
-    <h2 class="container" style="background-color: #39393a; color: white; width: auto; padding: 10px;
-        border-radius: 1px 1px 10px 10px;">방명록</h2>
-    <div class="container">
-        <button sec:authorize="isAuthenticated()" class="btn btn-primary" onclick="openPop()"
-                style="width: 100%;">등록
-        </button>
-        <div class="row justify-content-center my-3">
-            <div class="col-sm-4" th:each="list : ${recordLogList}">
-                <div class="card mb-4 card-record border-primary">
-                    <div class="card-body">
-                        <p class="card-title" th:text="${list.contents}" style="font-size: 15px;"></p>
-                    </div>
-                    <div class="card-footer" style="border: 0;">
-                        <p class="card-text" th:text="${list.name}"></p>
-                        <th:block th:if="${#strings.equals(Email,list.email)}">
-                            <form method="post" action="/record/frmlog_delete">
-                                <button class="btn btn-danger btn-sm" type="submit" style="float: right;"
-                                        onclick="if(!confirm('삭제하시면 복구할수 없습니다. \n 정말로 삭제하시겠습니까??')){
-                                                    return false;
-                                                }">삭제
-                                </button>
-                                <input type="hidden" name="id" th:value="${list.id}">
-                                <input type="hidden" name="email" th:value="${list.email}">
-                            </form>
-                        </th:block>
-                        <p class="card-text" th:text="${list.time}"></p>
-                    </div>
+    <h2 class="container table-header" style="background-color: #39393a; color: white; width: auto; padding: 10px;
+        border-radius: 1px 1px 10px 10px;">자유게시판</h2>
+    <div class="container mt-3">
+        <form method="post" style="margin-left: 60%">
+            <label class="my-3">
+                <select class="form-select-sm">
+                    <option value="title">제목</option>
+                    <option value="content">내용</option>
+                    <option value="author">작성자</option>
+                </select>
+                <input type="text" class="form-control-sm" placeholder="검색어를 입력하세요">
+                <button class="btn btn-primary" type="submit">검색</button>
+            </label>
+        </form>
+        <a href="/whiteboard/add" class="btn btn-primary" style="margin-left: 19%;"><img src="images/svg/pencil-svgrepo-com.svg">작성하기</a>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="list-group">
+                    <a href="#" class="list-group-item my-2 text-white">
+                        <span class="badge">#1</span>
+                        <h2>게시글 제목1</h2>
+                        <p>작성자: 홍길동 | 작성일: 2023-03-31</p>
+                    </a>
+                    <a href="#" class="list-group-item my-2 text-white">
+                        <span class="badge">#2</span>
+                        <h2>게시글 제목2</h2>
+                        <p>작성자: 김철수 | 작성일: 2023-03-30</p>
+                    </a>
+                    <a href="#" class="list-group-item my-2 text-white">
+                        <span class="badge">#3</span>
+                        <h2>게시글 제목3</h2>
+                        <p>작성자: 김철수 | 작성일: 2023-03-30</p>
+                    </a>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="d-flex justify-content-center py-5" th:object="${pageMaker}">
-        <ul class="pagination">
-            <li class="page-item">
-                <a class="page-link bg-dark" th:href="@{/record(page=1)}"
-                   style="color: ghostwhite;" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-            <li class="page-item" th:if="${pageMaker.isPrev}">
-                <a class="page-link bg-dark" th:href="@{/record(page=${pageMaker.startPage - 10})}"
-                   style="color: ghostwhite;" aria-label="Previous">
-                    <span aria-hidden="true">&#60;</span>
-                </a>
-            </li>
-            <th:block th:each="page : ${#numbers.sequence(pageMaker.startPage,pageMaker.endPage)}">
-                <li class="page-item" th:if="${crtPage == page}">
-                    <a class="page-link bg-dark" style="color: red;"
-                       th:href="@{/record(page=${page})}" th:text="${page}"></a>
-                </li>
-                <li class="page-item" th:unless="${crtPage == page}">
-                    <a class="page-link bg-dark" style="color: ghostwhite;"
-                       th:href="@{/record(page=${page})}" th:text="${page}"></a>
-                </li>
-            </th:block>
-            <li class="page-item" th:if="${pageMaker.isNext}">
-                <a class="page-link bg-dark" th:href="@{/record(page=${pageMaker.endPage + 1})}"
-                   style="color: ghostwhite;"
-                   aria-label="Next">
-                    <span aria-hidden="true">&#62;</span>
-                </a>
-            </li>
-            <li class="page-item">
-                <a class="page-link bg-dark" th:href="@{/record(page=${pageMaker.lastEndPage})}"
-                   style="color: ghostwhite;"
-                   aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        </ul>
     </div>
 </main>
-<div class="modal" id="popup_layer" tabindex="-1" style="display: none;">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">등록하기</h5>
-                <button class="btn-close" onclick="closePop()" aria-label="Close"></button>
-            </div>
-            <!--팝업 컨텐츠 영역-->
-            <form method="post" action="/record/frmlog">
-                <div class="modal-body">
-                    <textarea name="contents" maxlength="50" placeholder="내용을 입력해 주세요."
-                              style="resize: none; width: 470px; height: 300px; padding: 10px;" required></textarea>
-                </div>
-                <div class="modal-footer">
-                    <a class="btn btn-secondary" onclick="closePop()">닫기</a>
-                    <button type="submit" class="btn btn-success">등록</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 <!-- Footer -->
 <footer class="py-3 bg-dark">
     <div class="container">
@@ -188,6 +133,7 @@
 <link rel="stylesheet" href="css/bootstrap.min.css">
 <link rel="stylesheet" href="css/bootstrap-utilities.css">
 <link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/whiteboard.css">
 <!-- 제이쿼리 -->
 <script src="https://code.jquery.com/jquery-3.6.3.js"
         integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="

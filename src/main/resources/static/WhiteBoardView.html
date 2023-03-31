@@ -4,7 +4,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="Content-Security-Policy" th:nonce="${nonce}">
   <title>NStory</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -51,7 +50,8 @@
         <label for="nickname">닉네임 :
           <input type="text" id="nickname" name="nickname" th:value="${account.username}" required></label>
         <label for="chooseImg">프로필 이미지 선택 :
-          <input type="file" id="chooseImg" name="profileImg" accept="image/jpeg, image/jpg, image/png"></label>
+          <input type="file" id="chooseImg" name="profileImg"
+                 accept="image/jpeg, image/jpg, image/png"></label>
         <label for="comment">소개글 :
           <input type="text" id="comment" name="comment" placeholder="소개글을 작성해주세요."
                  th:value="${account.comment}"></label>
@@ -82,18 +82,12 @@
   </ul>
 </div>
 <button class="menu-btn" style="height: 50px; width: 50px"><img src="images/svg/menu.svg" alt="Menu"></button>
-<main class="container vh-100">
-    <div class="row justify-content-center" style="margin-top: 20%;">
-      <div class="col-md-6 text-center mt-5 text-white">
-        <h2 class="display-4">죄송합니다.</h2>
-        <p class="lead">요청을 처리하는 중에 오류가 발생했습니다. 나중에 다시 시도 해주십시오. </p>
-        <p class="font-weight-bold" th:text="'Error code: ' + ${ErrorCode}"></p>
-        <a href="/" class="btn btn-primary">메인페이지로 돌아가기</a>
-      </div>
-    </div>
+<main>
+  <h2 class="container table-header" style="background-color: #39393a; color: white; width: auto; padding: 10px;
+        border-radius: 1px 1px 10px 10px;">자유게시판</h2>
 </main>
 <!-- Footer -->
-<footer class="py-3 bg-dark" >
+<footer class="py-3 bg-dark">
   <div class="container">
     <p class="m-0 text-center text-white">Copyright &copy; NStory 2023</p>
     <p class="m-0 text-center text-white">Discord : Gom._.Gom#3502</p>
@@ -101,16 +95,16 @@
 </footer>
 </body>
 <!-- 합쳐지고 최소화된 최신 CSS -->
-<link rel="stylesheet" href="css/bootstrap.min.css">
-<link rel="stylesheet" href="css/bootstrap-utilities.css">
-<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/bootstrap-utilities.css">
+<link rel="stylesheet" href="/css/main.css">
 <!-- 제이쿼리 -->
 <script src="https://code.jquery.com/jquery-3.6.3.js"
         integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
         crossorigin="anonymous"></script>
 <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
-<script src="js/bootstrap.min.js"></script>
-<script src="js/bootstrap.bundle.min.js"></script>
-<script src="js/popup.js"></script>
-<script src="js/menuEvent.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/bootstrap.bundle.min.js"></script>
+<script src="/js/popup.js"></script>
+<script src="/js/menuEvent.js"></script>
 </html>

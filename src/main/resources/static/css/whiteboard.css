@@ -1,0 +1,29 @@
+.list-group-item {
+    background-color: #2e2e2e;
+    border-color: #292929;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+.list-group-item h2 {
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+}
+.list-group-item p {
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+}
+.list-group {
+    max-width: 800px;
+    margin: 0 auto;
+}
+.list-group-item .badge {
+    margin-right: 5px;
+    background-color: #fff;
+    color: #212529;
+}
+.search-form {
+    max-width: 800px;
+    margin: 0 auto;
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
