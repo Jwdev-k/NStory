@@ -50,7 +50,8 @@
                 <label for="nickname">닉네임 :
                     <input type="text" id="nickname" name="nickname" th:value="${account.username}" required></label>
                 <label for="chooseImg">프로필 이미지 선택 :
-                    <input type="file" id="chooseImg" name="profileImg" accept="image/jpeg, image/jpg, image/png"></label>
+                    <input type="file" id="chooseImg" name="profileImg"
+                           accept="image/jpeg, image/jpg, image/png"></label>
                 <label for="comment">소개글 :
                     <input type="text" id="comment" name="comment" placeholder="소개글을 작성해주세요."
                            th:value="${account.comment}"></label>
@@ -85,33 +86,37 @@
         <p><span class="text-white" id="serverTime">loading...</span></p>
         <p class="text-white">현재 페이지는 개발중인 페이지입니다. 다양한 기능이 추가될 예정이니 기대해주세요!</p>
     </div>
-    <div class="container my-5">
+    <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-8 col-lg-6">
-                <div class="card-body p-0">
-                    <div class="bg-dark text-light p-3">
-                        <h4 class="mb-0">채팅방</h4>
-                    </div>
-                    <div class="chatbox p-3" id="chat-window">
-                        <p class="text-white" id="chat"></p>
+            <div class="col-md-8">
+                <div class="chat-window">
+                    <h3 class="fw-bold">채팅방</h3>
+                    <hr/>
+                    <div class="message-list" id="chat-window">
+                        <!-- 채팅내용 <div> -->
                     </div>
                     <div class="input-group">
-                        <input type="text" id="message" class="form-control" placeholder="메시지를 입력하세요">
+                        <input type="text" id="message" class="form-control" placeholder="메시지를 입력하세요" maxlength="100">
                         <div class="input-group-append">
                             <button type="button" class="btn btn-primary" onclick="sendMessage()">전송</button>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="chat-user-list text-white">
-                <p class="fw-bold" id="user-list-count">유저 리스트(0)</p>
-                <p id="user-list"></p>
+            <div class="col-md-2">
+                <div class="user-list">
+                    <h5 class="fw-bold" id="user-list-count">유저 리스트(0)</h5>
+                    <hr/>
+                    <div class="user" id="user-list">
+                        <!-- 유저리스트 <p>-->
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </main>
 <!-- Footer -->
-<footer class="py-3 bg-dark" >
+<footer class="py-3 bg-dark">
     <div class="container">
         <p class="m-0 text-center text-white">Copyright &copy; NStory 2023</p>
         <p class="m-0 text-center text-white">Discord : Gom._.Gom#3502</p>

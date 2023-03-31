@@ -22,4 +22,9 @@ public class UpdateStatus {
             accountMapper.UpdateCoin(100, email);
         }
     }
+
+    @Transactional
+    public void addNCoin(int count, String email) throws Exception {
+        accountMapper.UpdateCoin(count, email);
+    }
 }

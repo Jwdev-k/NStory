@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nk.service.NStory.dto.RecordLogDTO;
 import nk.service.NStory.security.CustomUserDetails;
+import nk.service.NStory.service.impl.AccountService;
 import nk.service.NStory.service.impl.RecordLogService;
 import nk.service.NStory.utils.CurrentTime;
 import nk.service.NStory.utils.PageUtil;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequiredArgsConstructor
 public class RecordLogController {
     private final RecordLogService recordLogService;
+    private final AccountService accountService;
     private static final PageUtil pageUtil = new PageUtil();
 
     @RequestMapping(value = "/record")
@@ -29,6 +31,7 @@ public class RecordLogController {
         model.addAttribute("Email", customUserDetails != null ? customUserDetails.getEmail() : null);
         model.addAttribute("recordLogList", recordLogService.recordLogList(page));
         int totalCount = recordLogService.totalCount();
+        pageUtil.setPerPageNum(18);
         pageUtil.setPage(page);
         pageUtil.setTotalCount(totalCount > 0 ? totalCount : 1);
         model.addAttribute("pageMaker", pageUtil);

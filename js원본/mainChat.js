@@ -1,4 +1,4 @@
-var ws = new WebSocket("wss://nstory.xyz" + "/mainChat");
+var ws = new WebSocket("ws://" + location.host + "/mainChat");
 ws.onmessage = function(event) {
     var message = JSON.parse(event.data);
 
@@ -6,9 +6,31 @@ ws.onmessage = function(event) {
     var content = message.content;
 
     if (type === "CHAT_TYPE") {
-        var p = document.createElement("p");
-        p.appendChild(document.createTextNode(content));
-        document.getElementById("chat").appendChild(p);
+        var con = content.substr(9, content.size).split(":");
+
+        // div 요소 생성
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add('message');
+
+        const userName = document.createElement("p")
+        userName.classList.add('fw-bold')
+        userName.textContent = con[0];
+        messageDiv.appendChild(userName);
+
+        // message-bubble 클래스를 가진 div 요소 생성
+        const messageBubble = document.createElement('div');
+        messageBubble.classList.add('message-bubble');
+        messageBubble.textContent = con[1];
+        messageBubble.style.marginLeft = "20px";
+        messageDiv.appendChild(messageBubble);
+
+        // message-time 클래스를 가진 div 요소 생성
+        const messageTime = document.createElement('div');
+        messageTime.classList.add('message-time');
+        messageTime.textContent = content.substr(0, 8);
+        messageDiv.appendChild(messageTime);
+
+        document.getElementById("chat-window").appendChild(messageDiv);
     } else if (type === "USER_LIST") {
         const item = document.getElementById("user-list").querySelectorAll("#user-list-item");
         if (item != null) {
