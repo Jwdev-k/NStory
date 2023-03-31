@@ -29,6 +29,10 @@ public class ChatHandler extends TextWebSocketHandler {
             userList.put(session.getId(), session.getPrincipal().getName());
         }
         sendUserList();
+        ChatMessage chatMessage = new ChatMessage();
+        chatMessage.setChatType(ChatType.CHAT_TYPE);
+        chatMessage.setContent(CurrentTime.getTime2() + " 시스템 : " + "채팅방과 연결되었습니다.");
+        session.sendMessage(new TextMessage(objectMapper.writeValueAsString(chatMessage)));
     }
 
     @Override
