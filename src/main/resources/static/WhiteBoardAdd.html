@@ -14,6 +14,13 @@
             font-size: 14px;
         }
     </style>
+    <!-- SummerNote Function-->
+    <script src="https://code.jquery.com/jquery-3.6.3.js"
+            integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
+            crossorigin="anonymous"></script>
+    <script src="summernote/summernote-lite.js"></script>
+    <script src="summernote/lang/summernote-ko-KR.js"></script>
+    <link rel="stylesheet" href="summernote/summernote-lite.css">
 </head>
 <body style="overflow-x: hidden;background-color: #212529;">
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="border-bottom:1px solid gold">
@@ -81,10 +88,25 @@
             <br/>현재 테스트 작업중이며 버그 신고는 ckaksj97@gmail.com으로 부탁드립니다.</p></li>
     </ul>
 </div>
-<button class="menu-btn" style="height: 50px; width: 50px"><img src="/images/svg/menu.svg" alt="Menu"></button>
+<button class="menu-btn" style="height: 50px; width: 50px"><img src="images/svg/menu.svg" alt="Menu"></button>
 <main>
     <h2 class="container table-header" style="background-color: #39393a; color: white; width: auto; padding: 10px;
         border-radius: 1px 1px 10px 10px;">자유게시판</h2>
+    <div class="container">
+        <form method="post" accept-charset="UTF-8" action="/whiteboard/add">
+            <label for="title" class="input-group-text fw-bold" style="font-size: 20px; margin: 50px;">
+                Title:<input class="input-group form-text" type="text" name="title" id="title" required maxlength="50"
+                             placeholder="타이틀을 작성해주세요.">
+            </label>
+            <textarea name="editordata" id="summernote"></textarea>
+            <button type="submit" class="btn btn-success d-block"
+                    style="margin-top: 10px; margin-bottom: 10px; margin-left: 85%;"
+                    onclick="if(!confirm('정말로 저장하시겠습니까??')){
+                                return false;
+                            }">저장
+            </button>
+        </form>
+    </div>
 </main>
 <!-- Footer -->
 <footer class="py-3 bg-dark">
@@ -94,17 +116,13 @@
     </div>
 </footer>
 </body>
-<!-- 합쳐지고 최소화된 최신 CSS -->
-<link rel="stylesheet" href="/css/bootstrap.min.css">
-<link rel="stylesheet" href="/css/bootstrap-utilities.css">
-<link rel="stylesheet" href="/css/main.css">
-<!-- 제이쿼리 -->
-<script src="https://code.jquery.com/jquery-3.6.3.js"
-        integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
-        crossorigin="anonymous"></script>
-<!-- 합쳐지고 최소화된 최신 자바스크립트 -->
-<script src="/js/bootstrap.min.js"></script>
-<script src="/js/bootstrap.bundle.min.js"></script>
-<script src="/js/popup.js"></script>
-<script src="/js/menuEvent.js"></script>
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/bootstrap-utilities.css">
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/whiteboard.css">
+<script src="js/bootstrap.min.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
+<script src="js/popup.js"></script>
+<script src="js/menuEvent.js"></script>
+<script src="js/customnote.js"></script>
 </html>

@@ -14,6 +14,9 @@
       font-size: 14px;
     }
   </style>
+  <script src="https://code.jquery.com/jquery-3.6.3.js"
+          integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
+          crossorigin="anonymous"></script>
 </head>
 <body style="overflow-x: hidden;background-color: #212529;">
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="border-bottom:1px solid gold">
@@ -85,6 +88,28 @@
 <main>
   <h2 class="container table-header" style="background-color: #39393a; color: white; width: auto; padding: 10px;
         border-radius: 1px 1px 10px 10px;">자유게시판</h2>
+  <div class="container my-5 bg-white" style="border-radius: 10px 10px; min-height: 800px; height: auto;">
+    <div class="py-3" th:object="${boardInfo}">
+      <h1 th:text="*{title}"></h1>
+      <p class="text-muted" th:text="'작성자: ' + *{author} + ' | 작성일자: ' + *{creationDate}"></p>
+      <hr>
+      <p th:utext="*{contents}">게시글 내용</p>
+      <div class="p-3">
+        <th:block th:if="${#strings.equals(boardInfo.email,account.email)}">
+          <form method="post" action="/whiteboard/delete">
+            <a class="btn btn-primary" href="/whiteboard">목록</a>
+            <input type="hidden" name="id" th:value="*{id}">
+            <input type="hidden" name="email" th:value="*{email}">
+            <input type="submit" class="btn btn-danger"
+                   onclick="if(!confirm('삭제하시면 되돌릴수 없습니다. \n 정말로 삭제하시겠습니까??')){
+                                  return false;
+                              }" value="삭제">
+          </form>
+        </th:block>
+        <a class="btn btn-primary" href="/whiteboard" th:unless="${#strings.equals(boardInfo.email,account.email)}">목록</a>
+      </div>
+    </div>
+  </div>
 </main>
 <!-- Footer -->
 <footer class="py-3 bg-dark">
@@ -95,16 +120,12 @@
 </footer>
 </body>
 <!-- 합쳐지고 최소화된 최신 CSS -->
-<link rel="stylesheet" href="/css/bootstrap.min.css">
-<link rel="stylesheet" href="/css/bootstrap-utilities.css">
-<link rel="stylesheet" href="/css/main.css">
-<!-- 제이쿼리 -->
-<script src="https://code.jquery.com/jquery-3.6.3.js"
-        integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
-        crossorigin="anonymous"></script>
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/bootstrap-utilities.css">
+<link rel="stylesheet" href="css/main.css">
 <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
-<script src="/js/bootstrap.min.js"></script>
-<script src="/js/bootstrap.bundle.min.js"></script>
-<script src="/js/popup.js"></script>
-<script src="/js/menuEvent.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
+<script src="js/popup.js"></script>
+<script src="js/menuEvent.js"></script>
 </html>

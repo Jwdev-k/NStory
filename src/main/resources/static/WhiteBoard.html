@@ -14,6 +14,9 @@
             font-size: 14px;
         }
     </style>
+    <script src="https://code.jquery.com/jquery-3.6.3.js"
+            integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
+            crossorigin="anonymous"></script>
 </head>
 <body style="overflow-x: hidden;background-color: #212529;">
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="border-bottom:1px solid gold">
@@ -97,27 +100,59 @@
                 <button class="btn btn-primary" type="submit">검색</button>
             </label>
         </form>
-        <a href="/whiteboard/add" class="btn btn-primary" style="margin-left: 19%;"><img src="images/svg/pencil-svgrepo-com.svg">작성하기</a>
+        <a href="/whitepost" class="btn btn-primary" style="margin-left: 19%;" sec:authorize="isAuthenticated()"><img src="images/svg/pencil-svgrepo-com.svg">작성하기</a>
         <div class="row">
             <div class="col-md-12">
                 <div class="list-group">
-                    <a href="#" class="list-group-item my-2 text-white">
-                        <span class="badge">#1</span>
-                        <h2>게시글 제목1</h2>
-                        <p>작성자: 홍길동 | 작성일: 2023-03-31</p>
+                    <th:block th:each="list : ${boardList}">
+                    <a th:href="@{/whiteview(id=${list.id})}" class="list-group-item my-2 text-white">
+                        <span class="badge" th:text="'#' + ${list.id}"></span>
+                        <h2 th:text="${list.title}"></h2>
+                        <p th:text="'작성자: ' + ${list.author} + ' | 작성일: ' + ${list.creationDate}"></p>
                     </a>
-                    <a href="#" class="list-group-item my-2 text-white">
-                        <span class="badge">#2</span>
-                        <h2>게시글 제목2</h2>
-                        <p>작성자: 김철수 | 작성일: 2023-03-30</p>
-                    </a>
-                    <a href="#" class="list-group-item my-2 text-white">
-                        <span class="badge">#3</span>
-                        <h2>게시글 제목3</h2>
-                        <p>작성자: 김철수 | 작성일: 2023-03-30</p>
-                    </a>
+                    </th:block>
                 </div>
             </div>
+        </div>
+        <div class="d-flex justify-content-center my-3" th:object="${pageMaker}">
+            <ul class="pagination">
+                <li class="page-item">
+                    <a class="page-link" th:href="@{/ranking(page=1)}"
+                       style="color: black;" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li class="page-item" th:if="${pageMaker.isPrev}">
+                    <a class="page-link" th:href="@{/ranking(page=${pageMaker.startPage - 10})}"
+                       style="color: black;" aria-label="Previous">
+                        <span aria-hidden="true">&#60;</span>
+                    </a>
+                </li>
+                <th:block th:each="page : ${#numbers.sequence(pageMaker.startPage,pageMaker.endPage)}">
+                    <li class="page-item" th:if="${pageMaker.page == page}">
+                        <a class="page-link" style="color: red;"
+                           th:href="@{/whiteboard(page=${page})}" th:text="${page}"></a>
+                    </li>
+                    <li class="page-item" th:unless="${pageMaker.page == page}">
+                        <a class="page-link" style="color: black;"
+                           th:href="@{/whiteboard(page=${page})}" th:text="${page}"></a>
+                    </li>
+                </th:block>
+                <li class="page-item" th:if="${pageMaker.isNext}">
+                    <a class="page-link" th:href="@{/whiteboard(page=${pageMaker.endPage + 1})}"
+                       style="color: black;"
+                       aria-label="Next">
+                        <span aria-hidden="true">&#62;</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" th:href="@{/whiteboard(page=${pageMaker.lastEndPage})}"
+                       style="color: black;"
+                       aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
         </div>
     </div>
 </main>
@@ -134,10 +169,6 @@
 <link rel="stylesheet" href="css/bootstrap-utilities.css">
 <link rel="stylesheet" href="css/main.css">
 <link rel="stylesheet" href="css/whiteboard.css">
-<!-- 제이쿼리 -->
-<script src="https://code.jquery.com/jquery-3.6.3.js"
-        integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
-        crossorigin="anonymous"></script>
 <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
 <script src="js/bootstrap.min.js"></script>
 <script src="js/bootstrap.bundle.min.js"></script>

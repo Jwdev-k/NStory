@@ -13,4 +13,11 @@ public class WhiteBoard {
     private String email;
     private String creationDate;
     private boolean isEnable;
+
+    public WhiteBoard(int id, String title, String author, String creationDate) {
+        this.id = id;
+        this.title = title;
+        this.author = author;
+        this.creationDate = creationDate;
+    }
 }

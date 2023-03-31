@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nk.service.NStory.dto.RecordLogDTO;
 import nk.service.NStory.security.CustomUserDetails;
-import nk.service.NStory.service.impl.AccountService;
 import nk.service.NStory.service.impl.RecordLogService;
 import nk.service.NStory.utils.CurrentTime;
 import nk.service.NStory.utils.PageUtil;
@@ -22,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequiredArgsConstructor
 public class RecordLogController {
     private final RecordLogService recordLogService;
-    private final AccountService accountService;
     private static final PageUtil pageUtil = new PageUtil();
 
     @RequestMapping(value = "/record")
@@ -55,9 +53,9 @@ public class RecordLogController {
     @PostMapping(value = "/record/frmlog_delete")
     public String FrmLogDelete(@AuthenticationPrincipal CustomUserDetails customUserDetails, HttpServletResponse response
             , HttpServletRequest request, @RequestParam int id, @RequestParam String email) throws Exception {
-        log.info("요청주소 : /record/frmlog_delete\n" + "Action :" + id + "번 게시물 삭제\n" + "요청자: " + email);
         if (customUserDetails.getEmail().equals(email)) {
             recordLogService.deleteLog(id, email);
+            log.info("요청주소 : /record/frmlog_delete\n" + "Action :" + id + "번 게시물 삭제\n" + "요청자: " + email);
         } else {
             ScriptUtils.alertAndBackPage(response, "[오류] 권한이 없습니다.");
         }

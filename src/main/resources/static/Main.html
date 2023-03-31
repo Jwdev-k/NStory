@@ -14,6 +14,9 @@
             font-size: 14px;
         }
     </style>
+    <script src="https://code.jquery.com/jquery-3.6.3.js"
+            integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
+            crossorigin="anonymous"></script>
 </head>
 <body style="overflow-x: hidden;background-color: #212529;">
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="border-bottom:1px solid gold">
@@ -83,7 +86,7 @@
 </div>
 <button class="menu-btn" style="height: 50px; width: 50px"><img src="images/svg/menu.svg" alt="Menu"></button>
 <main>
-    <div class="container jumbotron">
+    <div class="container jumbotron" style="background-image: url('images/mainImg.png'); background-position-y: 20%;">
         <h1 class="text-white">개발중</h1>
         <p><span class="text-white" id="serverTime">loading...</span></p>
         <p class="text-white">현재 페이지는 개발중인 페이지입니다. 다양한 기능이 추가될 예정이니 기대해주세요!</p>
@@ -105,13 +108,11 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-2">
-                <div class="user-list">
-                    <h5 class="fw-bold" id="user-list-count">유저 리스트(0)</h5>
-                    <hr/>
-                    <div class="user" id="user-list">
-                        <!-- 유저리스트 <p>-->
-                    </div>
+            <div class="user-list col-md-2">
+                <h5 class="fw-bold" id="user-list-count">유저 리스트(0)</h5>
+                <hr/>
+                <div class="user" id="user-list">
+                    <!-- 유저리스트 <p>-->
                 </div>
             </div>
         </div>
@@ -129,10 +130,6 @@
 <link rel="stylesheet" href="css/bootstrap.min.css">
 <link rel="stylesheet" href="css/bootstrap-utilities.css">
 <link rel="stylesheet" href="css/main.css">
-<!-- 제이쿼리 -->
-<script src="https://code.jquery.com/jquery-3.6.3.js"
-        integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
-        crossorigin="anonymous"></script>
 <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
 <script src="js/bootstrap.min.js"></script>
 <script src="js/bootstrap.bundle.min.js"></script>

@@ -27,3 +27,14 @@
     margin-top: 20px;
     margin-bottom: 40px;
 }
+label{
+    display: block;
+    margin-bottom: 5px;
+}
+.note-editable {
+    background-color: white !important;
+}
+.post-container {
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    padding: 30px;
+}
