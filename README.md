@@ -1,6 +1,6 @@
 # :paperclip: NStory Web Project
 > NStory는 커뮤니티 사이트의 기본이되는 기능은 모두 담겨있는 프로젝트입니다.
-> 
+
 ### 📝사용기술
 #### 1. 백엔드
 #### 📗 주요 프레임워크 / 라이브러리
@@ -21,6 +21,7 @@
 - HTML/CSS
 - BootStrap
 - JavaScript
+- Summernote
 
 ### 💡 설치방법
 1. repository 클론방법:
@@ -50,3 +51,6 @@ Gradle:
     cd NStory
     gradle bootRun
     ```
+   
+### 📷 메인화면
+<img src="https://user-images.githubusercontent.com/82058641/229183420-6dba2e72-0a0e-48bc-be7b-2b1b7ddbcf37.png">
