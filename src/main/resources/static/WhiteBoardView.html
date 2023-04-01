@@ -95,7 +95,7 @@
       <hr>
       <p th:utext="*{contents}">게시글 내용</p>
       <div class="p-3">
-        <th:block th:if="${#strings.equals(boardInfo.email,account.email)}">
+        <th:block th:if="${account != null} and ${#strings.equals(boardInfo.email,account.email)}">
           <form method="post" action="/whiteboard/delete">
             <a class="btn btn-primary" href="/whiteboard">목록</a>
             <input type="hidden" name="id" th:value="*{id}">
@@ -106,7 +106,7 @@
                               }" value="삭제">
           </form>
         </th:block>
-        <a class="btn btn-primary" href="/whiteboard" th:unless="${#strings.equals(boardInfo.email,account.email)}">목록</a>
+        <a class="btn btn-primary" href="/whiteboard" th:unless="${account != null} and ${#strings.equals(boardInfo.email,account.email)}">목록</a>
       </div>
     </div>
   </div>

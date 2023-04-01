@@ -102,7 +102,7 @@ CREATE TABLE `recordlog` (
 CREATE TABLE `whiteboard` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '번호',
   `title` varchar(50) NOT NULL COMMENT '제목',
-  `contents` text NOT NULL COMMENT '내용',
+  `contents` longtext NOT NULL COMMENT '내용',
   `author` varchar(100) NOT NULL COMMENT '작성자',
   `email` varchar(50) NOT NULL COMMENT '작성자 이메일',
   `creationDate` varchar(19) NOT NULL DEFAULT '1999-01-01',
