@@ -38,3 +38,12 @@ label{
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
     padding: 30px;
 }
+.note-modal-content {
+    height: 40%;
+}
+.title {
+    font-size: 20px;
+    margin: 50px;
+    background-color: #303030;
+    color: white;
+}

@@ -60,11 +60,13 @@ public class BoardController {
     }
 
     @GetMapping(value = "/whiteview")
-    public String boardView(@AuthenticationPrincipal CustomUserDetails customUserDetails, HttpServletRequest request
-            ,@RequestParam int id) throws Exception {
+    public String boardView(HttpServletRequest request, @RequestParam int id) throws Exception {
         WhiteBoard wb = whiteBoardService.getBoardView(id);
-        request.setAttribute("boardInfo", wb);
-        return "WhiteBoardView";
+        if (wb != null) {
+            request.setAttribute("boardInfo", wb);
+            return "WhiteBoardView";
+        }
+        return "redirect:/whiteboard";
     }
 
     @PostMapping(value = "/whiteboard/delete")

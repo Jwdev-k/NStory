@@ -19,7 +19,7 @@ public class WhiteBoardService implements WhiteBoardServiceIF {
         if (start == 1 || start < 1) {
             return whiteBoardMapper.boardList(0);
         } else {
-            return whiteBoardMapper.boardList((start - 1) * 18);
+            return whiteBoardMapper.boardList((start - 1) * 10);
         }
     }
 

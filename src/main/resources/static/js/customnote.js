@@ -1,21 +1,21 @@
 $(document).ready(function () {
-    var fontList = ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', '맑은 고딕', '궁서', '굴림체', '굴림', '돋움체', '바탕체'];
+    var fontList = ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', 'Noto Sans KR', '맑은 고딕', '궁서', '굴림체', '굴림', '돋움체', '바탕체'];
     //여기 아래 부분
     $('#summernote').summernote({
         dialogsInBody: true,
         height: 600,                 // 에디터 높이
-        minHeight: 0,             // 최소 높이
-        maxHeight: 0,             // 최대 높이
+        minHeight: 600,             // 최소 높이
+        maxHeight: 600,             // 최대 높이
         focus: true,                  // 에디터 로딩후 포커스를 맞출지 여부
         lang: "ko-KR",					// 한글 설정
         placeholder: '내용을 작성해주세요.',
         tabDisable: false,
         toolbar: [
             // [groupName, [list of button]]
-            ['font',['fontname','fontsize','fontsizeunit']],
-            ['fontstyle', ['bold','italic','underline','strikethrough','forecolor','color','backcolor','superscript','subscript','clear']],
+            ['font',['fontname','fontsize']],
+            ['style', ['bold','italic','underline','strikethrough','superscript','subscript','clear']],
+            ['color', ['forecolor', 'backcolor']],
             ['misc', ['undo', 'redo']],
-            ['table', ['table']],
             ['para', ['ul', 'ol', 'paragraph']],
             ['height', ['height']],
             ['insert', ['picture', 'link', 'video']],
@@ -41,10 +41,18 @@ $(document).ready(function () {
                 $('.note-resizebar').css({
                     display: 'none'
                 })
+            },
+            onfont: function(size) {
+                // 현재 선택된 폰트색 가져오기
+                var color = $('.note-color').val();
+                // 선택된 폰트크기와 폰트색으로 폰트 스타일 지정
+                $('#summernote').summernote('createRange').css({
+                    'font-size': size + 'px',
+                    'color': color,
+                });
             }
         }
     });
-    $('#summernote').summernote('fontName', '맑은 고딕');
 });
 
 function uploadSummernoteImageFile(file, editor) {

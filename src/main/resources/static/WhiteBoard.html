@@ -117,37 +117,37 @@
         <div class="d-flex justify-content-center my-3" th:object="${pageMaker}">
             <ul class="pagination">
                 <li class="page-item">
-                    <a class="page-link" th:href="@{/ranking(page=1)}"
-                       style="color: black;" aria-label="Previous">
+                    <a class="page-link bg-dark" th:href="@{/ranking(page=1)}"
+                       style="color: ghostwhite;" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
                 <li class="page-item" th:if="${pageMaker.isPrev}">
-                    <a class="page-link" th:href="@{/ranking(page=${pageMaker.startPage - 10})}"
-                       style="color: black;" aria-label="Previous">
+                    <a class="page-link bg-dark" th:href="@{/ranking(page=${pageMaker.startPage - 10})}"
+                       style="color: ghostwhite;" aria-label="Previous">
                         <span aria-hidden="true">&#60;</span>
                     </a>
                 </li>
                 <th:block th:each="page : ${#numbers.sequence(pageMaker.startPage,pageMaker.endPage)}">
                     <li class="page-item" th:if="${pageMaker.page == page}">
-                        <a class="page-link" style="color: red;"
+                        <a class="page-link bg-dark" style="color: red;"
                            th:href="@{/whiteboard(page=${page})}" th:text="${page}"></a>
                     </li>
                     <li class="page-item" th:unless="${pageMaker.page == page}">
-                        <a class="page-link" style="color: black;"
+                        <a class="page-link bg-dark" style="color: ghostwhite;"
                            th:href="@{/whiteboard(page=${page})}" th:text="${page}"></a>
                     </li>
                 </th:block>
                 <li class="page-item" th:if="${pageMaker.isNext}">
-                    <a class="page-link" th:href="@{/whiteboard(page=${pageMaker.endPage + 1})}"
-                       style="color: black;"
+                    <a class="page-link bg-dark" th:href="@{/whiteboard(page=${pageMaker.endPage + 1})}"
+                       style="color: ghostwhite;"
                        aria-label="Next">
                         <span aria-hidden="true">&#62;</span>
                     </a>
                 </li>
                 <li class="page-item">
-                    <a class="page-link" th:href="@{/whiteboard(page=${pageMaker.lastEndPage})}"
-                       style="color: black;"
+                    <a class="page-link bg-dark" th:href="@{/whiteboard(page=${pageMaker.lastEndPage})}"
+                       style="color: ghostwhite;"
                        aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
                     </a>
