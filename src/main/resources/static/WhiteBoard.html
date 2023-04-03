@@ -117,13 +117,13 @@
         <div class="d-flex justify-content-center my-3" th:object="${pageMaker}">
             <ul class="pagination">
                 <li class="page-item">
-                    <a class="page-link bg-dark" th:href="@{/ranking(page=1)}"
+                    <a class="page-link bg-dark" th:href="@{/whiteboard(page=1)}"
                        style="color: ghostwhite;" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
                 <li class="page-item" th:if="${pageMaker.isPrev}">
-                    <a class="page-link bg-dark" th:href="@{/ranking(page=${pageMaker.startPage - 10})}"
+                    <a class="page-link bg-dark" th:href="@{/whiteboard(page=${pageMaker.startPage - 10})}"
                        style="color: ghostwhite;" aria-label="Previous">
                         <span aria-hidden="true">&#60;</span>
                     </a>
