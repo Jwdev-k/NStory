@@ -20,4 +20,12 @@ public class WhiteBoard {
         this.author = author;
         this.creationDate = creationDate;
     }
+
+    public WhiteBoard(int id, String title, String contents, String author, String email) {
+        this.id = id;
+        this.title = title;
+        this.contents = contents;
+        this.author = author;
+        this.email = email;
+    }
 }

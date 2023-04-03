@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NStory</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 14px;
+        }
+    </style>
+    <!-- SummerNote Function-->
+    <script src="https://code.jquery.com/jquery-3.6.3.js"
+            integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
+            crossorigin="anonymous"></script>
+    <script src="summernote/summernote-lite.js"></script>
+    <script src="summernote/lang/summernote-ko-KR.js"></script>
+    <link rel="stylesheet" href="summernote/summernote-lite.css">
+</head>
+<body style="overflow-x: hidden;background-color: #212529;">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="border-bottom:1px solid gold">
+    <div class="container">
+        <a class="navbar-brand" href="/">NStory</a>
+        <ul class="navbar-nav right-0">
+            <li class="box" th:if="${account.profileImg != null}" sec:authorize="isAuthenticated()">
+                <img class="profile" th:src="@{/storage/prf/img}" alt=""></li>
+            <li class="box" th:unless="${account.profileImg != null}" sec:authorize="isAuthenticated()">
+                <img class="profile" src="images/default_profileImg.png" alt=""></li>
+            <li class="nav-item" sec:authorize="isAuthenticated()">
+                <a class="nav-link" href="javascript:openUserInfo()" th:text="${account.username}"></a></li>
+            <li class="nav-item" sec:authorize="isAuthenticated()">
+                <a class="nav-link" th:text="${account.authorities}"></a></li>
+            <li class="nav-item" th:if="${#authentication != null}">
+                <a class="nav-link" href="/logout">로그아웃</a></li>
+            <li class="nav-item" th:unless="${#authentication != null}">
+                <a class="nav-link" href="/login">로그인</a></li>
+            <!--            <form class="navbar-form">
+                            <input type="text" class="form-control" placeholder="Search...">
+                        </form>-->
+        </ul>
+    </div>
+</nav>
+<div class="modal" id="userInfo" tabindex="-1" style="display: none;" sec:authorize="isAuthenticated()">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">프로필 정보 수정</h5>
+                <button class="btn-close" onclick="closeUserInfo()" aria-label="Close"></button>
+            </div>
+            <!--팝업 컨텐츠 영역-->
+            <form method="post" enctype="multipart/form-data" action="account/profile_update">
+                <label for="nickname">닉네임 :
+                    <input type="text" id="nickname" name="nickname" th:value="${account.username}" required></label>
+                <label for="chooseImg">프로필 이미지 선택 :
+                    <input type="file" id="chooseImg" name="profileImg"
+                           accept="image/jpeg, image/jpg, image/png"></label>
+                <label for="comment">소개글 :
+                    <input type="text" id="comment" name="comment" placeholder="소개글을 작성해주세요."
+                           th:value="${account.comment}"></label>
+                <div class="modal-footer">
+                    <a class="btn btn-secondary" onclick="closeUserInfo()">닫기</a>
+                    <button type="submit" class="btn btn-success"
+                            onclick="if(!confirm('저장하시면 되돌릴수 없습니다. \n 정말로 저장하시겠습니까??')){
+                                return false;
+                            }">저장
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="menu-wrapper">
+    <ul class="menu">
+        <li><h3 class="text-white">메뉴</h3></li>
+        <li><a href="/whiteboard">자유게시판</a></li>
+        <li><a href="/record">방명록</a></li>
+        <li><a href="/ranking">랭킹</a></li>
+        <li><a href="/shop">NStory SHOP</a></li>
+        <li><a sec:authorize="hasRole('ROLE_ADMIN')" href="#">유저 관리</a></li>
+    </ul>
+    <ul class="menu-info">
+        <li><p class="text-center text-white">개발중인 메뉴입니다.
+            <br/>현재 테스트 작업중이며 버그 신고는 ckaksj97@gmail.com으로 부탁드립니다.</p></li>
+    </ul>
+</div>
+<button class="menu-btn" style="height: 50px; width: 50px"><img src="images/svg/menu.svg" alt="Menu"></button>
+<main>
+    <h2 class="container table-header" style="background-color: #39393a; color: white; width: auto; padding: 10px;
+        border-radius: 1px 1px 10px 10px;">자유게시판</h2>
+    <div class="container" th:object="${boardInfo}">
+        <form method="post" accept-charset="UTF-8" action="/whiteboard/update">
+            <label for="title" class="input-group-text fw-bold title">
+                Title:<input class="input-group form-text" type="text" name="title" id="title" required maxlength="50"
+                             th:value="*{title}" placeholder="타이틀을 작성해주세요.">
+            </label>
+            <textarea name="editordata" id="summernote" th:utext="*{contents}"></textarea>
+            <input type="hidden" name="id" th:value="*{id}">
+            <button type="submit" class="btn btn-success d-block"
+                    style="margin-top: 10px; margin-bottom: 10px; margin-left: 85%;"
+                    onclick="if(!confirm('정말로 수정하시겠습니까??')){
+                                return false;
+                            }">수정
+            </button>
+        </form>
+    </div>
+</main>
+<!-- Footer -->
+<footer class="py-3 bg-dark">
+    <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; NStory 2023</p>
+        <p class="m-0 text-center text-white">Discord : Gom._.Gom#3502</p>
+    </div>
+</footer>
+</body>
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/bootstrap-utilities.css">
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/whiteboard.css">
+<script src="js/bootstrap.min.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
+<script src="js/popup.js"></script>
+<script src="js/menuEvent.js"></script>
+<script src="js/customnote.js"></script>
+</html>

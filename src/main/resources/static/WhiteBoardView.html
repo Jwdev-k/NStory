@@ -98,6 +98,7 @@
         <th:block th:if="${account != null} and ${#strings.equals(boardInfo.email,account.email)}">
           <form method="post" action="/whiteboard/delete">
             <a class="btn btn-primary" href="/whiteboard">목록</a>
+            <a class="btn btn-warning" th:href="@{/whitepostup(id=*{id})}">수정</a>
             <input type="hidden" name="id" th:value="*{id}">
             <input type="hidden" name="email" th:value="*{email}">
             <input type="submit" class="btn btn-danger"

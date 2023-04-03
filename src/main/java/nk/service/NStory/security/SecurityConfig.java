@@ -57,7 +57,7 @@ public class SecurityConfig {
                 .userService(oAuth2LoginService); // 소셜 로그인을 위한 클래스 설정*/
 
         http.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .clearAuthentication(true).logoutSuccessUrl("/login").invalidateHttpSession(true).deleteCookies("JSESSIONID");
+                .clearAuthentication(true).logoutSuccessUrl("/").invalidateHttpSession(true).deleteCookies("JSESSIONID");
 
         http.sessionManagement()
                 .invalidSessionUrl("/login").maximumSessions(1).maxSessionsPreventsLogin(true).expiredUrl("/login")

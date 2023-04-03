@@ -10,4 +10,5 @@ public interface WhiteBoardServiceIF {
     int totalCount() throws Exception;
     void insertBoard(WhiteBoard wb) throws Exception;
     void deleteBoard(int id, String email) throws Exception;
+    void updateBoard(WhiteBoard wb) throws Exception;
 }

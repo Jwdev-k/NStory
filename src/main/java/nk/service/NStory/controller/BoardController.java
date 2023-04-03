@@ -47,6 +47,7 @@ public class BoardController {
         }
         return "WhiteBoardAdd";
     }
+
     @PostMapping(value = "/whiteboard/add")
     public String addBoard2(@AuthenticationPrincipal CustomUserDetails customUserDetails, HttpServletRequest request
             ,@RequestParam String title, @RequestParam String editordata) throws Exception {
@@ -81,6 +82,34 @@ public class BoardController {
         }
         return "redirect:/whiteboard";
     }
+
+    @GetMapping(value = "/whitepostup")
+    public String updateBoard(@AuthenticationPrincipal CustomUserDetails customUserDetails, HttpServletRequest request,
+                              @RequestParam int id) throws Exception {
+        if (customUserDetails == null) {
+            return "redirect:" + request.getHeader("referer");
+        }
+        WhiteBoard wb = whiteBoardService.getBoardView(id);
+        if (wb != null && wb.getEmail().equals(customUserDetails.getEmail())) {
+            request.setAttribute("boardInfo", wb);
+            return "WhiteBoardEdit";
+        } else {
+            return "redirect:/whiteboard";
+        }
+    }
+
+    @PostMapping(value = "/whiteboard/update")
+    public String updateBoard2(@AuthenticationPrincipal CustomUserDetails customUserDetails, HttpServletRequest request,
+            @RequestParam int id, @RequestParam String title, @RequestParam String editordata) throws Exception {
+        if (customUserDetails == null) {
+            return "redirect:" + request.getHeader("referer");
+        }
+        whiteBoardService.updateBoard(
+                new WhiteBoard(id, title, editordata, customUserDetails.getUsername(), customUserDetails.getEmail()));
+        log.info("요청주소 : /whiteboard/update\n" + "Action : whiteboard 수정" + "\n 요청자: " + customUserDetails.getEmail());
+        return "redirect:/whiteview?id=" + id;
+    }
+
 
     @PostMapping(value = "/summernote/upload", produces = MediaType.IMAGE_PNG_VALUE)
     public ResponseEntity<String> uploadImage(@RequestParam("summernote") MultipartFile file) throws IOException {

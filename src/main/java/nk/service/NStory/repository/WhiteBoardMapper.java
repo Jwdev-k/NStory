@@ -17,4 +17,6 @@ public interface WhiteBoardMapper {
     void insertBoard(WhiteBoard wb) throws Exception;
     @Delete("DELETE FROM whiteboard WHERE id = #{id} AND email = #{email}")
     void deleteBoard(@Param("id") int id, @Param("email")String email) throws Exception;
+    @Update("UPDATE whiteboard SET title = #{title}, contents = #{contents}, author = #{author} WHERE id = #{id} AND email = #{email}")
+    void updateBoard(WhiteBoard wb) throws Exception;
 }

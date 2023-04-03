@@ -44,4 +44,10 @@ public class WhiteBoardService implements WhiteBoardServiceIF {
     public void deleteBoard(int id, String email) throws Exception {
         whiteBoardMapper.deleteBoard(id, email);
     }
+
+    @Transactional
+    @Override
+    public void updateBoard(WhiteBoard wb) throws Exception {
+        whiteBoardMapper.updateBoard(wb);
+    }
 }
