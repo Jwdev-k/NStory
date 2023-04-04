@@ -24,9 +24,9 @@ public class RecordLogController {
     private static final PageUtil pageUtil = new PageUtil();
 
     @RequestMapping(value = "/record")
-    public String main(@AuthenticationPrincipal CustomUserDetails customUserDetails, Model model
+    public String main(@AuthenticationPrincipal CustomUserDetails userDetails, Model model
             ,@RequestParam(required = false, defaultValue = "1") int page) throws Exception {
-        model.addAttribute("Email", customUserDetails != null ? customUserDetails.getEmail() : null);
+        model.addAttribute("Email", userDetails != null ? userDetails.getEmail() : null);
         model.addAttribute("recordLogList", recordLogService.recordLogList(page));
         int totalCount = recordLogService.totalCount();
         pageUtil.setPerPageNum(18);
@@ -39,21 +39,21 @@ public class RecordLogController {
 
     @PostMapping(value = "/record/frmlog")
     public String FrmLogAdd(HttpServletRequest request, @RequestParam String contents
-            , @AuthenticationPrincipal CustomUserDetails customUserDetails) throws Exception {
-        if (customUserDetails != null) {
+            , @AuthenticationPrincipal CustomUserDetails userDetails) throws Exception {
+        if (userDetails != null) {
             if (contents.length() > 50) {
                 contents = contents.substring(0, 50);
             }
-            recordLogService.addLog(new RecordLogDTO(0, contents, customUserDetails.getEmail(), customUserDetails.getUsername(), CurrentTime.getTime()));
-            log.info("요청주소 : /record/frmlog\n" + "Action : record 작성" + "\n 요청자: " + customUserDetails.getEmail());
+            recordLogService.addLog(new RecordLogDTO(0, contents, userDetails.getEmail(), userDetails.getUsername(), CurrentTime.getTime()));
+            log.info("요청주소 : /record/frmlog\n" + "Action : record 작성" + "\n 요청자: " + userDetails.getEmail());
         }
         return "redirect:" + request.getHeader("referer");
     }
 
     @PostMapping(value = "/record/frmlog_delete")
-    public String FrmLogDelete(@AuthenticationPrincipal CustomUserDetails customUserDetails, HttpServletResponse response
+    public String FrmLogDelete(@AuthenticationPrincipal CustomUserDetails userDetails, HttpServletResponse response
             , HttpServletRequest request, @RequestParam int id, @RequestParam String email) throws Exception {
-        if (customUserDetails.getEmail().equals(email)) {
+        if (userDetails.getEmail().equals(email)) {
             recordLogService.deleteLog(id, email);
             log.info("요청주소 : /record/frmlog_delete\n" + "Action :" + id + "번 게시물 삭제\n" + "요청자: " + email);
         } else {

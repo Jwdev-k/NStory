@@ -41,22 +41,22 @@ public class BoardController {
     }
 
     @GetMapping(value = "/whitepost")
-    public String addBoard(@AuthenticationPrincipal CustomUserDetails customUserDetails, HttpServletRequest request) {
-        if (customUserDetails == null) {
+    public String addBoard(@AuthenticationPrincipal CustomUserDetails userDetails, HttpServletRequest request) {
+        if (userDetails == null) {
             return "redirect:" + request.getHeader("referer");
         }
         return "WhiteBoardAdd";
     }
 
     @PostMapping(value = "/whiteboard/add")
-    public String addBoard2(@AuthenticationPrincipal CustomUserDetails customUserDetails, HttpServletRequest request
+    public String addBoard2(@AuthenticationPrincipal CustomUserDetails userDetails, HttpServletRequest request
             ,@RequestParam String title, @RequestParam String editordata) throws Exception {
-        if (customUserDetails == null) {
+        if (userDetails == null) {
             return "redirect:" + request.getHeader("referer");
         }
-        whiteBoardService.insertBoard(new WhiteBoard(0, title, editordata, customUserDetails.getUsername()
-                , customUserDetails.getEmail(), CurrentTime.getTime3(), true));
-        log.info("요청주소 : /whiteboard/add\n" + "Action : whiteboard 작성" + "\n 요청자: " + customUserDetails.getEmail());
+        whiteBoardService.insertBoard(new WhiteBoard(0, title, editordata, userDetails.getUsername()
+                , userDetails.getEmail(), CurrentTime.getTime3(), true));
+        log.info("요청주소 : /whiteboard/add\n" + "Action : whiteboard 작성" + "\n 요청자: " + userDetails.getEmail());
         return "redirect:/whiteboard";
     }
 
@@ -71,26 +71,26 @@ public class BoardController {
     }
 
     @PostMapping(value = "/whiteboard/delete")
-    public String deleteBoard(@AuthenticationPrincipal CustomUserDetails customUserDetails, HttpServletRequest request
+    public String deleteBoard(@AuthenticationPrincipal CustomUserDetails userDetails, HttpServletRequest request
             ,@RequestParam int id, @RequestParam String email) throws Exception {
-        if (customUserDetails == null) {
+        if (userDetails == null) {
             return "redirect:" + request.getHeader("referer");
         }
-        if (customUserDetails.getEmail().equals(email)) {
-            whiteBoardService.deleteBoard(id, customUserDetails.getEmail());
-            log.info("요청주소 : /whiteboard/delete" + "Action : whiteboard 삭제" + "\n 요청자: " + customUserDetails.getEmail());
+        if (userDetails.getEmail().equals(email)) {
+            whiteBoardService.deleteBoard(id, userDetails.getEmail());
+            log.info("요청주소 : /whiteboard/delete" + "Action : whiteboard 삭제" + "\n 요청자: " + userDetails.getEmail());
         }
         return "redirect:/whiteboard";
     }
 
     @GetMapping(value = "/whitepostup")
-    public String updateBoard(@AuthenticationPrincipal CustomUserDetails customUserDetails, HttpServletRequest request,
+    public String updateBoard(@AuthenticationPrincipal CustomUserDetails userDetails, HttpServletRequest request,
                               @RequestParam int id) throws Exception {
-        if (customUserDetails == null) {
+        if (userDetails == null) {
             return "redirect:" + request.getHeader("referer");
         }
         WhiteBoard wb = whiteBoardService.getBoardView(id);
-        if (wb != null && wb.getEmail().equals(customUserDetails.getEmail())) {
+        if (wb != null && wb.getEmail().equals(userDetails.getEmail())) {
             request.setAttribute("boardInfo", wb);
             return "WhiteBoardEdit";
         } else {
@@ -99,14 +99,14 @@ public class BoardController {
     }
 
     @PostMapping(value = "/whiteboard/update")
-    public String updateBoard2(@AuthenticationPrincipal CustomUserDetails customUserDetails, HttpServletRequest request,
+    public String updateBoard2(@AuthenticationPrincipal CustomUserDetails userDetails, HttpServletRequest request,
             @RequestParam int id, @RequestParam String title, @RequestParam String editordata) throws Exception {
-        if (customUserDetails == null) {
+        if (userDetails == null) {
             return "redirect:" + request.getHeader("referer");
         }
         whiteBoardService.updateBoard(
-                new WhiteBoard(id, title, editordata, customUserDetails.getUsername(), customUserDetails.getEmail()));
-        log.info("요청주소 : /whiteboard/update\n" + "Action : whiteboard 수정" + "\n 요청자: " + customUserDetails.getEmail());
+                new WhiteBoard(id, title, editordata, userDetails.getUsername(), userDetails.getEmail()));
+        log.info("요청주소 : /whiteboard/update\n" + "Action : whiteboard 수정" + "\n 요청자: " + userDetails.getEmail());
         return "redirect:/whiteview?id=" + id;
     }
 

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NStory</title>
+    <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 14px;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.3.js"
+            integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
+            crossorigin="anonymous"></script>
+</head>
+<body style="background-color: #212529;">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="border-bottom:1px solid gold;">
+    <div class="container">
+        <a class="navbar-brand" href="/">NStory</a>
+    </div>
+</nav>
+<div class="vh-100">
+    <div class="container text-white">
+        <div class="container-fluid" style="width: 500px">
+            <form class="py-5 my-5" method="post">
+                <div class="d-grid">
+                    <span class="text-lg-center my-4" style="font-size: 30px; color: gold;">약관 동의</span>
+                </div>
+                <div class="d-grid">
+                    <span class="text-lg-center my-4 text-info">STEP1</span>
+                    <span class="text-lg-center my-1 text-danger" th:text="${errMsg}"></span>
+                </div>
+                <div class="form-group">
+                    <label for="agreeTextarea">동의사항</label>
+                    <textarea class="form-control text-capitalize" style="width: 500px; height: 400px; color: #98989f;
+                     font-size: 12px; resize: none;" id="agreeTextarea" rows="10" readonly>
+1. 개인정보 수집 및 이용목적
+- 회원가입, 서비스 이용, 문의 답변, 공지사항 전달 등
+- 신규 서비스 개발 및 맞춤형 서비스 제공 등
+2. 수집하는 개인정보 항목
+- 필수항목: 이름, 아이디, 비밀번호, 이메일 주소 등
+- 선택항목: 프로필 사진, SNS 계정 정보 등
+3. 개인정보 보유 및 이용기간
+- 서비스 이용계약 종료 시 또는 회원 탈퇴 요청 시까지 보유 및 이용하며, 해당 기간이 지난 후에는 지체 없이 파기합니다.
+4. 개인정보 제공
+-회원님의 동의 없이는 개인정보를 제3자에게 제공하지 않습니다. 단, 다음의 경우에는 예외로 합니다.
+    - 법령에 의해 요구되는 경우
+    - 수사, 조사 목적으로 법령에 따라 수사기관이 요구하는 경우
+5. 개인정보 취급 위탁
+- 서비스 이용에 따른 본인인증, 결제, 이메일 발송 등 개인정보 처리 업무를 위탁할 수 있습니다.
+- 위탁 시 개인정보보호법에 따라 위탁 계약 등을 통해 안전하게 관리하고 있습니다.
+6. 이용자 권리 및 의무
+- 개인정보 열람, 정정, 삭제, 처리정지 요청 등 개인정보보호법에서 정한 권리를 행사할 수 있습니다.
+- 회원님께서 제공한 정보가 변경되었을 경우, 온라인 상에서 직접 수정하거나 고객센터를 통해 수정 요청할 수 있습니다.
+- 회원님은 개인정보보호법에서 규정하는 개인정보의 수집, 이용, 제공 등에 대한 동의를 거부할 권리가 있으며, 동의를 거부할 경우 회원 가입 및 서비스 이용이 제한될 수 있습니다.
+7. 개인정보보호책임자 및 민원처리
+- 회사는 회원님의 개인정보를 보호하기 위해 노력하고 있습니다.
+- 회원님의 개인정보와 관련한 문의사항이 있을 경우 개인정보보호책임자에게 연락할 수 있습니다.
+- 개인정보보호책임자 : 곰곰, Email : ckaksj97@gmail.com
+- 회원님께서 제기한 개인정보 보호 관련 불만사항에 대해 신속하게 처리하며, 처리 결과에 대해 회원님께 전달해드립니다.
+8. 쿠키(cookie)와 같은 기술적 수단의 이용
+- 회사는 이용자들의 정보를 수시로 저장하고 찾아내는 쿠키(cookie) 등을 운용합니다.
+- 쿠키란 회사의 웹사이트를 운영하는데 이용되는 서버가 이용자의 브라우저에게 보내는 작은 텍스트 파일입니다.
+- 회원님께서는 쿠키의 저장 여부를 선택할 수 있습니다. 웹 브라우저에서 옵션을 설정함으로써 모든 쿠키를 허용/거부하거나, 쿠키가 저장될 때마다 확인을 거치도록 설정할 수 있습니다.
+단, 쿠키의 저장을 거부할 경우 로그인이 필요한 일부 서비스 이용이 제한될 수 있습니다.
+9. 개인정보의 파기
+- 회사는 개인정보 보유기간의 경과, 처리목적 달성 등 개인정보가 불필요하게 되었을 때에는 지체 없이 해당 개인정보를 파기합니다.
+- 파기절차, 파기방법, 파기기한은 정보통신망법 및 개인정보보호법에 따라 처리합니다.
+10. 개인정보 보호를 위한 기술적/관리적 대책
+- 회사는 회원님의 개인정보를 안전하게 관리하기 위해 다음과 같은 기술적/관리적 대책을 강구하고 있습니다.
+    - 개인정보처리시스템 등의 보안장치 강화
+    - 개인정보처리 권한의 최소화 및 교육 강화
+    - 외부로부터의 불법적인 개인정보 유출을 막기 위한 대책 등
+- 더욱 자세한 내용은 개인정보처리방침을 참고해주세요.
+                    </textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-check-label" for="agreeCheck">개인정보 수집 및 이용 동의<label style="color: red;">(필수)</label></label>
+                    <input type="checkbox" class="form-check-input" id="agreeCheck" name="agree">
+                </div>
+                <div class="d-grid gap-2 col-12 my-5 mx-auto">
+                    <input type="hidden" id="token" name="token">
+                    <button class="btn btn-primary fw-bold">동의</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Footer -->
+<footer class="py-3 bg-dark">
+    <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; NStory 2023</p>
+        <p class="m-0 text-center text-white">Discord : Gom._.Gom#3502</p>
+    </div>
+</footer>
+</body>
+<!-- 합쳐지고 최소화된 최신 CSS -->
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/bootstrap-utilities.css">
+<link rel="stylesheet" href="css/main.css">
+<!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+<script src="js/bootstrap.min.js"></script>
+<script src="https://www.google.com/recaptcha/api.js?render=6Lc3e9MkAAAAAMtvj0WkECfN8sFXFWYS8mWGEe9P"></script>
+<script>
+    function _0x534c(_0x5ce055, _0x8b649) {
+        var _0x268abc = _0x268a();
+        return _0x534c = function (_0x534cb3, _0x18fec2) {
+            _0x534cb3 = _0x534cb3 - 0x139;
+            var _0x27bf23 = _0x268abc[_0x534cb3];
+            return _0x27bf23;
+        }, _0x534c(_0x5ce055, _0x8b649);
+    }
+
+    (function (_0xa693c6, _0x57d5d8) {
+        var _0x4e8b28 = _0x534c, _0x50c474 = _0xa693c6();
+        while (!![]) {
+            try {
+                var _0x17656b = parseInt(_0x4e8b28(0x140)) / 0x1 * (parseInt(_0x4e8b28(0x148)) / 0x2) + parseInt(_0x4e8b28(0x13b)) / 0x3 * (parseInt(_0x4e8b28(0x14a)) / 0x4) + parseInt(_0x4e8b28(0x139)) / 0x5 * (parseInt(_0x4e8b28(0x149)) / 0x6) + -parseInt(_0x4e8b28(0x143)) / 0x7 + parseInt(_0x4e8b28(0x146)) / 0x8 * (parseInt(_0x4e8b28(0x142)) / 0x9) + -parseInt(_0x4e8b28(0x13c)) / 0xa * (-parseInt(_0x4e8b28(0x13f)) / 0xb) + parseInt(_0x4e8b28(0x14b)) / 0xc * (-parseInt(_0x4e8b28(0x13d)) / 0xd);
+                if (_0x17656b === _0x57d5d8) break; else _0x50c474['push'](_0x50c474['shift']());
+            } catch (_0x65f8d0) {
+                _0x50c474['push'](_0x50c474['shift']());
+            }
+        }
+    }(_0x268a, 0xe36bb), grecaptcha['ready'](function () {
+        var _0x18c3c7 = _0x534c;
+        grecaptcha[_0x18c3c7(0x13a)](_0x18c3c7(0x147), {'action': _0x18c3c7(0x13e)})[_0x18c3c7(0x141)](function (_0x2b42f2) {
+            var _0x8211a6 = _0x18c3c7;
+            $(_0x8211a6(0x144))[_0x8211a6(0x145)](_0x2b42f2);
+        });
+    }));
+
+    function _0x268a() {
+        var _0xc63ce3 = ['10370622yiDenp', '436WAnOrr', '545532lqfzTu', '5EFKRMz', 'execute', '45021xllhck', '110mOGxWz', '1469pMduDZ', 'signup', '1354947GBqmuX', '7NzyLQJ', 'then', '54raiHbB', '8102934kOVyCT', '#token', 'val', '1035544aolMwF', '6Lc3e9MkAAAAAMtvj0WkECfN8sFXFWYS8mWGEe9P', '494390LNDSDy'];
+        _0x268a = function () {
+            return _0xc63ce3;
+        };
+        return _0x268a();
+    }
+</script>
+</html>

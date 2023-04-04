@@ -58,4 +58,23 @@ public class LoginController {
         request.setAttribute("errMsg", "요청이 실패 하였습니다.");
         return "Sign_up";
     }
+
+    @GetMapping(value = "/agree")
+    public String agreeCheck() {
+        return "Agree";
+    }
+
+    @PostMapping(value = "/agree")
+    public String Register(@AuthenticationPrincipal CustomUserDetails userDetails, HttpServletRequest request,
+                           @RequestParam(defaultValue = "false") boolean agree, @RequestParam String token) throws Exception {
+        if (userDetails != null) {
+            return "redirect:" + request.getHeader("referer");
+        }
+        if (RecaptchaConfig.verify(token) && agree) {
+            return "redirect:/sign_up";
+        }
+        request.setAttribute("errMsg", "이용약관에 필수로 동의하셔야합니다.");
+        return "Agree";
+    }
+
 }
