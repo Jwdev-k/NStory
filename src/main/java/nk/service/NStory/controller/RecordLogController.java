@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequiredArgsConstructor
 public class RecordLogController {
     private final RecordLogService recordLogService;
-    private static final PageUtil pageUtil = new PageUtil();
+    private final PageUtil pageUtil = new PageUtil();
 
     @RequestMapping(value = "/record")
     public String main(@AuthenticationPrincipal CustomUserDetails userDetails, Model model

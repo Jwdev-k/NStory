@@ -25,7 +25,7 @@ import java.io.FileInputStream;
 @Slf4j
 public class RankingController {
     private final RankingService rankingService;
-    private static final PageUtil pageUtil = new PageUtil();
+    private final PageUtil pageUtil = new PageUtil();
 
     @RequestMapping(value = "/ranking")
     public String RankingMain(Model model, @RequestParam(required = false, defaultValue = "1") int page

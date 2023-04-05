@@ -1,8 +1,11 @@
 package nk.service.NStory.controller;
 
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import nk.service.NStory.dto.Enum.SearchType;
 import nk.service.NStory.dto.WhiteBoard;
 import nk.service.NStory.security.CustomUserDetails;
 import nk.service.NStory.service.impl.WhiteBoardService;
@@ -27,16 +30,36 @@ import java.util.Base64;
 @RequiredArgsConstructor
 public class BoardController {
     private final WhiteBoardService whiteBoardService;
-    private static final PageUtil pageUtil = new PageUtil();
+    private final PageUtil pageUtil = new PageUtil();
 
     @RequestMapping(value = "/whiteboard")
-    public String boardList(Model model, @RequestParam(required = false, defaultValue = "1") int page) throws Exception {
-        model.addAttribute("boardList", whiteBoardService.boardList(page));
-        int totalCount = whiteBoardService.totalCount();
+    public String boardList(HttpServletResponse response, Model model
+            , @RequestParam(required = false, defaultValue = "1") int page, @RequestParam(required = false) String str
+            , @RequestParam(required = false, defaultValue = "title") SearchType type) throws Exception {
+        boolean isSearch;
         pageUtil.setPerPageNum(10);
-        pageUtil.setPage(page);
-        pageUtil.setTotalCount(totalCount > 0 ? totalCount : 1);
+        if (str != null) {
+            model.addAttribute("boardList", whiteBoardService.searchList(page,type, str));
+            int totalCount = whiteBoardService.searchTotalCount(type, str);
+            pageUtil.setPage(page);
+            pageUtil.setTotalCount(totalCount > 0 ? totalCount : 1);
+
+            Cookie cookie = new Cookie("searchType", String.valueOf(type.getType())); //검색타입 쿠키저장
+            cookie.setPath("/whiteboard");
+            response.addCookie(cookie);
+
+            isSearch = true;
+        } else {
+            model.addAttribute("boardList", whiteBoardService.boardList(page));
+            int totalCount = whiteBoardService.totalCount();
+            pageUtil.setPage(page);
+            pageUtil.setTotalCount(totalCount > 0 ? totalCount : 1);
+
+            isSearch = false;
+        }
         model.addAttribute("pageMaker", pageUtil);
+        model.addAttribute("isSearch", isSearch);
+        log.info("검색타입: " + type);
         return "WhiteBoard";
     }
 
@@ -84,8 +107,8 @@ public class BoardController {
     }
 
     @GetMapping(value = "/whitepostup")
-    public String updateBoard(@AuthenticationPrincipal CustomUserDetails userDetails, HttpServletRequest request,
-                              @RequestParam int id) throws Exception {
+    public String updateBoard(@AuthenticationPrincipal CustomUserDetails userDetails, HttpServletRequest request
+            , @RequestParam int id) throws Exception {
         if (userDetails == null) {
             return "redirect:" + request.getHeader("referer");
         }
@@ -99,8 +122,8 @@ public class BoardController {
     }
 
     @PostMapping(value = "/whiteboard/update")
-    public String updateBoard2(@AuthenticationPrincipal CustomUserDetails userDetails, HttpServletRequest request,
-            @RequestParam int id, @RequestParam String title, @RequestParam String editordata) throws Exception {
+    public String updateBoard2(@AuthenticationPrincipal CustomUserDetails userDetails, HttpServletRequest request
+            , @RequestParam int id, @RequestParam String title, @RequestParam String editordata) throws Exception {
         if (userDetails == null) {
             return "redirect:" + request.getHeader("referer");
         }

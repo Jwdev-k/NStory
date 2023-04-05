@@ -1,6 +1,7 @@
 package nk.service.NStory.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import nk.service.NStory.dto.Enum.SearchType;
 import nk.service.NStory.dto.WhiteBoard;
 import nk.service.NStory.repository.WhiteBoardMapper;
 import nk.service.NStory.service.WhiteBoardServiceIF;
@@ -49,5 +50,19 @@ public class WhiteBoardService implements WhiteBoardServiceIF {
     @Override
     public void updateBoard(WhiteBoard wb) throws Exception {
         whiteBoardMapper.updateBoard(wb);
+    }
+
+    @Override
+    public ArrayList<WhiteBoard> searchList(int start, SearchType type, String str) throws Exception {
+        if (start == 1 || start < 1) {
+            return whiteBoardMapper.searchList(0, type, str);
+        } else {
+            return whiteBoardMapper.searchList((start - 1) * 10, type, str);
+        }
+    }
+
+    @Override
+    public int searchTotalCount(SearchType type, String str) throws Exception {
+        return whiteBoardMapper.searchTotalCount(type, str);
     }
 }

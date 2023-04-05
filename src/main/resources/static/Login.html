@@ -5,7 +5,8 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>NStory</title>
-	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="assets/font-awesome/css/fontawesome.css">
+	<link rel="stylesheet" href="assets/font-awesome/css/solid.css">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
@@ -42,13 +43,13 @@
 					<span th:text="${errMsg}" style="font-size: 16px; color: #de3a00"></span>
 					<!-- Email input -->
 					<div class="input-group mb-4" data-validate = "Email is reauired">
-						<span class="input-group-text" id="icon2"><i class="fa fa-fw">&#xf0e0;</i></span>
+						<span class="input-group-text" id="icon2"><i class="fa-solid fa-user"></i></span>
 						<input type="email" id="email" name="email" class="form-control form-control-lg"
 							   placeholder="이메일" maxlength="50" required/>
 					</div>
 					<!-- Password input -->
 					<div class="input-group mb-4" data-validate="Password is required">
-						<span class="input-group-text" id="icon3"><i class="fa fa-fw">&#xf023;</i></span>
+						<span class="input-group-text" id="icon3"><i class="fa-solid fa-lock"></i></span>
 						<input type="password" name="password" class="form-control form-control-lg"
 							   placeholder="패스워드" maxlength="16" autocomplete="off" required/>
 					</div>

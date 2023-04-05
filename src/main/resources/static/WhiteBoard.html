@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>NStory</title>
+    <link rel="stylesheet" href="assets/font-awesome/css/fontawesome.css">
+    <link rel="stylesheet" href="assets/font-awesome/css/solid.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
@@ -89,18 +91,19 @@
     <h2 class="container table-header" style="background-color: #39393a; color: white; width: auto; padding: 10px;
         border-radius: 1px 1px 10px 10px;">자유게시판</h2>
     <div class="container mt-3">
-        <form method="post" style="margin-left: 60%">
+        <form style="margin-left: 60%">
             <label class="my-3">
-                <select class="form-select-sm">
+                <select name="type" class="form-select-sm" id="search-type">
                     <option value="title">제목</option>
-                    <option value="content">내용</option>
+                    <option value="contents">내용</option>
                     <option value="author">작성자</option>
                 </select>
-                <input type="text" class="form-control-sm" placeholder="검색어를 입력하세요">
+                <input type="text" class="form-control-sm" name="str" placeholder="검색어를 입력하세요">
                 <button class="btn btn-primary" type="submit">검색</button>
             </label>
         </form>
-        <a href="/whitepost" class="btn btn-primary" style="margin-left: 19%;" sec:authorize="isAuthenticated()"><img src="images/svg/pencil-svgrepo-com.svg">작성하기</a>
+        <a href="/whitepost" class="btn btn-primary" style="margin-left: 19%;" sec:authorize="isAuthenticated()">
+            <i class="fa-solid fa-pen-to-square fa-lg"></i> 작성하기</a>
         <div class="row">
             <div class="col-md-12">
                 <div class="list-group">
@@ -174,4 +177,5 @@
 <script src="js/bootstrap.bundle.min.js"></script>
 <script src="js/popup.js"></script>
 <script src="js/menuEvent.js"></script>
+<script src="js/selectBoxCookies.js"></script>
 </html>
