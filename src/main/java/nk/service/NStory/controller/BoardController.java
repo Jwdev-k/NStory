@@ -33,7 +33,7 @@ public class BoardController {
     private final PageUtil pageUtil = new PageUtil();
 
     @RequestMapping(value = "/whiteboard")
-    public String boardList(HttpServletResponse response, Model model
+    public String boardList(HttpServletResponse response, HttpServletRequest request, Model model
             , @RequestParam(required = false, defaultValue = "1") int page, @RequestParam(required = false) String str
             , @RequestParam(required = false, defaultValue = "title") SearchType type) throws Exception {
         boolean isSearch;
@@ -43,10 +43,8 @@ public class BoardController {
             int totalCount = whiteBoardService.searchTotalCount(type, str);
             pageUtil.setPage(page);
             pageUtil.setTotalCount(totalCount > 0 ? totalCount : 1);
-
-            Cookie cookie = new Cookie("searchType", String.valueOf(type.getType())); //검색타입 쿠키저장
-            cookie.setPath("/whiteboard");
-            response.addCookie(cookie);
+            request.setAttribute("type", type);
+            request.setAttribute("str", str);
 
             isSearch = true;
         } else {
@@ -59,6 +57,10 @@ public class BoardController {
         }
         model.addAttribute("pageMaker", pageUtil);
         model.addAttribute("isSearch", isSearch);
+
+        Cookie cookie = new Cookie("searchType", String.valueOf(type.getType())); //검색타입 쿠키저장
+        cookie.setPath("/whiteboard");
+        response.addCookie(cookie);
         log.info("검색타입: " + type);
         return "WhiteBoard";
     }
