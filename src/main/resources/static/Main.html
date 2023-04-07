@@ -14,9 +14,15 @@
             font-size: 14px;
         }
     </style>
-    <script src="https://code.jquery.com/jquery-3.6.3.js"
-            integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
-            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-utilities.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js" integrity="sha512-nnzkI2u2Dy6HMnzMIkh7CPd1KX445z38XIu4jG1jGw7x5tSL3VBjE44dY4ihMU1ijAQV930SPM12cCFrB18sVw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.min.js"></script>
 </head>
 <body style="overflow-x: hidden;background-color: #212529;">
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="border-bottom:1px solid gold">
@@ -53,8 +59,7 @@
                 <label for="nickname">닉네임 :
                     <input type="text" id="nickname" name="nickname" th:value="${account.username}" required></label>
                 <label for="chooseImg">프로필 이미지 선택 :
-                    <input type="file" id="chooseImg" name="profileImg"
-                           accept="image/jpeg, image/jpg, image/png"></label>
+                    <input type="file" id="chooseImg" name="profileImg" accept="image/jpeg, image/jpg, image/png"></label>
                 <label for="comment">소개글 :
                     <input type="text" id="comment" name="comment" placeholder="소개글을 작성해주세요."
                            th:value="${account.comment}"></label>
@@ -126,13 +131,6 @@
     </div>
 </footer>
 </body>
-<!-- 합쳐지고 최소화된 최신 CSS -->
-<link rel="stylesheet" href="css/bootstrap.min.css">
-<link rel="stylesheet" href="css/bootstrap-utilities.css">
-<link rel="stylesheet" href="css/main.css">
-<!-- 합쳐지고 최소화된 최신 자바스크립트 -->
-<script src="js/bootstrap.min.js"></script>
-<script src="js/bootstrap.bundle.min.js"></script>
 <script src="js/popup.js"></script>
 <script src="js/serverTime.js"></script>
 <script src="js/mainChat.js"></script>
