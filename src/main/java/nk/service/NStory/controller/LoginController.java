@@ -49,7 +49,7 @@ public class LoginController {
         if (userDetails != null) {
             return "redirect:" + request.getHeader("referer");
         }
-        if (email != null && password != null && name != null && name.length() >= 2 && !accountService.checkEmail(email)
+        else if (email != null && password != null && name != null && name.length() >= 2 && !accountService.checkEmail(email)
                 && RecaptchaConfig.verify(token)) {
             accountService.register(new AccountDTO(0, email, passwordEncoder.encode(password), name, "", null
                     , "USER", CurrentTime.getTime(), null, 1, 0, 0, true));
@@ -70,7 +70,7 @@ public class LoginController {
         if (userDetails != null) {
             return "redirect:" + request.getHeader("referer");
         }
-        if (RecaptchaConfig.verify(token) && agree) {
+        else if (RecaptchaConfig.verify(token) && agree) {
             return "redirect:/sign_up";
         }
         request.setAttribute("errMsg", "이용약관에 필수로 동의하셔야합니다.");

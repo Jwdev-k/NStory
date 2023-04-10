@@ -78,10 +78,11 @@ public class BoardController {
             ,@RequestParam String title, @RequestParam String editordata) throws Exception {
         if (userDetails == null) {
             return "redirect:" + request.getHeader("referer");
+        } else {
+            whiteBoardService.insertBoard(new WhiteBoard(0, title, editordata, userDetails.getUsername()
+                    , userDetails.getEmail(), CurrentTime.getTime3(), true));
+            log.info("요청주소 : /whiteboard/add\n" + "Action : whiteboard 작성" + "\n 요청자: " + userDetails.getEmail());
         }
-        whiteBoardService.insertBoard(new WhiteBoard(0, title, editordata, userDetails.getUsername()
-                , userDetails.getEmail(), CurrentTime.getTime3(), true));
-        log.info("요청주소 : /whiteboard/add\n" + "Action : whiteboard 작성" + "\n 요청자: " + userDetails.getEmail());
         return "redirect:/whiteboard";
     }
 
@@ -101,7 +102,7 @@ public class BoardController {
         if (userDetails == null) {
             return "redirect:" + request.getHeader("referer");
         }
-        if (userDetails.getEmail().equals(email)) {
+        else if (userDetails.getEmail().equals(email)) {
             whiteBoardService.deleteBoard(id, userDetails.getEmail());
             log.info("요청주소 : /whiteboard/delete" + "Action : whiteboard 삭제" + "\n 요청자: " + userDetails.getEmail());
         }
@@ -113,13 +114,14 @@ public class BoardController {
             , @RequestParam int id) throws Exception {
         if (userDetails == null) {
             return "redirect:" + request.getHeader("referer");
-        }
-        WhiteBoard wb = whiteBoardService.getBoardView(id);
-        if (wb != null && wb.getEmail().equals(userDetails.getEmail())) {
-            request.setAttribute("boardInfo", wb);
-            return "WhiteBoardEdit";
         } else {
-            return "redirect:/whiteboard";
+            WhiteBoard wb = whiteBoardService.getBoardView(id);
+            if (wb != null && wb.getEmail().equals(userDetails.getEmail())) {
+                request.setAttribute("boardInfo", wb);
+                return "WhiteBoardEdit";
+            } else {
+                return "redirect:/whiteboard";
+            }
         }
     }
 
@@ -128,10 +130,11 @@ public class BoardController {
             , @RequestParam int id, @RequestParam String title, @RequestParam String editordata) throws Exception {
         if (userDetails == null) {
             return "redirect:" + request.getHeader("referer");
+        } else {
+            whiteBoardService.updateBoard(
+                    new WhiteBoard(id, title, editordata, userDetails.getUsername(), userDetails.getEmail()));
+            log.info("요청주소 : /whiteboard/update\n" + "Action : whiteboard 수정" + "\n 요청자: " + userDetails.getEmail());
         }
-        whiteBoardService.updateBoard(
-                new WhiteBoard(id, title, editordata, userDetails.getUsername(), userDetails.getEmail()));
-        log.info("요청주소 : /whiteboard/update\n" + "Action : whiteboard 수정" + "\n 요청자: " + userDetails.getEmail());
         return "redirect:/whiteview?id=" + id;
     }
 
