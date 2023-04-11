@@ -18,29 +18,27 @@
     <link rel="stylesheet" href="css/bootstrap-utilities.css">
     <link rel="stylesheet" href="css/main.css">
     <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js" integrity="sha512-nnzkI2u2Dy6HMnzMIkh7CPd1KX445z38XIu4jG1jGw7x5tSL3VBjE44dY4ihMU1ijAQV930SPM12cCFrB18sVw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>    <script src="js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js" integrity="sha512-nnzkI2u2Dy6HMnzMIkh7CPd1KX445z38XIu4jG1jGw7x5tSL3VBjE44dY4ihMU1ijAQV930SPM12cCFrB18sVw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="js/bootstrap.min.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
 </head>
-<body style="overflow-x: hidden;background-color: #212529;">
+<body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="border-bottom:1px solid gold">
     <div class="container">
         <a class="navbar-brand" href="/">NStory</a>
         <ul class="navbar-nav right-0">
-            <li class="box" th:if="${account.profileImg != null}" sec:authorize="isAuthenticated()">
-                <img class="profile" th:src="@{/storage/prf/img}"></li>
-            <li class="box" th:unless="${account.profileImg != null}" sec:authorize="isAuthenticated()">
+            <li class="box" th:if="${#authentication.principal.profileImg != null}" sec:authorize="isAuthenticated()">
+                <img class="profile" th:src="@{/storage/prf/img}" alt=""></li>
+            <li class="box" th:unless="${#authentication.principal.profileImg != null}" sec:authorize="isAuthenticated()">
                 <img class="profile" src="images/default_profileImg.png" alt=""></li>
             <li class="nav-item" sec:authorize="isAuthenticated()">
-                <a class="nav-link" href="/info" th:text="${account.username}"></a></li>
+                <a class="nav-link" href="/info" th:text="${#authentication.principal.username}"></a></li>
             <li class="nav-item" sec:authorize="isAuthenticated()">
-                <a class="nav-link" th:text="${account.authorities}"></a></li>
+                <a class="nav-link" th:text="${#authentication.principal.authorities}"></a></li>
             <li class="nav-item" th:if="${#authentication != null}">
                 <a class="nav-link" href="/logout">로그아웃</a></li>
             <li class="nav-item" th:unless="${#authentication != null}">
                 <a class="nav-link" href="/login">로그인</a></li>
-            <!--            <form class="navbar-form">
-                            <input type="text" class="form-control" placeholder="Search...">
-                        </form>-->
         </ul>
     </div>
 </nav>
@@ -87,101 +85,81 @@
                 <span class="visually-hidden">Next</span>
             </button>
         </div>
-
         <div class="row">
-
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="card h-100">
-                    <a href="#"><img class="card-img-top" src="https://picsum.photos/700/400" alt=""></a>
+                    <a href="#"><img class="card-img-top" src="images/bangdream/star.png" alt=""></a>
                     <div class="card-body">
                         <h4 class="card-title">
-                            <a href="#">Item One</a>
+                            <a href="#">스타</a>
                         </h4>
                         <h5>100 NCoin</h5>
-                        <p class="card-text">테스트 상점 아이템</p>
-                    </div>
-                    <div class="card-footer">
-                        <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+                        <p class="card-text">스타를 얻을 수 있다.</p>
                     </div>
                 </div>
             </div>
 
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="card h-100">
-                    <a href="#"><img class="card-img-top" src="https://picsum.photos/700/400" alt=""></a>
+                    <a href="#"><img class="card-img-top" src="images/bangdream/boost.png" alt=""></a>
                     <div class="card-body">
                         <h4 class="card-title">
-                            <a href="#">Item Two</a>
+                            <a href="#">부스트</a>
                         </h4>
                         <h5>100 NCoin</h5>
-                        <p class="card-text">테스트 상점 아이템</p>
-                    </div>
-                    <div class="card-footer">
-                        <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+                        <p class="card-text">EXP 2배 아이템</p>
                     </div>
                 </div>
             </div>
 
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="card h-100">
-                    <a href="#"><img class="card-img-top" src="https://picsum.photos/700/400" alt=""></a>
+                    <a href="#"><img class="card-img-top" src="images/bangdream/coin.png" alt=""></a>
                     <div class="card-body">
                         <h4 class="card-title">
-                            <a href="#">Item Three</a>
+                            <a href="#">코인</a>
                         </h4>
                         <h5>100 NCoin</h5>
-                        <p class="card-text">테스트 상점 아이템</p>
-                    </div>
-                    <div class="card-footer">
-                        <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+                        <p class="card-text">코인으로 교환한다.</p>
                     </div>
                 </div>
             </div>
 
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="card h-100">
-                    <a href="#"><img class="card-img-top" src="https://picsum.photos/700/400" alt=""></a>
+                    <a href="#"><img class="card-img-top" src="images/bangdream/ticket-double.png" alt=""></a>
                     <div class="card-body">
                         <h4 class="card-title">
-                            <a href="#">Item Four</a>
+                            <a href="#">연습티켓 (더블)</a>
                         </h4>
-                        <h5>100 NCoin</h5>
-                        <p class="card-text">테스트 상점 아이템</p>
-                    </div>
-                    <div class="card-footer">
-                        <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+                        <h5>500 NCoin</h5>
+                        <p class="card-text">300의 경험치를 획득한다.</p>
                     </div>
                 </div>
             </div>
 
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="card h-100">
-                    <a href="#"><img class="card-img-top" src="https://picsum.photos/700/400" alt=""></a>
+                    <a href="#"><img class="card-img-top" src="images/bangdream/ticket-triple.png" alt=""></a>
                     <div class="card-body">
                         <h4 class="card-title">
-                            <a href="#">Item Five</a>
+                            <a href="#">연습티켓 (트리플)</a>
                         </h4>
-                        <h5>100 NCoin</h5>
-                        <p class="card-text">테스트 상점 아이템</p>
-                    </div>
-                    <div class="card-footer">
-                        <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+                        <h5>1000 NCoin</h5>
+                        <p class="card-text">600의 경험치를 획득한다.</p>
                     </div>
                 </div>
             </div>
 
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="card h-100">
-                    <a href="#"><img class="card-img-top" src="https://picsum.photos/700/400" alt=""></a>
+                    <a href="#"><img class="card-img-top" src="images/bangdream/ticket-quadruple.png" alt=""></a>
                     <div class="card-body">
                         <h4 class="card-title">
-                            <a href="#">Item Six</a>
+                            <a href="#">연습티켓 (프리미엄)</a>
                         </h4>
-                        <h5>100 NCoin</h5>
-                        <p class="card-text">테스트 상점 아이템</p>
-                    </div>
-                    <div class="card-footer">
-                        <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+                        <h5>1500 NCoin</h5>
+                        <p class="card-text">1200의 경험치를 획득한다.</p>
                     </div>
                 </div>
             </div>

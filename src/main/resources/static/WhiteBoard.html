@@ -20,29 +20,27 @@
     <link rel="stylesheet" href="css/bootstrap-utilities.css">
     <link rel="stylesheet" href="css/main.css">
     <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js" integrity="sha512-nnzkI2u2Dy6HMnzMIkh7CPd1KX445z38XIu4jG1jGw7x5tSL3VBjE44dY4ihMU1ijAQV930SPM12cCFrB18sVw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>    <script src="js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js" integrity="sha512-nnzkI2u2Dy6HMnzMIkh7CPd1KX445z38XIu4jG1jGw7x5tSL3VBjE44dY4ihMU1ijAQV930SPM12cCFrB18sVw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="js/bootstrap.min.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
 </head>
-<body style="overflow-x: hidden;background-color: #212529;">
+<body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="border-bottom:1px solid gold">
     <div class="container">
         <a class="navbar-brand" href="/">NStory</a>
         <ul class="navbar-nav right-0">
-            <li class="box" th:if="${account.profileImg != null}" sec:authorize="isAuthenticated()">
+            <li class="box" th:if="${#authentication.principal.profileImg != null}" sec:authorize="isAuthenticated()">
                 <img class="profile" th:src="@{/storage/prf/img}" alt=""></li>
-            <li class="box" th:unless="${account.profileImg != null}" sec:authorize="isAuthenticated()">
+            <li class="box" th:unless="${#authentication.principal.profileImg != null}" sec:authorize="isAuthenticated()">
                 <img class="profile" src="images/default_profileImg.png" alt=""></li>
             <li class="nav-item" sec:authorize="isAuthenticated()">
-                <a class="nav-link" href="/info" th:text="${account.username}"></a></li>
+                <a class="nav-link" href="/info" th:text="${#authentication.principal.username}"></a></li>
             <li class="nav-item" sec:authorize="isAuthenticated()">
-                <a class="nav-link" th:text="${account.authorities}"></a></li>
+                <a class="nav-link" th:text="${#authentication.principal.authorities}"></a></li>
             <li class="nav-item" th:if="${#authentication != null}">
                 <a class="nav-link" href="/logout">로그아웃</a></li>
             <li class="nav-item" th:unless="${#authentication != null}">
                 <a class="nav-link" href="/login">로그인</a></li>
-            <!--            <form class="navbar-form">
-                            <input type="text" class="form-control" placeholder="Search...">
-                        </form>-->
         </ul>
     </div>
 </nav>

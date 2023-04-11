@@ -24,19 +24,19 @@
     <script src="js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.min.js"></script>
 </head>
-<body style="overflow-x: hidden;background-color: #212529;">
+<body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="border-bottom:1px solid gold">
     <div class="container">
         <a class="navbar-brand" href="/">NStory</a>
         <ul class="navbar-nav right-0">
-            <li class="box" th:if="${account.profileImg != null}" sec:authorize="isAuthenticated()">
+            <li class="box" th:if="${#authentication.principal.profileImg != null}" sec:authorize="isAuthenticated()">
                 <img class="profile" th:src="@{/storage/prf/img}" alt=""></li>
-            <li class="box" th:unless="${account.profileImg != null}" sec:authorize="isAuthenticated()">
+            <li class="box" th:unless="${#authentication.principal.profileImg != null}" sec:authorize="isAuthenticated()">
                 <img class="profile" src="images/default_profileImg.png" alt=""></li>
             <li class="nav-item" sec:authorize="isAuthenticated()">
-                <a class="nav-link" href="/info" th:text="${account.username}"></a></li>
+                <a class="nav-link" href="/info" th:text="${#authentication.principal.username}"></a></li>
             <li class="nav-item" sec:authorize="isAuthenticated()">
-                <a class="nav-link" th:text="${account.authorities}"></a></li>
+                <a class="nav-link" th:text="${#authentication.principal.authorities}"></a></li>
             <li class="nav-item" th:if="${#authentication != null}">
                 <a class="nav-link" href="/logout">로그아웃</a></li>
             <li class="nav-item" th:unless="${#authentication != null}">
@@ -73,25 +73,25 @@
                             <div class="text-center">
                                 <div class="overflow-hidden mb-3 mt-5">
                                     <a href="javascript:openUserInfo()">
-                                        <img class="profile2" th:if="${account.profileImg != null}" th:src="@{/storage/prf/img}" alt="prf">
+                                        <img class="profile2" th:if="${#authentication.principal.profileImg != null}" th:src="@{/storage/prf/img}" alt="prf">
                                     </a>
                                     <a href="javascript:openUserInfo()">
-                                        <img class="profile2" th:unless="${account.profileImg != null}" src="images/default_profileImg.png" alt="prf">
+                                        <img class="profile2" th:unless="${#authentication.principal.profileImg != null}" src="images/default_profileImg.png" alt="prf">
                                     </a>
                                 </div>
                             </div>
                             <form method="post" action="/account/profile_update">
                                 <div class="form-group">
                                     <label for="nickname" class="text-light">사용자 이름</label>
-                                    <input type="text" class="form-control bg-dark text-light" id="nickname" name="nickname" th:value="${account.username}">
+                                    <input type="text" class="form-control bg-dark text-light" id="nickname" name="nickname" th:value="${#authentication.principal.username}">
                                 </div>
                                 <div class="form-group">
                                     <label for="comment" class="text-light">소개글</label>
-                                    <input type="text" class="form-control bg-dark text-light" id="comment" name="comment" th:value="${account.comment}">
+                                    <input type="text" class="form-control bg-dark text-light" id="comment" name="comment" th:value="${#authentication.principal.comment}">
                                 </div>
                                 <div class="form-group">
                                     <label for="email" class="text-light">이메일 주소</label>
-                                    <input type="email" class="form-control bg-dark text-light" id="email" th:value="${account.email}" readonly>
+                                    <input type="email" class="form-control bg-dark text-light" id="email" th:value="${#authentication.principal.email}" readonly>
                                 </div>
                                 <div class="form-group">
                                     <label for="password" class="text-light">비밀번호</label>
