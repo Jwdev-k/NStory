@@ -2,6 +2,7 @@ package nk.service.NStory.security;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import nk.service.NStory.dto.oauth2.OAuth2UserInfo;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,7 +13,7 @@ import java.util.Collection;
 import java.util.Map;
 
 @RequiredArgsConstructor
-@Getter
+@Getter @Setter
 public class CustomUserDetails implements UserDetails, OAuth2User {
     @Serial
     private static final long serialVersionUID = -6613434008874770290L;

@@ -20,10 +20,14 @@ public class AccountDTO {
     private int nCoin; // 코인 갯수 max 100000000
     private boolean isEnable;
 
-    public AccountDTO(String email, String name, String comment, byte[] profileImg) {
+    public AccountDTO(String email, String name, String comment) {
         this.email = email;
         this.name = name;
         this.comment = comment;
+    }
+
+    public AccountDTO(String email, byte[] profileImg) {
+        this.email = email;
         this.profileImg = profileImg;
     }
 }

@@ -15,6 +15,13 @@
     height: 100%;
     object-fit: cover;
 }
+.profile2 {
+    width: 200px;
+    height: 200px;
+    border-radius: 70%;
+    object-fit: cover;
+    overflow: hidden;
+}
 footer{
     position: relative;
     bottom: 0;
@@ -23,6 +30,9 @@ footer{
 }
 main {
     min-height: 1000px;
+}
+body{
+    user-select: none;
 }
 .jumbotron{
     width: auto;

@@ -34,7 +34,7 @@
             <li class="box" th:unless="${account.profileImg != null}" sec:authorize="isAuthenticated()">
                 <img class="profile" src="images/default_profileImg.png" alt=""></li>
             <li class="nav-item" sec:authorize="isAuthenticated()">
-                <a class="nav-link" href="javascript:openUserInfo()" th:text="${account.username}"></a></li>
+                <a class="nav-link" href="/info" th:text="${account.username}"></a></li>
             <li class="nav-item" sec:authorize="isAuthenticated()">
                 <a class="nav-link" th:text="${account.authorities}"></a></li>
             <li class="nav-item" th:if="${#authentication != null}">
@@ -47,34 +47,6 @@
         </ul>
     </div>
 </nav>
-<div class="modal" id="userInfo" tabindex="-1" style="display: none;" sec:authorize="isAuthenticated()">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">프로필 정보 수정</h5>
-                <button class="btn-close" onclick="closeUserInfo()" aria-label="Close"></button>
-            </div>
-            <!--팝업 컨텐츠 영역-->
-            <form method="post" enctype="multipart/form-data" action="account/profile_update">
-                <label for="nickname">닉네임 :
-                    <input type="text" id="nickname" name="nickname" th:value="${account.username}" required></label>
-                <label for="chooseImg">프로필 이미지 선택 :
-                    <input type="file" id="chooseImg" name="profileImg" accept="image/jpeg, image/jpg, image/png"></label>
-                <label for="comment">소개글 :
-                    <input type="text" id="comment" name="comment" placeholder="소개글을 작성해주세요."
-                           th:value="${account.comment}"></label>
-                <div class="modal-footer">
-                    <a class="btn btn-secondary" onclick="closeUserInfo()">닫기</a>
-                    <button type="submit" class="btn btn-success"
-                            onclick="if(!confirm('저장하시면 되돌릴수 없습니다. \n 정말로 저장하시겠습니까??')){
-                                return false;
-                            }">저장
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 <div class="menu-wrapper">
     <ul class="menu">
         <li><h3 class="text-white">메뉴</h3></li>

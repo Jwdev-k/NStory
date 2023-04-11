@@ -27,16 +27,24 @@ public class MainController {
         return "main";
     }
 
+    @GetMapping(value = "info")
+    public String userInfo() {
+        return "UserInfo";
+    }
+
     @PostMapping(value = "/account/profile_update")
-    public String UpdateAccountInfo(HttpServletRequest request, @RequestParam String nickname, @RequestParam String comment
-            , @RequestParam MultipartFile profileImg, Authentication authentication) throws Exception {
+    public String updateAccountInfo(HttpServletRequest request, @RequestParam String nickname
+            , @RequestParam String comment, Authentication authentication) throws Exception {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-/*        String base64Img = null;
-        if (profileImg != null) {
-            base64Img = Base64.getEncoder().encodeToString(profileImg.getBytes());
-        }*/
-        accountService.UpdateAccountInfo(
-                new AccountDTO(userDetails.getEmail(), nickname, comment, profileImg.getBytes()), authentication);
+        accountService.UpdateAccountInfo(new AccountDTO(userDetails.getEmail(), nickname, comment), authentication);
+        return "redirect:" + request.getHeader("referer");
+    }
+
+    @PostMapping(value = "/account/prf_update")
+    public String updateAccountInfo2(HttpServletRequest request, @RequestParam MultipartFile profileImg
+            , Authentication authentication) throws Exception {
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        accountService.UpdateAccountInfo(new AccountDTO(userDetails.getEmail(), profileImg.getBytes()), authentication);
         return "redirect:" + request.getHeader("referer");
     }
 
