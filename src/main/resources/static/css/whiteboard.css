@@ -1,11 +1,11 @@
 .list-group-item {
-    background-color: #2e2e2e;
-    border-color: #292929;
+    background-color: whitesmoke;
     padding: 20px;
     margin-bottom: 20px;
 }
 .list-group-item h2 {
     font-size: 1.2rem;
+    font-weight: bold;
     margin-bottom: 5px;
 }
 .list-group-item p {
@@ -44,6 +44,6 @@ label{
 .title {
     font-size: 20px;
     margin: 50px;
-    background-color: #303030;
-    color: white;
+    background-color: whitesmoke;
+    color: #FF3E7F;
 }

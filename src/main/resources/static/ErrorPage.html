@@ -18,12 +18,13 @@
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/bootstrap-utilities.css">
   <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/custom-theme.css">
   <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
   <script src="js/bootstrap.min.js"></script>
   <script src="js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="border-bottom:1px solid gold">
+<nav class="navbar navbar-expand-lg">
   <div class="container">
     <a class="navbar-brand" href="/">NStory</a>
     <ul class="navbar-nav right-0">
@@ -59,8 +60,8 @@
 <button class="menu-btn" style="height: 50px; width: 50px"><img src="images/svg/menu.svg" alt="Menu"></button>
 <main class="container vh-100">
     <div class="row justify-content-center" style="margin-top: 20%;">
-      <div class="col-md-6 text-center mt-5 text-white">
-        <h2 class="display-4">죄송합니다.</h2>
+      <div class="col-md-6 text-center mt-5">
+        <h2 class="display-4 fw-bold">죄송합니다.</h2>
         <p class="lead">요청을 처리하는 중에 오류가 발생했습니다. 나중에 다시 시도 해주십시오. </p>
         <p class="font-weight-bold" th:text="'Error code: ' + ${ErrorCode}"></p>
         <a href="/" class="btn btn-primary">메인페이지로 돌아가기</a>
@@ -68,10 +69,10 @@
     </div>
 </main>
 <!-- Footer -->
-<footer class="py-3 bg-dark" >
+<footer class="py-3">
   <div class="container">
-    <p class="m-0 text-center text-white">Copyright &copy; NStory 2023</p>
-    <p class="m-0 text-center text-white">Discord : Gom._.Gom#3502</p>
+    <p class="m-0 text-center">Copyright &copy; NStory 2023</p>
+    <p class="m-0 text-center">Discord : Gom._.Gom#3502</p>
   </div>
 </footer>
 </body>

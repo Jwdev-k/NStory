@@ -19,12 +19,13 @@
 	</style>
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/bootstrap-utilities.css">
+	<link rel="stylesheet" href="css/custom-theme.css">
 	<script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/bootstrap.bundle.min.js"></script>
 </head>
-<body style="background-color: #212529;">
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="border-bottom:1px solid gold;">
+<body>
+<nav class="navbar navbar-expand-lg">
 	<div class="container">
 		<a class="navbar-brand" href="/">NStory</a>
 	</div>
@@ -34,10 +35,10 @@
 		<div class="container-fluid" style="width: 500px">
 			<form class="py-5 my-5" method="post">
 				<div class="d-grid">
-					<span class="text-lg-center my-4" style="font-size: 30px; color: gold;">사용자 등록</span>
+					<span class="text-lg-center my-4 fw-bold" style="font-size: 30px; color: #FF3E7F;">사용자 등록</span>
 				</div>
 				<div class="d-grid">
-					<span class="text-lg-center my-4 text-info">STEP2</span>
+					<span class="text-lg-center my-4 text-secondary">STEP2</span>
 					<span class="text-lg-center my-1 text-danger" th:text="${errMsg}"></span>
 				</div>
 				<label class="text-white">닉네임</label>
@@ -68,10 +69,10 @@
 	</div>
 </div>
 <!-- Footer -->
-<footer class="py-3 bg-dark">
+<footer class="py-3">
 	<div class="container">
-		<p class="m-0 text-center text-white">Copyright &copy; NStory 2023</p>
-		<p class="m-0 text-center text-white">Discord : Gom._.Gom#3502</p>
+		<p class="m-0 text-center">Copyright &copy; NStory 2023</p>
+		<p class="m-0 text-center">Discord : Gom._.Gom#3502</p>
 	</div>
 </footer>
 </body>

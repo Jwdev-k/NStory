@@ -1,0 +1,158 @@
+:root {
+    --primary-color: #FF3E7F;
+    --secondary-color: #8B5EB5;
+}
+.navbar {
+    background-color: whitesmoke;
+    border-bottom: 1px solid #FF3E7F;
+}
+/* 로고 */
+.navbar-brand {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+/* 메뉴 아이템 */
+.navbar-nav .nav-link {
+    font-weight: bold;
+}
+
+.navbar-nav .nav-link:hover {
+    color: var(--secondary-color);
+}
+
+/* 검색 바 */
+.navbar-form .form-control {
+    background-color: #FFF;
+    color: #555;
+}
+
+.navbar-form .btn {
+    background-color: var(--primary-color);
+    color: #FFF;
+    border-color: var(--primary-color);
+}
+
+.navbar-form .btn:hover {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+/* 일반 버튼 */
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    font-weight: bold;
+}
+
+.btn-primary:hover {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+/* outline 버튼 */
+.btn-outline-primary {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+    font-weight: bold;
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--primary-color);
+    color: #FFF;
+}
+
+/* 대형 버튼 */
+.btn-lg {
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+.card {
+    border: none;
+    background-color: #FFFFFF;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    border-bottom: none;
+    background-color: var(--primary-color);
+    color: #FFFFFF;
+    font-weight: bold;
+}
+
+.card-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: black;
+}
+
+.card-text {
+    color: #555555;
+}
+
+.card-link {
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+.card-link:hover {
+    color: var(--secondary-color);
+}
+footer {
+    background-color: whitesmoke;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    border-top: 1px solid #FF3E7F;
+}
+.footer-link:hover {
+    color: var(--secondary-color);
+}
+.menu-wrapper {
+    position: fixed;
+    top: 0;
+    left : -150px;
+    width: 200px;
+    height: 100vh;
+    background-color: whitesmoke;
+    z-index: 1;
+    transition: left 0.3s ease-in-out;
+    box-shadow: 5px 0 5px rgba(0, 0, 0, 0.5); /* 오른쪽 그림자 */
+    opacity: 0;
+}
+
+.menu {
+    padding: 0;
+    margin: 100px 0 0 0;
+
+}
+.menu-info {
+    list-style: none;
+    padding: 0;
+    margin-top: 200%;
+}
+.menu-info p {
+    font-size: 10px;
+    color: var(--primary-color);
+}
+
+.menu li {
+    text-align: center;
+    padding: 10px;
+}
+
+.menu li a {
+    color: var(--primary-color);
+    font-weight: bold;
+    text-decoration: none;
+}
+.menu li h3 {
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--primary-color);
+    font-weight: bold;
+    color: var(--primary-color);
+}
+.menu-btn {
+    position: fixed;
+}

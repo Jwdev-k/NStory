@@ -19,12 +19,13 @@
     <link rel="stylesheet" href="assets/font-awesome/css/fontawesome.css">
     <link rel="stylesheet" href="assets/font-awesome/css/solid.css">
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/custom-theme.css">
     <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="border-bottom:1px solid gold">
+<nav class="navbar navbar-expand-lg">
     <div class="container">
         <a class="navbar-brand" href="/">NStory</a>
         <ul class="navbar-nav right-0">
@@ -45,7 +46,7 @@
 </nav>
 <div class="menu-wrapper">
     <ul class="menu">
-        <li><h3 class="text-white">메뉴</h3></li>
+        <li><h3>메뉴</h3></li>
         <li><a href="/whiteboard">자유게시판</a></li>
         <li><a href="/record">방명록</a></li>
         <li><a href="/ranking">랭킹</a></li>
@@ -53,7 +54,7 @@
         <li><a sec:authorize="hasRole('ROLE_ADMIN')" href="#">유저 관리</a></li>
     </ul>
     <ul class="menu-info">
-        <li><p class="text-center text-white">개발중인 메뉴입니다.
+        <li><p class="text-center">개발중인 메뉴입니다.
             <br/>현재 테스트 작업중이며 버그 신고는 ckaksj97@gmail.com으로 부탁드립니다.</p></li>
     </ul>
 </div>
@@ -93,10 +94,10 @@
     </div>
 </main>
 <!-- Footer -->
-<footer class="py-3 bg-dark">
+<footer class="py-3">
     <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; NStory 2023</p>
-        <p class="m-0 text-center text-white">Discord : Gom._.Gom#3502</p>
+        <p class="m-0 text-center">Copyright &copy; NStory 2023</p>
+        <p class="m-0 text-center">Discord : Gom._.Gom#3502</p>
     </div>
 </footer>
 </body>

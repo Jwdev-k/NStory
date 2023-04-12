@@ -17,12 +17,13 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/bootstrap-utilities.css">
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/custom-theme.css">
     <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="border-bottom:1px solid gold">
+<nav class="navbar navbar-expand-lg">
     <div class="container">
         <a class="navbar-brand" href="/">NStory</a>
         <ul class="navbar-nav right-0">
@@ -43,7 +44,7 @@
 </nav>
 <div class="menu-wrapper">
     <ul class="menu">
-        <li><h3 class="text-white">메뉴</h3></li>
+        <li><h3>메뉴</h3></li>
         <li><a href="/whiteboard">자유게시판</a></li>
         <li><a href="/record">방명록</a></li>
         <li><a href="/ranking">랭킹</a></li>
@@ -57,8 +58,6 @@
 </div>
 <button class="menu-btn" style="height: 50px; width: 50px"><img src="images/svg/menu.svg" alt="Menu"></button>
 <main>
-    <h2 class="container" style="background-color: #39393a; color: white; width: auto; padding: 10px;
-        border-radius: 1px 1px 10px 10px;">방명록</h2>
     <div class="container">
         <button sec:authorize="isAuthenticated()" class="btn btn-primary" onclick="openPop()"
                 style="width: 100%;">등록
@@ -91,37 +90,36 @@
     <div class="d-flex justify-content-center py-5" th:object="${pageMaker}">
         <ul class="pagination">
             <li class="page-item">
-                <a class="page-link bg-dark" th:href="@{/record(page=1)}"
-                   style="color: ghostwhite;" aria-label="Previous">
+                <a class="page-link bg-light" th:href="@{/record(page=1)}"
+                   style="color: black;" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
             <li class="page-item" th:if="${pageMaker.isPrev}">
-                <a class="page-link bg-dark" th:href="@{/record(page=${pageMaker.startPage - 10})}"
-                   style="color: ghostwhite;" aria-label="Previous">
+                <a class="page-link bg-light" th:href="@{/record(page=${pageMaker.startPage - 10})}"
+                   style="color: black;" aria-label="Previous">
                     <span aria-hidden="true">&#60;</span>
                 </a>
             </li>
             <th:block th:each="page : ${#numbers.sequence(pageMaker.startPage,pageMaker.endPage)}">
                 <li class="page-item" th:if="${crtPage == page}">
-                    <a class="page-link bg-dark" style="color: red;"
+                    <a class="page-link bg-light" style="color: red;"
                        th:href="@{/record(page=${page})}" th:text="${page}"></a>
                 </li>
                 <li class="page-item" th:unless="${crtPage == page}">
-                    <a class="page-link bg-dark" style="color: ghostwhite;"
+                    <a class="page-link bg-light" style="color: black;"
                        th:href="@{/record(page=${page})}" th:text="${page}"></a>
                 </li>
             </th:block>
             <li class="page-item" th:if="${pageMaker.isNext}">
-                <a class="page-link bg-dark" th:href="@{/record(page=${pageMaker.endPage + 1})}"
-                   style="color: ghostwhite;"
+                <a class="page-link bg-light" th:href="@{/record(page=${pageMaker.endPage + 1})}"
                    aria-label="Next">
                     <span aria-hidden="true">&#62;</span>
                 </a>
             </li>
             <li class="page-item">
-                <a class="page-link bg-dark" th:href="@{/record(page=${pageMaker.lastEndPage})}"
-                   style="color: ghostwhite;"
+                <a class="page-link bg-light" th:href="@{/record(page=${pageMaker.lastEndPage})}"
+                   style="color: black;"
                    aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
@@ -151,10 +149,10 @@
     </div>
 </div>
 <!-- Footer -->
-<footer class="py-3 bg-dark">
+<footer class="py-3">
     <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; NStory 2023</p>
-        <p class="m-0 text-center text-white">Discord : Gom._.Gom#3502</p>
+        <p class="m-0 text-center">Copyright &copy; NStory 2023</p>
+        <p class="m-0 text-center">Discord : Gom._.Gom#3502</p>
     </div>
 </footer>
 </body>

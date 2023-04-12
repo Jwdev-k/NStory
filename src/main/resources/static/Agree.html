@@ -18,12 +18,13 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/bootstrap-utilities.css">
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/custom-theme.css">
     <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="border-bottom:1px solid gold;">
+<nav class="navbar navbar-expand-lg">
     <div class="container">
         <a class="navbar-brand" href="/">NStory</a>
     </div>
@@ -33,10 +34,10 @@
         <div class="container-fluid" style="width: 500px">
             <form class="py-5 my-5" method="post">
                 <div class="d-grid">
-                    <span class="text-lg-center my-4" style="font-size: 30px; color: gold;">약관 동의</span>
+                    <span class="text-lg-center my-4 fw-bold" style="font-size: 30px; color: #FF3E7F;">약관 동의</span>
                 </div>
                 <div class="d-grid">
-                    <span class="text-lg-center my-4 text-info">STEP1</span>
+                    <span class="text-lg-center my-4 text-secondary">STEP1</span>
                     <span class="text-lg-center my-1 text-danger" th:text="${errMsg}"></span>
                 </div>
                 <div class="form-group">
@@ -84,7 +85,7 @@
                     </textarea>
                 </div>
                 <div class="form-group">
-                    <label class="form-check-label" for="agreeCheck">개인정보 수집 및 이용 동의<label style="color: red;">(필수)</label></label>
+                    <label class="form-check-label" style="color: black;" for="agreeCheck">개인정보 수집 및 이용 동의<label style="color: red;">(필수)</label></label>
                     <input type="checkbox" class="form-check-input" id="agreeCheck" name="agree">
                 </div>
                 <div class="d-grid gap-2 col-12 my-5 mx-auto">
@@ -96,10 +97,10 @@
     </div>
 </div>
 <!-- Footer -->
-<footer class="py-3 bg-dark">
+<footer class="py-3">
     <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; NStory 2023</p>
-        <p class="m-0 text-center text-white">Discord : Gom._.Gom#3502</p>
+        <p class="m-0 text-center">Copyright &copy; NStory 2023</p>
+        <p class="m-0 text-center">Discord : Gom._.Gom#3502</p>
     </div>
 </footer>
 </body>

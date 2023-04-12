@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/bootstrap-utilities.css">
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/custom-theme.css">
     <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
@@ -24,7 +25,7 @@
     <script src="assets/CropperJS/cropper.min.js"></script>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="border-bottom:1px solid gold">
+<nav class="navbar navbar-expand-lg">
     <div class="container">
         <a class="navbar-brand" href="/">NStory</a>
         <ul class="navbar-nav right-0">
@@ -49,7 +50,7 @@
 </nav>
 <div class="menu-wrapper">
     <ul class="menu">
-        <li><h3 class="text-white">메뉴</h3></li>
+        <li><h3>메뉴</h3></li>
         <li><a href="/whiteboard">자유게시판</a></li>
         <li><a href="/record">방명록</a></li>
         <li><a href="/ranking">랭킹</a></li>
@@ -63,13 +64,13 @@
 </div>
 <button class="menu-btn" style="height: 50px; width: 50px"><img src="images/svg/menu.svg" alt="Menu"></button>
 <main>
-    <div class="container-fluid bg-dark">
+    <div class="container-fluid">
         <div class="container mt-5">
             <div class="row justify-content-center">
                 <div class="col-lg-6 col-md-8">
-                    <div class="card border-0 shadow bg-dark">
+                    <div class="card border-0 shadow">
                         <div class="card-body text-light">
-                            <h3 class="card-title text-center" style="color: gold;">계정 정보</h3>
+                            <h3 class="card-title text-center">계정 정보</h3>
                             <div class="text-center">
                                 <div class="overflow-hidden mb-3 mt-5">
                                     <a href="javascript:openUserInfo()">
@@ -86,22 +87,22 @@
                             <form method="post" action="/account/profile_update">
                                 <div class="form-group">
                                     <label for="nickname" class="text-light">사용자 이름</label>
-                                    <input type="text" class="form-control bg-dark text-light" id="nickname"
+                                    <input type="text" class="form-control" id="nickname"
                                            name="nickname" th:value="${#authentication.principal.username}">
                                 </div>
                                 <div class="form-group">
                                     <label for="comment" class="text-light">소개글</label>
-                                    <input type="text" class="form-control bg-dark text-light" id="comment"
+                                    <input type="text" class="form-control" id="comment"
                                            name="comment" th:value="${#authentication.principal.comment}">
                                 </div>
                                 <div class="form-group">
                                     <label for="email" class="text-light">이메일 주소</label>
-                                    <input type="email" class="form-control bg-dark text-light" id="email"
+                                    <input type="email" class="form-control" id="email"
                                            th:value="${#authentication.principal.email}" readonly>
                                 </div>
                                 <div class="form-group">
                                     <label for="password" class="text-light">비밀번호</label>
-                                    <input type="password" class="form-control bg-dark text-light" id="password"
+                                    <input type="password" class="form-control" id="password"
                                            value="********" readonly>
                                 </div>
                                 <div class="form-group">
@@ -112,7 +113,7 @@
                                         <button type="button" class="btn btn-secondary mt-2"
                                                 onclick="location.href='/'">취소
                                         </button>
-                                        <button type="submit" class="btn btn-success mt-2"
+                                        <button type="submit" class="btn btn-primary mt-2"
                                                 onclick="if(!confirm('저장하시면 되돌릴수 없습니다. \n 정말로 저장하시겠습니까??')){
                                 return false;
                             }">저장
@@ -153,10 +154,10 @@
     </div>
 </main>
 <!-- Footer -->
-<footer class="py-3 bg-dark">
+<footer class="py-3">
     <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; NStory 2023</p>
-        <p class="m-0 text-center text-white">Discord : Gom._.Gom#3502</p>
+        <p class="m-0 text-center">Copyright &copy; NStory 2023</p>
+        <p class="m-0 text-center">Discord : Gom._.Gom#3502</p>
     </div>
 </footer>
 </body>

@@ -19,12 +19,13 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/bootstrap-utilities.css">
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/custom-theme.css">
     <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="border-bottom:1px solid gold">
+<nav class="navbar navbar-expand-lg">
     <div class="container">
         <a class="navbar-brand" href="/">NStory</a>
         <ul class="navbar-nav right-0">
@@ -45,7 +46,7 @@
 </nav>
 <div class="menu-wrapper">
     <ul class="menu">
-        <li><h3 class="text-white">메뉴</h3></li>
+        <li><h3>메뉴</h3></li>
         <li><a href="/whiteboard">자유게시판</a></li>
         <li><a href="/record">방명록</a></li>
         <li><a href="/ranking">랭킹</a></li>
@@ -59,8 +60,6 @@
 </div>
 <button class="menu-btn" style="height: 50px; width: 50px"><img src="images/svg/menu.svg" alt="Menu"></button>
 <main>
-    <h2 class="container table-header" style="background-color: #39393a; color: white; width: auto; padding: 10px;
-        border-radius: 1px 1px 10px 10px;">자유게시판</h2>
     <div class="container mt-3">
         <form style="margin-left: 60%">
             <label class="my-3">
@@ -79,7 +78,7 @@
             <div class="col-md-12">
                 <div class="list-group">
                     <th:block th:each="list : ${boardList}">
-                    <a th:href="@{/whiteview(id=${list.id})}" class="list-group-item my-2 text-white">
+                    <a th:href="@{/whiteview(id=${list.id})}" class="list-group-item my-2 bottom-0 shadow">
                         <span class="badge" th:text="'#' + ${list.id}"></span>
                         <h2 th:text="${list.title}"></h2>
                         <p th:text="'작성자: ' + ${list.author} + ' | 작성일: ' + ${list.creationDate}"></p>
@@ -88,40 +87,40 @@
                 </div>
             </div>
         </div>
-        <div class="d-flex justify-content-center my-3" th:object="${pageMaker}" th:if="${!isSearch}">
+        <div class="d-flex justify-content-center py-5" th:object="${pageMaker}" th:if="${!isSearch}">
             <ul class="pagination">
                 <li class="page-item">
-                    <a class="page-link bg-dark" th:href="@{/whiteboard(page=1)}"
-                       style="color: ghostwhite;" aria-label="Previous">
+                    <a class="page-link bg-light" th:href="@{/whiteboard(page=1)}"
+                       style="color: black;" aria-label="Previous">
                         <span aria-hidden="true"><i class="fa-solid fa-angle-double-left fa-xs"></i></span>
                     </a>
                 </li>
                 <li class="page-item" th:if="${pageMaker.isPrev}">
-                    <a class="page-link bg-dark" th:href="@{/whiteboard(page=${pageMaker.startPage - 10})}"
-                       style="color: ghostwhite;" aria-label="Previous">
+                    <a class="page-link bg-light" th:href="@{/whiteboard(page=${pageMaker.startPage - 10})}"
+                       style="color: black;" aria-label="Previous">
                         <span aria-hidden="true"><i class="fa-solid fa-angle-left fa-xs"></i></span>
                     </a>
                 </li>
                 <th:block th:each="page : ${#numbers.sequence(pageMaker.startPage,pageMaker.endPage)}">
                     <li class="page-item" th:if="${pageMaker.page == page}">
-                        <a class="page-link bg-dark" style="color: red;"
+                        <a class="page-link bg-light" style="color: red;"
                            th:href="@{/whiteboard(page=${page})}" th:text="${page}"></a>
                     </li>
                     <li class="page-item" th:unless="${pageMaker.page == page}">
-                        <a class="page-link bg-dark" style="color: ghostwhite;"
+                        <a class="page-link bg-light" style="color: black;"
                            th:href="@{/whiteboard(page=${page})}" th:text="${page}"></a>
                     </li>
                 </th:block>
                 <li class="page-item" th:if="${pageMaker.isNext}">
-                    <a class="page-link bg-dark" th:href="@{/whiteboard(page=${pageMaker.endPage + 1})}"
-                       style="color: ghostwhite;"
+                    <a class="page-link bg-light" th:href="@{/whiteboard(page=${pageMaker.endPage + 1})}"
+                       style="color: black;"
                        aria-label="Next">
                         <span aria-hidden="true"><i class="fa-solid fa-angle-right fa-xs"></i></span>
                     </a>
                 </li>
                 <li class="page-item">
-                    <a class="page-link bg-dark" th:href="@{/whiteboard(page=${pageMaker.lastEndPage})}"
-                       style="color: ghostwhite;"
+                    <a class="page-link bg-light" th:href="@{/whiteboard(page=${pageMaker.lastEndPage})}"
+                       style="color: black;"
                        aria-label="Next">
                         <span aria-hidden="true"><i class="fa-solid fa-angle-double-right fa-xs"></i></span>
                     </a>
@@ -131,37 +130,37 @@
         <div class="d-flex justify-content-center my-3" th:object="${pageMaker}" th:unless="${!isSearch}">
             <ul class="pagination">
                 <li class="page-item">
-                    <a class="page-link bg-dark" th:href="@{/whiteboard(page=1,type=${type},str=${str})}"
-                       style="color: ghostwhite;" aria-label="Previous">
+                    <a class="page-link bg-light" th:href="@{/whiteboard(page=1,type=${type},str=${str})}"
+                       style="color: black;" aria-label="Previous">
                         <span aria-hidden="true"><i class="fa-solid fa-angle-double-left fa-xs"></i></span>
                     </a>
                 </li>
                 <li class="page-item" th:if="${pageMaker.isPrev}">
-                    <a class="page-link bg-dark" th:href="@{/whiteboard(page=${pageMaker.startPage - 10},type=${str},str=${str})}"
-                       style="color: ghostwhite;" aria-label="Previous">
+                    <a class="page-link bg-light" th:href="@{/whiteboard(page=${pageMaker.startPage - 10},type=${str},str=${str})}"
+                       style="color: black;" aria-label="Previous">
                         <span aria-hidden="true"><i class="fa-solid fa-angle-left fa-xs"></i></span>
                     </a>
                 </li>
                 <th:block th:each="page : ${#numbers.sequence(pageMaker.startPage,pageMaker.endPage)}">
                     <li class="page-item" th:if="${pageMaker.page == page}">
-                        <a class="page-link bg-dark" style="color: red;"
+                        <a class="page-link bg-light" style="color: red;"
                            th:href="@{/whiteboard(page=${page},type=${type},str=${str})}" th:text="${page}"></a>
                     </li>
                     <li class="page-item" th:unless="${pageMaker.page == page}">
-                        <a class="page-link bg-dark" style="color: ghostwhite;"
+                        <a class="page-link bg-dark" style="color: black;"
                            th:href="@{/whiteboard(page=${page},type=${type},str=${str})}" th:text="${page}"></a>
                     </li>
                 </th:block>
                 <li class="page-item" th:if="${pageMaker.isNext}">
-                    <a class="page-link bg-dark" th:href="@{/whiteboard(page=${pageMaker.endPage + 1},type=${type},str=${str})}"
+                    <a class="page-link bg-light" th:href="@{/whiteboard(page=${pageMaker.endPage + 1},type=${type},str=${str})}"
                        style="color: ghostwhite;"
                        aria-label="Next">
                         <span aria-hidden="true"><i class="fa-solid fa-angle-right fa-xs"></i></span>
                     </a>
                 </li>
                 <li class="page-item">
-                    <a class="page-link bg-dark" th:href="@{/whiteboard(page=${pageMaker.lastEndPage},type=${type},str=${str})}"
-                       style="color: ghostwhite;"
+                    <a class="page-link bg-light" th:href="@{/whiteboard(page=${pageMaker.lastEndPage},type=${type},str=${str})}"
+                       style="color: black;"
                        aria-label="Next">
                         <span aria-hidden="true"><i class="fa-solid fa-angle-double-right fa-xs"></i></span>
                     </a>
@@ -171,10 +170,10 @@
     </div>
 </main>
 <!-- Footer -->
-<footer class="py-3 bg-dark">
+<footer class="py-3">
     <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; NStory 2023</p>
-        <p class="m-0 text-center text-white">Discord : Gom._.Gom#3502</p>
+        <p class="m-0 text-center">Copyright &copy; NStory 2023</p>
+        <p class="m-0 text-center">Discord : Gom._.Gom#3502</p>
     </div>
 </footer>
 </body>
