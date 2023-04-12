@@ -2,6 +2,7 @@ package nk.service.NStory.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import net.minidev.json.JSONObject;
 import nk.service.NStory.dto.AccountDTO;
 import nk.service.NStory.security.CustomUserDetails;
 import nk.service.NStory.service.impl.AccountService;
@@ -11,10 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
@@ -27,7 +25,7 @@ public class MainController {
         return "main";
     }
 
-    @GetMapping(value = "info")
+    @GetMapping(value = "/info")
     public String userInfo() {
         return "UserInfo";
     }
@@ -40,12 +38,17 @@ public class MainController {
         return "redirect:" + request.getHeader("referer");
     }
 
+    @ResponseBody
     @PostMapping(value = "/account/prf_update")
-    public String updateAccountInfo2(HttpServletRequest request, @RequestParam MultipartFile profileImg
+    public ResponseEntity<String> updateAccountInfo2(HttpServletRequest request, @RequestParam MultipartFile profileImg
             , Authentication authentication) throws Exception {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         accountService.UpdateAccountInfo(new AccountDTO(userDetails.getEmail(), profileImg.getBytes()), authentication);
-        return "redirect:" + request.getHeader("referer");
+
+        JSONObject responseJson = new JSONObject();
+        responseJson.put("result", "success");
+        responseJson.put("redirectUrl", request.getHeader("referer"));
+        return ResponseEntity.ok(responseJson.toJSONString());
     }
 
     @GetMapping(value = "/storage/prf/img", produces = MediaType.IMAGE_PNG_VALUE)

@@ -16,10 +16,10 @@
     </style>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/bootstrap-utilities.css">
+    <link rel="stylesheet" href="assets/font-awesome/css/fontawesome.css">
+    <link rel="stylesheet" href="assets/font-awesome/css/solid.css">
     <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.min.css">
     <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js" integrity="sha512-nnzkI2u2Dy6HMnzMIkh7CPd1KX445z38XIu4jG1jGw7x5tSL3VBjE44dY4ihMU1ijAQV930SPM12cCFrB18sVw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
 </head>
@@ -76,7 +76,8 @@
                     <div class="input-group">
                         <input type="text" id="message" class="form-control" placeholder="메시지를 입력하세요" maxlength="100">
                         <div class="input-group-append">
-                            <button type="button" class="btn btn-primary" onclick="sendMessage()">전송</button>
+                            <button type="button" class="btn btn-primary" onclick="sendMessage()">
+                                <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
                         </div>
                     </div>
                 </div>
@@ -99,7 +100,6 @@
     </div>
 </footer>
 </body>
-<script src="js/popup.js"></script>
 <script src="js/serverTime.js"></script>
 <script src="js/mainChat.js"></script>
 <script src="js/menuEvent.js"></script>

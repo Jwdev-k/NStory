@@ -2,7 +2,7 @@
 --
 -- Host: localhost    Database: nstory
 -- ------------------------------------------------------
--- Server version	5.5.5-10.6.4-MariaDB
+-- Server version	5.5.5-10.9.3-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -28,17 +28,17 @@ CREATE TABLE `account` (
   `password` varchar(60) NOT NULL COMMENT '패스워드',
   `name` varchar(100) NOT NULL COMMENT '닉네임',
   `comment` varchar(100) DEFAULT NULL COMMENT '소개글',
-  `profileImg` blob DEFAULT NULL COMMENT '프로필 이미지',
+  `profileImg` mediumblob DEFAULT NULL COMMENT '프로필 이미지',
   `role` varchar(10) NOT NULL COMMENT '권한레벨',
   `creationDate` varchar(19) NOT NULL COMMENT '가입일',
   `lastLoginDate` varchar(19) DEFAULT NULL,
   `level` int(100) DEFAULT 1,
   `exp` int(11) DEFAULT 0,
   `nCoin` int(11) DEFAULT 0,
-  `isEnable` int(1) NOT NULL COMMENT '활성화 여부',
+  `isEnable` tinyint(1) NOT NULL COMMENT '활성화 여부',
   PRIMARY KEY (`id`),
   UNIQUE KEY `email_un` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -47,7 +47,7 @@ CREATE TABLE `account` (
 
 LOCK TABLES `account` WRITE;
 /*!40000 ALTER TABLE `account` DISABLE KEYS */;
-INSERT INTO `account` VALUES (3,'test@gmail.com','$2a$10$hC2lameVlxjhoAbwh/nDAesZhmslYvM1mka3ieyYmSS8O.0lGpzx.','Naka','',NULL,'ADMIN','2023-02-06 13:16:36','2023-02-23 01:33:56',4,1000,0,1),(5,'test2@gmail.com','$2a$10$mf9URqJAm6DLAC6bM4DLg.aPGjCvTY0srMAEX65.ozPiQtNRfVBVi','테스트유저','',NULL,'USER','2023-02-15 11:06:30','2023-02-21 21:30:37',1,100,0,1);
+
 /*!40000 ALTER TABLE `account` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -72,7 +72,7 @@ CREATE TABLE `exptable` (
 
 LOCK TABLES `exptable` WRITE;
 /*!40000 ALTER TABLE `exptable` DISABLE KEYS */;
-INSERT INTO `exptable` VALUES (1,0,300),(2,300,600),(3,600,900),(4,900,1200),(5,1200,1500),(6,1500,1800),(7,1800,2100),(8,2100,2400),(9,2400,2700),(10,2700,3000);
+INSERT INTO `exptable` VALUES (1,0,300),(2,300,600),(3,600,900),(4,900,1200),(5,1200,1500),(6,1500,1800),(7,1800,2100),(8,2100,2400),(9,2400,2700),(10,2700,3000),(11,3000,3500),(12,3500,4000),(13,4000,4500),(14,4500,5000),(15,5000,5500),(16,5500,6000),(17,6000,6500),(18,6500,7000),(19,7000,7500),(20,7500,8000),(21,8000,9000),(22,9000,10000),(23,10000,11000),(24,11000,12000),(25,12000,13000),(26,13000,14000),(27,14000,15000),(28,16000,17000),(29,18000,19000),(30,20000,21000),(31,21000,23000),(32,23000,25000),(33,25000,27000),(34,27000,29000),(35,29000,31000),(36,31000,33000),(37,33000,35000),(38,35000,37000),(39,37000,39000),(40,39000,41000),(41,41000,44000),(42,44000,47000),(43,47000,50000),(44,50000,53000),(45,53000,56000),(46,56000,59000),(47,59000,62000),(48,62000,65000),(49,65000,68000),(50,68000,71000);
 /*!40000 ALTER TABLE `exptable` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -91,14 +91,27 @@ CREATE TABLE `recordlog` (
   `time` varchar(19) NOT NULL DEFAULT 'current_timestamp()' COMMENT '작성시간',
   PRIMARY KEY (`id`),
   KEY `Email_FK` (`email`),
-  CONSTRAINT `Email_FK` FOREIGN KEY (`email`) REFERENCES `account` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=413 DEFAULT CHARSET=utf8mb4;
+  CONSTRAINT `email_FK` FOREIGN KEY (`email`) REFERENCES `account` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=474 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `recordlog`
 --
 
+LOCK TABLES `recordlog` WRITE;
+/*!40000 ALTER TABLE `recordlog` DISABLE KEYS */;
+
+/*!40000 ALTER TABLE `recordlog` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `whiteboard`
+--
+
+DROP TABLE IF EXISTS `whiteboard`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `whiteboard` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '번호',
   `title` varchar(50) NOT NULL COMMENT '제목',
@@ -110,7 +123,18 @@ CREATE TABLE `whiteboard` (
   PRIMARY KEY (`id`),
   KEY `whiteboard_FK` (`email`),
   CONSTRAINT `whiteboard_FK` FOREIGN KEY (`email`) REFERENCES `account` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `whiteboard`
+--
+
+LOCK TABLES `whiteboard` WRITE;
+/*!40000 ALTER TABLE `whiteboard` DISABLE KEYS */;
+
+/*!40000 ALTER TABLE `whiteboard` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Dumping routines for database 'nstory'
@@ -125,4 +149,4 @@ CREATE TABLE `whiteboard` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-02-23  1:40:46
+-- Dump completed on 2023-04-12  9:31:57

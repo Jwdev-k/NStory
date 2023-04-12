@@ -17,12 +17,11 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/bootstrap-utilities.css">
     <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.min.css">
     <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js" integrity="sha512-nnzkI2u2Dy6HMnzMIkh7CPd1KX445z38XIu4jG1jGw7x5tSL3VBjE44dY4ihMU1ijAQV930SPM12cCFrB18sVw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.min.js"></script>
+    <link rel="stylesheet" href="assets/CropperJS/cropper.min.css"/>
+    <script src="assets/CropperJS/cropper.min.js"></script>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="border-bottom:1px solid gold">
@@ -31,7 +30,8 @@
         <ul class="navbar-nav right-0">
             <li class="box" th:if="${#authentication.principal.profileImg != null}" sec:authorize="isAuthenticated()">
                 <img class="profile" th:src="@{/storage/prf/img}" alt=""></li>
-            <li class="box" th:unless="${#authentication.principal.profileImg != null}" sec:authorize="isAuthenticated()">
+            <li class="box" th:unless="${#authentication.principal.profileImg != null}"
+                sec:authorize="isAuthenticated()">
                 <img class="profile" src="images/default_profileImg.png" alt=""></li>
             <li class="nav-item" sec:authorize="isAuthenticated()">
                 <a class="nav-link" href="/info" th:text="${#authentication.principal.username}"></a></li>
@@ -73,36 +73,45 @@
                             <div class="text-center">
                                 <div class="overflow-hidden mb-3 mt-5">
                                     <a href="javascript:openUserInfo()">
-                                        <img class="profile2" th:if="${#authentication.principal.profileImg != null}" th:src="@{/storage/prf/img}" alt="prf">
+                                        <img class="profile2" th:if="${#authentication.principal.profileImg != null}"
+                                             th:src="@{/storage/prf/img}" alt="prf">
                                     </a>
                                     <a href="javascript:openUserInfo()">
-                                        <img class="profile2" th:unless="${#authentication.principal.profileImg != null}" src="images/default_profileImg.png" alt="prf">
+                                        <img class="profile2"
+                                             th:unless="${#authentication.principal.profileImg != null}"
+                                             src="images/default_profileImg.png" alt="prf">
                                     </a>
                                 </div>
                             </div>
                             <form method="post" action="/account/profile_update">
                                 <div class="form-group">
                                     <label for="nickname" class="text-light">사용자 이름</label>
-                                    <input type="text" class="form-control bg-dark text-light" id="nickname" name="nickname" th:value="${#authentication.principal.username}">
+                                    <input type="text" class="form-control bg-dark text-light" id="nickname"
+                                           name="nickname" th:value="${#authentication.principal.username}">
                                 </div>
                                 <div class="form-group">
                                     <label for="comment" class="text-light">소개글</label>
-                                    <input type="text" class="form-control bg-dark text-light" id="comment" name="comment" th:value="${#authentication.principal.comment}">
+                                    <input type="text" class="form-control bg-dark text-light" id="comment"
+                                           name="comment" th:value="${#authentication.principal.comment}">
                                 </div>
                                 <div class="form-group">
                                     <label for="email" class="text-light">이메일 주소</label>
-                                    <input type="email" class="form-control bg-dark text-light" id="email" th:value="${#authentication.principal.email}" readonly>
+                                    <input type="email" class="form-control bg-dark text-light" id="email"
+                                           th:value="${#authentication.principal.email}" readonly>
                                 </div>
                                 <div class="form-group">
                                     <label for="password" class="text-light">비밀번호</label>
-                                    <input type="password" class="form-control bg-dark text-light" id="password" value="********" readonly>
+                                    <input type="password" class="form-control bg-dark text-light" id="password"
+                                           value="********" readonly>
                                 </div>
                                 <div class="form-group">
                                     <a href="#" class="btn btn-primary btn-block mt-3">비밀번호 변경</a>
                                 </div>
                                 <div class="form-group row justify-content-end">
                                     <div class="col-sm-3">
-                                        <button type="button" class="btn btn-secondary mt-2" onclick="location.href='/'">취소</button>
+                                        <button type="button" class="btn btn-secondary mt-2"
+                                                onclick="location.href='/'">취소
+                                        </button>
                                         <button type="submit" class="btn btn-success mt-2"
                                                 onclick="if(!confirm('저장하시면 되돌릴수 없습니다. \n 정말로 저장하시겠습니까??')){
                                 return false;
@@ -117,28 +126,28 @@
             </div>
         </div>
     </div>
-    <div class="modal" id="userInfo" tabindex="-1" style="display: none;" sec:authorize="isAuthenticated()">
+    <div class="modal" id="userInfo" tabindex="-1" style="display: none; top: 10%;" sec:authorize="isAuthenticated()">
         <div class="modal-dialog">
-            <div class="modal-content">
+            <div class="modal-content" style="width: 530px; height: 700px;">
                 <div class="modal-header">
                     <h5 class="modal-title">이미지 업로드</h5>
                     <button class="btn-close" onclick="closeUserInfo()" aria-label="Close"></button>
                 </div>
                 <!--팝업 컨텐츠 영역-->
-                <form method="post" enctype="multipart/form-data" action="/account/prf_update">
-                    <label for="chooseImg">프로필 이미지 선택 :
-                        <input type="file" class="form-control" id="chooseImg" name="profileImg"
-                               accept="image/jpeg, image/jpg, image/png" required>
-                    </label>
-                    <div class="modal-footer">
-                        <a class="btn btn-secondary" onclick="closeUserInfo()">닫기</a>
-                        <button type="submit" class="btn btn-success"
-                                onclick="if(!confirm('저장하시면 되돌릴수 없습니다. \n 정말로 저장하시겠습니까??')){
+                <input type="file" class="form-control" id="chooseImg" name="profileImg"
+                       accept="image/jpeg, image/jpg, image/png" required>
+                <!-- cropperjs를 사용할 이미지 자르기 영역 -->
+                <div class="modal-body text-center" style="height: 500px; width: 500px; margin-bottom: 50px;">
+                    <img id="cropper-img" alt="uploadImg">
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-secondary" onclick="closeUserInfo()">닫기</a>
+                    <button id="upload-btn" class="btn btn-success"
+                            onclick="if(!confirm('저장하시면 되돌릴수 없습니다. \n 정말로 저장하시겠습니까??')){
                                 return false;
                             }">저장
-                        </button>
-                    </div>
-                </form>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -153,4 +162,5 @@
 </body>
 <script src="js/popup.js"></script>
 <script src="js/menuEvent.js"></script>
+<script src="js/prfUpload.js"></script>
 </html>
