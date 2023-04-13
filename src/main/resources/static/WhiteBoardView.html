@@ -45,7 +45,7 @@
 <div class="menu-wrapper">
   <ul class="menu">
     <li><img src="images/bangdream/main-star.png" alt="star"></li>
-    <li><h3>메뉴</h3></li>
+    <li><h3>MENU</h3></li>
     <li><a href="/whiteboard">자유게시판</a></li>
     <li><a href="/record">방명록</a></li>
     <li><a href="/ranking">랭킹</a></li>
@@ -59,7 +59,7 @@
 </div>
 <button class="menu-btn" style="height: 50px; width: 50px"><img src="images/svg/menu.svg" alt="Menu"></button>
 <main>
-  <div class="container my-5 bg-white" style="border-radius: 10px 10px; min-height: 800px; height: auto;">
+  <div class="container my-5 bg-light" style="border-radius: 10px 10px; min-height: 800px; height: auto;">
     <div class="py-3" th:object="${boardInfo}">
       <h1 th:text="*{title}"></h1>
       <p class="text-muted" th:text="'작성자: ' + *{author} + ' | 작성일자: ' + *{creationDate}"></p>

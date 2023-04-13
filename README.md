@@ -14,6 +14,7 @@
 - Mybatis framework
 - OAuth 2.0
 - WebSocket
+- SMTP
 
 #### ⚙ 템플릿 엔진
 
@@ -36,7 +37,7 @@
 
 ---
 
-### 💡 설치방법
+### 💡 기본 설치방법
 
 1. repository 클론방법:
 
@@ -75,6 +76,6 @@
 
 <img src="https://user-images.githubusercontent.com/82058641/230835595-bf54b2f2-f950-4ff3-bc46-bb3e93e48522.png" alt="ERD"/>
 
-### 📷 메인화면
+### 📷 Light Theme Login Page
 
-<img src="https://user-images.githubusercontent.com/82058641/229183420-6dba2e72-0a0e-48bc-be7b-2b1b7ddbcf37.png" alt="main"/>
+<img src="https://user-images.githubusercontent.com/82058641/231667899-c2481313-262f-4ddd-827f-8bdb23cfa5d5.png" alt="main" width="800" height="442"/>

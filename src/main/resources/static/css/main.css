@@ -20,10 +20,6 @@ main {
     min-height: 1000px;
     margin-top: 50px;
 }
-body{
-    user-select: none;
-    overflow-x: hidden;
-}
 .jumbotron{
     width: auto;
     margin-bottom: 30px;
