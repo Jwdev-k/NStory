@@ -121,11 +121,13 @@ footer {
     box-shadow: 5px 0 5px rgba(0, 0, 0, 0.5); /* 오른쪽 그림자 */
     opacity: 0;
 }
+.menu-wrapper img {
 
+}
 .menu {
     padding: 0;
-    margin: 100px 0 0 0;
-
+    margin: 10px 0 0 0;
+    text-align: center;
 }
 .menu-info {
     list-style: none;
@@ -136,12 +138,12 @@ footer {
     font-size: 10px;
     color: var(--primary-color);
 }
-
 .menu li {
-    text-align: center;
     padding: 10px;
 }
-
+.menu li a:hover {
+    color: var(--secondary-color);
+}
 .menu li a {
     color: var(--primary-color);
     font-weight: bold;
@@ -155,4 +157,8 @@ footer {
 }
 .menu-btn {
     position: fixed;
+}
+.menu img {
+    width: 120px;
+    height: 120px;
 }

@@ -50,6 +50,7 @@
 </nav>
 <div class="menu-wrapper">
     <ul class="menu">
+        <li><img src="images/bangdream/main-star.png" alt="star"></li>
         <li><h3>메뉴</h3></li>
         <li><a href="/whiteboard">자유게시판</a></li>
         <li><a href="/record">방명록</a></li>
@@ -58,7 +59,7 @@
         <li><a sec:authorize="hasRole('ROLE_ADMIN')" href="#">유저 관리</a></li>
     </ul>
     <ul class="menu-info">
-        <li><p class="text-center text-white">개발중인 메뉴입니다.
+        <li><p class="text-center">개발중인 메뉴입니다.
             <br/>현재 테스트 작업중이며 버그 신고는 ckaksj97@gmail.com으로 부탁드립니다.</p></li>
     </ul>
 </div>
@@ -86,22 +87,22 @@
                             </div>
                             <form method="post" action="/account/profile_update">
                                 <div class="form-group">
-                                    <label for="nickname" class="text-light">사용자 이름</label>
+                                    <label for="nickname" class="form-label text-black fw-bold">사용자 이름 :</label>
                                     <input type="text" class="form-control" id="nickname"
                                            name="nickname" th:value="${#authentication.principal.username}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="comment" class="text-light">소개글</label>
+                                    <label for="comment" class="form-label text-black fw-bold">소개글 :</label>
                                     <input type="text" class="form-control" id="comment"
                                            name="comment" th:value="${#authentication.principal.comment}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="email" class="text-light">이메일 주소</label>
+                                    <label for="email" class="form-label text-black fw-bold">이메일 주소 :</label>
                                     <input type="email" class="form-control" id="email"
                                            th:value="${#authentication.principal.email}" readonly>
                                 </div>
                                 <div class="form-group">
-                                    <label for="password" class="text-light">비밀번호</label>
+                                    <label for="password" class="form-label text-black fw-bold">비밀번호 :</label>
                                     <input type="password" class="form-control" id="password"
                                            value="********" readonly>
                                 </div>

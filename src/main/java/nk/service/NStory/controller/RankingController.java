@@ -28,17 +28,22 @@ public class RankingController {
     private final PageUtil pageUtil = new PageUtil();
 
     @RequestMapping(value = "/ranking")
-    public String RankingMain(Model model, @RequestParam(required = false, defaultValue = "1") int page
+    public String RankingMain(Model model, HttpServletRequest request
+            , @RequestParam(required = false, defaultValue = "1") int page
             , @RequestParam(required = false) String search) throws Exception {
         int totalCount;
-        if (search == null) {
-            model.addAttribute("rankingList", rankingService.ExpRankingList(page));
-            pageUtil.setPage(page);
-            totalCount = rankingService.totalCount();
-        } else {
+        boolean isSearch;
+        if (search != null && search.length() > 0) {
             model.addAttribute("rankingList", rankingService.ExpRankNameSerach(page, search));
             pageUtil.setPage(page);
             totalCount = rankingService.searchTotalCount(search);
+            request.setAttribute("str", search);
+            isSearch = true;
+        } else {
+            model.addAttribute("rankingList", rankingService.ExpRankingList(page));
+            pageUtil.setPage(page);
+            totalCount = rankingService.totalCount();
+            isSearch = false;
         }
         if (totalCount > 0) {
             pageUtil.setTotalCount(totalCount);
@@ -47,6 +52,7 @@ public class RankingController {
         }
         model.addAttribute("pageMaker", pageUtil);
         model.addAttribute("crtPage", page);
+        model.addAttribute("isSearch", isSearch);
         return "Ranking";
     }
 

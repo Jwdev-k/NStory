@@ -36,11 +36,12 @@ public class BoardController {
     public String boardList(HttpServletResponse response, HttpServletRequest request, Model model
             , @RequestParam(required = false, defaultValue = "1") int page, @RequestParam(required = false) String str
             , @RequestParam(required = false, defaultValue = "title") SearchType type) throws Exception {
+        int totalCount;
         boolean isSearch;
         pageUtil.setPerPageNum(10);
-        if (str != null) {
+        if (str != null && str.length() > 0) {
             model.addAttribute("boardList", whiteBoardService.searchList(page,type, str));
-            int totalCount = whiteBoardService.searchTotalCount(type, str);
+            totalCount = whiteBoardService.searchTotalCount(type, str);
             pageUtil.setPage(page);
             pageUtil.setTotalCount(totalCount > 0 ? totalCount : 1);
             request.setAttribute("type", type);
@@ -49,7 +50,7 @@ public class BoardController {
             isSearch = true;
         } else {
             model.addAttribute("boardList", whiteBoardService.boardList(page));
-            int totalCount = whiteBoardService.totalCount();
+            totalCount = whiteBoardService.totalCount();
             pageUtil.setPage(page);
             pageUtil.setTotalCount(totalCount > 0 ? totalCount : 1);
 
