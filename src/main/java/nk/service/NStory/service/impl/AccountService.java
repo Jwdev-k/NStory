@@ -75,8 +75,10 @@ public class AccountService implements AccountServiceIF {
         SecurityContextHolder.getContext().setAuthentication(auth);
     }
 
+    @Transactional
     @Override
-    public void findPassword(String email) throws Exception {
-
+    public void resetPassword(String email, String password) throws Exception {
+        accountMapper.resetPassword(email, password);
+        log.info("패스워드 변경 이력{이메일: " + email + ",변경패스워드: " + password + "}");
     }
 }

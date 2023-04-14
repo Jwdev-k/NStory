@@ -19,6 +19,7 @@ public class AccountDTO {
     private int exp; //경험치
     private int nCoin; // 코인 갯수 max 100000000
     private boolean isEnable;
+    private boolean isOAuth;
 
     public AccountDTO(String email, String name, String comment) {
         this.email = email;

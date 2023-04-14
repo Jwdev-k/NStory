@@ -53,7 +53,7 @@ public class OAuth2LoginService extends DefaultOAuth2UserService {
             if (account == null) {
                 accountService.register(new AccountDTO(0, email, passwordEncoder.encode(provider), name,
                         null, null, "USER", CurrentTime.getTime(), null,
-                        1, 0, 0, true));
+                        1, 0, 0, true, true));
             } else {
                 if (account.getLastDateTime() != null) {
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");

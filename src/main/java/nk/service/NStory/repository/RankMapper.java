@@ -12,9 +12,9 @@ import java.util.ArrayList;
 public interface RankMapper {
     @Select("SELECT ROW_NUMBER() OVER (ORDER BY level DESC) as rank, id, name, level, exp, nCoin FROM account LIMIT #{start}, 20")
     ArrayList<RankingDTO> LevelRankingList(int start) throws Exception;
-    @Select("SELECT ROW_NUMBER() OVER (ORDER BY exp DESC) as rank, id, name, level, exp, nCoin FROM account LIMIT #{start}, 20")
+    @Select("SELECT ROW_NUMBER() OVER (ORDER BY exp DESC, id ASC) as rank, id, name, level, exp, nCoin FROM account LIMIT #{start}, 20")
     ArrayList<RankingDTO> ExpRankingList(int start) throws Exception;
-    @Select("SELECT ROW_NUMBER() OVER (ORDER BY nCoin DESC) as rank, id, name, level, exp, nCoin FROM account LIMIT #{start}, 20")
+    @Select("SELECT ROW_NUMBER() OVER (ORDER BY nCoin DESC, id ASC) as rank, id, name, level, exp, nCoin FROM account LIMIT #{start}, 20")
     ArrayList<RankingDTO> nCoinRankingList(int start) throws Exception;
     @Select("SELECT count(*) FROM account")
     int totalCount() throws Exception;

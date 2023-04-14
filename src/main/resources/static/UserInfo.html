@@ -106,8 +106,8 @@
                                     <input type="password" class="form-control" id="password"
                                            value="********" readonly>
                                 </div>
-                                <div class="form-group">
-                                    <a href="#" class="btn btn-primary btn-block mt-3">비밀번호 변경</a>
+                                <div class="form-group" th:if="${#authentication.principal.oAuth2UserInfo == null}">
+                                    <a href="/new_pw" class="btn btn-primary btn-block mt-3">비밀번호 변경</a>
                                 </div>
                                 <div class="form-group row justify-content-end">
                                     <div class="col-sm-3">

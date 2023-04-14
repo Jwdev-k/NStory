@@ -13,11 +13,14 @@ import nk.service.NStory.security.CustomUserDetails;
 import nk.service.NStory.service.impl.AccountService;
 import nk.service.NStory.service.impl.MailService;
 import nk.service.NStory.utils.CurrentTime;
+import nk.service.NStory.utils.RandomPassword;
 import nk.service.NStory.utils.ScriptUtils;
 import nk.service.NStory.utils.SecurityCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -58,7 +61,7 @@ public class LoginController {
         } else if (email != null && password != null && name != null && name.length() >= 2 && !accountService.checkEmail(email)
                 && RecaptchaConfig.verify(token)) {
             accountService.register(new AccountDTO(0, email, passwordEncoder.encode(password), name, "", null
-                    , "USER", CurrentTime.getTime(), null, 1, 0, 0, true));
+                    , "USER", CurrentTime.getTime(), null, 1, 0, 0, true, false));
             ScriptUtils.alertAndMovePage(response, "회원가입 성공!", "/login");
         }
         request.setAttribute("errMsg", "요청이 실패 하였습니다.");
@@ -133,13 +136,40 @@ public class LoginController {
                 responseJson.put("result", "failed");
                 responseJson.put("error", "보안코드가 틀렸습니다. 다시 확인 해주세요.");
             } else {
+                securityCode.deleteSecurityCode(email, request);
+                String randomPassword = new RandomPassword().generateRandomPassword();
+                mailService.sendEmail(new MailDTO(email, "NStory 임시비밀번호 발급"
+                        , String.format("임시비밀번호는 [%s] 입니다. \n 꼭 로그인 후 패스워드를 재설정 해주세요.", randomPassword)));
                 responseJson.put("result", "success");
                 responseJson.put("redirectUrl", "/login");
-                securityCode.deleteSecurityCode(email, request);
+                responseJson.put("msg", "임시비밀번호가 발급되었습니다. \n 메일 확인 후 로그인 해주세요.");
+                accountService.resetPassword(email, passwordEncoder.encode(randomPassword));
             }
         }
         request.setAttribute("email", email);
         return ResponseEntity.ok(responseJson.toJSONString());
+    }
+
+    @GetMapping(value = "/new_pw")
+    public String newPassword(@AuthenticationPrincipal CustomUserDetails userDetails, HttpServletRequest request) {
+        if (userDetails != null && userDetails.getOAuth2UserInfo() == null) {
+            return "UpdatePW";
+        }
+        return "redirect:" + request.getHeader("referer");
+    }
+
+    @PostMapping(value = "/new_pw")
+    public String newPassword(HttpServletRequest request, HttpServletResponse response, Authentication auth
+            , @RequestParam String email, @RequestParam String password, @RequestParam String password2) throws Exception {
+        if (password.length() >= 6 && password.length() <= 16 && password.equals(password2)) {
+            accountService.resetPassword(email, passwordEncoder.encode(password));
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+            ScriptUtils.alertAndMovePage(response, "패스워드가 변경되었습니다. 다시 로그인 해주세요.", "/login");
+            return null;
+        } else {
+            request.setAttribute("errMsg", "입력한 패스워드가 일치하지않습니다. 다시 입력해주세요.");
+        }
+        return "UpdatePW";
     }
 
 }

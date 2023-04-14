@@ -6,11 +6,11 @@ import org.apache.ibatis.annotations.*;
 @Mapper
 public interface AccountMapper {
     @Insert("INSERT INTO account VALUE(null,#{email},#{password},#{name},#{comment},#{profileImg},#{role}" +
-            ",#{creationDate},#{lastDateTime},#{level},#{exp},#{nCoin},#{isEnable})")
+            ",#{creationDate},#{lastDateTime},#{level},#{exp},#{nCoin},#{isEnable},#{isOAuth})")
     boolean register(AccountDTO accountDTO) throws Exception;
     @Select("SELECT * FROM account WHERE isEnable = 1 AND email = #{email}")
     AccountDTO login(String email) throws Exception;
-    @Select("SELECT EXISTS (SELECT email FROM account WHERE email = #{email})")
+    @Select("SELECT EXISTS (SELECT email FROM account WHERE email = #{email} AND isOAuth = 0)")
     boolean checkEmail(String email) throws Exception;
     @Update("UPDATE account SET level = #{level} WHERE email = #{email}")
     void UpdateLevel(@Param("level")int level, @Param("email")String email) throws Exception;
@@ -24,4 +24,6 @@ public interface AccountMapper {
     void UpdateAccountInfo(AccountDTO accountDTO) throws Exception;
     @Update("UPDATE account SET name = #{name}, comment = #{comment} WHERE email = #{email}")
     void UpdateAccountInfo2(AccountDTO accountDTO) throws Exception;
+    @Update("UPDATE account SET password = #{password} WHERE email = #{email} AND isOAuth = 0")
+    void resetPassword(@Param("email") String email, @Param("password") String password) throws Exception;
 }

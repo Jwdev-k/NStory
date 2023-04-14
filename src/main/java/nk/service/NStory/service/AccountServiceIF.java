@@ -9,5 +9,5 @@ public interface AccountServiceIF {
     boolean checkEmail(String email) throws Exception;
     void UpdateLastLoginDate(String lastLoginDate, String email) throws Exception;
     void UpdateAccountInfo(AccountDTO accountDTO, Authentication authentication) throws Exception;
-    void findPassword(String email) throws Exception;
+    void resetPassword(String email, String password) throws Exception;
 }

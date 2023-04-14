@@ -29,7 +29,7 @@ public class UserLoginService implements UserDetailsService {
         AccountDTO account = accountService.login(username);
         boolean firstLogin = false;
         if (account != null) {
-            if (!account.isEnable()) {
+            if (!account.isEnable() || account.isOAuth()) {
                 throw new AuthenticationCredentialsNotFoundException("인증 요청 거부 (계정 비활성화 상태)");
             } else {
                 if (account.getLastDateTime() != null) {

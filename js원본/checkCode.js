@@ -1,5 +1,8 @@
 $(document).ready(function() {
     $("#submit-button").click(function() {
+        $("#form").hide();
+        $("#loading").show();
+
         var formData = $("#form-data").serialize();
 
         $.ajax({
@@ -9,11 +12,14 @@ $(document).ready(function() {
             dataType: "json",
             success: function(response) {
                 if (response.result == "success") {
+                    alert(response.msg);
                     window.location.href = response.redirectUrl;
                 } else if (response.result == "expired") {
-                    alert(response.error)
+                    alert(response.error);
                     window.location.href = response.redirectUrl;
                 } else {
+                    $("#form").show();
+                    $("#loading").hide();
                     document.getElementById("error").innerHTML = response.error;
                 }
             },
