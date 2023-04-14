@@ -4,22 +4,23 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.minidev.json.JSONObject;
 import nk.service.NStory.config.RecaptchaConfig;
 import nk.service.NStory.dto.AccountDTO;
 import nk.service.NStory.dto.MailDTO;
+import nk.service.NStory.dto.SecurityCodeDTO;
 import nk.service.NStory.security.CustomUserDetails;
 import nk.service.NStory.service.impl.AccountService;
 import nk.service.NStory.service.impl.MailService;
 import nk.service.NStory.utils.CurrentTime;
 import nk.service.NStory.utils.ScriptUtils;
 import nk.service.NStory.utils.SecurityCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @Slf4j
@@ -81,44 +82,64 @@ public class LoginController {
         return "Agree";
     }
 
-    @RequestMapping(value = "/findpw")
-    public String findPassword(HttpServletRequest request, @RequestParam(required = false) String email
-            , @RequestParam(required = false) String token, @RequestParam(required = false) String code
-            , @RequestParam(required = false,defaultValue = "false") boolean isCode) throws Exception {
-        if (code != null && email != null) {
-            if (code.equals(securityCode.getSecurityCode(email, request))) {
-                securityCode.deleteSecurityCode(email, request);
-                return "redirect:/login";
-            } else {
-                isCode = true;
-                request.setAttribute("error", "보안코드가 틀렸습니다. 다시 시도 해주세요.");
-            }
+    @GetMapping(value = "/findpw")
+    public String findPassword(@AuthenticationPrincipal CustomUserDetails userDetails, HttpServletRequest request) {
+        if (userDetails != null) {
+            return "redirect:" + request.getHeader("referer");
         }
+        return "FindPassword";
+    }
+
+    @PostMapping(value = "/findpw")
+    public String findPassword(HttpServletRequest request, @RequestParam String email
+            , @RequestParam String token, RedirectAttributes redirectAttributes) throws Exception {
         if (email != null && token != null) {
             if (accountService.checkEmail(email) && RecaptchaConfig.verify(token)) { // 메일발송
                 String generateCode = securityCode.generateSecurityCode();
                 mailService.sendEmail(new MailDTO(email, "NStory 보안코드 메일입니다.", String.format("보안코드는 [%s] 입니다.", generateCode)));
                 securityCode.saveSecurityCode(email, generateCode, request);
-                isCode = true;
+
+                redirectAttributes.addFlashAttribute("email", email);
+                return "redirect:/check_code";
+            } else {
+                request.setAttribute("error", "유효하지 않습니다. 다시 시도 해주세요.");
             }
         }
-        request.setAttribute("isCode", isCode);
-        request.setAttribute("email", email);
         return "FindPassword";
     }
 
-    @PostMapping(value = "/verify_code")
-    public String verifySecurityCode(HttpServletRequest request, @RequestParam String email
-            , @RequestParam(required = false) String code, @RequestParam(required = false) String token) throws Exception {
-        if (email != null && code != null && RecaptchaConfig.verify(token)) {
-            if (code.equals(securityCode.getSecurityCode(email, request))) {
+    @GetMapping(value = "/check_code")
+    public String checkCode(@AuthenticationPrincipal CustomUserDetails userDetails, HttpServletRequest request
+            , @ModelAttribute("email") String email) {
+        if (userDetails != null || email.length() <= 0) {
+            return "redirect:" + request.getHeader("referer");
+        }
+        return "checkCode";
+    }
+
+    @ResponseBody
+    @PostMapping(value = "/check_code")
+    public ResponseEntity<String> checkCode(HttpServletRequest request, @RequestParam String email
+            , @RequestParam String code) throws Exception {
+        JSONObject responseJson = new JSONObject();
+        if (code != null && email != null) {
+            SecurityCodeDTO codeDTO = securityCode.getSecurityCode(email, request);
+            if ((System.currentTimeMillis() - codeDTO.getTime()) > (5 * 60 * 1000)) {
                 securityCode.deleteSecurityCode(email, request);
-                return "redirect:/login";
+                responseJson.put("result", "expired");
+                responseJson.put("redirectUrl", "/findpw");
+                responseJson.put("error", "보안코드가 만료되었습니다. 다시 시도 해주세요.");
+            } else if (!code.equals(codeDTO.getCode())) {
+                responseJson.put("result", "failed");
+                responseJson.put("error", "보안코드가 틀렸습니다. 다시 확인 해주세요.");
             } else {
-                request.setAttribute("error", "보안코드가 틀렸습니다. 다시 시도 해주세요.");
+                responseJson.put("result", "success");
+                responseJson.put("redirectUrl", "/login");
+                securityCode.deleteSecurityCode(email, request);
             }
         }
-        return "VerifyCode";
+        request.setAttribute("email", email);
+        return ResponseEntity.ok(responseJson.toJSONString());
     }
 
 }

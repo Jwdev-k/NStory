@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NStory</title>
+    <link rel="stylesheet" href="assets/font-awesome/css/fontawesome.css">
+    <link rel="stylesheet" href="assets/font-awesome/css/solid.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 14px;
+        }
+    </style>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-utilities.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/custom-theme.css">
+    <script src="https://code.jquery.com/jquery-3.6.3.js"
+            integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg">
+    <div class="container">
+        <a class="navbar-brand" href="/">NStory</a>
+    </div>
+</nav>
+<div class="vh-100">
+    <div class="container" id="form">
+        <div class="container-fluid" style="width: 500px">
+            <form class="py-5 my-5" id="form-data">
+                <div class="d-grid">
+                    <span class="text-lg-center my-4 fw-bold" style="font-size: 30px; color: #FF3E7F;">메일로 받은 보안코드를 입력해주세요.</span>
+                </div>
+                <p class="text-center text-black" id="error"></p>
+                <input type="text" class="input-group-text col-12 mx-auto" name="code" placeholder="보안코드를 입력해주세요."
+                       maxlength="5" autocomplete="off" required>
+                <div class="d-grid gap-2 col-12 my-4 mx-auto">
+                    <p class="text-center text-danger" id="timer">loading..</p>
+                    <input type="hidden" name="email" th:value="${email}">
+                    <button type="button" class="btn btn-primary fw-bold" id="submit-button">확인</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Footer -->
+<footer class="py-3">
+    <div class="container">
+        <p class="m-0 text-center">Copyright &copy; NStory 2023</p>
+        <p class="m-0 text-center">Discord : Gom._.Gom#3502</p>
+    </div>
+</footer>
+</body>
+<script src="js/checkCode.js"></script>
+</html>

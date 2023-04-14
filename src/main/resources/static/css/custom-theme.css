@@ -170,3 +170,10 @@ footer {
     width: 100%;
     border-top: 1px solid var(--primary-color);
 }
+#loading {
+    display: none;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-40%, -50%);
+}
