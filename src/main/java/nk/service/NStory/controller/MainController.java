@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,7 +27,15 @@ public class MainController {
     }
 
     @GetMapping(value = "/info")
-    public String userInfo() {
+    public String userInfo(@AuthenticationPrincipal CustomUserDetails userDetails
+            , HttpServletRequest request, Model model) {
+        if (userDetails == null) {
+            return "redirect:" + request.getHeader("referer");
+        } else if (userDetails.getOAuth2UserInfo() != null) {
+            model.addAttribute("pwValue", "SNS 로그인 사용중입니다.");
+        } else {
+            model.addAttribute("pwValue", "••••••••••••••••");
+        }
         return "UserInfo";
     }
 
@@ -34,6 +43,9 @@ public class MainController {
     public String updateAccountInfo(HttpServletRequest request, @RequestParam String nickname
             , @RequestParam String comment, Authentication authentication) throws Exception {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        if (comment.length() > 100) {
+            comment = comment.substring(0, 100);
+        }
         accountService.UpdateAccountInfo(new AccountDTO(userDetails.getEmail(), nickname, comment), authentication);
         return "redirect:" + request.getHeader("referer");
     }

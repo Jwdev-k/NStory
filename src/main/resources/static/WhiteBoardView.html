@@ -18,6 +18,7 @@
   <link rel="stylesheet" href="css/bootstrap-utilities.css">
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/custom-theme.css">
+  <link rel="stylesheet" href="css/whiteboard.css">
   <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
   <script src="js/bootstrap.min.js"></script>
   <script src="js/bootstrap.bundle.min.js"></script>
@@ -46,7 +47,7 @@
   <ul class="menu">
     <li><img src="images/bangdream/main-star.png" alt="star"></li>
     <li><h3>MENU</h3></li>
-    <li><a href="/whiteboard">자유게시판</a></li>
+    <li><a href="/whiteboard?bid=free">자유게시판</a></li>
     <li><a href="/record">방명록</a></li>
     <li><a href="/ranking">랭킹</a></li>
     <li><a href="/shop">NStory SHOP</a></li>
@@ -59,26 +60,75 @@
 </div>
 <button class="menu-btn" style="height: 50px; width: 50px"><img src="images/svg/menu.svg" alt="Menu"></button>
 <main>
-  <div class="container my-5 bg-light" style="border-radius: 10px 10px; min-height: 800px; height: auto;">
-    <div class="py-3" th:object="${boardInfo}">
+  <div class="container my-5 bg-light" style="border-radius: 10px 10px; height: auto;" th:object="${boardInfo}">
+    <div class="py-3">
       <h1 th:text="*{title}"></h1>
       <p class="text-muted" th:text="'작성자: ' + *{author} + ' | 작성일자: ' + *{creationDate}"></p>
       <hr>
       <p th:utext="*{contents}">게시글 내용</p>
-      <div class="p-3">
-        <th:block th:if="${account != null} and ${#strings.equals(boardInfo.email,#authentication.principal.email)}">
-          <form method="post" action="/whiteboard/delete">
-            <a class="btn btn-primary" href="/whiteboard">목록</a>
-            <a class="btn btn-warning" th:href="@{/whitepostup(id=*{id})}">수정</a>
-            <input type="hidden" name="id" th:value="*{id}">
-            <input type="hidden" name="email" th:value="*{email}">
-            <input type="submit" class="btn btn-danger"
-                   onclick="if(!confirm('삭제하시면 되돌릴수 없습니다. \n 정말로 삭제하시겠습니까??')){
+    </div>
+    <div class="container p-3 bottom-0 position-relative">
+      <th:block
+              th:if="${#authentication != null} and ${#strings.equals(boardInfo.email,#authentication.principal.email)}">
+        <form method="post" action="/whiteboard/delete">
+          <a class="btn btn-primary" th:href="${redirectURL}">목록</a>
+          <a class="btn btn-warning" th:href="@{/whitepostup(id=*{id})}">수정</a>
+          <input type="hidden" name="id" th:value="*{id}">
+          <input type="hidden" name="email" th:value="*{email}">
+          <input type="submit" class="btn btn-danger"
+                 onclick="if(!confirm('삭제하시면 되돌릴수 없습니다. \n 정말로 삭제하시겠습니까??')){
                                   return false;
                               }" value="삭제">
+        </form>
+      </th:block>
+      <a class="btn btn-primary" th:href="${redirectURL}"
+         th:unless="${#authentication != null} and ${#strings.equals(boardInfo.email,#authentication.principal.email)}">목록</a>
+    </div>
+  </div>
+  <div class="container my-5">
+    <form method="post" action="/whiteview/comment/add">
+      <div class="form-group">
+        <label for="reply-textarea">댓글 작성</label>
+        <textarea class="form-control reply-text" id="reply-textarea" rows="3"></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary mt-2">작성</button>
+    </form>
+  </div>
+  <div class="container reply-card">
+    <h3>댓글 목록(0)</h3>
+    <hr>
+    <div class="card mb-5">
+      <div class="card-body">
+        <h5 class="card-title">테스트</h5>
+        <p class="card-text" id="edit-comment">내용입니다.</p>
+        <p class="card-subtitle text-muted reply-time">2023-01-01 12:00:00</p>
+        <div class="d-flex reply-btn">
+          <button class="btn btn-sm text-secondary reply-toggle">댓글 쓰기</button>
+          <a class="btn btn-sm text-secondary edit-comment">수정</a>
+          <a href="#" class="btn btn-sm text-secondary">삭제</a>
+        </div>
+        <div class="reply-form d-none">
+          <form method="post" action="/whiteview/reply/add">
+            <div class="form-group">
+              <label for="reply-content">내용</label>
+              <textarea class="form-control reply-text" id="reply-content" rows="3" placeholder="내용을 입력하세요"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary mt-2 mb-3">작성</button>
           </form>
-        </th:block>
-        <a class="btn btn-primary" href="/whiteboard" th:unless="${account != null} and ${#strings.equals(boardInfo.email,#authentication.principal.email)}">목록</a>
+        </div>
+        <div class="replies">
+          <div class="card mb-3">
+            <div class="card-body">
+              <h5 class="card-title">대댓글 작성자</h5>
+              <p class="card-text" id="edit-reply">대댓글 내용</p>
+              <p class="card-subtitle text-muted reply-time">2023-01-01 12:00:00</p>
+              <div class="d-flex reply-btn">
+                <a class="btn btn-sm text-secondary edit-reply">수정</a>
+                <a href="#" class="btn btn-sm text-secondary">삭제</a>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -91,5 +141,6 @@
   </div>
 </footer>
 </body>
+<script src="js/reply.js"></script>
 <script src="js/menuEvent.js"></script>
 </html>

@@ -49,7 +49,7 @@
     <ul class="menu">
         <li><img src="images/bangdream/main-star.png" alt="star"></li>
         <li><h3>MENU</h3></li>
-        <li><a href="/whiteboard">자유게시판</a></li>
+        <li><a href="/whiteboard?bid=free">자유게시판</a></li>
         <li><a href="/record">방명록</a></li>
         <li><a href="/ranking">랭킹</a></li>
         <li><a href="/shop">NStory SHOP</a></li>
@@ -64,6 +64,7 @@
 <main>
     <div class="container">
         <form method="post" accept-charset="UTF-8" action="/whiteboard/add">
+            <input type="hidden" name="bid" th:value="${bid}">
             <label for="title" class="input-group-text fw-bold title">
                 Title:<input class="input-group form-text" type="text" name="title" id="title" required maxlength="50"
                              placeholder="타이틀을 작성해주세요.">

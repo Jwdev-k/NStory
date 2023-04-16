@@ -52,7 +52,7 @@
     <ul class="menu">
         <li><img src="images/bangdream/main-star.png" alt="star"></li>
         <li><h3>MENU</h3></li>
-        <li><a href="/whiteboard">자유게시판</a></li>
+        <li><a href="/whiteboard?bid=free">자유게시판</a></li>
         <li><a href="/record">방명록</a></li>
         <li><a href="/ranking">랭킹</a></li>
         <li><a href="/shop">NStory SHOP</a></li>
@@ -86,28 +86,29 @@
                                 </div>
                             </div>
                             <form method="post" action="/account/profile_update">
-                                <div class="form-group">
+                                <div class="form-group mb-3">
                                     <label for="nickname" class="form-label text-black fw-bold">사용자 이름 :</label>
                                     <input type="text" class="form-control" id="nickname"
                                            name="nickname" th:value="${#authentication.principal.username}">
                                 </div>
-                                <div class="form-group">
-                                    <label for="comment" class="form-label text-black fw-bold">소개글 :</label>
-                                    <input type="text" class="form-control" id="comment"
-                                           name="comment" th:value="${#authentication.principal.comment}">
+                                <div class="form-group mb-3">
+                                    <label for="comment" class="form-label text-black fw-bold">소개글(최대 100자) :</label>
+                                    <textarea class="form-control" id="comment" maxlength="100"
+                                              style="height: 80px; resize: none;"
+                                              name="comment" th:text="${#authentication.principal.comment}"></textarea>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group mb-3">
                                     <label for="email" class="form-label text-black fw-bold">이메일 주소 :</label>
                                     <input type="email" class="form-control" id="email"
                                            th:value="${#authentication.principal.email}" readonly>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group mb-3">
                                     <label for="password" class="form-label text-black fw-bold">비밀번호 :</label>
-                                    <input type="password" class="form-control" id="password"
-                                           value="********" readonly>
+                                    <input type="text" class="form-control" id="password"
+                                           th:value="${pwValue}" readonly>
                                 </div>
                                 <div class="form-group" th:if="${#authentication.principal.oAuth2UserInfo == null}">
-                                    <a href="/new_pw" class="btn btn-primary btn-block mt-3">비밀번호 변경</a>
+                                    <a class="btn btn-primary btn-block mt-3" href="/new_pw">비밀번호 변경</a>
                                 </div>
                                 <div class="form-group row justify-content-end">
                                     <div class="col-sm-3">

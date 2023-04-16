@@ -7,6 +7,7 @@ import lombok.Getter;
 @Getter
 public class WhiteBoard {
     private int id;
+    private String bid;
     private String title;
     private String contents;
     private String author;

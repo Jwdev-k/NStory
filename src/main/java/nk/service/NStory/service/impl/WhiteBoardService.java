@@ -16,11 +16,11 @@ public class WhiteBoardService implements WhiteBoardServiceIF {
     private final WhiteBoardMapper whiteBoardMapper;
 
     @Override
-    public ArrayList<WhiteBoard> boardList(int start) throws Exception {
+    public ArrayList<WhiteBoard> boardList(String bid, int start) throws Exception {
         if (start == 1 || start < 1) {
-            return whiteBoardMapper.boardList(0);
+            return whiteBoardMapper.boardList(bid, 0);
         } else {
-            return whiteBoardMapper.boardList((start - 1) * 10);
+            return whiteBoardMapper.boardList(bid, (start - 1) * 10);
         }
     }
 
@@ -30,8 +30,8 @@ public class WhiteBoardService implements WhiteBoardServiceIF {
     }
 
     @Override
-    public int totalCount() throws Exception {
-        return whiteBoardMapper.totalCount();
+    public int totalCount(String bid) throws Exception {
+        return whiteBoardMapper.totalCount(bid);
     }
 
     @Transactional
@@ -53,16 +53,16 @@ public class WhiteBoardService implements WhiteBoardServiceIF {
     }
 
     @Override
-    public ArrayList<WhiteBoard> searchList(int start, SearchType type, String str) throws Exception {
+    public ArrayList<WhiteBoard> searchList(String bid, int start, SearchType type, String str) throws Exception {
         if (start == 1 || start < 1) {
-            return whiteBoardMapper.searchList(0, type, str);
+            return whiteBoardMapper.searchList(bid, 0, type, str);
         } else {
-            return whiteBoardMapper.searchList((start - 1) * 10, type, str);
+            return whiteBoardMapper.searchList(bid, (start - 1) * 10, type, str);
         }
     }
 
     @Override
-    public int searchTotalCount(SearchType type, String str) throws Exception {
-        return whiteBoardMapper.searchTotalCount(type, str);
+    public int searchTotalCount(String bid, SearchType type, String str) throws Exception {
+        return whiteBoardMapper.searchTotalCount(bid, type, str);
     }
 }

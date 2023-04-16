@@ -47,3 +47,20 @@ label{
     background-color: whitesmoke;
     color: #FF3E7F;
 }
+.reply-card{
+    min-height: 500px;
+}
+.reply-form,
+.replies {
+    margin-left: 20px;
+}
+.reply-text{
+    resize: none;
+}
+.reply-btn {
+    width: auto;
+    height: auto;
+}
+.reply-time {
+    font-size: 12px;
+}
