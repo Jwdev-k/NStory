@@ -19,4 +19,8 @@ public class CurrentTime {
         LocalDateTime localDateTime = LocalDateTime.now();
         return localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
     }
+    public static String getTime4() {
+        LocalDateTime localDateTime = LocalDateTime.now();
+        return localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+    }
 }

@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import nk.service.NStory.dto.Enum.SearchType;
 import nk.service.NStory.dto.WhiteBoard;
 import nk.service.NStory.security.CustomUserDetails;
+import nk.service.NStory.service.impl.CommentService;
+import nk.service.NStory.service.impl.ReplyService;
 import nk.service.NStory.service.impl.WhiteBoardService;
 import nk.service.NStory.utils.CurrentTime;
 import nk.service.NStory.utils.PageUtil;
@@ -30,6 +32,8 @@ import java.util.Base64;
 @RequiredArgsConstructor
 public class BoardController {
     private final WhiteBoardService whiteBoardService;
+    private final CommentService commentService;
+    private final ReplyService replyService;
     private final PageUtil pageUtil = new PageUtil();
 
     @RequestMapping(value = "/whiteboard")
@@ -96,6 +100,12 @@ public class BoardController {
         if (wb != null) {
             request.setAttribute("boardInfo", wb);
             request.setAttribute("redirectURL", request.getHeader("referer"));
+
+            request.setAttribute("commentList", commentService.getCommentList(id));
+            request.setAttribute("replyList", replyService.getReplyList(id));
+            request.setAttribute("totalCount"
+                    , "(" + (commentService.totalCount(id) + replyService.totalCount(id)) + ")");
+            request.setAttribute("id", id); // 게시판 아이디
             return "WhiteBoardView";
         }
         return "redirect:/whiteboard";

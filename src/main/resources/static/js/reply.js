@@ -1,84 +1,85 @@
-$(document).ready(function() {
-    $('.reply-toggle').click(function(e) {
-        e.preventDefault();
-        var $this = $(this);
-        var $parent = $this.closest('.card-body');
-        $parent.find('.reply-form').toggleClass('d-none');
+const _0x5e5e2b = _0x3c2f;
+(function (_0x3b6172, _0x5820ee) {
+    const _0x26a0e4 = _0x3c2f, _0xe4068c = _0x3b6172();
+    while (!![]) {
+        try {
+            const _0x183e07 = -parseInt(_0x26a0e4(0xa6)) / 0x1 * (-parseInt(_0x26a0e4(0xc7)) / 0x2) + -parseInt(_0x26a0e4(0xc0)) / 0x3 + parseInt(_0x26a0e4(0xcc)) / 0x4 + parseInt(_0x26a0e4(0xb5)) / 0x5 + -parseInt(_0x26a0e4(0xd0)) / 0x6 * (-parseInt(_0x26a0e4(0xa0)) / 0x7) + -parseInt(_0x26a0e4(0xaa)) / 0x8 * (-parseInt(_0x26a0e4(0xd4)) / 0x9) + -parseInt(_0x26a0e4(0xb4)) / 0xa;
+            if (_0x183e07 === _0x5820ee) break; else _0xe4068c['push'](_0xe4068c['shift']());
+        } catch (_0x3c34b3) {
+            _0xe4068c['push'](_0xe4068c['shift']());
+        }
+    }
+}(_0x55fb, 0x198ab), $(document)[_0x5e5e2b(0xd1)](function () {
+    const _0x5bf933 = _0x5e5e2b;
+    $(_0x5bf933(0xb2))[_0x5bf933(0xcf)](function (_0x53492b) {
+        const _0x18a5ab = _0x5bf933;
+        _0x53492b[_0x18a5ab(0xd5)]();
+        var _0x455248 = $(this), _0x16882a = _0x455248[_0x18a5ab(0xc6)](_0x18a5ab(0xa7));
+        _0x16882a['find'](_0x18a5ab(0xbf))['toggleClass'](_0x18a5ab(0xd3));
+    });
+}));
+
+function _0x3c2f(_0x357893, _0x199f97) {
+    const _0x55fb7f = _0x55fb();
+    return _0x3c2f = function (_0x3c2f90, _0x1e8ad5) {
+        _0x3c2f90 = _0x3c2f90 - 0xa0;
+        let _0x758058 = _0x55fb7f[_0x3c2f90];
+        return _0x758058;
+    }, _0x3c2f(_0x357893, _0x199f97);
+}
+
+const editBtn = document[_0x5e5e2b(0xa1)](_0x5e5e2b(0xac));
+
+function _0x55fb() {
+    const _0x2e4ec1 = ['parentElement', '.edit-comment-contents', 'appendChild', '818LAWfqF', '.card-body', 'form', 'method', '61624kJlQAN', 'createElement', '.edit-comment', '.edit-reply', 'cid', 'value', 'setAttribute', 'rid', '.reply-toggle', 'button', '6544470ybKBQn', '375005GTScfR', 'textContent', 'btn\x20btn-primary\x20btn-sm\x20m-2', 'target', 'contents', 'type', 'textarea', '.edit-reply-contents', 'form-control\x20reply-text', '/whiteview/comment/edit', '.reply-form', '144390vrFasC', 'hidden', 'className', 'replaceChild', 'action', 'resize', 'closest', '360DLWRwT', 'innerText', 'name', 'style', 'querySelector', '813292WgIxPC', '.cid', 'btn\x20btn-sm\x20btn-secondary\x20m-2', 'click', '6MRMfRE', 'ready', 'forEach', 'd-none', '207uSPhJb', 'preventDefault', '1431241DPDKmt', 'querySelectorAll', 'addEventListener'];
+    _0x55fb = function () {
+        return _0x2e4ec1;
+    };
+    return _0x55fb();
+}
+
+editBtn[_0x5e5e2b(0xd2)](_0x5bc7a9 => {
+    const _0x22f500 = _0x5e5e2b;
+    _0x5bc7a9[_0x22f500(0xa2)](_0x22f500(0xcf), _0x544389 => {
+        const _0x577947 = _0x22f500,
+            _0x151059 = _0x544389['target'][_0x577947(0xc6)](_0x577947(0xa7))[_0x577947(0xcb)](_0x577947(0xa4)),
+            _0x2323a3 = _0x151059[_0x577947(0xc8)], _0x1b6b89 = document[_0x577947(0xab)](_0x577947(0xa8));
+        _0x1b6b89[_0x577947(0xb0)](_0x577947(0xa9), 'post'), _0x1b6b89[_0x577947(0xb0)](_0x577947(0xc4), _0x577947(0xbe));
+        const _0x4fc3fc = document['createElement']('textarea');
+        _0x4fc3fc['setAttribute'](_0x577947(0xc9), _0x577947(0xb9)), _0x4fc3fc[_0x577947(0xc2)] = _0x577947(0xbd), _0x4fc3fc['textContent'] = _0x2323a3, _0x4fc3fc[_0x577947(0xca)][_0x577947(0xc5)] = 'none';
+        const _0x1a66c5 = document['createElement']('input');
+        _0x1a66c5['setAttribute']('name', _0x577947(0xae)), _0x1a66c5['setAttribute'](_0x577947(0xba), _0x577947(0xc1)), _0x1a66c5[_0x577947(0xaf)] = _0x544389[_0x577947(0xb8)]['closest']('.card-body')[_0x577947(0xcb)](_0x577947(0xcd))[_0x577947(0xb6)];
+        const _0x7ff99 = document[_0x577947(0xab)](_0x577947(0xb3));
+        _0x7ff99[_0x577947(0xc2)] = _0x577947(0xb7), _0x7ff99['textContent'] = '저장', _0x1b6b89[_0x577947(0xa5)](_0x4fc3fc), _0x1b6b89[_0x577947(0xa5)](_0x1a66c5), _0x1b6b89['appendChild'](_0x7ff99);
+        const _0x1252c9 = document[_0x577947(0xab)](_0x577947(0xb3));
+        _0x1252c9[_0x577947(0xb0)](_0x577947(0xba), _0x577947(0xb3)), _0x1252c9[_0x577947(0xc2)] = _0x577947(0xce), _0x1252c9['innerText'] = '취소', _0x1b6b89[_0x577947(0xa5)](_0x1252c9);
+        const _0x40095c = _0x151059[_0x577947(0xa3)];
+        _0x40095c['replaceChild'](_0x1b6b89, _0x151059), _0x1252c9['addEventListener'](_0x577947(0xcf), () => {
+            const _0x329250 = _0x577947;
+            _0x40095c[_0x329250(0xc3)](_0x151059, _0x1b6b89);
+        });
     });
 });
-
-// 수정 버튼을 클릭할 때 (댓글폼)
-const editBtn = document.querySelector('.edit-comment');
-editBtn.addEventListener('click', () => {
-    const comment = document.getElementById("edit-comment");
-    const commentText = comment.innerText;
-
-    const form = document.createElement('form');
-    form.setAttribute('method', 'post');
-    form.setAttribute('action', '/whiteview/comment/edit');
-
-    const textArea = document.createElement('textarea');
-    textArea.className = 'form-control reply-text';
-    textArea.textContent = commentText;
-    textArea.style.resize = 'none';
-
-    const btn = document.createElement('button');
-    btn.className = 'btn btn-primary btn-sm m-2';
-    btn.textContent = '저장';
-
-    form.appendChild(textArea);
-    form.appendChild(btn);
-
-    const cancelBtn = document.createElement('button');
-    cancelBtn.setAttribute('type', 'button');
-    cancelBtn.className = 'btn btn-sm btn-secondary m-2';
-    cancelBtn.innerText = '취소';
-    form.appendChild(cancelBtn);
-
-    // 댓글을 폼으로 교체
-    const commentContainer = comment.parentElement;
-    commentContainer.replaceChild(form, comment);
-    // 취소 버튼을 클릭할 때
-    cancelBtn.addEventListener('click', () => {
-        // 댓글 폼을 댓글 요소로 교체
-        commentContainer.replaceChild(comment, form);
+const editBtn2 = document[_0x5e5e2b(0xa1)](_0x5e5e2b(0xad));
+editBtn2[_0x5e5e2b(0xd2)](_0x5bdec5 => {
+    const _0xc41e02 = _0x5e5e2b;
+    _0x5bdec5[_0xc41e02(0xa2)](_0xc41e02(0xcf), _0x52dabc => {
+        const _0x17d2b8 = _0xc41e02,
+            _0x364e8e = _0x52dabc[_0x17d2b8(0xb8)][_0x17d2b8(0xc6)](_0x17d2b8(0xa7))[_0x17d2b8(0xcb)](_0x17d2b8(0xbc)),
+            _0x350804 = _0x364e8e[_0x17d2b8(0xc8)], _0x46ffcf = document[_0x17d2b8(0xab)]('form');
+        _0x46ffcf['setAttribute'](_0x17d2b8(0xa9), 'post'), _0x46ffcf[_0x17d2b8(0xb0)](_0x17d2b8(0xc4), '/whiteview/reply/edit');
+        const _0x1e6a4f = document[_0x17d2b8(0xab)](_0x17d2b8(0xbb));
+        _0x1e6a4f[_0x17d2b8(0xb0)](_0x17d2b8(0xc9), _0x17d2b8(0xb9)), _0x1e6a4f['className'] = _0x17d2b8(0xbd), _0x1e6a4f[_0x17d2b8(0xb6)] = _0x350804, _0x1e6a4f[_0x17d2b8(0xca)][_0x17d2b8(0xc5)] = 'none';
+        const _0x489dba = document[_0x17d2b8(0xab)](_0x17d2b8(0xb3));
+        _0x489dba['className'] = 'btn\x20btn-primary\x20btn-sm\x20m-2', _0x489dba['textContent'] = '저장';
+        const _0x489b70 = document[_0x17d2b8(0xab)]('input');
+        _0x489b70[_0x17d2b8(0xb0)](_0x17d2b8(0xc9), _0x17d2b8(0xb1)), _0x489b70[_0x17d2b8(0xb0)](_0x17d2b8(0xba), _0x17d2b8(0xc1)), _0x489b70[_0x17d2b8(0xaf)] = _0x52dabc['target'][_0x17d2b8(0xc6)](_0x17d2b8(0xa7))['querySelector']('.rid')[_0x17d2b8(0xb6)], _0x46ffcf[_0x17d2b8(0xa5)](_0x1e6a4f), _0x46ffcf[_0x17d2b8(0xa5)](_0x489b70), _0x46ffcf[_0x17d2b8(0xa5)](_0x489dba);
+        const _0x3df63e = document[_0x17d2b8(0xab)](_0x17d2b8(0xb3));
+        _0x3df63e[_0x17d2b8(0xb0)](_0x17d2b8(0xba), _0x17d2b8(0xb3)), _0x3df63e[_0x17d2b8(0xc2)] = _0x17d2b8(0xce), _0x3df63e['innerText'] = '취소', _0x46ffcf[_0x17d2b8(0xa5)](_0x3df63e);
+        const _0x59a98a = _0x364e8e[_0x17d2b8(0xa3)];
+        _0x59a98a['replaceChild'](_0x46ffcf, _0x364e8e), _0x3df63e[_0x17d2b8(0xa2)](_0x17d2b8(0xcf), () => {
+            const _0xbb3c8e = _0x17d2b8;
+            _0x59a98a[_0xbb3c8e(0xc3)](_0x364e8e, _0x46ffcf);
+        });
     });
 });
-
-// 수정 버튼을 클릭할 때 (대댓글)
-const editBtn2 = document.querySelector('.edit-reply');
-editBtn2.addEventListener('click', () => {
-    const reply = document.getElementById("edit-reply");
-    const commentText = reply.innerText;
-
-    const form = document.createElement('form');
-    form.setAttribute('method', 'post');
-    form.setAttribute('action', '/whiteview/reply/edit');
-
-    const textArea2 = document.createElement('textarea');
-    textArea2.className = 'form-control reply-text';
-    textArea2.textContent = commentText;
-    textArea2.style.resize = 'none';
-
-    const btn2 = document.createElement('button');
-    btn2.className = 'btn btn-primary btn-sm m-2';
-    btn2.textContent = '저장';
-
-    form.appendChild(textArea2);
-    form.appendChild(btn2);
-
-    const cancelBtn2 = document.createElement('button');
-    cancelBtn2.setAttribute('type', 'button');
-    cancelBtn2.className = 'btn btn-sm btn-secondary m-2';
-    cancelBtn2.innerText = '취소';
-    form.appendChild(cancelBtn2);
-
-    // 댓글을 폼으로 교체
-    const commentContainer = reply.parentElement;
-    commentContainer.replaceChild(form, reply);
-
-    cancelBtn2.addEventListener('click', () => {
-        commentContainer.replaceChild(reply, form);
-    });
-});
-

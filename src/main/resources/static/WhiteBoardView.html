@@ -20,8 +20,8 @@
   <link rel="stylesheet" href="css/custom-theme.css">
   <link rel="stylesheet" href="css/whiteboard.css">
   <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
-  <script src="js/bootstrap.min.js"></script>
-  <script src="js/bootstrap.bundle.min.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+  <script src="/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg">
@@ -89,48 +89,64 @@
     <form method="post" action="/whiteview/comment/add">
       <div class="form-group">
         <label for="reply-textarea">댓글 작성</label>
-        <textarea class="form-control reply-text" id="reply-textarea" rows="3"></textarea>
+        <textarea class="form-control reply-text" id="reply-textarea" name="contents" rows="3" maxlength="100"
+                  placeholder="내용을 입력하세요." required></textarea>
       </div>
+      <input type="hidden" name="id" th:value="${id}">
       <button type="submit" class="btn btn-primary mt-2">작성</button>
     </form>
   </div>
-  <div class="container reply-card">
-    <h3>댓글 목록(0)</h3>
+  <div class="container reply-card mb-5">
+    <h3>댓글 목록<span th:text="${totalCount}"></span></h3>
     <hr>
-    <div class="card mb-5">
+    <div class="card" th:each="list : ${commentList}">
       <div class="card-body">
-        <h5 class="card-title">테스트</h5>
-        <p class="card-text" id="edit-comment">내용입니다.</p>
-        <p class="card-subtitle text-muted reply-time">2023-01-01 12:00:00</p>
+        <p hidden class="cid" th:text="${list.cid}"></p>
+        <h5 class="card-title" th:text="${list.name}"></h5>
+        <p class="card-text edit-comment-contents" th:text="${list.contents}"></p>
+        <p class="card-subtitle text-muted reply-time" th:text="${list.time}"></p>
         <div class="d-flex reply-btn">
           <button class="btn btn-sm text-secondary reply-toggle">댓글 쓰기</button>
-          <a class="btn btn-sm text-secondary edit-comment">수정</a>
-          <a href="#" class="btn btn-sm text-secondary">삭제</a>
+          <a class="btn btn-sm text-secondary edit-comment"
+             th:if="${#authentication != null} AND ${#strings.equals(list.email,#authentication.principal.email)}">수정</a>
+          <a class="btn btn-sm text-secondary" th:href="@{/whiteview/comment/delete(cid=${list.cid})}"
+             th:if="${#authentication != null} AND ${#strings.equals(list.email,#authentication.principal.email)}"
+             onclick="if(!confirm('삭제하시면 복구할수 없습니다. \n 정말로 삭제하시겠습니까??')){ return false;}">삭제</a>
         </div>
         <div class="reply-form d-none">
           <form method="post" action="/whiteview/reply/add">
             <div class="form-group">
-              <label for="reply-content">내용</label>
-              <textarea class="form-control reply-text" id="reply-content" rows="3" placeholder="내용을 입력하세요"></textarea>
+              <label for="reply-content">댓글 작성</label>
+              <textarea class="form-control reply-text" id="reply-content" name="contents" rows="3" cols="100"
+                        placeholder="내용을 입력하세요." required></textarea>
             </div>
+            <input type="hidden" name="id" th:value="${id}">
+            <input type="hidden" name="cid" th:value="${list.cid}">
             <button type="submit" class="btn btn-primary mt-2 mb-3">작성</button>
           </form>
         </div>
+        <th:block th:each="list2 : ${replyList}" th:if="${list.cid == list2.cid}">
         <div class="replies">
           <div class="card mb-3">
             <div class="card-body">
-              <h5 class="card-title">대댓글 작성자</h5>
-              <p class="card-text" id="edit-reply">대댓글 내용</p>
-              <p class="card-subtitle text-muted reply-time">2023-01-01 12:00:00</p>
+              <p hidden class="rid" th:text="${list2.rid}"></p>
+              <h5 class="card-title" th:text="${list2.name}"></h5>
+              <p class="card-text edit-reply-contents" th:text="${list2.contents}"></p>
+              <p class="card-subtitle text-muted reply-time" th:text="${list2.time}"></p>
               <div class="d-flex reply-btn">
-                <a class="btn btn-sm text-secondary edit-reply">수정</a>
-                <a href="#" class="btn btn-sm text-secondary">삭제</a>
+                <a class="btn btn-sm text-secondary edit-reply"
+                   th:if="${#authentication != null} AND ${#strings.equals(list2.email,#authentication.principal.email)}">수정</a>
+                <a class="btn btn-sm text-secondary" th:href="@{/whiteview/reply/delete(rid=${list2.rid})}"
+                   th:if="${#authentication != null} AND ${#strings.equals(list2.email,#authentication.principal.email)}"
+                   onclick="if(!confirm('삭제하시면 복구할수 없습니다. \n 정말로 삭제하시겠습니까??')){ return false;}">삭제</a>
               </div>
             </div>
           </div>
         </div>
+        </th:block>
       </div>
     </div>
+
   </div>
 </main>
 <!-- Footer -->
