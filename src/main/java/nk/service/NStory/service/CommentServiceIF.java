@@ -10,5 +10,4 @@ public interface CommentServiceIF {
     void addComment(CommentDTO commentDTO) throws Exception;
     void commentEdit(CommentDTO commentDTO) throws Exception;
     void deleteComment(int cid) throws Exception;
-    int totalCount(int id) throws Exception;
 }

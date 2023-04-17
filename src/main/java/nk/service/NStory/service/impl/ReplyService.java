@@ -41,9 +41,4 @@ public class ReplyService implements ReplyServiceIF {
     public void deleteReply(int rid) throws Exception {
         replyMapper.deleteReply(rid);
     }
-
-    @Override
-    public int totalCount(int id) throws Exception {
-        return replyMapper.totalCount(id);
-    }
 }

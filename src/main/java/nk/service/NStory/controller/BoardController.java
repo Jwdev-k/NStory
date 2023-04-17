@@ -5,7 +5,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import nk.service.NStory.dto.CommentDTO;
 import nk.service.NStory.dto.Enum.SearchType;
+import nk.service.NStory.dto.ReplyDTO;
 import nk.service.NStory.dto.WhiteBoard;
 import nk.service.NStory.security.CustomUserDetails;
 import nk.service.NStory.service.impl.CommentService;
@@ -26,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Base64;
 
 @Controller @Slf4j
@@ -44,7 +47,7 @@ public class BoardController {
         boolean isSearch;
         pageUtil.setPerPageNum(10);
         if (str != null && str.length() > 0) {
-            model.addAttribute("boardList", whiteBoardService.searchList(bid, page,type, str));
+            model.addAttribute("boardList", whiteBoardService.searchList(bid, page, type, str));
             totalCount = whiteBoardService.searchTotalCount(bid, type, str);
             pageUtil.setPage(page);
             pageUtil.setTotalCount(totalCount > 0 ? totalCount : 1);
@@ -60,13 +63,19 @@ public class BoardController {
 
             isSearch = false;
         }
-        model.addAttribute("bid", bid);
+        request.setAttribute("bid", bid); //게시판 이름
+        request.setAttribute("isSearch", isSearch);
+
         model.addAttribute("pageMaker", pageUtil);
-        model.addAttribute("isSearch", isSearch);
 
         Cookie cookie = new Cookie("searchType", String.valueOf(type.getType())); //검색타입 쿠키저장
         cookie.setPath("/whiteboard");
         response.addCookie(cookie);
+
+        Cookie cookie2 = new Cookie("lastPage", String.valueOf(page));
+        cookie.setPath("/whiteview");
+        response.addCookie(cookie2);
+
         log.info("검색타입: " + type);
         return "WhiteBoard";
     }
@@ -99,21 +108,32 @@ public class BoardController {
         WhiteBoard wb = whiteBoardService.getBoardView(id);
         if (wb != null) {
             request.setAttribute("boardInfo", wb);
-            request.setAttribute("redirectURL", request.getHeader("referer"));
 
-            request.setAttribute("commentList", commentService.getCommentList(id));
-            request.setAttribute("replyList", replyService.getReplyList(id));
+            int lastPage = 1;
+            Cookie[] cookies = request.getCookies();
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    if (cookie.getName().equals("lastPage")) {
+                        lastPage = Integer.parseInt(cookie.getValue());
+                    }
+                }
+            }
+            request.setAttribute("redirectURL", "/whiteboard?bid=" + wb.getBid() + "&page=" + lastPage);
+
+            ArrayList<CommentDTO> commentList = commentService.getCommentList(id);
+            ArrayList<ReplyDTO> replyList = replyService.getReplyList(id);
+            request.setAttribute("commentList", commentList);
+            request.setAttribute("replyList", replyList);
             request.setAttribute("totalCount"
-                    , "(" + (commentService.totalCount(id) + replyService.totalCount(id)) + ")");
-            request.setAttribute("id", id); // 게시판 아이디
+                    , "(" + (commentList.size() + replyList.size()) + ")");
             return "WhiteBoardView";
         }
-        return "redirect:/whiteboard";
+        return "redirect:" + request.getHeader("referer");
     }
 
     @PostMapping(value = "/whiteboard/delete")
     public String deleteBoard(@AuthenticationPrincipal CustomUserDetails userDetails, HttpServletRequest request
-            ,@RequestParam int id, @RequestParam String email) throws Exception {
+            ,@RequestParam String bid, @RequestParam int id, @RequestParam String email) throws Exception {
         if (userDetails == null) {
             return "redirect:" + request.getHeader("referer");
         }
@@ -121,7 +141,7 @@ public class BoardController {
             whiteBoardService.deleteBoard(id, userDetails.getEmail());
             log.info("요청주소 : /whiteboard/delete" + "Action : whiteboard 삭제" + "\n 요청자: " + userDetails.getEmail());
         }
-        return "redirect:/whiteboard";
+        return "redirect:/whiteboard?bid=" + bid;
     }
 
     @GetMapping(value = "/whitepostup")
@@ -135,7 +155,7 @@ public class BoardController {
                 request.setAttribute("boardInfo", wb);
                 return "WhiteBoardEdit";
             } else {
-                return "redirect:/whiteboard";
+                return "redirect:" + request.getHeader("referer");
             }
         }
     }

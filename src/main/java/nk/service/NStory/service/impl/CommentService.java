@@ -41,9 +41,4 @@ public class CommentService implements CommentServiceIF {
     public void deleteComment(int cid) throws Exception {
         commentMapper.deleteComment(cid);
     }
-
-    @Override
-    public int totalCount(int id) throws Exception {
-        return commentMapper.totalCount(id);
-    }
 }

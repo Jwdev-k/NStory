@@ -17,6 +17,4 @@ public interface CommentMapper {
     void commentEdit(CommentDTO commentDTO) throws Exception;
     @Delete("DELETE FROM comment WHERE cid = #{cid}")
     void deleteComment(@Param("cid") int cid) throws Exception;
-    @Select("SELECT count(*) FROM comment WHERE isEnable = 1 AND id = ${id}")
-    int totalCount(int id) throws Exception;
 }

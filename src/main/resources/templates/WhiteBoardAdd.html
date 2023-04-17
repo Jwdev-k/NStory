@@ -14,15 +14,16 @@
             font-size: 14px;
         }
     </style>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/bootstrap-utilities.css">
-    <link rel="stylesheet" href="assets/font-awesome/css/fontawesome.css">
-    <link rel="stylesheet" href="assets/font-awesome/css/solid.css">
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/custom-theme.css">
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/bootstrap-utilities.css">
+    <link rel="stylesheet" href="/static/css/main.css">
+    <link rel="stylesheet" href="/static/css/custom-theme.css">
     <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/summernote/summernote-lite.js"></script>
+    <script src="/static/summernote/lang/summernote-ko-KR.js"></script>
+    <link rel="stylesheet" href="/static/summernote/summernote-lite.css">
 </head>
 <body>
 <nav class="navbar navbar-expand-lg">
@@ -32,7 +33,7 @@
             <li class="box" th:if="${#authentication.principal.profileImg != null}" sec:authorize="isAuthenticated()">
                 <img class="profile" th:src="@{/storage/prf/img}" alt=""></li>
             <li class="box" th:unless="${#authentication.principal.profileImg != null}" sec:authorize="isAuthenticated()">
-                <img class="profile" src="images/default_profileImg.png" alt=""></li>
+                <img class="profile" src="/static/images/default_profileImg.png" alt=""></li>
             <li class="nav-item" sec:authorize="isAuthenticated()">
                 <a class="nav-link" href="/info" th:text="${#authentication.principal.username}"></a></li>
             <li class="nav-item" sec:authorize="isAuthenticated()">
@@ -46,7 +47,7 @@
 </nav>
 <div class="menu-wrapper">
     <ul class="menu">
-        <li><img src="images/bangdream/main-star.png" alt="star"></li>
+        <li><img src="/static/images/bangdream/main-star.png" alt="star"></li>
         <li><h3>MENU</h3></li>
         <li><a href="/whiteboard?bid=free">자유게시판</a></li>
         <li><a href="/record">방명록</a></li>
@@ -59,39 +60,28 @@
             <br/>현재 테스트 작업중이며 버그 신고는 ckaksj97@gmail.com으로 부탁드립니다.</p></li>
     </ul>
 </div>
-<button class="menu-btn" style="height: 50px; width: 50px"><img src="images/svg/menu.svg" alt="Menu"></button>
+<button class="menu-btn" style="height: 50px; width: 50px"><img src="/static/images/svg/menu.svg" alt="Menu"></button>
 <main>
-    <div class="container jumbotron" style="background-image: url('images/mainImg.png'); background-position-y: 20%;">
-        <h1 class="text-white fw-bold">NStory<label>v0.9</label></h1>
-        <p><span class="text-white" id="serverTime">loading...</span></p>
-        <p class="text-white">현재 페이지는 개발중인 페이지입니다. 다양한 기능이 추가될 예정이니 기대해주세요!</p>
-    </div>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="chat-window">
-                    <h3 class="fw-bold">채팅방</h3>
-                    <hr/>
-                    <div class="message-list" id="chat-window">
-                        <!-- 채팅내용 <div> -->
-                    </div>
-                    <div class="input-group">
-                        <input type="text" id="message" class="form-control" placeholder="메시지를 입력하세요" maxlength="100">
-                        <div class="input-group-append">
-                            <button type="button" class="btn btn-primary" onclick="sendMessage()">
-                                <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="user-list col-md-2">
-                <h5 class="fw-bold" id="user-list-count">유저 리스트(0)</h5>
-                <hr/>
-                <div class="user" id="user-list">
-                    <!-- 유저리스트 <p>-->
-                </div>
-            </div>
+    <div id="loading">
+        <div class="spinner-border" role="status">
+            <span class="sr-only"></span>
         </div>
+    </div>
+    <div class="container" id="view">
+        <form method="post" accept-charset="UTF-8" action="/whiteboard/add">
+            <input type="hidden" name="bid" th:value="${bid}">
+            <label for="title" class="input-group-text fw-bold title">
+                Title:<input class="input-group form-text" type="text" name="title" id="title" required maxlength="50"
+                             placeholder="타이틀을 작성해주세요.">
+            </label>
+            <textarea name="editordata" id="summernote"></textarea>
+            <button type="submit" class="btn btn-primary d-block"
+                    style="margin-top: 10px; margin-bottom: 10px; margin-left: 85%;"
+                    onclick="if(!confirm('정말로 저장하시겠습니까??')){
+                                return false;
+                            }">저장
+            </button>
+        </form>
     </div>
 </main>
 <!-- Footer -->
@@ -102,7 +92,15 @@
     </div>
 </footer>
 </body>
-<script src="js/serverTime.js"></script>
-<script src="js/mainChat.js"></script>
-<script src="js/menuEvent.js"></script>
+<link rel="stylesheet" href="/static/css/whiteboard.css">
+<script src="/static/js/menuEvent.js"></script>
+<script src="/static/js/customnote.js"></script>
+<script>
+    $(document).ready(function() {
+        $("form").submit(function() {
+            $("#view").hide();
+            $("#loading").show();
+        });
+    });
+</script>
 </html>

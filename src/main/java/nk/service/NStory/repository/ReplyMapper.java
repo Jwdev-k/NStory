@@ -17,6 +17,4 @@ public interface ReplyMapper {
     void replyEdit(ReplyDTO replyDTO) throws Exception;
     @Delete("DELETE FROM reply WHERE rid = #{rid}")
     void deleteReply(int rid) throws Exception;
-    @Select("SELECT count(*) FROM reply WHERE isEnable = 1 AND id = #{id}")
-    int totalCount(int id) throws Exception;
 }

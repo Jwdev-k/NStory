@@ -10,5 +10,4 @@ public interface ReplyServiceIF {
     void addReply(ReplyDTO replyDTO) throws Exception;
     void replyEdit(ReplyDTO replyDTO) throws Exception;
     void deleteReply(int rid) throws Exception;
-    int totalCount(int id) throws Exception;
 }
