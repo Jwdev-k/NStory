@@ -22,6 +22,9 @@ public class ReplyController {
             ,@RequestParam(required = false) String name, @RequestParam int id, @RequestParam int cid
             , @RequestParam String contents) throws Exception {
         if (userDetails != null && name == null) {
+            if (contents.length() > 100) {
+                contents = contents.substring(0, 100);
+            }
             replyService.addReply(new ReplyDTO(0, cid, id, userDetails.getEmail(), userDetails.getUsername()
                     , contents, CurrentTime.getTime4(), true));
         } else {
@@ -35,6 +38,9 @@ public class ReplyController {
     public String editReply(HttpServletRequest request, @AuthenticationPrincipal CustomUserDetails userDetails
             ,@RequestParam int rid, @RequestParam(required = false) String name, @RequestParam String contents) throws Exception {
         if (userDetails != null && name == null) {
+            if (contents.length() > 100) {
+                contents = contents.substring(0, 100);
+            }
             replyService.replyEdit(new ReplyDTO(rid, userDetails.getUsername(), contents));
         } else {
             // 비로그인 reply 코드
