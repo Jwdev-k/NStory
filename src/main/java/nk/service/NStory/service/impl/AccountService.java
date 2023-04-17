@@ -3,6 +3,7 @@ package nk.service.NStory.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nk.service.NStory.dto.AccountDTO;
+import nk.service.NStory.dto.ByteImageDTO;
 import nk.service.NStory.repository.AccountMapper;
 import nk.service.NStory.security.CustomUserDetails;
 import nk.service.NStory.service.AccountServiceIF;
@@ -80,5 +81,10 @@ public class AccountService implements AccountServiceIF {
     public void resetPassword(String email, String password) throws Exception {
         accountMapper.resetPassword(email, password);
         log.info("패스워드 변경 이력{이메일: " + email + ",변경패스워드: " + password + "}");
+    }
+
+    @Override
+    public ByteImageDTO getUserImage(int id) throws Exception {
+        return accountMapper.getUserImage(id);
     }
 }

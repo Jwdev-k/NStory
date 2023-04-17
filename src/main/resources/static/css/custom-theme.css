@@ -2,6 +2,10 @@
     --primary-color: #FF3E7F;
     --secondary-color: #8B5EB5;
 }
+* {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+}
 .navbar {
     background-color: whitesmoke;
     border-bottom: 1px solid #FF3E7F;
@@ -82,7 +86,7 @@
 }
 
 .card-title {
-    font-size: 1.2rem;
+    font-size: 13px;
     font-weight: bold;
     color: black;
 }

@@ -1,6 +1,7 @@
 package nk.service.NStory.repository;
 
 import nk.service.NStory.dto.AccountDTO;
+import nk.service.NStory.dto.ByteImageDTO;
 import org.apache.ibatis.annotations.*;
 
 @Mapper
@@ -26,4 +27,6 @@ public interface AccountMapper {
     void UpdateAccountInfo2(AccountDTO accountDTO) throws Exception;
     @Update("UPDATE account SET password = #{password} WHERE email = #{email} AND isOAuth = 0")
     void resetPassword(@Param("email") String email, @Param("password") String password) throws Exception;
+    @Select("SELECT profileImg FROM account WHERE id = #{id}")
+    ByteImageDTO getUserImage(int id) throws Exception;
 }

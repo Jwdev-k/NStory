@@ -1,6 +1,7 @@
 package nk.service.NStory.service;
 
 import nk.service.NStory.dto.AccountDTO;
+import nk.service.NStory.dto.ByteImageDTO;
 import org.springframework.security.core.Authentication;
 
 public interface AccountServiceIF {
@@ -10,4 +11,5 @@ public interface AccountServiceIF {
     void UpdateLastLoginDate(String lastLoginDate, String email) throws Exception;
     void UpdateAccountInfo(AccountDTO accountDTO, Authentication authentication) throws Exception;
     void resetPassword(String email, String password) throws Exception;
+    ByteImageDTO getUserImage(int id) throws Exception;
 }

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 @Mapper
 public interface ReplyMapper {
-    @Select("SELECT * FROM reply WHERE isEnable = 1 AND id = #{id}")
+    @Select("SELECT r.*, a.id as aid FROM reply r INNER JOIN account a ON a.email = r.email WHERE r.isEnable = 1 AND r.id = #{id}")
     ArrayList<ReplyDTO> getReplyList(int id) throws Exception;
     @Select("SELECT * FROM reply WHERE isEnable = 1 AND rid = #{rid}")
     ReplyDTO getReply(int rid) throws Exception;

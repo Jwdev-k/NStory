@@ -13,10 +13,21 @@ public class CommentDTO {
     private String contents;
     private String time;
     private boolean isEnable;
+    private int aid;
 
     public CommentDTO(int cid, String name, String contents) {
         this.cid = cid;
         this.name = name;
         this.contents = contents;
+    }
+
+    public CommentDTO(int cid, int id, String email, String name, String contents, String time, boolean isEnable) {
+        this.cid = cid;
+        this.id = id;
+        this.email = email;
+        this.name = name;
+        this.contents = contents;
+        this.time = time;
+        this.isEnable = isEnable;
     }
 }

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 @Mapper
 public interface CommentMapper {
-    @Select("SELECT * FROM comment WHERE isEnable = 1 AND id = #{id} ORDER BY cid DESC")
+    @Select("SELECT c.*, a.id as aid FROM comment c INNER JOIN account a ON a.email = c.email WHERE c.isEnable = 1 AND c.id = #{id} ORDER BY c.cid DESC")
     ArrayList<CommentDTO> getCommentList(int id) throws Exception;
     @Select("SELECT * FROM comment WHERE isEnable = 1 AND cid = #{cid}")
     CommentDTO getComment(int cid) throws Exception;

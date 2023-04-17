@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import net.minidev.json.JSONObject;
 import nk.service.NStory.dto.AccountDTO;
+import nk.service.NStory.dto.ByteImageDTO;
 import nk.service.NStory.security.CustomUserDetails;
 import nk.service.NStory.service.impl.AccountService;
 import org.springframework.http.HttpStatus;
@@ -13,8 +14,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.FileInputStream;
 
 @Controller
 @RequiredArgsConstructor
@@ -67,5 +72,16 @@ public class MainController {
     public ResponseEntity<byte[]> getProfileImage(@AuthenticationPrincipal CustomUserDetails userDetails) {
         byte[] ImageByteArray = userDetails.getProfileImg();
         return new ResponseEntity<>(ImageByteArray, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/general/prf/{id}", produces = MediaType.IMAGE_PNG_VALUE)
+    public ResponseEntity<byte[]> getProfileImage(HttpServletRequest request, @PathVariable int id) throws Exception {
+        ByteImageDTO ImageByteArray = accountService.getUserImage(id);
+        if (ImageByteArray != null && ImageByteArray.getImage().length > 0) {
+            return new ResponseEntity<>(ImageByteArray.getImage(), HttpStatus.OK);
+        }
+        File defaultImg = ResourceUtils.getFile("classpath:static/images/default_profileImg.png");
+        FileInputStream in = new FileInputStream(defaultImg);
+        return new ResponseEntity<>(in.readAllBytes(), HttpStatus.OK);
     }
 }
