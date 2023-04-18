@@ -19,6 +19,7 @@ import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -47,19 +48,20 @@ public class SecurityConfig {
                 .authenticationManager(authenticationManager).anonymous().disable();
         http.formLogin()
                 .loginPage("/login").usernameParameter("email").passwordParameter("password")
-                .loginProcessingUrl("/perform_login").successHandler(new SuccessHandler())
+                .loginProcessingUrl("/perform_login").successHandler(new SuccessHandler(customRememberMeServices()))
                 .failureHandler(new FailureHandler());
         http.oauth2Login()
                 .loginPage("/login")
                 .failureUrl("/login")
-                .successHandler(new SuccessHandler())
+                .successHandler(new SuccessHandler(customRememberMeServices()))
                 .userInfoEndpoint()
                 .userService(oAuth2LoginService); // 소셜 로그인을 위한 클래스 설정*/
+        http.rememberMe().rememberMeServices(customRememberMeServices()); // 커스텀 자동로그인 설정
 
         http.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .clearAuthentication(true).logoutSuccessUrl("/").invalidateHttpSession(true).deleteCookies("JSESSIONID");
 
-        http.sessionManagement()
+        http.sessionManagement().sessionFixation().migrateSession()
                 .invalidSessionUrl("/login").maximumSessions(1).maxSessionsPreventsLogin(true).expiredUrl("/login")
                 .sessionRegistry(sessionRegistry());
         return http.build();
@@ -69,6 +71,15 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
             throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
+    }
+
+    @Bean
+    public TokenBasedRememberMeServices customRememberMeServices() {
+        CustomRememberMe customRememberMeServices = new CustomRememberMe("customKey", userLoginService);
+        customRememberMeServices.setTokenValiditySeconds(86400 * 30);
+        customRememberMeServices.setParameter("remember-me");
+        customRememberMeServices.setCookieName("7adbbb4c6ATLG");
+        return customRememberMeServices;
     }
 
     @Bean

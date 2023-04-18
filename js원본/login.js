@@ -1,3 +1,5 @@
+const secretKey = "ff5de6778574803f9006470720d0ede7dcf18f3756de29081d1aa2acae7e12d1";
+
 $(document).ready(function() {
     var userInputId = getCookie("userInputId");
     var setCookieYN = getCookie("setCookieYN");
@@ -8,12 +10,21 @@ $(document).ready(function() {
         $("#saveEmail").prop("checked", false);
     }
 
-    $("#email").val(userInputId);
+    const bytes = CryptoJS.AES.decrypt(userInputId, secretKey, {
+        mode: CryptoJS.mode.ECB,
+        padding: CryptoJS.pad.Pkcs7
+    });
+
+    $("#email").val(bytes.toString(CryptoJS.enc.Utf8));
 
     //로그인 버튼 클릭
     $('#login_btn').click(function() {
         if($("#saveEmail").is(":checked")){
-            var userInputId = $("#email").val();
+
+            var userInputId = CryptoJS.AES.encrypt($("#email").val(), secretKey, {
+                mode: CryptoJS.mode.ECB,
+                padding: CryptoJS.pad.Pkcs7
+            });
             setCookie("userInputId", userInputId, 60);
             setCookie("setCookieYN", "Y", 60);
         } else {
@@ -21,7 +32,7 @@ $(document).ready(function() {
             deleteCookie("setCookieYN");
         }
 
-        document.fform.submit();
+        document.form.submit();
     });
 });
 

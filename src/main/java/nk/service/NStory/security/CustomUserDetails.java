@@ -31,11 +31,12 @@ public class CustomUserDetails implements UserDetails, OAuth2User {
     private boolean isCredentialsNonExpired; // 계정 비밀번호 만료 여부
     private Collection<? extends GrantedAuthority> authorities;// 권한 목록
     private boolean firstLogin;
+    private boolean isOAuth;
 
     //Login
     public CustomUserDetails(String username, String email, String password, String comment, byte[] profileImg
             , boolean isEnabled, boolean isAccountNonExpired, boolean isAccountNonLocked, boolean isCredentialsNonExpired
-            , Collection<? extends GrantedAuthority> authorities, boolean firstLogin) {
+            , Collection<? extends GrantedAuthority> authorities, boolean firstLogin, boolean isOAuth) {
         this.username = username;
         this.email = email;
         this.password = password;
@@ -47,12 +48,14 @@ public class CustomUserDetails implements UserDetails, OAuth2User {
         this.isCredentialsNonExpired = isCredentialsNonExpired;
         this.authorities = authorities;
         this.firstLogin = firstLogin;
+        this.isOAuth = isOAuth;
     }
 
     //OAuth2 로그인
     public CustomUserDetails(OAuth2UserInfo attributes, String username, String email, String password, String comment
             , byte[] profileImg , boolean isEnabled, boolean isAccountNonExpired, boolean isAccountNonLocked
-            , boolean isCredentialsNonExpired, Collection<? extends GrantedAuthority> authorities, boolean firstLogin) {
+            , boolean isCredentialsNonExpired, Collection<? extends GrantedAuthority> authorities, boolean firstLogin
+            , boolean isOAuth) {
         this.oAuth2UserInfo = attributes;
         this.username = username;
         this.email = email;
@@ -65,6 +68,7 @@ public class CustomUserDetails implements UserDetails, OAuth2User {
         this.isCredentialsNonExpired = isCredentialsNonExpired;
         this.authorities = authorities;
         this.firstLogin = firstLogin;
+        this.isOAuth = isOAuth;
     }
 
     @Override

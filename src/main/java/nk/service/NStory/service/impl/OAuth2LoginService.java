@@ -20,11 +20,10 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 
-@Service @Slf4j
+@Service
+@Slf4j
 @RequiredArgsConstructor
 public class OAuth2LoginService extends DefaultOAuth2UserService {
     private final AccountService accountService;
@@ -48,31 +47,25 @@ public class OAuth2LoginService extends DefaultOAuth2UserService {
             log.info(oAuth2UserInfo.toString());
             String email = oAuth2UserInfo.getEmail();
             String name = oAuth2UserInfo.getName();
-            boolean firstLogin = false;
+
             AccountDTO account = accountService.login(email);
             if (account == null) {
                 accountService.register(new AccountDTO(0, email, passwordEncoder.encode(provider), name,
-                        null, null, "USER", CurrentTime.getTime(), null,
+                        null, null, "USER", CurrentTime.getTime(), CurrentTime.getTime(),
                         1, 0, 0, true, true));
+                return new CustomUserDetails(oAuth2UserInfo, name, email, passwordEncoder.encode(provider), null
+                        , null, true, true, true, true
+                        , Collections.singleton(new SimpleGrantedAuthority("ROLE_" + "USER"))
+                        , false, true);
             } else {
-                if (account.getLastDateTime() != null) {
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                    LocalDate lastDate = LocalDate.parse(account.getLastDateTime().substring(0, 10), formatter);
-                    if (LocalDate.now().isAfter(lastDate)) {
-                        firstLogin = true;
-                        updateStatus.addExp(100, account.getEmail(), account.getLevel());
-                    }
-                }
-                accountService.UpdateLastLoginDate(CurrentTime.getTime(), account.getEmail());
+                accountService.UpdateLastLoginDate(CurrentTime.getTime(), email);
                 return new CustomUserDetails(oAuth2UserInfo, account.getName(), account.getEmail(), passwordEncoder.encode(provider),
                         account.getComment(), account.getProfileImg(),
                         account.isEnable(), true, true, true
-                        , Collections.singleton(new SimpleGrantedAuthority("ROLE_" + account.getRole())), firstLogin);
+                        , Collections.singleton(new SimpleGrantedAuthority("ROLE_" + account.getRole()))
+                        , updateStatus.checkingReward(account), account.isOAuth());
             }
-            return new CustomUserDetails(oAuth2UserInfo, name, email, passwordEncoder.encode(provider), null
-                    , null, true, true, true, true
-                    , Collections.singleton(new SimpleGrantedAuthority("ROLE_" + "USER")), firstLogin);
         }
-        return null;
+        throw new OAuth2AuthenticationException("인증 정보가 없음");
     }
 }
