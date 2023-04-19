@@ -65,10 +65,10 @@
         <form method="post" accept-charset="UTF-8" action="/whiteboard/add">
             <input type="hidden" name="bid" th:value="${bid}">
             <label for="title" class="input-group-text fw-bold title">
-                Title:<input class="input-group form-text" type="text" name="title" id="title" required maxlength="50"
+                제목:<input class="input-group form-text" type="text" name="title" id="title" required maxlength="50"
                              placeholder="타이틀을 작성해주세요.">
             </label>
-            <textarea name="editordata" id="summernote"></textarea>
+            <textarea name="editordata" id="summernote" maxlength="4294967296"></textarea>
             <button type="submit" class="btn btn-primary d-block"
                     style="margin-top: 10px; margin-bottom: 10px; margin-left: 85%;"
                     onclick="if(!confirm('정말로 저장하시겠습니까??')){
@@ -92,7 +92,7 @@
 <script>
     $(document).ready(function() {
         $("form").submit(function() {
-            $("#view").hide();
+            $("#add").hide();
             $("#loading").show();
         });
     });

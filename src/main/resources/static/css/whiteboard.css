@@ -47,8 +47,16 @@ label{
     background-color: whitesmoke;
     color: #FF3E7F;
 }
+.board-contents{
+    justify-content: center;
+}
+.comment-box,
+.reply-box {
+    width: 60%;
+}
 .reply-card{
     min-height: 500px;
+    width: 60%;
 }
 .reply-form,
 .replies {

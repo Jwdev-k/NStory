@@ -2,180 +2,180 @@
 <html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>NStory</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/static/css/bootstrap.min.css">
-  <link rel="stylesheet" href="/static/css/bootstrap-utilities.css">
-  <link rel="stylesheet" href="/static/css/main.css">
-  <link rel="stylesheet" href="/static/css/custom-theme.css">
-  <link rel="stylesheet" href="/static/css/whiteboard.css">
-  <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
-  <script src="/static/js/bootstrap.min.js"></script>
-  <script src="/static/js/bootstrap.bundle.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NStory</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/bootstrap-utilities.css">
+    <link rel="stylesheet" href="/static/css/main.css">
+    <link rel="stylesheet" href="/static/css/custom-theme.css">
+    <link rel="stylesheet" href="/static/css/whiteboard.css">
+    <script src="https://code.jquery.com/jquery-3.6.3.js"
+            integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg">
-  <div class="container">
-    <a class="navbar-brand" href="/">NStory</a>
-    <ul class="navbar-nav right-0">
-      <li class="box" th:if="${#authentication.principal.profileImg != null}" sec:authorize="isAuthenticated()">
-        <img class="profile" th:src="@{/storage/prf/img}" alt=""></li>
-      <li class="box" th:unless="${#authentication.principal.profileImg != null}" sec:authorize="isAuthenticated()">
-        <img class="profile" src="/static/images/default_profileImg.png" alt=""></li>
-      <li class="nav-item" sec:authorize="isAuthenticated()">
-        <a class="nav-link" href="/info" th:text="${#authentication.principal.username}"></a></li>
-      <li class="nav-item" sec:authorize="isAuthenticated()">
-        <a class="nav-link" th:text="${#authentication.principal.authorities}"></a></li>
-      <li class="nav-item" th:if="${#authentication != null}">
-        <a class="nav-link" href="/logout">로그아웃</a></li>
-      <li class="nav-item" th:unless="${#authentication != null}">
-        <a class="nav-link" href="/login">로그인</a></li>
-    </ul>
-  </div>
+    <div class="container">
+        <a class="navbar-brand" href="/">NStory</a>
+        <ul class="navbar-nav right-0">
+            <li class="box" th:if="${#authentication.principal.profileImg != null}" sec:authorize="isAuthenticated()">
+                <img class="profile" th:src="@{/storage/prf/img}" alt=""></li>
+            <li class="box" th:unless="${#authentication.principal.profileImg != null}"
+                sec:authorize="isAuthenticated()">
+                <img class="profile" src="/static/images/default_profileImg.png" alt=""></li>
+            <li class="nav-item" sec:authorize="isAuthenticated()">
+                <a class="nav-link" href="/info" th:text="${#authentication.principal.username}"></a></li>
+            <li class="nav-item" sec:authorize="isAuthenticated()">
+                <a class="nav-link" th:text="${#authentication.principal.authorities}"></a></li>
+            <li class="nav-item" th:if="${#authentication != null}">
+                <a class="nav-link" href="/logout">로그아웃</a></li>
+            <li class="nav-item" th:unless="${#authentication != null}">
+                <a class="nav-link" href="/login">로그인</a></li>
+        </ul>
+    </div>
 </nav>
 <div class="menu-wrapper">
-  <ul class="menu">
-    <li><img src="/static/images/bangdream/main-star.png" alt="star"></li>
-    <li><h3>MENU</h3></li>
-    <li><a href="/whiteboard?bid=free">자유게시판</a></li>
-    <li><a href="/record">방명록</a></li>
-    <li><a href="/ranking">랭킹</a></li>
-    <li><a href="/shop">NStory SHOP</a></li>
-    <li><a sec:authorize="hasRole('ROLE_ADMIN')" href="#">유저 관리</a></li>
-  </ul>
-  <ul class="menu-info">
-    <li><p class="text-center">개발중인 메뉴입니다.
-      <br/>현재 테스트 작업중이며 버그 신고는 ckaksj97@gmail.com으로 부탁드립니다.</p></li>
-  </ul>
+    <ul class="menu">
+        <li><img src="/static/images/bangdream/main-star.png" alt="star"></li>
+        <li><h3>MENU</h3></li>
+        <li><a href="/whiteboard?bid=free">자유게시판</a></li>
+        <li><a href="/record">방명록</a></li>
+        <li><a href="/ranking">랭킹</a></li>
+        <li><a href="/shop">NStory SHOP</a></li>
+        <li><a sec:authorize="hasRole('ROLE_ADMIN')" href="#">유저 관리</a></li>
+    </ul>
+    <ul class="menu-info">
+        <li><p class="text-center">개발중인 메뉴입니다.
+            <br/>현재 테스트 작업중이며 버그 신고는 ckaksj97@gmail.com으로 부탁드립니다.</p></li>
+    </ul>
 </div>
 <button class="menu-btn" style="height: 50px; width: 50px"><img src="/static/images/svg/menu.svg" alt="Menu"></button>
 <main th:object="${boardInfo}">
-  <div id="loading">
-    <div class="spinner-border" role="status">
-      <span class="sr-only"></span>
-    </div>
-  </div>
-  <section id="boardView">
     <div class="container my-5 bg-light" style="border-radius: 10px 10px; height: auto;">
-      <div class="py-3">
-        <h1 th:text="*{title}"></h1>
-        <p class="text-muted" th:text="'작성자: ' + *{author} + ' | 작성일자: ' + *{creationDate}"></p>
+        <div class="py-3 board-contents">
+            <h1 th:text="*{title}"></h1>
+            <p class="text-muted" th:text="'작성자: ' + *{author} + ' | 작성일자: ' + *{creationDate}"></p>
+            <hr>
+            <p th:utext="*{contents}">게시글 내용</p>
+        </div>
+        <div class="container p-3 bottom-0 position-relative">
+            <th:block th:if="${#authentication != null} and ${#strings.equals(boardInfo.email,#authentication.principal.email)}">
+                <form id="board-del">
+                    <a class="btn btn-primary" th:href="${redirectURL}">목록</a>
+                    <a class="btn btn-warning" th:href="@{/whitepostup(id=*{id})}">수정</a>
+                    <input type="hidden" name="bid" th:value="*{bid}">
+                    <input type="hidden" name="id" th:value="*{id}">
+                    <input type="hidden" name="email" th:value="*{email}">
+                    <button type="submit" class="btn btn-danger"
+                           onclick="if(!confirm('삭제하시면 되돌릴수 없습니다. \n 정말로 삭제하시겠습니까??')){
+                                  return false;}">삭제</button>
+                </form>
+            </th:block>
+            <a class="btn btn-primary" th:href="${redirectURL}"
+               th:unless="${#authentication != null} and ${#strings.equals(boardInfo.email,#authentication.principal.email)}">목록</a>
+        </div>
+    </div>
+    <div class="container my-5">
+        <div class="d-flex justify-content-center">
+            <form class="comment-box" id="comment-add">
+                <div class="form-group">
+                    <label for="reply-textarea">댓글 작성</label>
+                    <textarea class="form-control reply-text" id="reply-textarea" name="contents" rows="3"
+                              maxlength="100" placeholder="내용을 입력하세요." required></textarea>
+                    <input type="hidden" name="id" th:value="*{id}">
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" class="btn btn-primary mt-2">작성</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="container reply-card mb-5" id="d-form">
+        <h3>댓글 목록<span th:text="${totalCount}"></span></h3>
         <hr>
-        <p th:utext="*{contents}">게시글 내용</p>
-      </div>
-      <div class="container p-3 bottom-0 position-relative">
-        <th:block
-                th:if="${#authentication != null} and ${#strings.equals(boardInfo.email,#authentication.principal.email)}">
-        <form method="post" action="/whiteboard/delete">
-          <a class="btn btn-primary" th:href="${redirectURL}">목록</a>
-          <a class="btn btn-warning" th:href="@{/whitepostup(id=*{id})}">수정</a>
-          <input type="hidden" name="bid" th:value="*{bid}">
-          <input type="hidden" name="id" th:value="*{id}">
-          <input type="hidden" name="email" th:value="*{email}">
-          <input type="submit" class="btn btn-danger"
-                 onclick="if(!confirm('삭제하시면 되돌릴수 없습니다. \n 정말로 삭제하시겠습니까??')){
-                                  return false;
-                              }" value="삭제">
-        </form>
-      </th:block>
-      <a class="btn btn-primary" th:href="${redirectURL}"
-         th:unless="${#authentication != null} and ${#strings.equals(boardInfo.email,#authentication.principal.email)}">목록</a>
-    </div>
-  </div>
-  <div class="container my-5">
-    <form method="post" action="/whiteview/comment/add">
-      <div class="form-group">
-        <label for="reply-textarea">댓글 작성</label>
-        <textarea class="form-control reply-text" id="reply-textarea" name="contents" rows="3" maxlength="100"
-                  placeholder="내용을 입력하세요." required></textarea>
-      </div>
-      <input type="hidden" name="id" th:value="*{id}">
-      <button type="submit" class="btn btn-primary mt-2">작성</button>
-    </form>
-  </div>
-  <div class="container reply-card mb-5">
-    <h3>댓글 목록<span th:text="${totalCount}"></span></h3>
-    <hr>
-    <div class="card" th:each="list : ${commentList}">
-      <div class="card-body">
-        <p hidden class="cid" th:text="${list.cid}"></p>
-        <div class="d-flex mb-3">
-          <img class="box" style="object-fit: cover; margin-right: 10px;"
-               th:src="@{/general/prf/} + ${list.aid}" alt="">
-          <h5 class="card-title card-group align-items-center" th:text="${list.name}"></h5>
-        </div>
-        <p class="card-text edit-comment-contents" th:text="${list.contents}"></p>
-        <p class="card-subtitle text-muted reply-time" th:text="${list.time}"></p>
-        <div class="d-flex reply-btn">
-          <button class="btn btn-sm text-secondary reply-toggle">댓글 쓰기</button>
-          <a class="btn btn-sm text-secondary edit-comment"
-             th:if="${#authentication != null} AND ${#strings.equals(list.email,#authentication.principal.email)}">수정</a>
-          <a class="btn btn-sm text-secondary" th:href="@{/whiteview/comment/delete(cid=${list.cid})}"
-             th:if="${#authentication != null} AND ${#strings.equals(list.email,#authentication.principal.email)}"
-             onclick="if(!confirm('삭제하시면 복구할수 없습니다. \n 정말로 삭제하시겠습니까??')){ return false;}">삭제</a>
-        </div>
-        <div class="reply-form d-none">
-          <form method="post" action="/whiteview/reply/add">
-            <div class="form-group">
-              <label for="reply-content">댓글 작성</label>
-              <textarea class="form-control reply-text" id="reply-content" name="contents" rows="3" maxlength="100"
-                        placeholder="내용을 입력하세요." required></textarea>
-            </div>
-            <input type="hidden" name="id" th:value="*{id}">
-            <input type="hidden" name="cid" th:value="${list.cid}">
-            <button type="submit" class="btn btn-primary mt-2 mb-3">작성</button>
-          </form>
-        </div>
-        <th:block th:each="list2 : ${replyList}" th:if="${list.cid == list2.cid}">
-        <div class="replies">
-          <span class="fs-3" style="float: left;">└</span>
-          <div class="card mb-3">
+        <div class="card" th:each="list : ${commentList}">
             <div class="card-body">
-              <p hidden class="rid" th:text="${list2.rid}"></p>
-              <div class="d-flex mb-3">
-                <img class="box" style="object-fit: cover; margin-right: 10px;"
-                     th:src="@{/general/prf/} + ${list2.aid}" alt="">
-                <h5 class="card-title card-group align-items-center" th:text="${list2.name}"></h5>
-              </div>
-              <p class="card-text edit-reply-contents" th:text="${list2.contents}"></p>
-              <p class="card-subtitle text-muted reply-time" th:text="${list2.time}"></p>
-              <div class="d-flex reply-btn">
-                <a class="btn btn-sm text-secondary edit-reply"
-                   th:if="${#authentication != null} AND ${#strings.equals(list2.email,#authentication.principal.email)}">수정</a>
-                <a class="btn btn-sm text-secondary" th:href="@{/whiteview/reply/delete(rid=${list2.rid})}"
-                   th:if="${#authentication != null} AND ${#strings.equals(list2.email,#authentication.principal.email)}"
-                   onclick="if(!confirm('삭제하시면 복구할수 없습니다. \n 정말로 삭제하시겠습니까??')){ return false;}">삭제</a>
-              </div>
+                <p hidden class="cid" th:text="${list.cid}"></p>
+                <div class="d-flex mb-3">
+                    <img class="box" style="object-fit: cover; margin-right: 10px;"
+                         th:src="@{/general/prf/} + ${list.aid}" alt="">
+                    <h5 class="card-title card-group align-items-center" th:text="${list.name}"></h5>
+                </div>
+                <p class="card-text edit-comment-contents" th:text="${list.contents}"></p>
+                <p class="card-subtitle text-muted reply-time" th:text="${list.time}"></p>
+                <div class="d-flex reply-btn">
+                    <button class="btn btn-sm text-secondary reply-toggle">댓글 쓰기</button>
+                    <a class="btn btn-sm text-secondary edit-comment"
+                       th:if="${#authentication != null} AND ${#strings.equals(list.email,#authentication.principal.email)}">수정</a>
+                    <form id="comment-del"
+                          th:if="${#authentication != null} AND ${#strings.equals(list.email,#authentication.principal.email)}">
+                        <input type="hidden" name="cid" th:value="${list.cid}">
+                        <button type="submit" class="btn btn-sm text-secondary"
+                                onclick="if(!confirm('삭제하시면 복구할수 없습니다. \n 정말로 삭제하시겠습니까??'))
+                        { return false;}">삭제
+                        </button>
+                    </form>
+                </div>
+                <div class="reply-form d-none">
+                    <form class="reply-box" id="reply-add">
+                        <div class="form-group">
+                            <label for="reply-content">댓글 작성</label>
+                            <textarea class="form-control reply-text" id="reply-content" name="contents" rows="3"
+                                      maxlength="100" placeholder="내용을 입력하세요." required></textarea>
+                        </div>
+                        <input type="hidden" name="id" th:value="*{id}">
+                        <input type="hidden" name="cid" th:value="${list.cid}">
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary btn-sm mt-2 mb-3">작성</button>
+                        </div>
+                    </form>
+                </div>
+                <th:block th:each="list2 : ${replyList}" th:if="${list.cid == list2.cid}">
+                    <div class="replies">
+                        <span class="fs-3" style="float: left;">└</span>
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <p hidden class="rid" th:text="${list2.rid}"></p>
+                                <div class="d-flex mb-3">
+                                    <img class="box" style="object-fit: cover; margin-right: 10px;"
+                                         th:src="@{/general/prf/} + ${list2.aid}" alt="">
+                                    <h5 class="card-title card-group align-items-center" th:text="${list2.name}"></h5>
+                                </div>
+                                <p class="card-text edit-reply-contents" th:text="${list2.contents}"></p>
+                                <p class="card-subtitle text-muted reply-time" th:text="${list2.time}"></p>
+                                <div class="d-flex reply-btn">
+                                    <a class="btn btn-sm text-secondary edit-reply"
+                                       th:if="${#authentication != null} AND ${#strings.equals(list2.email,#authentication.principal.email)}">수정</a>
+                                    <form id="reply-del"
+                                          th:if="${#authentication != null} AND ${#strings.equals(list2.email,#authentication.principal.email)}">
+                                        <input type="hidden" name="rid" th:value="${list2.rid}">
+                                        <button type="submit" class="btn btn-sm text-secondary"
+                                                onclick="if(!confirm('삭제하시면 복구할수 없습니다. \n 정말로 삭제하시겠습니까??'))
+                                                { return false;}">삭제
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </th:block>
             </div>
-          </div>
         </div>
-        </th:block>
-      </div>
     </div>
-
-  </div>
-  </section>
 </main>
 <!-- Footer -->
 <footer class="py-3">
-  <div class="container">
-    <p class="m-0 text-center">Copyright &copy; NStory 2023</p>
-    <p class="m-0 text-center">Discord : Gom._.Gom#3502</p>
-  </div>
+    <div class="container">
+        <p class="m-0 text-center">Copyright &copy; NStory 2023</p>
+        <p class="m-0 text-center">Discord : Gom._.Gom#3502</p>
+    </div>
 </footer>
 </body>
 <script src="/static/js/reply.js"></script>
 <script src="/static/js/menuEvent.js"></script>
-<script>
-  $(document).ready(function () {
-    $("form").submit(function () {
-      $("#boardView").hide();
-      $("#loading").show();
-    });
-  });
-</script>
 </html>

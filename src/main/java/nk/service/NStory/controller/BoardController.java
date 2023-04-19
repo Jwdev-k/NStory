@@ -20,10 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -131,17 +128,15 @@ public class BoardController {
         return "redirect:" + request.getHeader("referer");
     }
 
+    @ResponseBody
     @PostMapping(value = "/whiteboard/delete")
-    public String deleteBoard(@AuthenticationPrincipal CustomUserDetails userDetails, HttpServletRequest request
+    public ResponseEntity<String> deleteBoard(@AuthenticationPrincipal CustomUserDetails userDetails, HttpServletRequest request
             ,@RequestParam String bid, @RequestParam int id, @RequestParam String email) throws Exception {
-        if (userDetails == null) {
-            return "redirect:" + request.getHeader("referer");
-        }
-        else if (userDetails.getEmail().equals(email)) {
+        if (userDetails.getEmail().equals(email)) {
             whiteBoardService.deleteBoard(id, userDetails.getEmail());
             log.info("요청주소 : /whiteboard/delete" + "Action : whiteboard 삭제" + "\n 요청자: " + userDetails.getEmail());
         }
-        return "redirect:/whiteboard?bid=" + bid;
+        return ResponseEntity.ok().body("/whiteboard?bid=" + bid);
     }
 
     @GetMapping(value = "/whitepostup")

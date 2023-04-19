@@ -1,9 +1,41 @@
 $(document).ready(function () {
-    $('.reply-toggle').click(function (e) {
-        e.preventDefault();
+    $('.reply-toggle').click(function () {
         var $this = $(this);
         var $parent = $this.closest('.card-body');
         $parent.find('.reply-form').toggleClass('d-none');
+    });
+    $(document).on('submit', 'form',function(e) {
+        e.preventDefault();
+        var btn = e.target.querySelector('button');
+        btn.disabled = true;
+
+        var url;
+        switch ($(this).attr('id')) {
+            case 'board-del' : {url = '/whiteboard/delete'; break;}
+            case 'comment-add' : {url = '/whiteview/comment/add'; break;}
+            case 'comment-edit' : {url = '/whiteview/comment/edit'; break;}
+            case 'comment-del' : {url = '/whiteview/comment/delete'; break;}
+            case 'reply-add' : {url = '/whiteview/reply/add'; break;}
+            case 'reply-edit' : {url = '/whiteview/reply/edit'; break;}
+            case 'reply-del' : {url = '/whiteview/reply/delete'; break;}
+        }
+        var data = $(this).serialize();
+        $.ajax({
+            url: url,
+            method: 'POST',
+            data: data,
+            success: function(response) {
+                if (response !== '') {
+                    location.href = response;
+                } else {
+                    location.reload();
+                }
+                btn.disabled = false;
+            },
+            error: function(xhr, status, error) {
+                location.href = '/error';
+            },
+        });
     });
 });
 
@@ -16,13 +48,13 @@ editBtn.forEach(editBtn => {
 
         const form = document.createElement('form');
         form.setAttribute('method', 'post');
-        form.setAttribute('action', '/whiteview/comment/edit');
+        form.setAttribute('id', 'comment-edit');
+        form.className = 'comment-box'
 
         const textArea = document.createElement('textarea');
         textArea.setAttribute('name', 'contents');
         textArea.className = 'form-control reply-text';
         textArea.textContent = commentText;
-        textArea.style.resize = 'none';
 
         const input = document.createElement('input');
         input.setAttribute('name', 'cid');
@@ -63,13 +95,13 @@ editBtn2.forEach(editBtn2 => {
 
         const form = document.createElement('form');
         form.setAttribute('method', 'post');
-        form.setAttribute('action', '/whiteview/reply/edit');
+        form.setAttribute('id', 'reply-edit');
+        form.className = 'reply-box'
 
         const textArea2 = document.createElement('textarea');
         textArea2.setAttribute('name', 'contents');
         textArea2.className = 'form-control reply-text';
         textArea2.textContent = commentText;
-        textArea2.style.resize = 'none';
 
         const btn2 = document.createElement('button');
         btn2.className = 'btn btn-primary btn-sm m-2';
