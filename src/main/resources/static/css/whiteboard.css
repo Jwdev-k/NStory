@@ -49,6 +49,9 @@ label{
 }
 .board-contents{
     justify-content: center;
+    border-radius: 10px 10px;
+    height: auto;
+    min-height: 600px;
 }
 .comment-box,
 .reply-box {

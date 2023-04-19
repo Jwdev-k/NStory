@@ -56,29 +56,33 @@
 </div>
 <button class="menu-btn" style="height: 50px; width: 50px"><img src="/static/images/svg/menu.svg" alt="Menu"></button>
 <main th:object="${boardInfo}">
-    <div class="container my-5 bg-light" style="border-radius: 10px 10px; height: auto;">
-        <div class="py-3 board-contents">
+    <div class="container my-5 bg-light board-contents">
+        <div class="py-3">
             <h1 th:text="*{title}"></h1>
-            <p class="text-muted" th:text="'작성자: ' + *{author} + ' | 작성일자: ' + *{creationDate}"></p>
+            <div class="d-flex justify-content-between">
+                <p class="text-muted" th:text="'작성자: ' + *{author} + ' | 작성일자: ' + *{creationDate}"></p>
+                <p class="text-muted" th:text="'좋아요: ' + *{like} + ' | 싫어요: ' + *{dislike} + ' | 조회수:' + *{views}"></p>
+            </div>
             <hr>
             <p th:utext="*{contents}">게시글 내용</p>
         </div>
-        <div class="container p-3 bottom-0 position-relative">
-            <th:block th:if="${#authentication != null} and ${#strings.equals(boardInfo.email,#authentication.principal.email)}">
-                <form id="board-del">
-                    <a class="btn btn-primary" th:href="${redirectURL}">목록</a>
-                    <a class="btn btn-warning" th:href="@{/whitepostup(id=*{id})}">수정</a>
-                    <input type="hidden" name="bid" th:value="*{bid}">
-                    <input type="hidden" name="id" th:value="*{id}">
-                    <input type="hidden" name="email" th:value="*{email}">
-                    <button type="submit" class="btn btn-danger"
-                           onclick="if(!confirm('삭제하시면 되돌릴수 없습니다. \n 정말로 삭제하시겠습니까??')){
-                                  return false;}">삭제</button>
-                </form>
-            </th:block>
-            <a class="btn btn-primary" th:href="${redirectURL}"
-               th:unless="${#authentication != null} and ${#strings.equals(boardInfo.email,#authentication.principal.email)}">목록</a>
-        </div>
+    </div>
+    <div class="container position-relative d-flex justify-content-end">
+        <th:block
+                th:if="${#authentication != null} and ${#strings.equals(boardInfo.email,#authentication.principal.email)}">
+            <form id="board-del">
+                <a class="btn btn-secondary btn-sm" th:href="${redirectURL}">목록</a>
+                <a class="btn btn-primary btn-sm" th:href="@{/whitepostup(id=*{id})}">수정</a>
+                <input type="hidden" name="bid" th:value="*{bid}">
+                <input type="hidden" name="id" th:value="*{id}">
+                <input type="hidden" name="email" th:value="*{email}">
+                <button type="submit" class="btn btn-danger btn-sm"
+                        onclick="if(!confirm('삭제하시면 되돌릴수 없습니다. \n 정말로 삭제하시겠습니까??'))
+                        { return false;}">삭제</button>
+            </form>
+        </th:block>
+        <a class="btn btn-secondary btn-sm" th:href="${redirectURL}"
+           th:unless="${#authentication != null} and ${#strings.equals(boardInfo.email,#authentication.principal.email)}">목록</a>
     </div>
     <div class="container my-5">
         <div class="d-flex justify-content-center">

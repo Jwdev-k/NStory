@@ -183,20 +183,20 @@ DROP TABLE IF EXISTS `whiteboard`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `whiteboard` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '번호',
-  `bid` varchar(100) NOT NULL COMMENT '게시판이름',
-  `title` varchar(50) NOT NULL COMMENT '제목',
-  `contents` longtext NOT NULL COMMENT '내용',
-  `author` varchar(100) NOT NULL COMMENT '작성자',
-  `email` varchar(50) NOT NULL COMMENT '작성자 이메일',
-  `creationDate` varchar(19) NOT NULL DEFAULT '1999-01-01',
-  `isEnable` tinyint(1) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `whiteboard_FK` (`email`),
-  KEY `bid_pk` (`bid`),
-  CONSTRAINT `bid_pk` FOREIGN KEY (`bid`) REFERENCES `whiteboard_list` (`bid`) ON DELETE CASCADE,
-  CONSTRAINT `whiteboard_FK` FOREIGN KEY (`email`) REFERENCES `account` (`email`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4;
+`id` int(11) NOT NULL AUTO_INCREMENT COMMENT '번호',
+`bid` varchar(100) NOT NULL COMMENT '게시판이름',
+`title` varchar(50) NOT NULL COMMENT '제목',
+`contents` longtext NOT NULL COMMENT '내용',
+`author` varchar(100) NOT NULL COMMENT '작성자',
+`email` varchar(50) NOT NULL COMMENT '작성자 이메일',
+`creationDate` varchar(19) NOT NULL DEFAULT '1999-01-01' COMMENT '작성일자',
+`views` int(11) NOT NULL DEFAULT 0 COMMENT '조회수',
+`like` int(11) NOT NULL DEFAULT 0 COMMENT '좋아요',
+`dislike` int(11) NOT NULL DEFAULT 0 COMMENT '싫어요',
+`isEnable` tinyint(1) NOT NULL COMMENT '활성화 여부',PRIMARY KEY (`id`),KEY `whiteboard_FK` (`email`),KEY `bid_pk` (`bid`),
+CONSTRAINT `bid_pk` FOREIGN KEY (`bid`) REFERENCES `whiteboard_list` (`bid`) ON DELETE CASCADE,
+CONSTRAINT `whiteboard_FK` FOREIGN KEY (`email`) REFERENCES `account` (`email`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

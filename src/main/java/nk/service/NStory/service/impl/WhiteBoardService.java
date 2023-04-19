@@ -20,7 +20,7 @@ public class WhiteBoardService implements WhiteBoardServiceIF {
         if (start == 1 || start < 1) {
             return whiteBoardMapper.boardList(bid, 0);
         } else {
-            return whiteBoardMapper.boardList(bid, (start - 1) * 10);
+            return whiteBoardMapper.boardList(bid, (start - 1) * 50);
         }
     }
 
@@ -57,12 +57,30 @@ public class WhiteBoardService implements WhiteBoardServiceIF {
         if (start == 1 || start < 1) {
             return whiteBoardMapper.searchList(bid, 0, type, str);
         } else {
-            return whiteBoardMapper.searchList(bid, (start - 1) * 10, type, str);
+            return whiteBoardMapper.searchList(bid, (start - 1) * 50, type, str);
         }
     }
 
     @Override
     public int searchTotalCount(String bid, SearchType type, String str) throws Exception {
         return whiteBoardMapper.searchTotalCount(bid, type, str);
+    }
+
+    @Transactional
+    @Override
+    public void updateViews(int id) throws Exception {
+        whiteBoardMapper.updateViews(id);
+    }
+
+    @Transactional
+    @Override
+    public void updateLike(int id) throws Exception {
+        whiteBoardMapper.updateLike(id);
+    }
+
+    @Transactional
+    @Override
+    public void updateDLike(int id) throws Exception {
+        whiteBoardMapper.updateDLike(id);
     }
 }

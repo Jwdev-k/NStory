@@ -94,7 +94,7 @@ public class BoardController {
             return "redirect:" + request.getHeader("referer");
         } else {
             whiteBoardService.insertBoard(new WhiteBoard(0, bid, title, editordata, userDetails.getUsername()
-                    , userDetails.getEmail(), CurrentTime.getTime3(), true));
+                    , userDetails.getEmail(), CurrentTime.getTime3(), 0, 0, 0, true));
             log.info("요청주소 : /whiteboard/add\n" + "Action : whiteboard 작성" + "\n 요청자: " + userDetails.getEmail());
         }
         return "redirect:/whiteboard?bid=" + bid;
@@ -105,7 +105,6 @@ public class BoardController {
         WhiteBoard wb = whiteBoardService.getBoardView(id);
         if (wb != null) {
             request.setAttribute("boardInfo", wb);
-
             int lastPage = 1;
             Cookie[] cookies = request.getCookies();
             if (cookies != null) {
