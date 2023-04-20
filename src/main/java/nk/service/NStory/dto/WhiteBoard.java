@@ -14,16 +14,17 @@ public class WhiteBoard {
     private String email;
     private String creationDate;
     private int views;
-    private int like;
-    private int dislike;
+    private int like_count;
+    private int dislike_count;
     private boolean isEnable;
 
-    public WhiteBoard(int id, String title, String author, String creationDate, int views) {
+    public WhiteBoard(int id, String title, String author, String creationDate, int views, int like_count) {
         this.id = id;
         this.title = title;
         this.author = author;
         this.creationDate = creationDate;
         this.views = views;
+        this.like_count = like_count;
     }
 
     public WhiteBoard(int id, String title, String contents, String author, String email) {

@@ -7,6 +7,7 @@ import nk.service.NStory.dto.AccountDTO;
 import nk.service.NStory.dto.ByteImageDTO;
 import nk.service.NStory.security.CustomUserDetails;
 import nk.service.NStory.service.impl.AccountService;
+import nk.service.NStory.service.impl.BoardInfoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -25,9 +26,11 @@ import java.io.FileInputStream;
 @RequiredArgsConstructor
 public class MainController {
     private final AccountService accountService;
+    private final BoardInfoService boardInfoService;
 
     @RequestMapping(value = "/")
-    public String mainPage() {
+    public String mainPage(HttpServletRequest request) throws Exception {
+        request.setAttribute("boardInfoList", boardInfoService.getBoardNameList());
         return "main";
     }
 

@@ -60,7 +60,78 @@
         <p><span class="text-white" id="serverTime">loading...</span></p>
         <p class="text-white">현재 페이지는 개발중인 페이지입니다. 다양한 기능이 추가될 예정이니 기대해주세요!</p>
     </div>
-    <div class="container">
+    <div class="container mt-4 mb-5">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-header">게시판 리스트</div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item" th:each="list : ${boardInfoList}">
+                            <a class="link-dark" style="text-decoration: none;" th:href="@{/whiteboard(bid=${list.bid})}" th:text="${list.kname}"></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="card">
+                    <div class="card-header">베스트 게시글</div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4 mb-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <a><h5 class="card-title">게시물 제목</h5></a>
+                                        <p class="card-text">게시물 내용을 간단하게 소개합니다.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <a><h5 class="card-title">게시물 제목</h5></a>
+                                        <p class="card-text">게시물 내용을 간단하게 소개합니다.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <a><h5 class="card-title">게시물 제목</h5></a>
+                                        <p class="card-text">게시물 내용을 간단하게 소개합니다.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <a><h5 class="card-title">게시물 제목</h5></a>
+                                        <p class="card-text">게시물 내용을 간단하게 소개합니다.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <a><h5 class="card-title">게시물 제목</h5></a>
+                                        <p class="card-text">게시물 내용을 간단하게 소개합니다.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <a><h5 class="card-title">게시물 제목</h5></a>
+                                        <p class="card-text">게시물 내용을 간단하게 소개합니다.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container mb-5">
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="chat-window">

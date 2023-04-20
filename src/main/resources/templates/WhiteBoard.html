@@ -60,7 +60,11 @@
             <span class="sr-only"></span>
         </div>
     </div>
-    <div class="container mt-3" id="table">
+    <div class="container mt-3" id="table" th:object="${boardInfo}">
+        <div class="container board-title" style="background-image: url('/static/images/bangdream/BG-Morfonica.png'); background-position-y: 80%">
+            <h1 class="fw-bold mt-5" th:text="*{kname}"></h1>
+            <p class="fw-bold" th:text="*{subname}"></p>
+        </div>
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
@@ -94,6 +98,7 @@
                                     <th scope="col">작성자</th>
                                     <th scope="col">작성일</th>
                                     <th class="text-center" scope="col">조회수</th>
+                                    <th class="text-center" scope="col"><i class="fa fa-thumbs-up"></i></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -110,6 +115,7 @@
                                         <td><span th:text="${list.author}"></span></td>
                                         <td><span th:text="${list.creationDate}"></span></td>
                                         <td class="text-center"><span th:text="${list.views}"></span></td>
+                                        <td class="text-center"><span th:text="${list.like_count}"></span></td>
                                     </tr>
                                 </th:block>
                                 </tbody>

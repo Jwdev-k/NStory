@@ -64,7 +64,7 @@
             <div class="d-flex justify-content-between">
                 <span class="text-muted" th:text="'작성자: ' + *{author} + ' | 작성일자: ' + *{creationDate}"></span>
                 <span class="text-muted"
-                      th:text="'좋아요: ' + *{like} + ' | 싫어요: ' + *{dislike} + ' | 조회수:' + *{views}"></span>
+                      th:text="'좋아요: ' + *{like_count} + ' | 싫어요: ' + *{dislike_count} + ' | 조회수:' + *{views}"></span>
             </div>
             <hr>
             <p th:utext="*{contents}"></p>
@@ -91,20 +91,20 @@
     <div class="d-flex justify-content-center" sec:authorize="isAuthenticated()">
         <form id="like">
             <input type="hidden" name="id" th:value="*{id}">
-            <button type="submit" class="btn btn-primary" th:if="${LikeType == 1}">
-                <i class="fa fa-thumbs-up"></i> 좋아요<span th:text="'(' + *{like} + ')'"></span>
+            <button type="submit" class="btn btn-primary m-1" th:if="${LikeType == 1}">
+                <i class="fa fa-thumbs-up"></i> 좋아요<span th:text="'(' + *{like_count} + ')'"></span>
             </button>
-            <button type="submit" class="btn btn-outline-primary" th:unless="${LikeType == 1}">
-                <i class="fa fa-thumbs-up"></i> 좋아요<span th:text="'(' + *{like} + ')'"></span>
+            <button type="submit" class="btn btn-outline-primary m-1" th:unless="${LikeType == 1}">
+                <i class="fa fa-thumbs-up"></i> 좋아요<span th:text="'(' + *{like_count} + ')'"></span>
             </button>
         </form>
         <form id="dislike">
             <input type="hidden" name="id" th:value="*{id}">
-            <button type="submit" class="btn btn-secondary" th:if="${LikeType == 0}">
-                <i class="fa fa-thumbs-down"></i> 싫어요<span th:text="'(' + *{dislike} + ')'"></span>
+            <button type="submit" class="btn btn-secondary m-1" th:if="${LikeType == 0}">
+                <i class="fa fa-thumbs-down"></i> 싫어요<span th:text="'(' + *{dislike_count} + ')'"></span>
             </button>
-            <button type="submit" class="btn btn-outline-secondary" th:unless="${LikeType == 0}">
-                <i class="fa fa-thumbs-down"></i> 싫어요<span th:text="'(' + *{dislike} + ')'"></span>
+            <button type="submit" class="btn btn-outline-secondary m-1" th:unless="${LikeType == 0}">
+                <i class="fa fa-thumbs-down"></i> 싫어요<span th:text="'(' + *{dislike_count} + ')'"></span>
             </button>
         </form>
     </div>

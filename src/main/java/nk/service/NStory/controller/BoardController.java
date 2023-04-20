@@ -11,10 +11,7 @@ import nk.service.NStory.dto.LikesHistory;
 import nk.service.NStory.dto.ReplyDTO;
 import nk.service.NStory.dto.WhiteBoard;
 import nk.service.NStory.security.CustomUserDetails;
-import nk.service.NStory.service.impl.CommentService;
-import nk.service.NStory.service.impl.LikeHistoryService;
-import nk.service.NStory.service.impl.ReplyService;
-import nk.service.NStory.service.impl.WhiteBoardService;
+import nk.service.NStory.service.impl.*;
 import nk.service.NStory.utils.CurrentTime;
 import nk.service.NStory.utils.PageUtil;
 import org.springframework.http.MediaType;
@@ -27,6 +24,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Base64;
 
@@ -38,6 +39,7 @@ public class BoardController {
     private final CommentService commentService;
     private final ReplyService replyService;
     private final LikeHistoryService likeHistoryService;
+    private final BoardInfoService boardInfoService;
     private final PageUtil pageUtil = new PageUtil();
 
     @RequestMapping(value = "/whiteboard")
@@ -64,6 +66,7 @@ public class BoardController {
 
             isSearch = false;
         }
+        request.setAttribute("boardInfo", boardInfoService.getBoardInfo(bid));
         request.setAttribute("bid", bid); //게시판 이름
         request.setAttribute("isSearch", isSearch);
 
@@ -131,12 +134,14 @@ public class BoardController {
             }
         }
         if (!isViews) {
+            long todayEndSecond = LocalDate.now().atTime(LocalTime.MAX).toEpochSecond(ZoneOffset.UTC);
+            long currentSecond = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC);
             Cookie cookie = new Cookie("views", "[" + id + "]");
             if (viewsValue != null) {
                 cookie.setValue(viewsValue + "[" + id + "]");
             }
             cookie.setPath("/whiteview");
-            cookie.setMaxAge(86400);
+            cookie.setMaxAge((int) (todayEndSecond - currentSecond));
             cookie.setHttpOnly(true);
             response.addCookie(cookie);
         }
