@@ -249,4 +249,16 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
+-- nstory.likes_history definition
+
+CREATE TABLE `likes_history` (
+`like_type` tinyint(1) NOT NULL COMMENT '좋아요1/싫어요0',
+`id` int(11) DEFAULT NULL COMMENT '게시물 번호 리스트',
+`email` varchar(50) NOT NULL COMMENT '이메일',
+KEY `whiteboard_likes_FK` (`email`),
+KEY `likes_history_FK` (`id`),
+CONSTRAINT `likes_history_FK` FOREIGN KEY (`id`) REFERENCES `whiteboard` (`id`) ON DELETE CASCADE,
+CONSTRAINT `whiteboard_likes_FK` FOREIGN KEY (`email`) REFERENCES `account` (`email`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 -- Dump completed on 2023-04-16 17:02:36

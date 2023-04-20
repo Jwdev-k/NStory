@@ -20,14 +20,18 @@ public interface WhiteBoardMapper {
     void deleteBoard(@Param("id") int id, @Param("email")String email) throws Exception;
     @Update("UPDATE whiteboard SET title = #{title}, contents = #{contents}, author = #{author} WHERE id = #{id} AND email = #{email}")
     void updateBoard(WhiteBoard wb) throws Exception;
-    @Select("SELECT id, title, author, creationDate FROM whiteboard WHERE isEnable = 1 AND ${type} LIKE CONCAT('%', #{str}, '%') AND bid = #{bid} ORDER BY id DESC LIMIT #{start}, 50")
+    @Select("SELECT id, title, author, creationDate, views FROM whiteboard WHERE isEnable = 1 AND ${type} LIKE CONCAT('%', #{str}, '%') AND bid = #{bid} ORDER BY id DESC LIMIT #{start}, 50")
     ArrayList<WhiteBoard> searchList(@Param("bid") String bid, @Param("start")int start, @Param("type")SearchType type, @Param("str")String str) throws Exception;
     @Select("SELECT count(*) FROM whiteboard WHERE isEnable = 1 AND ${type} LIKE CONCAT('%', #{str},'%') AND bid = #{bid}")
     int searchTotalCount(@Param("bid") String bid, @Param("type")SearchType type, @Param("str")String str) throws Exception;
     @Update("UPDATE whiteboard SET views = views + 1 WHERE id = #{id}")
     void updateViews(int id) throws Exception;
-    @Update("UPDATE whiteboard SET like = like + 1 WHERE id = #{id}")
+    @Update("UPDATE whiteboard SET like_count = like_count + 1 WHERE id = #{id}")
     void updateLike(int id) throws Exception;
-    @Update("UPDATE whiteboard SET dislike = dislike + 1 WHERE id = #{id}")
+    @Update("UPDATE whiteboard SET like_count = like_count - 1 WHERE id = #{id}")
+    void updateLikeCancel(int id) throws Exception;
+    @Update("UPDATE whiteboard SET dislike_count = dislike_count + 1 WHERE id = #{id}")
     void updateDLike(int id) throws Exception;
+    @Update("UPDATE whiteboard SET dislike_count = dislike_count - 1 WHERE id = #{id}")
+    void updateDisLikeCancel(int id) throws Exception;
 }

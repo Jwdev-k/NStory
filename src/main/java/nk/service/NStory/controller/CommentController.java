@@ -1,6 +1,5 @@
 package nk.service.NStory.controller;
 
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import nk.service.NStory.dto.CommentDTO;
 import nk.service.NStory.security.CustomUserDetails;
@@ -18,10 +17,13 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping(value = "/whiteview/comment/add")
-    public ResponseEntity<String> addComment(HttpServletRequest request, @AuthenticationPrincipal CustomUserDetails userDetails
+    public ResponseEntity<String> addComment(@AuthenticationPrincipal CustomUserDetails userDetails
             , @RequestParam int id, @RequestParam(required = false) String name
             , @RequestParam String contents) throws Exception {
         if (userDetails != null && name == null) {
+            if (contents.length() > 300) {
+                contents = contents.substring(0, 300);
+            }
             commentService.addComment(new CommentDTO(0, id, userDetails.getEmail(), userDetails.getUsername()
                     , contents, CurrentTime.getTime4(), true));
         } else {
@@ -31,10 +33,13 @@ public class CommentController {
     }
 
     @PostMapping(value = "/whiteview/comment/edit")
-    public ResponseEntity<String> editComment(HttpServletRequest request, @AuthenticationPrincipal CustomUserDetails userDetails
+    public ResponseEntity<String> editComment(@AuthenticationPrincipal CustomUserDetails userDetails
             , @RequestParam int cid, @RequestParam(required = false) String name
             , @RequestParam String contents) throws Exception {
         if (userDetails != null && name == null) {
+            if (contents.length() > 300) {
+                contents = contents.substring(0, 300);
+            }
             commentService.commentEdit(new CommentDTO(cid, userDetails.getUsername(), contents));
         } else {
             return ResponseEntity.badRequest().body(null);
@@ -43,7 +48,7 @@ public class CommentController {
     }
 
     @PostMapping(value = "/whiteview/comment/delete")
-    public ResponseEntity<String> deleteComment(HttpServletRequest request, @AuthenticationPrincipal CustomUserDetails userDetails
+    public ResponseEntity<String> deleteComment(@AuthenticationPrincipal CustomUserDetails userDetails
             , @RequestParam int cid) throws Exception {
         CommentDTO comment = commentService.getComment(cid);
         if (comment.getEmail().equals(userDetails.getEmail())) {

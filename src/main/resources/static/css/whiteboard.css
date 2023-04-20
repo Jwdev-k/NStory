@@ -52,6 +52,7 @@ label{
     border-radius: 10px 10px;
     height: auto;
     min-height: 600px;
+    min-width: 1000px;
 }
 .comment-box,
 .reply-box {

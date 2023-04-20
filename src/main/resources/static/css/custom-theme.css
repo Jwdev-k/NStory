@@ -65,6 +65,15 @@
     background-color: var(--primary-color);
     color: #FFF;
 }
+.btn-outline-primary:disabled {
+    background-color: var(--primary-color);
+    color: #FFF;
+}
+
+.btn-outline-secondary:disabled {
+    background-color: #6c757d;
+    color: #FFF;
+}
 
 /* 대형 버튼 */
 .btn-lg {
@@ -122,9 +131,6 @@ input[type="checkbox"]:checked:enabled {
     box-shadow: 5px 0 5px rgba(0, 0, 0, 0.5); /* 오른쪽 그림자 */
     opacity: 0;
 }
-.menu-wrapper img {
-
-}
 .menu {
     padding: 0;
     margin: 10px 0 0 0;
@@ -158,10 +164,12 @@ input[type="checkbox"]:checked:enabled {
 }
 .menu-btn {
     position: fixed;
+    height: 50px;
+    width: 50px
 }
-.menu img {
-    width: 120px;
-    height: 120px;
+.menu li img {
+    width: 80px;
+    height: 80px;
 }
 body{
     user-select: none;

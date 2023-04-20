@@ -18,6 +18,8 @@ $(document).ready(function () {
             case 'reply-add' : {url = '/whiteview/reply/add'; break;}
             case 'reply-edit' : {url = '/whiteview/reply/edit'; break;}
             case 'reply-del' : {url = '/whiteview/reply/delete'; break;}
+            case 'like' : {url = '/b_bup'; break;}
+            case 'dislike' : {url = '/b_pdown'; break;}
         }
         var data = $(this).serialize();
         $.ajax({

@@ -80,7 +80,19 @@ public class WhiteBoardService implements WhiteBoardServiceIF {
 
     @Transactional
     @Override
+    public void updateLikeCancel(int id) throws Exception {
+        whiteBoardMapper.updateLikeCancel(id);
+    }
+
+    @Transactional
+    @Override
     public void updateDLike(int id) throws Exception {
         whiteBoardMapper.updateDLike(id);
+    }
+
+    @Transactional
+    @Override
+    public void updateDisLikeCancel(int id) throws Exception {
+        whiteBoardMapper.updateDisLikeCancel(id);
     }
 }

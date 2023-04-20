@@ -7,10 +7,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nk.service.NStory.dto.CommentDTO;
 import nk.service.NStory.dto.Enum.SearchType;
+import nk.service.NStory.dto.LikesHistory;
 import nk.service.NStory.dto.ReplyDTO;
 import nk.service.NStory.dto.WhiteBoard;
 import nk.service.NStory.security.CustomUserDetails;
 import nk.service.NStory.service.impl.CommentService;
+import nk.service.NStory.service.impl.LikeHistoryService;
 import nk.service.NStory.service.impl.ReplyService;
 import nk.service.NStory.service.impl.WhiteBoardService;
 import nk.service.NStory.utils.CurrentTime;
@@ -28,12 +30,14 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Base64;
 
-@Controller @Slf4j
+@Controller
+@Slf4j
 @RequiredArgsConstructor
 public class BoardController {
     private final WhiteBoardService whiteBoardService;
     private final CommentService commentService;
     private final ReplyService replyService;
+    private final LikeHistoryService likeHistoryService;
     private final PageUtil pageUtil = new PageUtil();
 
     @RequestMapping(value = "/whiteboard")
@@ -42,7 +46,7 @@ public class BoardController {
             , @RequestParam(required = false, defaultValue = "title") SearchType type) throws Exception {
         int totalCount;
         boolean isSearch;
-        pageUtil.setPerPageNum(10);
+        pageUtil.setPerPageNum(50);
         if (str != null && str.length() > 0) {
             model.addAttribute("boardList", whiteBoardService.searchList(bid, page, type, str));
             totalCount = whiteBoardService.searchTotalCount(bid, type, str);
@@ -79,7 +83,7 @@ public class BoardController {
 
     @GetMapping(value = "/whitepost")
     public String addBoard(@AuthenticationPrincipal CustomUserDetails userDetails, HttpServletRequest request
-            ,@RequestParam String bid) {
+            , @RequestParam String bid) {
         if (userDetails == null) {
             return "redirect:" + request.getHeader("referer");
         }
@@ -89,31 +93,56 @@ public class BoardController {
 
     @PostMapping(value = "/whiteboard/add")
     public String addBoard2(@AuthenticationPrincipal CustomUserDetails userDetails, HttpServletRequest request
-            ,@RequestParam String bid, @RequestParam String title, @RequestParam String editordata) throws Exception {
+            , @RequestParam String bid, @RequestParam String title, @RequestParam String editordata) throws Exception {
         if (userDetails == null) {
             return "redirect:" + request.getHeader("referer");
         } else {
             whiteBoardService.insertBoard(new WhiteBoard(0, bid, title, editordata, userDetails.getUsername()
-                    , userDetails.getEmail(), CurrentTime.getTime3(), 0, 0, 0, true));
+                    , userDetails.getEmail(), CurrentTime.getTime4(), 0, 0, 0, true));
             log.info("요청주소 : /whiteboard/add\n" + "Action : whiteboard 작성" + "\n 요청자: " + userDetails.getEmail());
         }
         return "redirect:/whiteboard?bid=" + bid;
     }
 
     @GetMapping(value = "/whiteview")
-    public String boardView(HttpServletRequest request, @RequestParam int id) throws Exception {
+    public String boardView(HttpServletRequest request, HttpServletResponse response, @RequestParam int id
+            ,@AuthenticationPrincipal CustomUserDetails userDetails) throws Exception {
+        int lastPage = 1;
+        boolean isViews = false;
+        String viewsValue = null;
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("lastPage")) {
+                    lastPage = Integer.parseInt(cookie.getValue());
+                    break;
+                }
+            }
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("views")) {
+                    if (cookie.getValue().contains("[" + id + "]")) {
+                        isViews = true;
+                    } else {
+                        whiteBoardService.updateViews(id);
+                        viewsValue = cookie.getValue();
+                    }
+                    break;
+                }
+            }
+        }
+        if (!isViews) {
+            Cookie cookie = new Cookie("views", "[" + id + "]");
+            if (viewsValue != null) {
+                cookie.setValue(viewsValue + "[" + id + "]");
+            }
+            cookie.setPath("/whiteview");
+            cookie.setMaxAge(86400);
+            cookie.setHttpOnly(true);
+            response.addCookie(cookie);
+        }
         WhiteBoard wb = whiteBoardService.getBoardView(id);
         if (wb != null) {
             request.setAttribute("boardInfo", wb);
-            int lastPage = 1;
-            Cookie[] cookies = request.getCookies();
-            if (cookies != null) {
-                for (Cookie cookie : cookies) {
-                    if (cookie.getName().equals("lastPage")) {
-                        lastPage = Integer.parseInt(cookie.getValue());
-                    }
-                }
-            }
             request.setAttribute("redirectURL", "/whiteboard?bid=" + wb.getBid() + "&page=" + lastPage);
 
             ArrayList<CommentDTO> commentList = commentService.getCommentList(id);
@@ -122,6 +151,11 @@ public class BoardController {
             request.setAttribute("replyList", replyList);
             request.setAttribute("totalCount"
                     , "(" + (commentList.size() + replyList.size()) + ")");
+            if (userDetails != null) {
+                LikesHistory likesHistory = likeHistoryService.getLikeType(id, userDetails.getEmail());
+                request.setAttribute("LikeType", likesHistory != null ? likesHistory.getLike_type() : null);
+            }
+
             return "WhiteBoardView";
         }
         return "redirect:" + request.getHeader("referer");
@@ -129,8 +163,8 @@ public class BoardController {
 
     @ResponseBody
     @PostMapping(value = "/whiteboard/delete")
-    public ResponseEntity<String> deleteBoard(@AuthenticationPrincipal CustomUserDetails userDetails, HttpServletRequest request
-            ,@RequestParam String bid, @RequestParam int id, @RequestParam String email) throws Exception {
+    public ResponseEntity<String> deleteBoard(@AuthenticationPrincipal CustomUserDetails userDetails
+            , @RequestParam String bid, @RequestParam int id, @RequestParam String email) throws Exception {
         if (userDetails.getEmail().equals(email)) {
             whiteBoardService.deleteBoard(id, userDetails.getEmail());
             log.info("요청주소 : /whiteboard/delete" + "Action : whiteboard 삭제" + "\n 요청자: " + userDetails.getEmail());

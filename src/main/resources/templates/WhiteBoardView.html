@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>NStory</title>
+    <link rel="stylesheet" href="/static/assets/font-awesome/css/fontawesome.css">
+    <link rel="stylesheet" href="/static/assets/font-awesome/css/solid.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
@@ -58,13 +60,14 @@
 <main th:object="${boardInfo}">
     <div class="container my-5 bg-light board-contents">
         <div class="py-3">
-            <h1 th:text="*{title}"></h1>
+            <h3 th:text="*{title}"></h3>
             <div class="d-flex justify-content-between">
-                <p class="text-muted" th:text="'작성자: ' + *{author} + ' | 작성일자: ' + *{creationDate}"></p>
-                <p class="text-muted" th:text="'좋아요: ' + *{like} + ' | 싫어요: ' + *{dislike} + ' | 조회수:' + *{views}"></p>
+                <span class="text-muted" th:text="'작성자: ' + *{author} + ' | 작성일자: ' + *{creationDate}"></span>
+                <span class="text-muted"
+                      th:text="'좋아요: ' + *{like} + ' | 싫어요: ' + *{dislike} + ' | 조회수:' + *{views}"></span>
             </div>
             <hr>
-            <p th:utext="*{contents}">게시글 내용</p>
+            <p th:utext="*{contents}"></p>
         </div>
     </div>
     <div class="container position-relative d-flex justify-content-end">
@@ -78,11 +81,32 @@
                 <input type="hidden" name="email" th:value="*{email}">
                 <button type="submit" class="btn btn-danger btn-sm"
                         onclick="if(!confirm('삭제하시면 되돌릴수 없습니다. \n 정말로 삭제하시겠습니까??'))
-                        { return false;}">삭제</button>
+                        { return false;}">삭제
+                </button>
             </form>
         </th:block>
         <a class="btn btn-secondary btn-sm" th:href="${redirectURL}"
            th:unless="${#authentication != null} and ${#strings.equals(boardInfo.email,#authentication.principal.email)}">목록</a>
+    </div>
+    <div class="d-flex justify-content-center" sec:authorize="isAuthenticated()">
+        <form id="like">
+            <input type="hidden" name="id" th:value="*{id}">
+            <button type="submit" class="btn btn-primary" th:if="${LikeType == 1}">
+                <i class="fa fa-thumbs-up"></i> 좋아요<span th:text="'(' + *{like} + ')'"></span>
+            </button>
+            <button type="submit" class="btn btn-outline-primary" th:unless="${LikeType == 1}">
+                <i class="fa fa-thumbs-up"></i> 좋아요<span th:text="'(' + *{like} + ')'"></span>
+            </button>
+        </form>
+        <form id="dislike">
+            <input type="hidden" name="id" th:value="*{id}">
+            <button type="submit" class="btn btn-secondary" th:if="${LikeType == 0}">
+                <i class="fa fa-thumbs-down"></i> 싫어요<span th:text="'(' + *{dislike} + ')'"></span>
+            </button>
+            <button type="submit" class="btn btn-outline-secondary" th:unless="${LikeType == 0}">
+                <i class="fa fa-thumbs-down"></i> 싫어요<span th:text="'(' + *{dislike} + ')'"></span>
+            </button>
+        </form>
     </div>
     <div class="container my-5">
         <div class="d-flex justify-content-center">
@@ -90,7 +114,7 @@
                 <div class="form-group">
                     <label for="reply-textarea">댓글 작성</label>
                     <textarea class="form-control reply-text" id="reply-textarea" name="contents" rows="3"
-                              maxlength="100" placeholder="내용을 입력하세요." required></textarea>
+                              maxlength="300" placeholder="내용을 입력하세요." required></textarea>
                     <input type="hidden" name="id" th:value="*{id}">
                     <div class="d-flex justify-content-end">
                         <button type="submit" class="btn btn-primary mt-2">작성</button>
@@ -130,7 +154,7 @@
                         <div class="form-group">
                             <label for="reply-content">댓글 작성</label>
                             <textarea class="form-control reply-text" id="reply-content" name="contents" rows="3"
-                                      maxlength="100" placeholder="내용을 입력하세요." required></textarea>
+                                      maxlength="300" placeholder="내용을 입력하세요." required></textarea>
                         </div>
                         <input type="hidden" name="id" th:value="*{id}">
                         <input type="hidden" name="cid" th:value="${list.cid}">

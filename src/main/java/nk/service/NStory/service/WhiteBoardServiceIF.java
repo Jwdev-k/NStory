@@ -16,5 +16,7 @@ public interface WhiteBoardServiceIF {
     int searchTotalCount(String bid, SearchType type, String str) throws Exception;
     void updateViews(int id) throws Exception;
     void updateLike(int id) throws Exception;
+    void updateLikeCancel(int id) throws Exception;
     void updateDLike(int id) throws Exception;
+    void updateDisLikeCancel(int id) throws Exception;
 }
