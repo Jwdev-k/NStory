@@ -36,4 +36,6 @@ public interface WhiteBoardMapper {
     void updateDisLikeCancel(int id) throws Exception;
     @Select("SELECT id, title, author, creationDate, views, like_count FROM whiteboard WHERE bid = #{bid} AND isNotice = 1 AND isEnable = 1 ORDER BY id DESC LIMIT 10")
     ArrayList<WhiteBoard> getNoticeList(String bid) throws Exception;
+    @Select("SELECT id, title, author, creationDate, views, like_count FROM whiteboard WHERE isNotice = 0 AND isEnable = 1 and like_count > 10 ORDER by id DESC LIMIT 6")
+    ArrayList<WhiteBoard> getBestList() throws Exception;
 }

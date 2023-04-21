@@ -56,9 +56,9 @@
 <button class="menu-btn" style="height: 50px; width: 50px"><img src="/static/images/svg/menu.svg" alt="Menu"></button>
 <main>
     <div class="container jumbotron" style="background-image: url('/static/images/mainImg.png'); background-position-y: 20%;">
-        <h1 class="text-white fw-bold">NStory<label>v0.9</label></h1>
+        <h1 class="text-white fw-bold">NStory<label>v1.0</label></h1>
         <p><span class="text-white" id="serverTime">loading...</span></p>
-        <p class="text-white">현재 페이지는 개발중인 페이지입니다. 다양한 기능이 추가될 예정이니 기대해주세요!</p>
+        <p class="text-white">Discord : Gom._.Gom#3502</p>
     </div>
     <div class="container mt-4 mb-5">
         <div class="row">
@@ -77,53 +77,16 @@
                     <div class="card-header">베스트 게시글</div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-4 mb-4">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <a><h5 class="card-title">게시물 제목</h5></a>
-                                        <p class="card-text">게시물 내용을 간단하게 소개합니다.</p>
+                            <div class="col-md-4 mb-4" th:each="list : ${bestList}">
+                                <a th:href="@{/whiteview(id=${list.id})}">
+                                    <div class="card" style="height: 120px;">
+                                        <div class="card-body">
+                                            <p class="card-title mt-3 best-list-title" th:text="${list.title}"></p>
+                                            <p class="card-text mb-0" th:text="'작성자 : ' + ${list.author}"></p>
+                                            <p class="card-text mb-0" th:text="'조회수 : ' + ${list.views} + ' | 좋아요 : ' + ${list.like_count}"></p>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-4">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <a><h5 class="card-title">게시물 제목</h5></a>
-                                        <p class="card-text">게시물 내용을 간단하게 소개합니다.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-4">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <a><h5 class="card-title">게시물 제목</h5></a>
-                                        <p class="card-text">게시물 내용을 간단하게 소개합니다.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-4">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <a><h5 class="card-title">게시물 제목</h5></a>
-                                        <p class="card-text">게시물 내용을 간단하게 소개합니다.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-4">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <a><h5 class="card-title">게시물 제목</h5></a>
-                                        <p class="card-text">게시물 내용을 간단하게 소개합니다.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-4">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <a><h5 class="card-title">게시물 제목</h5></a>
-                                        <p class="card-text">게시물 내용을 간단하게 소개합니다.</p>
-                                    </div>
-                                </div>
+                                </a>
                             </div>
                         </div>
                     </div>

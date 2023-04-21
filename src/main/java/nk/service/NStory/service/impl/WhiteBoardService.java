@@ -104,4 +104,9 @@ public class WhiteBoardService implements WhiteBoardServiceIF {
     public ArrayList<WhiteBoard> getNoticeList(String bid) throws Exception {
         return whiteBoardMapper.getNoticeList(bid);
     }
+
+    @Override
+    public ArrayList<WhiteBoard> getBestList() throws Exception {
+        return whiteBoardMapper.getBestList();
+    }
 }

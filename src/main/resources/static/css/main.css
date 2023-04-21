@@ -88,3 +88,9 @@ main {
     color: white;
     height: 180px;
 }
+.best-list-title {
+    max-width: 250px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}

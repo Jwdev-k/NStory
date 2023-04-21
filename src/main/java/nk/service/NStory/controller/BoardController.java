@@ -11,6 +11,7 @@ import nk.service.NStory.dto.ReplyDTO;
 import nk.service.NStory.dto.WhiteBoard;
 import nk.service.NStory.security.CustomUserDetails;
 import nk.service.NStory.service.impl.*;
+import nk.service.NStory.utils.AES256;
 import nk.service.NStory.utils.CurrentTime;
 import nk.service.NStory.utils.PageUtil;
 import org.springframework.http.MediaType;
@@ -123,12 +124,12 @@ public class BoardController {
                 }
             }
             for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("views")) {
-                    if (cookie.getValue().contains("[" + id + "]")) {
+                if (cookie.getName().equals("9AAEAB3ACCEBAF2")) {
+                    if (AES256.decrypt(cookie.getValue()).contains("[" + id + "]")) {
                         isViews = true;
                     } else {
                         whiteBoardService.updateViews(id);
-                        viewsValue = cookie.getValue();
+                        viewsValue = AES256.decrypt(cookie.getValue());
                     }
                     break;
                 }
@@ -137,9 +138,9 @@ public class BoardController {
         if (!isViews) {
             long todayEndSecond = LocalDate.now().atTime(LocalTime.MAX).toEpochSecond(ZoneOffset.UTC);
             long currentSecond = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC);
-            Cookie cookie = new Cookie("views", "[" + id + "]");
+            Cookie cookie = new Cookie("9AAEAB3ACCEBAF2", AES256.encrypt("[" + id + "]"));
             if (viewsValue != null) {
-                cookie.setValue(viewsValue + "[" + id + "]");
+                cookie.setValue(AES256.encrypt(viewsValue + "[" + id + "]"));
             }
             cookie.setPath("/whiteview");
             cookie.setMaxAge((int) (todayEndSecond - currentSecond));
