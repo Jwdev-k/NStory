@@ -180,13 +180,16 @@ public class BoardController {
 
     @GetMapping(value = "/whitepostup")
     public String updateBoard(@AuthenticationPrincipal CustomUserDetails userDetails, HttpServletRequest request
-            , @RequestParam int id) throws Exception {
+            ,@RequestParam String bid, @RequestParam int id) throws Exception {
         if (userDetails == null) {
             return "redirect:" + request.getHeader("referer");
         } else {
             WhiteBoard wb = whiteBoardService.getBoardView(id);
             if (wb != null && wb.getEmail().equals(userDetails.getEmail())) {
                 request.setAttribute("boardInfo", wb);
+                boolean isAdmin = boardInfoService.getBoardInfo(bid).getEmail().equals(userDetails.getEmail());
+                request.setAttribute("isAdmin", isAdmin);
+
                 return "WhiteBoardEdit";
             } else {
                 return "redirect:" + request.getHeader("referer");
