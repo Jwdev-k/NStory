@@ -67,7 +67,7 @@
                     <div class="card-header">게시판 리스트</div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item" th:each="list : ${boardInfoList}">
-                            <a class="link-dark" style="text-decoration: none;" th:href="@{/whiteboard(bid=${list.bid})}" th:text="${list.kname}"></a>
+                            <a class="link-dark" th:href="@{/whiteboard(bid=${list.bid})}" th:text="${list.kname}"></a>
                         </li>
                     </ul>
                 </div>

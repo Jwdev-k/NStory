@@ -60,9 +60,9 @@
             <span class="sr-only"></span>
         </div>
     </div>
-    <div class="container mt-3" id="table" th:object="${boardInfo}">
-        <div class="container board-title" style="background-image: url('/static/images/bangdream/BG-Morfonica.png'); background-position-y: 80%">
-            <h1 class="fw-bold mt-5" th:text="*{kname}"></h1>
+    <div class="container mt-5" id="table" th:object="${boardInfo}">
+        <div class="container board-title">
+            <h1 class="fw-bold mt-3" th:text="*{kname}"></h1>
             <p class="fw-bold" th:text="*{subname}"></p>
         </div>
         <div class="container">
@@ -102,6 +102,22 @@
                                 </tr>
                                 </thead>
                                 <tbody>
+                                <th:block th:each="list : ${noticeList}">
+                                    <tr>
+                                        <td class="text-center"><span class="fw-bold text-custom-primary">공지사항</span></td>
+                                        <td style="max-width: 50%;">
+                                            <a th:href="@{/whiteview(id=${list.id})}"
+                                               class="text-decoration-none text-custom-primary">
+                                                <span class="fw-bold" th:text="${list.title}"
+                                                      style="display: inline-block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%;"></span>
+                                            </a>
+                                        </td>
+                                        <td><span th:text="${list.author}"></span></td>
+                                        <td><span th:text="${list.creationDate}"></span></td>
+                                        <td class="text-center"><span th:text="${list.views}"></span></td>
+                                        <td class="text-center"><span th:text="${list.like_count}"></span></td>
+                                    </tr>
+                                </th:block>
                                 <th:block th:each="list : ${boardList}">
                                     <tr>
                                         <td class="text-center"><span th:text="${list.id}"></span></td>
@@ -112,7 +128,9 @@
                                                       style="display: inline-block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%;"></span>
                                             </a>
                                         </td>
-                                        <td><span th:text="${list.author}"></span></td>
+                                        <td>
+                                            <span th:text="${list.author}"></span>
+                                        </td>
                                         <td><span th:text="${list.creationDate}"></span></td>
                                         <td class="text-center"><span th:text="${list.views}"></span></td>
                                         <td class="text-center"><span th:text="${list.like_count}"></span></td>

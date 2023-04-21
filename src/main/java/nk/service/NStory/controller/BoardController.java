@@ -4,7 +4,6 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import nk.service.NStory.dto.CommentDTO;
 import nk.service.NStory.dto.Enum.SearchType;
 import nk.service.NStory.dto.LikesHistory;
@@ -32,7 +31,6 @@ import java.util.ArrayList;
 import java.util.Base64;
 
 @Controller
-@Slf4j
 @RequiredArgsConstructor
 public class BoardController {
     private final WhiteBoardService whiteBoardService;
@@ -66,6 +64,7 @@ public class BoardController {
 
             isSearch = false;
         }
+        model.addAttribute("noticeList", whiteBoardService.getNoticeList(bid));
         request.setAttribute("boardInfo", boardInfoService.getBoardInfo(bid));
         request.setAttribute("bid", bid); //게시판 이름
         request.setAttribute("isSearch", isSearch);
@@ -80,29 +79,31 @@ public class BoardController {
         cookie.setPath("/whiteview");
         response.addCookie(cookie2);
 
-        log.info("검색타입: " + type);
         return "WhiteBoard";
     }
 
     @GetMapping(value = "/whitepost")
     public String addBoard(@AuthenticationPrincipal CustomUserDetails userDetails, HttpServletRequest request
-            , @RequestParam String bid) {
+            , @RequestParam String bid) throws Exception {
         if (userDetails == null) {
             return "redirect:" + request.getHeader("referer");
+        } else {
+            boolean isAdmin = boardInfoService.getBoardInfo(bid).getEmail().equals(userDetails.getEmail());
+            request.setAttribute("isAdmin", isAdmin);
+            request.setAttribute("bid", bid);
         }
-        request.setAttribute("bid", bid);
         return "WhiteBoardAdd";
     }
 
     @PostMapping(value = "/whiteboard/add")
     public String addBoard2(@AuthenticationPrincipal CustomUserDetails userDetails, HttpServletRequest request
-            , @RequestParam String bid, @RequestParam String title, @RequestParam String editordata) throws Exception {
+            , @RequestParam String bid, @RequestParam String title, @RequestParam String editordata
+            , @RequestParam(required = false) boolean isNotice) throws Exception {
         if (userDetails == null) {
             return "redirect:" + request.getHeader("referer");
         } else {
-            whiteBoardService.insertBoard(new WhiteBoard(0, bid, title, editordata, userDetails.getUsername()
-                    , userDetails.getEmail(), CurrentTime.getTime4(), 0, 0, 0, true));
-            log.info("요청주소 : /whiteboard/add\n" + "Action : whiteboard 작성" + "\n 요청자: " + userDetails.getEmail());
+            whiteBoardService.insertBoard(new WhiteBoard(0, bid, title, editordata, userDetails.getUsername(), userDetails.getEmail()
+                    , CurrentTime.getTime4(), 0, 0, 0, isNotice, true));
         }
         return "redirect:/whiteboard?bid=" + bid;
     }
@@ -172,7 +173,6 @@ public class BoardController {
             , @RequestParam String bid, @RequestParam int id, @RequestParam String email) throws Exception {
         if (userDetails.getEmail().equals(email)) {
             whiteBoardService.deleteBoard(id, userDetails.getEmail());
-            log.info("요청주소 : /whiteboard/delete" + "Action : whiteboard 삭제" + "\n 요청자: " + userDetails.getEmail());
         }
         return ResponseEntity.ok().body("/whiteboard?bid=" + bid);
     }
@@ -195,13 +195,13 @@ public class BoardController {
 
     @PostMapping(value = "/whiteboard/update")
     public String updateBoard2(@AuthenticationPrincipal CustomUserDetails userDetails, HttpServletRequest request
-            , @RequestParam int id, @RequestParam String title, @RequestParam String editordata) throws Exception {
+            , @RequestParam int id, @RequestParam String title, @RequestParam String editordata
+            , @RequestParam(required = false) boolean isNotice) throws Exception {
         if (userDetails == null) {
             return "redirect:" + request.getHeader("referer");
         } else {
             whiteBoardService.updateBoard(
-                    new WhiteBoard(id, title, editordata, userDetails.getUsername(), userDetails.getEmail()));
-            log.info("요청주소 : /whiteboard/update\n" + "Action : whiteboard 수정" + "\n 요청자: " + userDetails.getEmail());
+                    new WhiteBoard(id, title, editordata, userDetails.getUsername(), userDetails.getEmail(), isNotice));
         }
         return "redirect:/whiteview?id=" + id;
     }

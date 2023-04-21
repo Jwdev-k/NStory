@@ -63,10 +63,14 @@
     </div>
     <div class="container" th:object="${boardInfo}" id="edit">
         <form method="post" accept-charset="UTF-8" action="/whiteboard/update">
-            <label for="title" class="input-group-text fw-bold title">
-                Title:<input class="input-group form-text" type="text" name="title" id="title" required maxlength="50"
-                             th:value="*{title}" placeholder="타이틀을 작성해주세요.">
-            </label>
+            <div class="title justify-content-center align-items-center">
+                <h5 class="fw-bold">게시글 제목(필수입력)</h5>
+                <input type="text" class="form-control" id="title" name="title" th:value="*{title}" placeholder="제목을 입력하세요">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="notice" name="isNotice"/>
+                    <label class="form-check-label fw-bold" for="notice">공지사항 등록</label>
+                </div>
+            </div>
             <textarea name="editordata" id="summernote" th:utext="*{contents}"></textarea>
             <input type="hidden" name="id" th:value="*{id}">
             <button type="submit" class="btn btn-success d-block"

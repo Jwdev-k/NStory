@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>NStory</title>
+    <link rel="stylesheet" href="/static/assets/font-awesome/css/fontawesome.css">
+    <link rel="stylesheet" href="/static/assets/font-awesome/css/solid.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
@@ -12,7 +14,8 @@
     <link rel="stylesheet" href="/static/css/bootstrap-utilities.css">
     <link rel="stylesheet" href="/static/css/main.css">
     <link rel="stylesheet" href="/static/css/custom-theme.css">
-    <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.3.js"
+            integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
     <script src="/static/js/bootstrap.min.js"></script>
     <script src="/static/js/bootstrap.bundle.min.js"></script>
     <script src="/static/summernote/summernote-lite.js"></script>
@@ -26,7 +29,8 @@
         <ul class="navbar-nav right-0">
             <li class="box" th:if="${#authentication.principal.profileImg != null}" sec:authorize="isAuthenticated()">
                 <img class="profile" th:src="@{/storage/prf/img}" alt=""></li>
-            <li class="box" th:unless="${#authentication.principal.profileImg != null}" sec:authorize="isAuthenticated()">
+            <li class="box" th:unless="${#authentication.principal.profileImg != null}"
+                sec:authorize="isAuthenticated()">
                 <img class="profile" src="/static/images/default_profileImg.png" alt=""></li>
             <li class="nav-item" sec:authorize="isAuthenticated()">
                 <a class="nav-link" href="/info" th:text="${#authentication.principal.username}"></a></li>
@@ -64,17 +68,24 @@
     <div class="container" id="add">
         <form method="post" accept-charset="UTF-8" action="/whiteboard/add">
             <input type="hidden" name="bid" th:value="${bid}">
-            <label for="title" class="input-group-text fw-bold title">
-                제목:<input class="input-group form-text" type="text" name="title" id="title" required maxlength="50"
-                             placeholder="타이틀을 작성해주세요.">
-            </label>
-            <textarea name="editordata" id="summernote" maxlength="4294967296"></textarea>
-            <button type="submit" class="btn btn-primary d-block"
-                    style="margin-top: 10px; margin-bottom: 10px; margin-left: 85%;"
-                    onclick="if(!confirm('정말로 저장하시겠습니까??')){
-                                return false;
-                            }">저장
+            <div class="title justify-content-center align-items-center">
+                <h5 class="fw-bold">게시글 제목(필수입력)</h5>
+                <input type="text" class="form-control" id="title" name="title" placeholder="제목을 입력하세요">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="notice" name="isNotice"/>
+                    <label class="form-check-label fw-bold" for="notice">공지사항 등록</label>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="summernote" class="form-label">내용</label>
+                <textarea name="editordata" id="summernote" class="form-control" maxlength="4294967296"></textarea>
+            </div>
+            <div class="d-flex justify-content-end align-items-center">
+            <button type="submit" class="btn btn-primary" onclick="if(!confirm('정말로 저장하시겠습니까??')){
+                            return false;
+                        }">저장
             </button>
+            </div>
         </form>
     </div>
 </main>
@@ -90,8 +101,8 @@
 <script src="/static/js/menuEvent.js"></script>
 <script src="/static/js/customnote.js"></script>
 <script>
-    $(document).ready(function() {
-        $("form").submit(function() {
+    $(document).ready(function () {
+        $("form").submit(function () {
             $("#add").hide();
             $("#loading").show();
         });

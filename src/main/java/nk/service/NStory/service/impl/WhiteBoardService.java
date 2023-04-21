@@ -1,6 +1,7 @@
 package nk.service.NStory.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import nk.service.NStory.dto.Enum.SearchType;
 import nk.service.NStory.dto.WhiteBoard;
 import nk.service.NStory.repository.WhiteBoardMapper;
@@ -10,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 
-@Service
+@Service @Slf4j
 @RequiredArgsConstructor
 public class WhiteBoardService implements WhiteBoardServiceIF {
     private final WhiteBoardMapper whiteBoardMapper;
@@ -38,18 +39,21 @@ public class WhiteBoardService implements WhiteBoardServiceIF {
     @Override
     public void insertBoard(WhiteBoard wb) throws Exception {
         whiteBoardMapper.insertBoard(wb);
+        log.info("요청주소 : /whiteboard/add\n" + "Action : whiteboard 작성" + "\n 요청자: " + wb.getEmail());
     }
 
     @Transactional
     @Override
     public void deleteBoard(int id, String email) throws Exception {
         whiteBoardMapper.deleteBoard(id, email);
+        log.info("요청주소 : /whiteboard/delete" + "Action : whiteboard 삭제" + "\n 요청자: " + email);
     }
 
     @Transactional
     @Override
     public void updateBoard(WhiteBoard wb) throws Exception {
         whiteBoardMapper.updateBoard(wb);
+        log.info("요청주소 : /whiteboard/update\n" + "Action : whiteboard 수정" + "\n 요청자: " + wb.getEmail());
     }
 
     @Override
@@ -94,5 +98,10 @@ public class WhiteBoardService implements WhiteBoardServiceIF {
     @Override
     public void updateDisLikeCancel(int id) throws Exception {
         whiteBoardMapper.updateDisLikeCancel(id);
+    }
+
+    @Override
+    public ArrayList<WhiteBoard> getNoticeList(String bid) throws Exception {
+        return whiteBoardMapper.getNoticeList(bid);
     }
 }

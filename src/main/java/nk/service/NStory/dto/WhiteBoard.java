@@ -16,6 +16,7 @@ public class WhiteBoard {
     private int views;
     private int like_count;
     private int dislike_count;
+    private boolean isNotice;
     private boolean isEnable;
 
     public WhiteBoard(int id, String title, String author, String creationDate, int views, int like_count) {
@@ -27,11 +28,12 @@ public class WhiteBoard {
         this.like_count = like_count;
     }
 
-    public WhiteBoard(int id, String title, String contents, String author, String email) {
+    public WhiteBoard(int id, String title, String contents, String author, String email, boolean isNotice) {
         this.id = id;
         this.title = title;
         this.contents = contents;
         this.author = author;
         this.email = email;
+        this.isNotice = isNotice;
     }
 }

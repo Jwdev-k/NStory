@@ -6,6 +6,12 @@
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 14px;
 }
+.text-custom-primary {
+    color: var(--primary-color);
+}
+.text-custom-secondary {
+    color: var(--secondary-color);
+}
 .navbar {
     background-color: whitesmoke;
     border-bottom: 1px solid #FF3E7F;
@@ -181,6 +187,9 @@ footer {
     bottom: 0;
     width: 100%;
     border-top: 1px solid var(--primary-color);
+}
+a {
+    text-decoration: none;
 }
 #loading {
     display: none;

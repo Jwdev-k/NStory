@@ -28,15 +28,16 @@ main {
     padding: 30px 60px;
     border-radius: 20px 20px;
 }
-.board-title{
-    width: auto;
-    min-height: 300px;
+.board-title {
+    width: 1200px;
+    height: 200px;
     margin-bottom: 30px;
     margin-top: 30px;
+    background-color: whitesmoke;
     background-repeat: no-repeat;
     background-size: cover;
     padding: 30px 60px;
-    border-radius: 20px 20px;
+    border-radius: 10px 10px;
 }
 
 .chat-window {
