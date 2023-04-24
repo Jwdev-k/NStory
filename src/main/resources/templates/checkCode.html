@@ -42,6 +42,7 @@
                 <div class="d-grid gap-2 col-12 my-4 mx-auto">
                     <p class="text-center text-danger" id="timer">loading..</p>
                     <input type="hidden" name="email" th:value="${email}">
+                    <input type="hidden" name="isSignUp" th:if="${isSignUp}" th:value="${isSignUp}">
                     <button type="button" class="btn btn-primary fw-bold" id="submit-button">확인</button>
                 </div>
             </form>

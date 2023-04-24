@@ -26,11 +26,11 @@
 	<div class="container">
 		<div class="container-fluid" style="width: 500px">
 			<form class="py-5 my-5" method="post">
-				<div class="d-grid">
+				<div class="d-grid justify-content-center align-items-center">
 					<span class="text-lg-center my-4 fw-bold" style="font-size: 30px; color: #FF3E7F;">사용자 등록</span>
 				</div>
-				<div class="d-grid">
-					<span class="text-lg-center my-4 text-secondary">STEP2</span>
+				<div class="d-grid justify-content-center align-items-center">
+					<span class="text-lg-center my-4 text-secondary">STEP3</span>
 					<span class="text-lg-center my-1 text-danger" th:text="${errMsg}"></span>
 				</div>
 				<label class="text-white">닉네임</label>
@@ -42,8 +42,8 @@
 				<label class="text-white">이메일</label>
 				<div class="input-group mb-3" data-validate = "email is reauired">
 					<span class="input-group-text" id="icon2"><i class="fa-solid fa-envelope"></i></span>
-					<input class="form-control form-control-lg" aria-describedby="icon2"
-						   type="email" name="email" placeholder="이메일 주소를 입력해 주세요." maxlength="50" required>
+					<input class="form-control form-control-lg" aria-describedby="icon2" th:value="${email}"
+						   type="email" name="email" placeholder="이메일 주소를 입력해 주세요." maxlength="50" readonly>
 				</div>
 				<label class="text-white">패스워드</label>
 				<div class="input-group mb-3" data-validate="Password is required">

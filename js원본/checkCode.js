@@ -17,6 +17,8 @@ $(document).ready(function() {
                 } else if (response.result == "expired") {
                     alert(response.error);
                     window.location.href = response.redirectUrl;
+                } else if (response.result == "signup") {
+                    window.location.href = response.redirectUrl;
                 } else {
                     $("#form").show();
                     $("#loading").hide();

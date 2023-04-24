@@ -2,6 +2,7 @@ package nk.service.NStory.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONObject;
@@ -48,21 +49,26 @@ public class LoginController {
     }
 
     @GetMapping(value = "/sign_up")
-    public String Register() {
+    public String Register(HttpServletRequest request, HttpSession session) {
+        request.setAttribute("email", session.getAttribute("SignUpSession"));
         return "Sign_Up";
     }
 
     @PostMapping(value = "/sign_up")
     public String Register(@AuthenticationPrincipal CustomUserDetails userDetails, HttpServletRequest request
-            , HttpServletResponse response, @RequestParam String email, @RequestParam String password
+            , HttpServletResponse response, HttpSession session, @RequestParam String email, @RequestParam String password
             , @RequestParam String name, @RequestParam String token) throws Exception {
+        String SessionEmail = session.getAttribute("SignUpSession").toString();
         if (userDetails != null) {
             return "redirect:" + request.getHeader("referer");
         } else if (email != null && password != null && name != null && name.length() >= 2 && !accountService.checkEmail(email)
-                && RecaptchaConfig.verify(token)) {
+                && RecaptchaConfig.verify(token) && SessionEmail.equals(email)) {
             accountService.register(new AccountDTO(0, email, passwordEncoder.encode(password), name, "", null
                     , "USER", CurrentTime.getTime(), null, 1, 0, 0, true, false));
+            session.removeAttribute("SignUpSession");
             ScriptUtils.alertAndMovePage(response, "회원가입 성공!", "/login");
+            mailService.sendEmail(new MailDTO(email, "NStory 회원가입에 성공했습니다."
+                    , "가입해주셔서 감사합니다."));
         }
         request.setAttribute("errMsg", "요청이 실패 하였습니다.");
         return "Sign_up";
@@ -79,7 +85,7 @@ public class LoginController {
         if (userDetails != null) {
             return "redirect:" + request.getHeader("referer");
         } else if (RecaptchaConfig.verify(token) && agree) {
-            return "redirect:/sign_up";
+            return "redirect:/check_email";
         }
         request.setAttribute("errMsg", "이용약관에 필수로 동의하셔야합니다.");
         return "Agree";
@@ -113,7 +119,7 @@ public class LoginController {
 
     @GetMapping(value = "/check_code")
     public String checkCode(@AuthenticationPrincipal CustomUserDetails userDetails, HttpServletRequest request
-            , @ModelAttribute("email") String email) {
+            , @ModelAttribute("email") String email, @ModelAttribute("isSignUp") boolean isSignUp) {
         if (userDetails != null || email.length() <= 0) {
             return "redirect:" + request.getHeader("referer");
         }
@@ -122,8 +128,9 @@ public class LoginController {
 
     @ResponseBody
     @PostMapping(value = "/check_code")
-    public ResponseEntity<String> checkCode(HttpServletRequest request, @RequestParam String email
-            , @RequestParam String code) throws Exception {
+    public ResponseEntity<String> checkCode(HttpServletRequest request, HttpSession session
+            , @RequestParam String email, @RequestParam String code
+            , @RequestParam(required = false, defaultValue = "false") boolean isSignUp) throws Exception {
         JSONObject responseJson = new JSONObject();
         if (code != null && email != null) {
             SecurityCodeDTO codeDTO = securityCode.getSecurityCode(email, request);
@@ -135,7 +142,7 @@ public class LoginController {
             } else if (!code.equals(codeDTO.getCode())) {
                 responseJson.put("result", "failed");
                 responseJson.put("error", "보안코드가 틀렸습니다. 다시 확인 해주세요.");
-            } else {
+            } else if (!isSignUp) {
                 securityCode.deleteSecurityCode(email, request);
                 String randomPassword = new RandomPassword().generateRandomPassword();
                 mailService.sendEmail(new MailDTO(email, "NStory 임시비밀번호 발급"
@@ -144,6 +151,11 @@ public class LoginController {
                 responseJson.put("redirectUrl", "/login");
                 responseJson.put("msg", "임시비밀번호가 발급되었습니다. \n 메일 확인 후 로그인 해주세요.");
                 accountService.resetPassword(email, passwordEncoder.encode(randomPassword));
+            } else {
+                securityCode.deleteSecurityCode(email, request);
+                responseJson.put("result", "signup");
+                responseJson.put("redirectUrl", "/sign_up");
+                session.setAttribute("SignUpSession", email);
             }
         }
         request.setAttribute("email", email);
@@ -161,7 +173,8 @@ public class LoginController {
     @PostMapping(value = "/new_pw")
     public String newPassword(HttpServletRequest request, HttpServletResponse response, Authentication auth
             , @RequestParam String email, @RequestParam String password, @RequestParam String password2) throws Exception {
-        if (password.length() >= 6 && password.length() <= 16 && password.equals(password2)) {
+        CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
+        if (password.length() >= 6 && password.length() <= 16 && password.equals(password2) && userDetails.getEmail().equals(email)) {
             accountService.resetPassword(email, passwordEncoder.encode(password));
             new SecurityContextLogoutHandler().logout(request, response, auth);
             ScriptUtils.alertAndMovePage(response, "패스워드가 변경되었습니다. 다시 로그인 해주세요.", "/login");
@@ -172,4 +185,30 @@ public class LoginController {
         return "UpdatePW";
     }
 
+    @GetMapping(value = "/check_email")
+    public String checkEmail(@AuthenticationPrincipal CustomUserDetails userDetails, HttpServletRequest request) {
+        if (userDetails != null) {
+            return "redirect:" + request.getHeader("referer");
+        }
+        return "CheckEmail";
+    }
+
+    @PostMapping(value = "/check_email")
+    public String checkEmailPost(HttpServletRequest request, @RequestParam String email
+            , @RequestParam String token, RedirectAttributes redirectAttributes) throws Exception {
+        if (email != null && token != null) {
+            if (!accountService.checkEmail2(email) && RecaptchaConfig.verify(token)) {
+                String generateCode = securityCode.generateSecurityCode();
+                mailService.sendEmail(new MailDTO(email, "NStory 보안코드 메일입니다.", String.format("보안코드는 [%s] 입니다.", generateCode)));
+                securityCode.saveSecurityCode(email, generateCode, request);
+
+                redirectAttributes.addFlashAttribute("email", email);
+                redirectAttributes.addFlashAttribute("isSignUp", true);
+                return "redirect:/check_code";
+            } else {
+                request.setAttribute("error", "이미 가입된 이메일 입니다. 다시 시도 해주세요.");
+            }
+        }
+        return "CheckEmail";
+    }
 }

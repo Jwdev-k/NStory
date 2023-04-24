@@ -13,6 +13,8 @@ public interface AccountMapper {
     AccountDTO login(String email) throws Exception;
     @Select("SELECT EXISTS (SELECT email FROM account WHERE email = #{email} AND isOAuth = 0)")
     boolean checkEmail(String email) throws Exception;
+    @Select("SELECT EXISTS (SELECT email FROM account WHERE email = #{email})")
+    boolean checkEmail2(String email) throws Exception;
     @Update("UPDATE account SET level = #{level} WHERE email = #{email}")
     void UpdateLevel(@Param("level")int level, @Param("email")String email) throws Exception;
     @Update("UPDATE account SET exp = exp + #{exp} WHERE email = #{email}")

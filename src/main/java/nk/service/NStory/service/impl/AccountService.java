@@ -46,6 +46,11 @@ public class AccountService implements AccountServiceIF {
         return accountMapper.checkEmail(email);
     }
 
+    @Override
+    public boolean checkEmail2(String email) throws Exception {
+        return accountMapper.checkEmail2(email);
+    }
+
     @Transactional
     @Override
     public void UpdateLastLoginDate(String lastLoginDate, String email) throws Exception {
