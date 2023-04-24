@@ -68,7 +68,7 @@
                           th:text="'좋아요: ' + *{like_count} + ' | 싫어요: ' + *{dislike_count} + ' | 조회수:' + *{views}"></span>
                 </div>
                 <hr>
-                <p th:utext="*{contents}"></p>
+                <div th:utext="*{contents}"></div>
             </div>
         </div>
         <div class="container position-relative d-flex justify-content-end">

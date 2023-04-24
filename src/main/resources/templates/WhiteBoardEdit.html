@@ -71,7 +71,8 @@
                     <label class="form-check-label fw-bold" for="notice">공지사항 등록</label>
                 </div>
             </div>
-            <textarea name="editordata" id="summernote" th:utext="*{contents}"></textarea>
+            <label for="summernote" class="form-label">내용</label>
+            <textarea name="editordata" id="summernote" th:utext="*{contents}" maxlength="4294967296"></textarea>
             <input type="hidden" name="id" th:value="*{id}">
             <div class="d-flex justify-content-end align-items-end">
                 <button type="submit" class="btn btn-primary" style="margin-top: 10px; margin-bottom: 10px; margin-left: 85%;"

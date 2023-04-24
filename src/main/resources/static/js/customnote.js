@@ -23,7 +23,7 @@ $(document).ready(function () {
         ],
         fontNames: fontList,
         fontNamesIgnoreCheck: fontList,
-        fontSizes: ['8', '9', '10', '11', '12', '14', '16', '18', '20', '22', '24', '28', '30', '36', '50', '72'],
+        fontSizes: ['10', '11', '12', '13', '14', '16', '18', '20', '22', '24', '28', '30', '36', '50', '72'],
         callbacks: {	//여기 부분이 이미지를 첨부하는 부분
             onImageUpload : function(files) {
                 uploadSummernoteImageFile(files[0],this);
@@ -42,7 +42,7 @@ $(document).ready(function () {
                     display: 'none'
                 })
             },
-            onfont: function(size) {
+            onFont: function(size) {
                 // 현재 선택된 폰트색 가져오기
                 var color = $('.note-color').val();
                 // 선택된 폰트크기와 폰트색으로 폰트 스타일 지정
