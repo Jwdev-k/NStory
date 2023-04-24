@@ -58,143 +58,158 @@
 </div>
 <button class="menu-btn" style="height: 50px; width: 50px"><img src="/static/images/svg/menu.svg" alt="Menu"></button>
 <main th:object="${boardInfo}">
-    <div class="container my-5 bg-light board-contents">
-        <div class="py-3">
-            <h3 th:text="*{title}"></h3>
-            <div class="d-flex justify-content-between">
-                <span class="text-muted" th:text="'작성자: ' + *{author} + ' | 작성일자: ' + *{creationDate}"></span>
-                <span class="text-muted"
-                      th:text="'좋아요: ' + *{like_count} + ' | 싫어요: ' + *{dislike_count} + ' | 조회수:' + *{views}"></span>
+    <section class="container board-box">
+        <div class="container my-5 bg-light board-contents">
+            <div class="py-3">
+                <h3 th:text="*{title}"></h3>
+                <div class="d-flex justify-content-between">
+                    <span class="text-muted" th:text="'작성자: ' + *{author} + ' | 작성일자: ' + *{creationDate}"></span>
+                    <span class="text-muted"
+                          th:text="'좋아요: ' + *{like_count} + ' | 싫어요: ' + *{dislike_count} + ' | 조회수:' + *{views}"></span>
+                </div>
+                <hr>
+                <p th:utext="*{contents}"></p>
             </div>
-            <hr>
-            <p th:utext="*{contents}"></p>
         </div>
-    </div>
-    <div class="container position-relative d-flex justify-content-end">
-        <th:block
-                th:if="${#authentication != null} and ${#strings.equals(boardInfo.email,#authentication.principal.email)}">
-            <form id="board-del">
-                <a class="btn btn-secondary btn-sm" th:href="${redirectURL}">목록</a>
-                <a class="btn btn-primary btn-sm" th:href="@{/whitepostup(bid=*{bid},id=*{id})}">수정</a>
-                <input type="hidden" name="bid" th:value="*{bid}">
-                <input type="hidden" name="id" th:value="*{id}">
-                <input type="hidden" name="email" th:value="*{email}">
-                <button type="submit" class="btn btn-danger btn-sm"
-                        onclick="if(!confirm('삭제하시면 되돌릴수 없습니다. \n 정말로 삭제하시겠습니까??'))
+        <div class="container position-relative d-flex justify-content-end">
+            <th:block
+                    th:if="${#authentication != null} and ${#strings.equals(boardInfo.email,#authentication.principal.email)}">
+                <form id="board-del">
+                    <a class="btn btn-secondary btn-sm" th:href="${redirectURL}">목록</a>
+                    <a class="btn btn-primary btn-sm" th:href="@{/whitepostup(bid=*{bid},id=*{id})}">수정</a>
+                    <input type="hidden" name="bid" th:value="*{bid}">
+                    <input type="hidden" name="id" th:value="*{id}">
+                    <input type="hidden" name="email" th:value="*{email}">
+                    <button type="submit" class="btn btn-danger btn-sm"
+                            onclick="if(!confirm('삭제하시면 되돌릴수 없습니다. \n 정말로 삭제하시겠습니까??'))
                         { return false;}">삭제
+                    </button>
+                </form>
+            </th:block>
+            <a class="btn btn-secondary btn-sm" th:href="${redirectURL}"
+               th:unless="${#authentication != null} and ${#strings.equals(boardInfo.email,#authentication.principal.email)}">목록</a>
+        </div>
+        <div class="d-flex justify-content-center" th:if="${#authentication != null}">
+            <form id="like">
+                <input type="hidden" name="id" th:value="*{id}">
+                <button type="submit" class="btn btn-primary m-1" th:if="${LikeType == 1}">
+                    <i class="fa fa-thumbs-up"></i> 좋아요<span th:text="'(' + *{like_count} + ')'"></span>
+                </button>
+                <button type="submit" class="btn btn-outline-primary m-1" th:unless="${LikeType == 1}">
+                    <i class="fa fa-thumbs-up"></i> 좋아요<span th:text="'(' + *{like_count} + ')'"></span>
                 </button>
             </form>
-        </th:block>
-        <a class="btn btn-secondary btn-sm" th:href="${redirectURL}"
-           th:unless="${#authentication != null} and ${#strings.equals(boardInfo.email,#authentication.principal.email)}">목록</a>
-    </div>
-    <div class="d-flex justify-content-center" sec:authorize="isAuthenticated()">
-        <form id="like">
-            <input type="hidden" name="id" th:value="*{id}">
-            <button type="submit" class="btn btn-primary m-1" th:if="${LikeType == 1}">
-                <i class="fa fa-thumbs-up"></i> 좋아요<span th:text="'(' + *{like_count} + ')'"></span>
-            </button>
-            <button type="submit" class="btn btn-outline-primary m-1" th:unless="${LikeType == 1}">
-                <i class="fa fa-thumbs-up"></i> 좋아요<span th:text="'(' + *{like_count} + ')'"></span>
-            </button>
-        </form>
-        <form id="dislike">
-            <input type="hidden" name="id" th:value="*{id}">
-            <button type="submit" class="btn btn-secondary m-1" th:if="${LikeType == 0}">
-                <i class="fa fa-thumbs-down"></i> 싫어요<span th:text="'(' + *{dislike_count} + ')'"></span>
-            </button>
-            <button type="submit" class="btn btn-outline-secondary m-1" th:unless="${LikeType == 0}">
-                <i class="fa fa-thumbs-down"></i> 싫어요<span th:text="'(' + *{dislike_count} + ')'"></span>
-            </button>
-        </form>
-    </div>
-    <div class="container my-5">
-        <div class="d-flex justify-content-center">
-            <form class="comment-box" id="comment-add">
-                <div class="form-group">
-                    <label for="reply-textarea">댓글 작성</label>
-                    <textarea class="form-control reply-text" id="reply-textarea" name="contents" rows="3"
-                              maxlength="300" placeholder="내용을 입력하세요." required></textarea>
-                    <input type="hidden" name="id" th:value="*{id}">
-                    <div class="d-flex justify-content-end">
-                        <button type="submit" class="btn btn-primary mt-2">작성</button>
-                    </div>
-                </div>
+            <form id="dislike">
+                <input type="hidden" name="id" th:value="*{id}">
+                <button type="submit" class="btn btn-secondary m-1" th:if="${LikeType == 0}">
+                    <i class="fa fa-thumbs-down"></i> 싫어요<span th:text="'(' + *{dislike_count} + ')'"></span>
+                </button>
+                <button type="submit" class="btn btn-outline-secondary m-1" th:unless="${LikeType == 0}">
+                    <i class="fa fa-thumbs-down"></i> 싫어요<span th:text="'(' + *{dislike_count} + ')'"></span>
+                </button>
             </form>
         </div>
-    </div>
-    <div class="container reply-card mb-5" id="d-form">
-        <h3>댓글 목록<span th:text="${totalCount}"></span></h3>
-        <hr>
-        <div class="card" th:each="list : ${commentList}">
-            <div class="card-body">
-                <p hidden class="cid" th:text="${list.cid}"></p>
-                <div class="d-flex mb-3">
-                    <img class="box" style="object-fit: cover; margin-right: 10px;"
-                         th:src="@{/general/prf/} + ${list.aid}" alt="">
-                    <h5 class="card-title card-group align-items-center" th:text="${list.name}"></h5>
-                </div>
-                <p class="card-text edit-comment-contents" th:text="${list.contents}"></p>
-                <p class="card-subtitle text-muted reply-time" th:text="${list.time}"></p>
-                <div class="d-flex reply-btn">
-                    <button class="btn btn-sm text-secondary reply-toggle">댓글 쓰기</button>
-                    <a class="btn btn-sm text-secondary edit-comment"
-                       th:if="${#authentication != null} AND ${#strings.equals(list.email,#authentication.principal.email)}">수정</a>
-                    <form id="comment-del"
-                          th:if="${#authentication != null} AND ${#strings.equals(list.email,#authentication.principal.email)}">
-                        <input type="hidden" name="cid" th:value="${list.cid}">
-                        <button type="submit" class="btn btn-sm text-secondary"
-                                onclick="if(!confirm('삭제하시면 복구할수 없습니다. \n 정말로 삭제하시겠습니까??'))
-                        { return false;}">삭제
-                        </button>
-                    </form>
-                </div>
-                <div class="reply-form d-none">
-                    <form class="reply-box" id="reply-add">
-                        <div class="form-group">
-                            <label for="reply-content">댓글 작성</label>
-                            <textarea class="form-control reply-text" id="reply-content" name="contents" rows="3"
-                                      maxlength="300" placeholder="내용을 입력하세요." required></textarea>
-                        </div>
+        <div th:unless="${#authentication != null}" class="text-center">
+            <p class="fw-bold">로그인 후 이용 가능합니다.</p>
+                <button class="btn btn-outline-primary m-1 blur" disabled>
+                    <i class="fa fa-thumbs-up"></i> 좋아요<span th:text="'(' + *{like_count} + ')'"></span>
+                </button>
+                <button class="btn btn-outline-secondary m-1 blur" disabled>
+                    <i class="fa fa-thumbs-down"></i> 싫어요<span th:text="'(' + *{dislike_count} + ')'"></span>
+                </button>
+        </div>
+        <div class="container my-5">
+            <div class="d-flex justify-content-center">
+                <form class="comment-box" id="comment-add">
+                    <div class="form-group">
+                        <label for="reply-textarea">댓글 작성</label>
+                        <textarea class="form-control reply-text" id="reply-textarea" name="contents" rows="3"
+                                  maxlength="300" placeholder="내용을 입력하세요." required></textarea>
                         <input type="hidden" name="id" th:value="*{id}">
-                        <input type="hidden" name="cid" th:value="${list.cid}">
                         <div class="d-flex justify-content-end">
-                            <button type="submit" class="btn btn-primary btn-sm mt-2 mb-3">작성</button>
+                            <button type="submit" class="btn btn-primary mt-2">작성</button>
                         </div>
-                    </form>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="container reply-card mb-5" id="d-form">
+            <h3>댓글 목록<span th:text="${totalCount}"></span></h3>
+            <hr>
+            <div class="card-body" th:if="${#lists.size(commentList) <= 0}">
+                <div class="d-flex justify-content-center align-items-center">
+                    <h5>아직 댓글이 없습니다.</h5>
                 </div>
-                <th:block th:each="list2 : ${replyList}" th:if="${list.cid == list2.cid}">
-                    <div class="replies">
-                        <span class="fs-3" style="float: left;">└</span>
-                        <div class="card mb-3">
-                            <div class="card-body">
-                                <p hidden class="rid" th:text="${list2.rid}"></p>
-                                <div class="d-flex mb-3">
-                                    <img class="box" style="object-fit: cover; margin-right: 10px;"
-                                         th:src="@{/general/prf/} + ${list2.aid}" alt="">
-                                    <h5 class="card-title card-group align-items-center" th:text="${list2.name}"></h5>
-                                </div>
-                                <p class="card-text edit-reply-contents" th:text="${list2.contents}"></p>
-                                <p class="card-subtitle text-muted reply-time" th:text="${list2.time}"></p>
-                                <div class="d-flex reply-btn">
-                                    <a class="btn btn-sm text-secondary edit-reply"
-                                       th:if="${#authentication != null} AND ${#strings.equals(list2.email,#authentication.principal.email)}">수정</a>
-                                    <form id="reply-del"
-                                          th:if="${#authentication != null} AND ${#strings.equals(list2.email,#authentication.principal.email)}">
-                                        <input type="hidden" name="rid" th:value="${list2.rid}">
-                                        <button type="submit" class="btn btn-sm text-secondary"
-                                                onclick="if(!confirm('삭제하시면 복구할수 없습니다. \n 정말로 삭제하시겠습니까??'))
-                                                { return false;}">삭제
-                                        </button>
-                                    </form>
+            </div>
+            <div class="card" th:each="list : ${commentList}" th:unless="${#lists.size(commentList) <= 0}">
+                <div class="card-body">
+                    <p hidden class="cid" th:text="${list.cid}"></p>
+                    <div class="d-flex mb-3">
+                        <img class="box" style="object-fit: cover; margin-right: 10px;"
+                             th:src="@{/general/prf/} + ${list.aid}" alt="">
+                        <h5 class="card-title card-group align-items-center" th:text="${list.name}"></h5>
+                    </div>
+                    <p class="card-text edit-comment-contents" th:text="${list.contents}"></p>
+                    <p class="card-subtitle text-muted reply-time" th:text="${list.time}"></p>
+                    <div class="d-flex reply-btn">
+                        <button class="btn btn-sm text-secondary reply-toggle">댓글 쓰기</button>
+                        <a class="btn btn-sm text-secondary edit-comment"
+                           th:if="${#authentication != null} AND ${#strings.equals(list.email,#authentication.principal.email)}">수정</a>
+                        <form id="comment-del"
+                              th:if="${#authentication != null} AND ${#strings.equals(list.email,#authentication.principal.email)}">
+                            <input type="hidden" name="cid" th:value="${list.cid}">
+                            <button type="submit" class="btn btn-sm text-secondary"
+                                    onclick="if(!confirm('삭제하시면 복구할수 없습니다. \n 정말로 삭제하시겠습니까??'))
+                                    { return false;}">삭제</button>
+                        </form>
+                    </div>
+                    <div class="reply-form d-none">
+                        <form class="reply-box" id="reply-add">
+                            <div class="form-group">
+                                <label for="reply-content">댓글 작성</label>
+                                <textarea class="form-control reply-text" id="reply-content" name="contents" rows="3"
+                                          maxlength="300" placeholder="내용을 입력하세요." required></textarea>
+                            </div>
+                            <input type="hidden" name="id" th:value="*{id}">
+                            <input type="hidden" name="cid" th:value="${list.cid}">
+                            <div class="d-flex justify-content-end">
+                                <button type="submit" class="btn btn-primary btn-sm mt-2 mb-3">작성</button>
+                            </div>
+                        </form>
+                    </div>
+                    <th:block th:each="list2 : ${replyList}" th:if="${list.cid == list2.cid}">
+                        <div class="replies">
+                            <span class="fs-3" style="float: left;">└</span>
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <p hidden class="rid" th:text="${list2.rid}"></p>
+                                    <div class="d-flex mb-3">
+                                        <img class="box" style="object-fit: cover; margin-right: 10px;"
+                                             th:src="@{/general/prf/} + ${list2.aid}" alt="">
+                                        <h5 class="card-title card-group align-items-center"
+                                            th:text="${list2.name}"></h5>
+                                    </div>
+                                    <p class="card-text edit-reply-contents" th:text="${list2.contents}"></p>
+                                    <p class="card-subtitle text-muted reply-time" th:text="${list2.time}"></p>
+                                    <div class="d-flex reply-btn">
+                                        <a class="btn btn-sm text-secondary edit-reply"
+                                           th:if="${#authentication != null} AND ${#strings.equals(list2.email,#authentication.principal.email)}">수정</a>
+                                        <form id="reply-del"
+                                              th:if="${#authentication != null} AND ${#strings.equals(list2.email,#authentication.principal.email)}">
+                                            <input type="hidden" name="rid" th:value="${list2.rid}">
+                                            <button type="submit" class="btn btn-sm text-secondary"
+                                                    onclick="if(!confirm('삭제하시면 복구할수 없습니다. \n 정말로 삭제하시겠습니까??'))
+                                                    { return false;}">삭제</button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </th:block>
+                    </th:block>
+                </div>
             </div>
         </div>
-    </div>
+    </section>
 </main>
 <!-- Footer -->
 <footer class="py-3">

@@ -172,10 +172,10 @@ public class LoginController {
 
     @PostMapping(value = "/new_pw")
     public String newPassword(HttpServletRequest request, HttpServletResponse response, Authentication auth
-            , @RequestParam String email, @RequestParam String password, @RequestParam String password2) throws Exception {
+            , @RequestParam String password, @RequestParam String password2) throws Exception {
         CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
-        if (password.length() >= 6 && password.length() <= 16 && password.equals(password2) && userDetails.getEmail().equals(email)) {
-            accountService.resetPassword(email, passwordEncoder.encode(password));
+        if (password.length() >= 6 && password.length() <= 16 && password.equals(password2)) {
+            accountService.resetPassword(userDetails.getEmail(), passwordEncoder.encode(password));
             new SecurityContextLogoutHandler().logout(request, response, auth);
             ScriptUtils.alertAndMovePage(response, "패스워드가 변경되었습니다. 다시 로그인 해주세요.", "/login");
             return null;

@@ -12,7 +12,7 @@ public interface WhiteBoardMapper {
     ArrayList<WhiteBoard> boardList(@Param("bid") String bid, @Param("start") int start) throws Exception;
     @Select("SELECT * FROM whiteboard WHERE isEnable = 1 AND id = #{id}")
     WhiteBoard getBoardView(int id) throws Exception;
-    @Select("SELECT count(*) FROM whiteboard WHERE isEnable = 1 AND bid = #{bid}")
+    @Select("SELECT count(*) FROM whiteboard WHERE bid = #{bid} AND isEnable = 1 AND isNotice = 0")
     int totalCount(String bid) throws Exception;
     @Insert("INSERT INTO whiteboard VALUE(null, #{bid}, #{title}, #{contents}, #{author}, #{email}, #{creationDate}, #{views}, #{like_count}, #{dislike_count}, #{isNotice}, #{isEnable})")
     void insertBoard(WhiteBoard wb) throws Exception;
@@ -22,7 +22,7 @@ public interface WhiteBoardMapper {
     void updateBoard(WhiteBoard wb) throws Exception;
     @Select("SELECT id, title, author, creationDate, views, like_count FROM whiteboard WHERE bid = #{bid} AND isNotice = 0 AND isEnable = 1 AND ${type} LIKE CONCAT('%', #{str}, '%') ORDER BY id DESC LIMIT #{start}, 50")
     ArrayList<WhiteBoard> searchList(@Param("bid") String bid, @Param("start")int start, @Param("type")SearchType type, @Param("str")String str) throws Exception;
-    @Select("SELECT count(*) FROM whiteboard WHERE isEnable = 1 AND ${type} LIKE CONCAT('%', #{str},'%') AND bid = #{bid}")
+    @Select("SELECT count(*) FROM whiteboard WHERE bid = #{bid} AND isEnable = 1 AND isNotice = 0 AND ${type} LIKE CONCAT('%', #{str},'%')")
     int searchTotalCount(@Param("bid") String bid, @Param("type")SearchType type, @Param("str")String str) throws Exception;
     @Update("UPDATE whiteboard SET views = views + 1 WHERE id = #{id}")
     void updateViews(int id) throws Exception;

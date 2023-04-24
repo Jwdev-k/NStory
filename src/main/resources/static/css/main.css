@@ -94,3 +94,7 @@ main {
     white-space: nowrap;
     overflow: hidden;
 }
+.blur {
+    filter: blur(1px);
+    opacity: 0.5;
+}

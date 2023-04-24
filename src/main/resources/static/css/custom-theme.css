@@ -4,7 +4,7 @@
 }
 * {
     font-family: 'Noto Sans KR', sans-serif;
-    font-size: 14px;
+    font-size: 13px;
 }
 .text-custom-primary {
     color: var(--primary-color);
@@ -48,6 +48,11 @@
     background-color: var(--secondary-color);
     border-color: var(--secondary-color);
 }
+
+.btn:disabled {
+    border-color: transparent;
+}
+
 /* 일반 버튼 */
 .btn-primary {
     background-color: var(--primary-color);

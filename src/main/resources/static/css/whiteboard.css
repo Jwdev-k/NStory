@@ -47,20 +47,23 @@ label{
     background-color: whitesmoke;
     color: #FF3E7F;
 }
+.board-box {
+    max-width: 1200px;
+}
 .board-contents{
     justify-content: center;
     border-radius: 10px 10px;
     height: auto;
-    min-height: 600px;
-    min-width: 1000px;
+    min-height: 700px;
+    width: 100%;
 }
 .comment-box,
 .reply-box {
-    width: 60%;
+    width: 50%;
 }
 .reply-card{
     min-height: 500px;
-    width: 60%;
+    width: 90%;
 }
 .reply-form,
 .replies {

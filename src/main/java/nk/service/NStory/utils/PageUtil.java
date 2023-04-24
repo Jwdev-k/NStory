@@ -39,6 +39,7 @@ public class PageUtil {
         isShortNext = getLastEndPage() > getPage();
         isPrev = startPage != 1;
         isShortPrev = 1 < getPage();
+        log.info("시작페이지: " + startPage + " / 마지막페이지: " + endPage + " / 전체 마지막페이지: " + lastEndPage + " / 전체갯수: " + totalCount);
     }
 }
 

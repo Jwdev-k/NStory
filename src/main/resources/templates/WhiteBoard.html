@@ -94,7 +94,7 @@
                                 <thead>
                                 <tr>
                                     <th class="text-center" scope="col">번호</th>
-                                    <th style="min-width: 500px;" scope="col">제목</th>
+                                    <th scope="col">제목</th>
                                     <th scope="col">작성자</th>
                                     <th scope="col">작성일</th>
                                     <th class="text-center" scope="col">조회수</th>
@@ -108,8 +108,7 @@
                                         <td style="max-width: 50%;">
                                             <a th:href="@{/whiteview(id=${list.id})}"
                                                class="text-decoration-none text-custom-primary">
-                                                <span class="fw-bold" th:text="${list.title}"
-                                                      style="display: inline-block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%;"></span>
+                                                <span class="fw-bold" th:text="${list.title}"></span>
                                             </a>
                                         </td>
                                         <td><span th:text="${list.author}"></span></td>
@@ -121,11 +120,9 @@
                                 <th:block th:each="list : ${boardList}">
                                     <tr>
                                         <td class="text-center"><span th:text="${list.id}"></span></td>
-                                        <td style="max-width: 50%;">
-                                            <a th:href="@{/whiteview(id=${list.id})}"
-                                               class="text-black text-decoration-none">
-                                                <span class="fw-bold" th:text="${list.title}"
-                                                      style="display: inline-block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%;"></span>
+                                        <td>
+                                            <a th:href="@{/whiteview(id=${list.id})}" class="text-black">
+                                                <span class="fw-bold" th:text="${list.title}"></span>
                                             </a>
                                         </td>
                                         <td>
