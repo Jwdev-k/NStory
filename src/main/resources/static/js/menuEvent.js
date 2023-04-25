@@ -1,11 +1,45 @@
-const menuWrapper = document.querySelector(".menu-wrapper");
+const _0x1052d2 = _0x2d1f;
+(function (_0x137d1c, _0x5c0734) {
+    const _0x356a58 = _0x2d1f, _0x4c5665 = _0x137d1c();
+    while (!![]) {
+        try {
+            const _0x1e25d9 = -parseInt(_0x356a58(0x96)) / 0x1 * (parseInt(_0x356a58(0x90)) / 0x2) + parseInt(_0x356a58(0x92)) / 0x3 + parseInt(_0x356a58(0x9d)) / 0x4 + -parseInt(_0x356a58(0x9c)) / 0x5 + -parseInt(_0x356a58(0xa0)) / 0x6 * (-parseInt(_0x356a58(0x95)) / 0x7) + parseInt(_0x356a58(0x8b)) / 0x8 * (parseInt(_0x356a58(0x9a)) / 0x9) + -parseInt(_0x356a58(0x8e)) / 0xa * (parseInt(_0x356a58(0x9b)) / 0xb);
+            if (_0x1e25d9 === _0x5c0734) break; else _0x4c5665['push'](_0x4c5665['shift']());
+        } catch (_0x3feb97) {
+            _0x4c5665['push'](_0x4c5665['shift']());
+        }
+    }
+}(_0x2742, 0x957ed));
 
-menuWrapper.addEventListener("mouseover", () => {
-    menuWrapper.style.opacity = "1";
-    menuWrapper.style.left = "0";
-});
+function _0x2d1f(_0x2cfdab, _0x4b11c7) {
+    const _0x274239 = _0x2742();
+    return _0x2d1f = function (_0x2d1f79, _0x10012d) {
+        _0x2d1f79 = _0x2d1f79 - 0x8b;
+        let _0x5cf029 = _0x274239[_0x2d1f79];
+        return _0x5cf029;
+    }, _0x2d1f(_0x2cfdab, _0x4b11c7);
+}
 
-menuWrapper.addEventListener("mouseleave", () => {
-    menuWrapper.style.opacity = "0";
-    menuWrapper.style.left = "-150px";
+const menuWrapper = document[_0x1052d2(0x8d)](_0x1052d2(0x9e)), menuBtn = document[_0x1052d2(0xa1)]('menu-btn'),
+    menuCloseBtn = document[_0x1052d2(0xa1)](_0x1052d2(0x98));
+
+function _0x2742() {
+    const _0x64a3 = ['target', '625398iULEKg', 'getElementById', 'left', '541480eHCOxY', 'opacity', 'querySelector', '390iondkW', 'addEventListener', '1371912gDovTv', 'click', '2245320kFDBXh', '.menu-btn', 'closest', '21pSjDCZ', '1kJwmGk', '-200px', 'menu-close-btn', 'style', '153BvOXSc', '62623aeQQNW', '3499845kprNor', '34004dHwHJM', '.menu-wrapper'];
+    _0x2742 = function () {
+        return _0x64a3;
+    };
+    return _0x2742();
+}
+
+menuBtn[_0x1052d2(0x8f)](_0x1052d2(0x91), () => {
+    const _0x1c4c84 = _0x1052d2;
+    menuWrapper[_0x1c4c84(0x99)][_0x1c4c84(0x8c)] = '1', menuWrapper[_0x1c4c84(0x99)]['left'] = '0';
+}), menuCloseBtn['addEventListener'](_0x1052d2(0x91), () => {
+    const _0x2e6a7c = _0x1052d2;
+    menuWrapper[_0x2e6a7c(0x99)]['opacity'] = '0', menuWrapper['style'][_0x2e6a7c(0xa2)] = _0x2e6a7c(0x97);
+}), document['addEventListener']('click', _0x2133d9 => {
+    const _0x141755 = _0x1052d2, _0x4ff23f = _0x2133d9[_0x141755(0x9f)],
+        _0x35bf48 = _0x4ff23f['closest'](_0x141755(0x93)) === menuBtn,
+        _0x12129a = _0x4ff23f[_0x141755(0x94)](_0x141755(0x9e)) === menuWrapper;
+    !_0x35bf48 && !_0x12129a && (menuWrapper[_0x141755(0x99)]['opacity'] = '0', menuWrapper['style'][_0x141755(0xa2)] = '-200px');
 });

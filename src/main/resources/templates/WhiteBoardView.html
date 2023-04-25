@@ -21,14 +21,14 @@
     <script src="/static/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg">
+<nav class="navbar navbar-expand-lg fixed-top">
+    <button class="btn menu-btn position-relative" id="menu-btn"><img src="/static/images/svg/menu.svg" alt="Menu"></button>
     <div class="container">
         <a class="navbar-brand" href="/">NStory</a>
-        <ul class="navbar-nav right-0">
+        <ul class="navbar-nav">
             <li class="box" th:if="${#authentication.principal.profileImg != null}" sec:authorize="isAuthenticated()">
                 <img class="profile" th:src="@{/storage/prf/img}" alt=""></li>
-            <li class="box" th:unless="${#authentication.principal.profileImg != null}"
-                sec:authorize="isAuthenticated()">
+            <li class="box" th:unless="${#authentication.principal.profileImg != null}" sec:authorize="isAuthenticated()">
                 <img class="profile" src="/static/images/default_profileImg.png" alt=""></li>
             <li class="nav-item" sec:authorize="isAuthenticated()">
                 <a class="nav-link" href="/info" th:text="${#authentication.principal.username}"></a></li>
@@ -42,21 +42,23 @@
     </div>
 </nav>
 <div class="menu-wrapper">
+    <button class="menu-close-btn" id="menu-close-btn"><i class="fa fa-close"></i></button>
     <ul class="menu">
-        <li><img src="/static/images/bangdream/main-star.png" alt="star"></li>
-        <li><h3>MENU</h3></li>
-        <li><a href="/whiteboard?bid=free">자유게시판</a></li>
+        <li><h5>MENU</h5></li>
         <li><a href="/record">방명록</a></li>
         <li><a href="/ranking">랭킹</a></li>
         <li><a href="/shop">NStory SHOP</a></li>
         <li><a sec:authorize="hasRole('ROLE_ADMIN')" href="#">유저 관리</a></li>
+        <li><h5>게시판</h5></li>
+        <li th:each="list : ${boardInfoList}">
+            <a th:href="@{/whiteboard(bid=${list.bid})}" th:text="${list.kname}"></a>
+        </li>
     </ul>
     <ul class="menu-info">
         <li><p class="text-center">개발중인 메뉴입니다.
             <br/>현재 테스트 작업중이며 버그 신고는 ckaksj97@gmail.com으로 부탁드립니다.</p></li>
     </ul>
 </div>
-<button class="menu-btn" style="height: 50px; width: 50px"><img src="/static/images/svg/menu.svg" alt="Menu"></button>
 <main th:object="${boardInfo}">
     <section class="container board-box">
         <div class="container my-5 bg-light board-contents">
@@ -68,7 +70,7 @@
                           th:text="'좋아요: ' + *{like_count} + ' | 싫어요: ' + *{dislike_count} + ' | 조회수:' + *{views}"></span>
                 </div>
                 <hr>
-                <div th:utext="*{contents}"></div>
+                <div class="container" th:utext="*{contents}"></div>
             </div>
         </div>
         <div class="container position-relative d-flex justify-content-end">
@@ -89,7 +91,7 @@
             <a class="btn btn-secondary btn-sm" th:href="${redirectURL}"
                th:unless="${#authentication != null} and ${#strings.equals(boardInfo.email,#authentication.principal.email)}">목록</a>
         </div>
-        <div class="d-flex justify-content-center" th:if="${#authentication != null}">
+        <div class="d-flex justify-content-center mt-5" th:if="${#authentication != null}">
             <form id="like">
                 <input type="hidden" name="id" th:value="*{id}">
                 <button type="submit" class="btn btn-primary m-1" th:if="${LikeType == 1}">

@@ -4,7 +4,16 @@
 }
 * {
     font-family: 'Noto Sans KR', sans-serif;
-    font-size: 13px;
+    font-size: 14px;
+}
+@media (max-width: 912px) {
+     * {
+         font-family: 'Noto Sans KR', sans-serif;
+         font-size: 11px;
+     }
+    main {
+        margin-top: 250px;
+    }
 }
 .text-custom-primary {
     color: var(--primary-color);
@@ -132,17 +141,19 @@ input[type="checkbox"]:checked:enabled {
 }
 .menu-wrapper {
     position: fixed;
-    top: 0;
-    left : -150px;
+    top : 0;
+    left : -200px;
     width: 200px;
     height: 100vh;
     background-color: whitesmoke;
-    z-index: 1;
+    z-index: 1031;
     transition: left 0.3s ease-in-out;
     box-shadow: 5px 0 5px rgba(0, 0, 0, 0.5); /* 오른쪽 그림자 */
     opacity: 0;
 }
 .menu {
+    position: relative;
+    top: 50px;
     padding: 0;
     margin: 10px 0 0 0;
     text-align: center;
@@ -150,14 +161,14 @@ input[type="checkbox"]:checked:enabled {
 .menu-info {
     list-style: none;
     padding: 0;
-    margin-top: 200%;
+    margin-top: 250%;
 }
 .menu-info p {
     font-size: 10px;
     color: var(--primary-color);
 }
 .menu li {
-    padding: 10px;
+    margin: 10px;
 }
 .menu li a:hover {
     color: var(--secondary-color);
@@ -167,20 +178,25 @@ input[type="checkbox"]:checked:enabled {
     font-weight: bold;
     text-decoration: none;
 }
-.menu li h3 {
+.menu li h5 {
+    padding-top: 10px;
     padding-bottom: 10px;
     border-bottom: 1px solid var(--primary-color);
     font-weight: bold;
     color: var(--primary-color);
 }
 .menu-btn {
-    position: fixed;
-    height: 50px;
-    width: 50px
+    height: 40px;
+    width: 40px;
 }
-.menu li img {
-    width: 80px;
-    height: 80px;
+.menu-close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 10;
 }
 body{
     user-select: none;
