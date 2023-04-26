@@ -82,12 +82,13 @@
                         <div class="row">
                             <div class="col-md-4 mb-4" th:each="list : ${bestList}">
                                 <a th:href="@{/whiteview(id=${list.id})}">
-                                    <div class="card" style="height: 120px;">
-                                        <div class="card-body">
-                                            <p class="card-title mt-3 best-list-title" th:text="${list.title}"></p>
+                                    <div class="card">
+                                        <div class="card-body" style="height: 80px;">
+                                            <p class="card-title best-list-title mb-0" th:text="${list.title}"></p>
                                             <p class="card-text mb-0" th:text="'작성자 : ' + ${list.author}"></p>
                                             <p class="card-text mb-0">
-                                                <span th:text="'조회수 : ' + ${list.views} + ' |'"></span>
+                                                <span><i class="fa fa-users"></i></span>
+                                                <span th:text="${list.views}"></span>
                                                 <span><i class="fa fa-thumbs-up"></i></span>
                                                 <span th:text="${list.like_count}"></span>
                                                 <span><i class="fa fa-commenting"></i></span>
