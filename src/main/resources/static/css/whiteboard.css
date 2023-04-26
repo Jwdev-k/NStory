@@ -12,6 +12,10 @@
     font-size: 0.9rem;
     margin-bottom: 5px;
 }
+.list-group-item span {
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+}
 .list-group {
     max-width: 800px;
     margin: 0 auto;
@@ -19,7 +23,6 @@
 .list-group-item .badge {
     margin-right: 5px;
     background-color: #fff;
-    color: #212529;
 }
 .search-form {
     max-width: 800px;
@@ -57,9 +60,12 @@ label{
     min-height: 700px;
     width: 100%;
 }
-.comment-box,
+.comment-box {
+    width: 600px;
+}
 .reply-box {
-    width: 80%;
+    width: auto;
+    max-width: 500px;
 }
 .reply-card{
     min-height: 500px;
@@ -70,6 +76,7 @@ label{
     margin-left: 20px;
 }
 .reply-text{
+    height: 100px;
     resize: none;
 }
 .reply-btn {
@@ -78,4 +85,7 @@ label{
 }
 .reply-time {
     font-size: 12px;
+}
+.table-contents-title {
+    width: 600px;
 }

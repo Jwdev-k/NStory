@@ -54,14 +54,14 @@ public class OAuth2LoginService extends DefaultOAuth2UserService {
                         null, null, "USER", CurrentTime.getTime(), CurrentTime.getTime(),
                         1, 0, 0, true, true));
                 return new CustomUserDetails(oAuth2UserInfo, name, email, passwordEncoder.encode(provider), null
-                        , null, true, true, true, true
+                        , null, 1, 0, 0, true
                         , Collections.singleton(new SimpleGrantedAuthority("ROLE_" + "USER"))
                         , false, true);
             } else {
                 accountService.UpdateLastLoginDate(CurrentTime.getTime(), email);
-                return new CustomUserDetails(oAuth2UserInfo, account.getName(), account.getEmail(), passwordEncoder.encode(provider),
-                        account.getComment(), account.getProfileImg(),
-                        account.isEnable(), true, true, true
+                return new CustomUserDetails(oAuth2UserInfo, account.getName(), account.getEmail(), passwordEncoder.encode(provider)
+                        , account.getComment(), account.getProfileImg(), account.getLevel(), account.getExp()
+                        , account.getNCoin(), account.isEnable()
                         , Collections.singleton(new SimpleGrantedAuthority("ROLE_" + account.getRole()))
                         , updateStatus.checkingReward(account), account.isOAuth());
             }

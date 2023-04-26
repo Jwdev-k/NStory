@@ -29,20 +29,16 @@ public class CustomRememberMe extends TokenBasedRememberMeServices {
     }
 
     private String createCustomRememberMeValue(Authentication authentication) {
-        // 사용자 이름 대신 저장할 값(value)을 생성합니다.
         CustomUserDetails user = (CustomUserDetails) authentication.getPrincipal();
 
-        // 저장할 값(value)을 반환합니다.
-        return user.getEmail() + ":" + user.getAuthorities().toString().replace("[", "").replace("]", "");
+        return user.getEmail() + ":" + user.isOAuth();
     }
 
     @Override
     public void onLoginSuccess(HttpServletRequest request, HttpServletResponse response
             , Authentication successfulAuthentication) {
-        // 사용자 이름 대신 저장할 값(value)을 생성합니다.
         String value = createCustomRememberMeValue(successfulAuthentication);
 
-        // 쿠키를 생성하고 저장합니다.
         setCookie(new String[]{value}, getTokenValiditySeconds(), request, response);
     }
 
@@ -56,14 +52,14 @@ public class CustomRememberMe extends TokenBasedRememberMeServices {
         // 저장된 값을 파싱하여 사용자 이름(username)과 권한(authorities)을 추출합니다.
         String[] tokens = customValue.split(":");
         String email = tokens[0];
-        boolean isOAuth = Boolean.parseBoolean(tokens[1]);
+        // boolean isOAuth = Boolean.parseBoolean(tokens[1]);
 
         AccountDTO account = accountService.login(email);
         if (account != null) {
             accountService.UpdateLastLoginDate(CurrentTime.getTime(), email);
             return new CustomUserDetails(account.getName(), account.getEmail(), account.getPassword()
-                    , account.getComment(), account.getProfileImg(), account.isEnable()
-                    , true, true, true
+                    , account.getComment(), account.getProfileImg(), account.getLevel(), account.getExp()
+                    , account.getNCoin(), account.isEnable()
                     , Collections.singleton(new SimpleGrantedAuthority("ROLE_" + account.getRole()))
                     , updateStatus.checkingReward(account), account.isOAuth());
         } else {

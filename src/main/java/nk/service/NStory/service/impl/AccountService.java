@@ -59,8 +59,8 @@ public class AccountService implements AccountServiceIF {
 
     @Transactional
     @Override
-    public void UpdateAccountInfo(AccountDTO accountDTO, Authentication authentication) throws Exception {
-        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal(); //로그인 세션
+    public void UpdateAccountInfo(AccountDTO accountDTO) throws Exception {
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (accountDTO.getProfileImg() != null && accountDTO.getProfileImg().length > 0) { // 프로필 정보 업데이트
             accountMapper.UpdateAccountInfo(accountDTO);
             userDetails.setProfileImg(accountDTO.getProfileImg());
@@ -69,16 +69,14 @@ public class AccountService implements AccountServiceIF {
             userDetails.setUsername(accountDTO.getName());
             userDetails.setComment(accountDTO.getComment());
         }
-        Authentication auth;
-        if (userDetails.getOAuth2UserInfo() != null) { // OAuth 객체 가져옴
-            OAuth2AuthenticationToken oauthToken = (OAuth2AuthenticationToken) authentication;
-            auth = new OAuth2AuthenticationToken(userDetails, oauthToken.getAuthorities(),
-                    oauthToken.getAuthorizedClientRegistrationId());
+        Authentication newAuth;
+        if (userDetails.isOAuth()) { // OAuth 객체 Null이 아닌경우
+            newAuth = new OAuth2AuthenticationToken(userDetails, userDetails.getAuthorities(),
+                    userDetails.getOAuth2UserInfo() != null ? userDetails.getName() : "RememberMe");
         } else {
-            auth = new UsernamePasswordAuthenticationToken(userDetails, authentication.getCredentials(),
-                    authentication.getAuthorities());
+            newAuth = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
         }
-        SecurityContextHolder.getContext().setAuthentication(auth);
+        SecurityContextHolder.getContext().setAuthentication(newAuth);
     }
 
     @Transactional

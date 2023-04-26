@@ -25,27 +25,30 @@ public class CustomUserDetails implements UserDetails, OAuth2User {
     private String email;
     private String comment;
     private byte[] profileImg;
+    private int level;
+    private int exp;
+    private int nCoin;
     private boolean isEnabled; // 계정 활성화 여부
-    private boolean isAccountNonExpired; //계정 만료 여부
-    private boolean isAccountNonLocked; //계정 잠김 여부
-    private boolean isCredentialsNonExpired; // 계정 비밀번호 만료 여부
+    private boolean isAccountNonExpired = true; //계정 만료 여부
+    private boolean isAccountNonLocked = true; //계정 잠김 여부
+    private boolean isCredentialsNonExpired = true; // 계정 비밀번호 만료 여부
     private Collection<? extends GrantedAuthority> authorities;// 권한 목록
     private boolean firstLogin;
     private boolean isOAuth;
 
     //Login
     public CustomUserDetails(String username, String email, String password, String comment, byte[] profileImg
-            , boolean isEnabled, boolean isAccountNonExpired, boolean isAccountNonLocked, boolean isCredentialsNonExpired
-            , Collection<? extends GrantedAuthority> authorities, boolean firstLogin, boolean isOAuth) {
+            , int level, int exp, int nCoin, boolean isEnabled, Collection<? extends GrantedAuthority> authorities
+            , boolean firstLogin, boolean isOAuth) {
         this.username = username;
         this.email = email;
         this.password = password;
         this.comment = comment;
         this.profileImg = profileImg;
+        this.level = level;
+        this.exp = exp;
+        this.nCoin = nCoin;
         this.isEnabled = isEnabled;
-        this.isAccountNonExpired = isAccountNonExpired;
-        this.isAccountNonLocked = isAccountNonLocked;
-        this.isCredentialsNonExpired = isCredentialsNonExpired;
         this.authorities = authorities;
         this.firstLogin = firstLogin;
         this.isOAuth = isOAuth;
@@ -53,19 +56,18 @@ public class CustomUserDetails implements UserDetails, OAuth2User {
 
     //OAuth2 로그인
     public CustomUserDetails(OAuth2UserInfo attributes, String username, String email, String password, String comment
-            , byte[] profileImg , boolean isEnabled, boolean isAccountNonExpired, boolean isAccountNonLocked
-            , boolean isCredentialsNonExpired, Collection<? extends GrantedAuthority> authorities, boolean firstLogin
-            , boolean isOAuth) {
+            , byte[] profileImg, int level, int exp, int nCoin, boolean isEnabled, Collection<? extends GrantedAuthority> authorities
+            , boolean firstLogin, boolean isOAuth) {
         this.oAuth2UserInfo = attributes;
         this.username = username;
         this.email = email;
         this.password = password;
         this.comment = comment;
         this.profileImg = profileImg;
+        this.level = level;
+        this.exp = exp;
+        this.nCoin = nCoin;
         this.isEnabled = isEnabled;
-        this.isAccountNonExpired = isAccountNonExpired;
-        this.isAccountNonLocked = isAccountNonLocked;
-        this.isCredentialsNonExpired = isCredentialsNonExpired;
         this.authorities = authorities;
         this.firstLogin = firstLogin;
         this.isOAuth = isOAuth;
@@ -83,9 +85,8 @@ public class CustomUserDetails implements UserDetails, OAuth2User {
 
     @Override
     public String toString() {
-        return "CustomUserDetails{" +
-                "oAuth2UserInfo=" + oAuth2UserInfo +
-                ", username='" + username + '\'' +
+        return "\nCustomUserDetails{" +
+                " username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
                 ", comment='" + comment + '\'' +

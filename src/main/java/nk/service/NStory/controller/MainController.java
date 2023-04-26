@@ -11,7 +11,6 @@ import nk.service.NStory.service.impl.WhiteBoardService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,7 +38,7 @@ public class MainController {
             , HttpServletRequest request, Model model) {
         if (userDetails == null) {
             return "redirect:" + request.getHeader("referer");
-        } else if (userDetails.getOAuth2UserInfo() != null) {
+        } else if (userDetails.isOAuth()) {
             model.addAttribute("pwValue", "SNS 로그인 사용중입니다.");
         } else {
             model.addAttribute("pwValue", "••••••••••••••••");
@@ -49,21 +48,19 @@ public class MainController {
 
     @PostMapping(value = "/account/profile_update")
     public String updateAccountInfo(HttpServletRequest request, @RequestParam String nickname
-            , @RequestParam String comment, Authentication authentication) throws Exception {
-        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+            , @RequestParam String comment, @AuthenticationPrincipal CustomUserDetails userDetails) throws Exception {
         if (comment.length() > 100) {
             comment = comment.substring(0, 100);
         }
-        accountService.UpdateAccountInfo(new AccountDTO(userDetails.getEmail(), nickname, comment), authentication);
+        accountService.UpdateAccountInfo(new AccountDTO(userDetails.getEmail(), nickname, comment));
         return "redirect:" + request.getHeader("referer");
     }
 
     @ResponseBody
     @PostMapping(value = "/account/prf_update")
     public ResponseEntity<String> updateAccountInfo2(HttpServletRequest request, @RequestParam MultipartFile profileImg
-            , Authentication authentication) throws Exception {
-        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-        accountService.UpdateAccountInfo(new AccountDTO(userDetails.getEmail(), profileImg.getBytes()), authentication);
+            , @AuthenticationPrincipal CustomUserDetails userDetails) throws Exception {
+        accountService.UpdateAccountInfo(new AccountDTO(userDetails.getEmail(), profileImg.getBytes()));
 
         JSONObject responseJson = new JSONObject();
         responseJson.put("result", "success");

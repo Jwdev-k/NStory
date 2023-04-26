@@ -1,15 +1,18 @@
 package nk.service.NStory.repository;
 
 import nk.service.NStory.dto.Enum.SearchType;
-import nk.service.NStory.dto.WhiteBoard;
+import nk.service.NStory.dto.bbs.WhiteBoard;
+import nk.service.NStory.dto.bbs.WhiteBoardList;
 import org.apache.ibatis.annotations.*;
 
 import java.util.ArrayList;
 
 @Mapper
 public interface WhiteBoardMapper {
-    @Select("SELECT id, title, author, creationDate, views, like_count FROM whiteboard WHERE bid = #{bid} AND isNotice = 0 AND isEnable = 1 ORDER BY id DESC LIMIT #{start}, 50")
-    ArrayList<WhiteBoard> boardList(@Param("bid") String bid, @Param("start") int start) throws Exception;
+    @Select("SELECT wb.id, wb.title, wb.author, wb.creationDate, wb.views, wb.like_count, " +
+            "(SELECT COUNT(*) FROM comment as cm WHERE cm.id = wb.id) + (SELECT COUNT(*) FROM reply as rp WHERE rp.id = wb.id) as cm_rp_counts " +
+            "FROM whiteboard as wb WHERE wb.bid = #{bid} AND wb.isNotice = 0 AND wb.isEnable = 1 ORDER BY wb.id DESC LIMIT #{start}, 50")
+    ArrayList<WhiteBoardList> boardList(@Param("bid") String bid, @Param("start") int start) throws Exception;
     @Select("SELECT * FROM whiteboard WHERE isEnable = 1 AND id = #{id}")
     WhiteBoard getBoardView(int id) throws Exception;
     @Select("SELECT count(*) FROM whiteboard WHERE bid = #{bid} AND isEnable = 1 AND isNotice = 0")
@@ -20,8 +23,10 @@ public interface WhiteBoardMapper {
     void deleteBoard(@Param("id") int id, @Param("email")String email) throws Exception;
     @Update("UPDATE whiteboard SET title = #{title}, contents = #{contents}, author = #{author}, isNotice = #{isNotice} WHERE id = #{id} AND email = #{email}")
     void updateBoard(WhiteBoard wb) throws Exception;
-    @Select("SELECT id, title, author, creationDate, views, like_count FROM whiteboard WHERE bid = #{bid} AND isNotice = 0 AND isEnable = 1 AND ${type} LIKE CONCAT('%', #{str}, '%') ORDER BY id DESC LIMIT #{start}, 50")
-    ArrayList<WhiteBoard> searchList(@Param("bid") String bid, @Param("start")int start, @Param("type")SearchType type, @Param("str")String str) throws Exception;
+    @Select("SELECT wb.id, wb.title, wb.author, wb.creationDate, wb.views, wb.like_count, " +
+            "(SELECT COUNT(*) FROM comment as cm WHERE cm.id = wb.id) + (SELECT COUNT(*) FROM reply as rp WHERE rp.id = wb.id) as cm_rp_counts " +
+            "FROM whiteboard as wb WHERE wb.bid = #{bid} AND wb.isNotice = 0 AND wb.isEnable = 1 AND ${'wb.' + type} LIKE CONCAT('%', #{str}, '%') ORDER BY wb.id DESC LIMIT #{start}, 50")
+    ArrayList<WhiteBoardList> searchList(@Param("bid") String bid, @Param("start")int start, @Param("type")SearchType type, @Param("str")String str) throws Exception;
     @Select("SELECT count(*) FROM whiteboard WHERE bid = #{bid} AND isEnable = 1 AND isNotice = 0 AND ${type} LIKE CONCAT('%', #{str},'%')")
     int searchTotalCount(@Param("bid") String bid, @Param("type")SearchType type, @Param("str")String str) throws Exception;
     @Update("UPDATE whiteboard SET views = views + 1 WHERE id = #{id}")
@@ -34,8 +39,12 @@ public interface WhiteBoardMapper {
     void updateDLike(int id) throws Exception;
     @Update("UPDATE whiteboard SET dislike_count = dislike_count - 1 WHERE id = #{id}")
     void updateDisLikeCancel(int id) throws Exception;
-    @Select("SELECT id, title, author, creationDate, views, like_count FROM whiteboard WHERE bid = #{bid} AND isNotice = 1 AND isEnable = 1 ORDER BY id DESC LIMIT 10")
-    ArrayList<WhiteBoard> getNoticeList(String bid) throws Exception;
-    @Select("SELECT id, title, author, creationDate, views, like_count FROM whiteboard WHERE isNotice = 0 AND isEnable = 1 and like_count > 10 ORDER by id DESC LIMIT 6")
-    ArrayList<WhiteBoard> getBestList() throws Exception;
+    @Select("SELECT wb.id, wb.title, wb.author, wb.creationDate, wb.views, wb.like_count," +
+            " (SELECT COUNT(*) FROM comment as cm WHERE cm.id = wb.id) + (SELECT COUNT(*) FROM reply as rp WHERE rp.id = wb.id) as cm_rp_counts" +
+            " FROM whiteboard as wb WHERE wb.bid = #{bid} AND wb.isNotice = 1 AND wb.isEnable = 1 ORDER BY wb.id DESC LIMIT 10")
+    ArrayList<WhiteBoardList> getNoticeList(String bid) throws Exception;
+    @Select("SELECT id, title, author, creationDate, views, like_count," +
+            " (SELECT COUNT(*) FROM comment as cm WHERE cm.id = wb.id) + (SELECT COUNT(*) FROM reply as rp WHERE rp.id = wb.id) as cm_rp_counts" +
+            " FROM whiteboard as wb WHERE wb.isNotice = 0 AND wb.isEnable = 1 and wb.like_count > 10 ORDER by wb.id DESC LIMIT 6")
+    ArrayList<WhiteBoardList> getBestList() throws Exception;
 }

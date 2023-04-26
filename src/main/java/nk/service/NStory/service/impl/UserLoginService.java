@@ -31,8 +31,8 @@ public class UserLoginService implements UserDetailsService {
             } else {
                 accountService.UpdateLastLoginDate(CurrentTime.getTime(), email);
                 return new CustomUserDetails(account.getName(), account.getEmail(), account.getPassword()
-                        , account.getComment(), account.getProfileImg(), account.isEnable()
-                        , true, true, true
+                        , account.getComment(), account.getProfileImg(), account.getLevel(), account.getExp()
+                        , account.getNCoin(), account.isEnable()
                         , Collections.singleton(new SimpleGrantedAuthority("ROLE_" + "USER"))
                         , updateStatus.checkingReward(account), account.isOAuth());
             }

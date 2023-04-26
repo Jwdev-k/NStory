@@ -19,7 +19,8 @@ public class GlobalInterceptor implements HandlerInterceptor {
         String url = request.getRequestURI();
 
         // 리소스 요청인 경우 로그 생성하지 않음
-        if(url.endsWith(".css") || url.endsWith(".js") || url.endsWith(".jpg") || url.endsWith(".png")) {
+        if(url.endsWith(".css") || url.endsWith(".js") || url.endsWith(".jpg") || url.endsWith(".png")
+                || url.endsWith(".svg") || url.endsWith(".woff2")) {
             return true;
         }
         String clientIp = request.getHeader("X-Forwarded-For");

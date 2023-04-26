@@ -8,7 +8,7 @@ import nk.service.NStory.dto.CommentDTO;
 import nk.service.NStory.dto.Enum.SearchType;
 import nk.service.NStory.dto.LikesHistory;
 import nk.service.NStory.dto.ReplyDTO;
-import nk.service.NStory.dto.WhiteBoard;
+import nk.service.NStory.dto.bbs.WhiteBoard;
 import nk.service.NStory.security.CustomUserDetails;
 import nk.service.NStory.service.impl.*;
 import nk.service.NStory.utils.AES256;

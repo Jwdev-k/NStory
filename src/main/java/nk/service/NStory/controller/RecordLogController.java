@@ -3,7 +3,6 @@ package nk.service.NStory.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import nk.service.NStory.dto.RecordLogDTO;
 import nk.service.NStory.security.CustomUserDetails;
 import nk.service.NStory.service.impl.RecordLogService;
@@ -17,7 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@Controller @Slf4j
+@Controller
 @RequiredArgsConstructor
 public class RecordLogController {
     private final RecordLogService recordLogService;
@@ -45,7 +44,6 @@ public class RecordLogController {
                 contents = contents.substring(0, 50);
             }
             recordLogService.addLog(new RecordLogDTO(0, contents, userDetails.getEmail(), userDetails.getUsername(), CurrentTime.getTime()));
-            log.info("요청주소 : /record/frmlog\n" + "Action : record 작성" + "\n 요청자: " + userDetails.getEmail());
         }
         return "redirect:" + request.getHeader("referer");
     }
@@ -55,7 +53,6 @@ public class RecordLogController {
             , HttpServletRequest request, @RequestParam int id, @RequestParam String email) throws Exception {
         if (userDetails.getEmail().equals(email)) {
             recordLogService.deleteLog(id, email);
-            log.info("요청주소 : /record/frmlog_delete\n" + "Action :" + id + "번 게시물 삭제\n" + "요청자: " + email);
         } else {
             ScriptUtils.alertAndBackPage(response, "[오류] 권한이 없습니다.");
         }

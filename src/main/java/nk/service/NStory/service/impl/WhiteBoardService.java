@@ -3,7 +3,8 @@ package nk.service.NStory.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nk.service.NStory.dto.Enum.SearchType;
-import nk.service.NStory.dto.WhiteBoard;
+import nk.service.NStory.dto.bbs.WhiteBoard;
+import nk.service.NStory.dto.bbs.WhiteBoardList;
 import nk.service.NStory.repository.WhiteBoardMapper;
 import nk.service.NStory.service.WhiteBoardServiceIF;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,7 @@ public class WhiteBoardService implements WhiteBoardServiceIF {
     private final WhiteBoardMapper whiteBoardMapper;
 
     @Override
-    public ArrayList<WhiteBoard> boardList(String bid, int start) throws Exception {
+    public ArrayList<WhiteBoardList> boardList(String bid, int start) throws Exception {
         if (start == 1 || start < 1) {
             return whiteBoardMapper.boardList(bid, 0);
         } else {
@@ -57,7 +58,7 @@ public class WhiteBoardService implements WhiteBoardServiceIF {
     }
 
     @Override
-    public ArrayList<WhiteBoard> searchList(String bid, int start, SearchType type, String str) throws Exception {
+    public ArrayList<WhiteBoardList> searchList(String bid, int start, SearchType type, String str) throws Exception {
         if (start == 1 || start < 1) {
             return whiteBoardMapper.searchList(bid, 0, type, str);
         } else {
@@ -101,12 +102,12 @@ public class WhiteBoardService implements WhiteBoardServiceIF {
     }
 
     @Override
-    public ArrayList<WhiteBoard> getNoticeList(String bid) throws Exception {
+    public ArrayList<WhiteBoardList> getNoticeList(String bid) throws Exception {
         return whiteBoardMapper.getNoticeList(bid);
     }
 
     @Override
-    public ArrayList<WhiteBoard> getBestList() throws Exception {
+    public ArrayList<WhiteBoardList> getBestList() throws Exception {
         return whiteBoardMapper.getBestList();
     }
 }

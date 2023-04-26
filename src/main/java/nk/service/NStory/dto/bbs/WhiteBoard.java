@@ -1,4 +1,4 @@
-package nk.service.NStory.dto;
+package nk.service.NStory.dto.bbs;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,15 +18,6 @@ public class WhiteBoard {
     private int dislike_count;
     private boolean isNotice;
     private boolean isEnable;
-
-    public WhiteBoard(int id, String title, String author, String creationDate, int views, int like_count) {
-        this.id = id;
-        this.title = title;
-        this.author = author;
-        this.creationDate = creationDate;
-        this.views = views;
-        this.like_count = like_count;
-    }
 
     public WhiteBoard(int id, String title, String contents, String author, String email, boolean isNotice) {
         this.id = id;
