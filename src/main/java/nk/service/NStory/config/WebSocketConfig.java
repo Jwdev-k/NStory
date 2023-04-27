@@ -18,7 +18,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         registry.addHandler(timeHandler(), "/realTime").setAllowedOrigins("/");
-        registry.addHandler(chatHandler(), "/mainChat").setAllowedOrigins("/");
+        registry.addHandler(chatHandler(), "/mainChat").setAllowedOrigins("/chatroom");
     }
 
     @Bean

@@ -48,7 +48,6 @@
         <li><a href="/record">방명록</a></li>
         <li><a href="/ranking">랭킹</a></li>
         <li><a href="/shop">NStory SHOP</a></li>
-        <li><a sec:authorize="hasRole('ROLE_ADMIN')" href="#">유저 관리</a></li>
         <li><h5>게시판</h5></li>
         <li th:each="list : ${boardInfoList}">
             <a th:href="@{/whiteboard(bid=${list.bid})}" th:text="${list.kname}"></a>
@@ -105,6 +104,9 @@
                                 <div class="form-group" th:if="${!#authentication.principal.isOAuth}">
                                     <a class="btn btn-primary btn-block mt-3" href="/new_pw">비밀번호 변경</a>
                                 </div>
+                                <a sec:authorize="hasRole('ROLE_ADMIN')" href="#">유저 관리</a>
+                                <span class="text-black"> / </span>
+                                <a sec:authorize="hasRole('ROLE_ADMIN')" href="/chatroom">채팅룸</a>
                                 <div class="form-group row justify-content-end">
                                     <div class="col-sm-3">
                                         <button type="button" class="btn btn-secondary mt-2"

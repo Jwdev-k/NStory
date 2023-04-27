@@ -46,7 +46,6 @@
         <li><a href="/record">방명록</a></li>
         <li><a href="/ranking">랭킹</a></li>
         <li><a href="/shop">NStory SHOP</a></li>
-        <li><a sec:authorize="hasRole('ROLE_ADMIN')" href="#">유저 관리</a></li>
         <li><h5>게시판</h5></li>
         <li th:each="list : ${boardInfoList}">
             <a th:href="@{/whiteboard(bid=${list.bid})}" th:text="${list.kname}"></a>
@@ -87,7 +86,7 @@
                                             <p class="card-title best-list-title mb-0" th:text="${list.title}"></p>
                                             <p class="card-text mb-0" th:text="'작성자 : ' + ${list.author}"></p>
                                             <p class="card-text mb-0">
-                                                <span><i class="fa fa-users"></i></span>
+                                                <span><i class="fa fa-book-open-reader"></i></span>
                                                 <span th:text="${list.views}"></span>
                                                 <span><i class="fa fa-thumbs-up"></i></span>
                                                 <span th:text="${list.like_count}"></span>
@@ -104,33 +103,6 @@
             </div>
         </div>
     </div>
-    <div class="container mb-5">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="chat-window">
-                    <h3 class="fw-bold">채팅방</h3>
-                    <hr/>
-                    <div class="message-list" id="chat-window">
-                        <!-- 채팅내용 <div> -->
-                    </div>
-                    <div class="input-group">
-                        <input type="text" id="message" class="form-control" placeholder="메시지를 입력하세요" maxlength="100">
-                        <div class="input-group-append">
-                            <button type="button" class="btn btn-primary" onclick="sendMessage()">
-                                <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="user-list col-md-2">
-                <h5 class="fw-bold" id="user-list-count">유저 리스트(0)</h5>
-                <hr/>
-                <div class="user" id="user-list">
-                    <!-- 유저리스트 <p>-->
-                </div>
-            </div>
-        </div>
-    </div>
 </main>
 <!-- Footer -->
 <footer class="py-3">
@@ -141,6 +113,5 @@
 </footer>
 </body>
 <script src="/static/js/serverTime.js"></script>
-<script src="/static/js/mainChat.js"></script>
 <script src="/static/js/menuEvent.js"></script>
 </html>

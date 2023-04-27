@@ -47,7 +47,6 @@
     <li><a href="/record">방명록</a></li>
     <li><a href="/ranking">랭킹</a></li>
     <li><a href="/shop">NStory SHOP</a></li>
-    <li><a sec:authorize="hasRole('ROLE_ADMIN')" href="#">유저 관리</a></li>
     <li><h5>게시판</h5></li>
     <li th:each="list : ${boardInfoList}">
       <a th:href="@{/whiteboard(bid=${list.bid})}" th:text="${list.kname}"></a>
