@@ -11,7 +11,7 @@ import nk.service.NStory.service.impl.WhiteBoardService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -88,7 +88,7 @@ public class MainController {
         return new ResponseEntity<>(in.readAllBytes(), HttpStatus.OK);
     }
 
-    @PostAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(value = "/chatroom")
     public String ChatRoom() {
         return "ChatRoom";

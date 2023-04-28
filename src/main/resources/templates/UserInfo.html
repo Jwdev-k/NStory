@@ -104,9 +104,11 @@
                                 <div class="form-group" th:if="${!#authentication.principal.isOAuth}">
                                     <a class="btn btn-primary btn-block mt-3" href="/new_pw">비밀번호 변경</a>
                                 </div>
-                                <a sec:authorize="hasRole('ROLE_ADMIN')" href="#">유저 관리</a>
-                                <span class="text-black"> / </span>
-                                <a sec:authorize="hasRole('ROLE_ADMIN')" href="/chatroom">채팅룸</a>
+                                <div sec:authorize="hasRole('ROLE_ADMIN')">
+                                    <a href="#">유저 관리</a>
+                                    <span class="text-black"> / </span>
+                                    <a href="/chatroom">채팅룸</a>
+                                </div>
                                 <div class="form-group row justify-content-end">
                                     <div class="col-sm-3">
                                         <button type="button" class="btn btn-secondary mt-2"
