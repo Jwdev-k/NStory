@@ -34,6 +34,7 @@
 - BootStrap
 - JavaScript
 - Summernote
+- JQuery
 
 ---
 
@@ -74,7 +75,7 @@
 
 ### 🧾 Database(ERD)
 
-<img src="https://user-images.githubusercontent.com/82058641/230835595-bf54b2f2-f950-4ff3-bc46-bb3e93e48522.png" alt="ERD"/>
+<img src="https://user-images.githubusercontent.com/82058641/235068176-3c02f1ef-a3bb-4d65-9362-f795da95443a.PNG" alt="ERD"/>
 
 ### 📷 Light Theme Login Page
 
