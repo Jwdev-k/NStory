@@ -10,6 +10,6 @@ import java.util.ArrayList;
 public interface BoardInfoMapper {
     @Select("SELECT * FROM whiteboard_list WHERE bid = #{bid}")
     BoardInfo getBoardInfo(String bid) throws Exception;
-    @Select("SELECT bid, kname FROM whiteboard_list")
+    @Select("SELECT bid, kname FROM whiteboard_list WHERE bid != 'mainNotice'")
     ArrayList<BoardInfo> getBoardNameList() throws Exception;
 }

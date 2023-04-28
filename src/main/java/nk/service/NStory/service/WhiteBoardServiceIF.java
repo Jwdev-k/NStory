@@ -22,4 +22,6 @@ public interface WhiteBoardServiceIF {
     void updateDisLikeCancel(int id) throws Exception;
     ArrayList<WhiteBoardList> getNoticeList(String bid) throws Exception;
     ArrayList<WhiteBoardList> getBestList() throws Exception;
+    ArrayList<WhiteBoardList> getRecentList() throws Exception;
+    ArrayList<WhiteBoardList> getMainNoticeList() throws Exception;
 }

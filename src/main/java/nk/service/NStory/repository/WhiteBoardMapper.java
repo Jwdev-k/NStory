@@ -43,8 +43,16 @@ public interface WhiteBoardMapper {
             " (SELECT COUNT(*) FROM comment as cm WHERE cm.id = wb.id) + (SELECT COUNT(*) FROM reply as rp WHERE rp.id = wb.id) as cm_rp_counts" +
             " FROM whiteboard as wb WHERE wb.bid = #{bid} AND wb.isNotice = 1 AND wb.isEnable = 1 ORDER BY wb.id DESC LIMIT 10")
     ArrayList<WhiteBoardList> getNoticeList(String bid) throws Exception;
-    @Select("SELECT id, title, author, creationDate, views, like_count," +
-            " (SELECT COUNT(*) FROM comment as cm WHERE cm.id = wb.id) + (SELECT COUNT(*) FROM reply as rp WHERE rp.id = wb.id) as cm_rp_counts" +
-            " FROM whiteboard as wb WHERE wb.isNotice = 0 AND wb.isEnable = 1 and wb.like_count > 10 ORDER by wb.id DESC LIMIT 6")
+    @Select("SELECT wb.id, wb.title, wb.author, wb.creationDate, wb.views, wb.like_count,\n" +
+            "(SELECT COUNT(*) FROM comment as cm WHERE cm.id = wb.id) + (SELECT COUNT(*) FROM reply as rp WHERE rp.id = wb.id) as cm_rp_counts\n" +
+            ", wl.kname FROM whiteboard as wb INNER JOIN whiteboard_list as wl ON wl.bid = wb.bid WHERE wb.isNotice = 0 AND wb.isEnable = 1 AND wb.like_count >= 10 ORDER by wb.id DESC LIMIT 6")
     ArrayList<WhiteBoardList> getBestList() throws Exception;
+    @Select("SELECT wb.id, wb.title, wb.author, wb.creationDate, wb.views, wb.like_count,\n" +
+            "(SELECT COUNT(*) FROM comment as cm WHERE cm.id = wb.id) + (SELECT COUNT(*) FROM reply as rp WHERE rp.id = wb.id) as cm_rp_counts\n" +
+            ", wl.kname FROM whiteboard as wb INNER JOIN whiteboard_list as wl ON wl.bid = wb.bid WHERE wb.isNotice = 0 AND wb.isEnable = 1 ORDER by wb.id DESC LIMIT 6")
+    ArrayList<WhiteBoardList> getRecentList() throws Exception;
+    @Select("SELECT wb.id, wb.title, wb.author, wb.creationDate, wb.views, wb.like_count,\n" +
+            "(SELECT COUNT(*) FROM comment as cm WHERE cm.id = wb.id) + (SELECT COUNT(*) FROM reply as rp WHERE rp.id = wb.id) as cm_rp_counts\n" +
+            ", wl.kname FROM whiteboard as wb INNER JOIN whiteboard_list as wl ON wl.bid = wb.bid WHERE wb.isNotice = 1 AND wb.isEnable = 1 AND wb.bid = 'mainNotice' ORDER by wb.id DESC LIMIT 3")
+    ArrayList<WhiteBoardList> getMainNoticeList() throws Exception;
 }

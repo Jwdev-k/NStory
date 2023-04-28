@@ -110,4 +110,14 @@ public class WhiteBoardService implements WhiteBoardServiceIF {
     public ArrayList<WhiteBoardList> getBestList() throws Exception {
         return whiteBoardMapper.getBestList();
     }
+
+    @Override
+    public ArrayList<WhiteBoardList> getRecentList() throws Exception {
+        return whiteBoardMapper.getRecentList();
+    }
+
+    @Override
+    public ArrayList<WhiteBoardList> getMainNoticeList() throws Exception {
+        return whiteBoardMapper.getMainNoticeList();
+    }
 }

@@ -14,24 +14,29 @@
     <link rel="stylesheet" href="/static/assets/font-awesome/css/solid.css">
     <link rel="stylesheet" href="/static/css/main.css">
     <link rel="stylesheet" href="/static/css/custom-theme.css">
-    <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.3.js"
+            integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
     <script src="/static/js/bootstrap.min.js"></script>
     <script src="/static/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg fixed-top">
-    <button class="btn menu-btn position-relative" id="menu-btn"><img src="/static/images/svg/menu.svg" alt="Menu"></button>
+    <button class="btn menu-btn position-relative" id="menu-btn"><img src="/static/images/svg/menu.svg" alt="Menu">
+    </button>
     <div class="container">
         <a class="navbar-brand" href="/">NStory</a>
         <ul class="navbar-nav">
             <li class="box" th:if="${#authentication.principal.profileImg != null}" sec:authorize="isAuthenticated()">
                 <img class="profile" th:src="@{/storage/prf/img}" alt=""></li>
-            <li class="box" th:unless="${#authentication.principal.profileImg != null}" sec:authorize="isAuthenticated()">
+            <li class="box" th:unless="${#authentication.principal.profileImg != null}"
+                sec:authorize="isAuthenticated()">
                 <img class="profile" src="/static/images/default_profileImg.png" alt=""></li>
             <li class="nav-item" sec:authorize="isAuthenticated()">
                 <a class="nav-link" href="/info" th:text="${#authentication.principal.username}"></a></li>
             <li class="nav-item" sec:authorize="isAuthenticated()">
-                <a class="nav-link" th:text="'Lv ' + ${#authentication.principal.level} + ' / nCoin : ' + ${#authentication.principal.nCoin}"></a></li>
+                <a class="nav-link"
+                   th:text="'Lv.' + ${#authentication.principal.level} + ' / nCoin : ' + ${#authentication.principal.nCoin}"></a>
+            </li>
             <li class="nav-item" th:if="${#authentication != null}">
                 <a class="nav-link" href="/logout">로그아웃</a></li>
             <li class="nav-item" th:unless="${#authentication != null}">
@@ -57,15 +62,16 @@
     </ul>
 </div>
 <main>
-    <div class="container jumbotron" style="background-image: url('/static/images/mainImg.png'); background-position-y: 20%;">
+    <div class="container jumbotron"
+         style="background-image: url('/static/images/mainImg.png'); background-position-y: 20%;">
         <h1 class="text-white fw-bold">NStory<label>v1.0</label></h1>
         <p><span class="text-white" id="serverTime">loading...</span></p>
         <p class="text-white">Discord : Gom._.Gom#3502</p>
     </div>
-    <div class="container mt-4 mb-5">
-        <div class="row">
+    <div class="container mt-4 mb-5 col-8">
+        <div class="row justify-content-between">
             <div class="col-md-3">
-                <div class="card">
+                <div class="card mb-5">
                     <div class="card-header">게시판 리스트</div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item" th:each="list : ${boardInfoList}">
@@ -75,22 +81,81 @@
                 </div>
             </div>
             <div class="col-md-9">
-                <div class="card">
+                <div class="card mb-5">
+                    <div class="card-header">공지사항</div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4 mb-4" th:each="list : ${mainNoticeList}">
+                                <a th:href="@{/whiteview(id=${list.id})}">
+                                    <div class="card">
+                                        <div class="card-subtitle">
+                                            <span class="badge text-secondary" th:text="${list.kname}"></span>
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="text-custom-primary fw-bold mb-0" th:text="${list.title}"></p>
+                                            <p class="card-text mb-0" th:text="'작성자 : ' + ${list.author}"></p>
+                                            <p class="card-text mb-0">
+                                                <span>조회수 </span>
+                                                <span th:text="${list.views}"></span>
+                                                <span><i class="fa fa-thumbs-up"></i> </span>
+                                                <span th:text="${list.like_count}"></span>
+                                                <span><i class="fa fa-commenting"></i> </span>
+                                                <span th:text="${list.cm_rp_counts}"></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mb-5">
                     <div class="card-header">베스트 게시글</div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-4 mb-4" th:each="list : ${bestList}">
+                            <div class="col-md-6 mb-4" th:each="list : ${bestList}">
                                 <a th:href="@{/whiteview(id=${list.id})}">
                                     <div class="card">
-                                        <div class="card-body" style="height: 80px;">
+                                        <div class="card-subtitle">
+                                            <span class="badge text-secondary" th:text="${list.kname}"></span>
+                                        </div>
+                                        <div class="card-body">
                                             <p class="card-title best-list-title mb-0" th:text="${list.title}"></p>
                                             <p class="card-text mb-0" th:text="'작성자 : ' + ${list.author}"></p>
                                             <p class="card-text mb-0">
-                                                <span><i class="fa fa-book-open-reader"></i></span>
+                                                <span>조회수 </span>
                                                 <span th:text="${list.views}"></span>
-                                                <span><i class="fa fa-thumbs-up"></i></span>
+                                                <span><i class="fa fa-thumbs-up"></i> </span>
                                                 <span th:text="${list.like_count}"></span>
-                                                <span><i class="fa fa-commenting"></i></span>
+                                                <span><i class="fa fa-commenting"></i> </span>
+                                                <span th:text="${list.cm_rp_counts}"></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mb-5">
+                    <div class="card-header">최근 게시물</div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-4" th:each="list : ${recentList}">
+                                <a th:href="@{/whiteview(id=${list.id})}">
+                                    <div class="card">
+                                        <div class="card-subtitle">
+                                            <span class="badge text-secondary" th:text="${list.kname}"></span>
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="card-title best-list-title mb-0" th:text="${list.title}"></p>
+                                            <p class="card-text mb-0" th:text="'작성자 : ' + ${list.author}"></p>
+                                            <p class="card-text mb-0">
+                                                <span>조회수 </span>
+                                                <span th:text="${list.views}"></span>
+                                                <span><i class="fa fa-thumbs-up"></i> </span>
+                                                <span th:text="${list.like_count}"></span>
+                                                <span><i class="fa fa-commenting"></i> </span>
                                                 <span th:text="${list.cm_rp_counts}"></span>
                                             </p>
                                         </div>

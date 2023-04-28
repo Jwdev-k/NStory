@@ -31,6 +31,8 @@ public class MainController {
     @RequestMapping(value = "/")
     public String mainPage(HttpServletRequest request) throws Exception {
         request.setAttribute("bestList", whiteBoardService.getBestList());
+        request.setAttribute("recentList", whiteBoardService.getRecentList());
+        request.setAttribute("mainNoticeList", whiteBoardService.getMainNoticeList());
         return "main";
     }
 
