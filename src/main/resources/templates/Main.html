@@ -53,7 +53,7 @@
         <li><a href="/shop">NStory SHOP</a></li>
         <li><h5>게시판</h5></li>
         <li th:each="list : ${boardInfoList}">
-            <a th:href="@{/whiteboard(bid=${list.bid})}" th:text="${list.kname}"></a>
+            <a th:href="@{/whiteboard/{bid}(bid=${list.bid})}" th:text="${list.kname}"></a>
         </li>
     </ul>
     <ul class="menu-info">
@@ -75,7 +75,7 @@
                     <div class="card-header">게시판 리스트</div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item" th:each="list : ${boardInfoList}">
-                            <a class="link-dark" th:href="@{/whiteboard(bid=${list.bid})}" th:text="${list.kname}"></a>
+                            <a class="link-dark" th:href="@{/whiteboard/{bid}(bid=${list.bid})}" th:text="${list.kname}"></a>
                         </li>
                     </ul>
                 </div>
@@ -92,16 +92,18 @@
                                             <span class="badge text-secondary" th:text="${list.kname}"></span>
                                         </div>
                                         <div class="card-body">
-                                            <p class="text-custom-primary fw-bold mb-0" th:text="${list.title}"></p>
-                                            <p class="card-text mb-0" th:text="'작성자 : ' + ${list.author}"></p>
-                                            <p class="card-text mb-0">
-                                                <span>조회수 </span>
-                                                <span th:text="${list.views}"></span>
-                                                <span><i class="fa fa-thumbs-up"></i> </span>
-                                                <span th:text="${list.like_count}"></span>
-                                                <span><i class="fa fa-commenting"></i> </span>
-                                                <span th:text="${list.cm_rp_counts}"></span>
-                                            </p>
+                                            <div class="card-text">
+                                                <img class="box-mini" style="object-fit: cover;"
+                                                     th:src="@{/general/prf/} + ${list.aid}" alt="profile">
+                                                <span style="font-size: 14px" th:text="${list.author}"></span>
+                                                <span><i class="fa fa-eye fa-sm" aria-hidden="true"></i></span>
+                                                <span class="main-list-icon" th:text="${list.views}"></span>
+                                                <span><i class="fa fa-thumbs-up fa-sm" aria-hidden="true"></i> </span>
+                                                <span class="main-list-icon" th:text="${list.like_count}"></span>
+                                                <span><i class="fa fa-commenting fa-sm" aria-hidden="true"></i> </span>
+                                                <span class="main-list-icon" th:text="${list.cm_rp_counts}"></span>
+                                            </div>
+                                            <p class="main-list-title mb-0" th:text="${list.title}"></p>
                                         </div>
                                     </div>
                                 </a>
@@ -113,23 +115,25 @@
                     <div class="card-header">베스트 게시글</div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-6 mb-4" th:each="list : ${bestList}">
+                            <div class="col-md-4 mb-4" th:each="list : ${bestList}">
                                 <a th:href="@{/whiteview(id=${list.id})}">
                                     <div class="card">
                                         <div class="card-subtitle">
                                             <span class="badge text-secondary" th:text="${list.kname}"></span>
                                         </div>
                                         <div class="card-body">
-                                            <p class="card-title best-list-title mb-0" th:text="${list.title}"></p>
-                                            <p class="card-text mb-0" th:text="'작성자 : ' + ${list.author}"></p>
-                                            <p class="card-text mb-0">
-                                                <span>조회수 </span>
-                                                <span th:text="${list.views}"></span>
-                                                <span><i class="fa fa-thumbs-up"></i> </span>
-                                                <span th:text="${list.like_count}"></span>
-                                                <span><i class="fa fa-commenting"></i> </span>
-                                                <span th:text="${list.cm_rp_counts}"></span>
-                                            </p>
+                                            <div class="card-text">
+                                                <img class="box-mini" style="object-fit: cover;"
+                                                     th:src="@{/general/prf/} + ${list.aid}" alt="profile">
+                                                <span style="font-size: 14px" th:text="${list.author}"></span>
+                                                <span><i class="fa fa-eye fa-sm" aria-hidden="true"></i></span>
+                                                <span class="main-list-icon" th:text="${list.views}"></span>
+                                                <span><i class="fa fa-thumbs-up fa-sm" aria-hidden="true"></i> </span>
+                                                <span class="main-list-icon" th:text="${list.like_count}"></span>
+                                                <span><i class="fa fa-commenting fa-sm" aria-hidden="true"></i> </span>
+                                                <span class="main-list-icon" th:text="${list.cm_rp_counts}"></span>
+                                            </div>
+                                            <p class="main-list-title mb-0" th:text="${list.title}"></p>
                                         </div>
                                     </div>
                                 </a>
@@ -141,23 +145,25 @@
                     <div class="card-header">최근 게시물</div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-6 mb-4" th:each="list : ${recentList}">
+                            <div class="col-md-4 mb-4" th:each="list : ${recentList}">
                                 <a th:href="@{/whiteview(id=${list.id})}">
                                     <div class="card">
                                         <div class="card-subtitle">
                                             <span class="badge text-secondary" th:text="${list.kname}"></span>
                                         </div>
                                         <div class="card-body">
-                                            <p class="card-title best-list-title mb-0" th:text="${list.title}"></p>
-                                            <p class="card-text mb-0" th:text="'작성자 : ' + ${list.author}"></p>
-                                            <p class="card-text mb-0">
-                                                <span>조회수 </span>
-                                                <span th:text="${list.views}"></span>
-                                                <span><i class="fa fa-thumbs-up"></i> </span>
-                                                <span th:text="${list.like_count}"></span>
-                                                <span><i class="fa fa-commenting"></i> </span>
-                                                <span th:text="${list.cm_rp_counts}"></span>
-                                            </p>
+                                            <div class="card-text">
+                                                <img class="box-mini" style="object-fit: cover;"
+                                                     th:src="@{/general/prf/} + ${list.aid}" alt="profile">
+                                                <span style="font-size: 14px" th:text="${list.author}"></span>
+                                                <span><i class="fa fa-eye fa-sm" aria-hidden="true"></i></span>
+                                                <span class="main-list-icon" th:text="${list.views}"></span>
+                                                <span><i class="fa fa-thumbs-up fa-sm" aria-hidden="true"></i> </span>
+                                                <span class="main-list-icon" th:text="${list.like_count}"></span>
+                                                <span><i class="fa fa-commenting fa-sm" aria-hidden="true"></i> </span>
+                                                <span class="main-list-icon" th:text="${list.cm_rp_counts}"></span>
+                                            </div>
+                                            <p class="main-list-title mb-0" th:text="${list.title}"></p>
                                         </div>
                                     </div>
                                 </a>

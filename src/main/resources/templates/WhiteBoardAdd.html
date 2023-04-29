@@ -52,7 +52,7 @@
         <li><a href="/shop">NStory SHOP</a></li>
         <li><h5>게시판</h5></li>
         <li th:each="list : ${boardInfoList}">
-            <a th:href="@{/whiteboard(bid=${list.bid})}" th:text="${list.kname}"></a>
+            <a th:href="@{/whiteboard/{bid}(bid=${list.bid})}" th:text="${list.kname}"></a>
         </li>
     </ul>
     <ul class="menu-info">

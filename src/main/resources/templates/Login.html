@@ -23,14 +23,14 @@
 		<a class="navbar-brand" href="/">NStory</a>
 	</div>
 </nav>
-<div class="vh-100">
-	<div class="container py-5 h-100">
+<main class="vh-100">
+	<div class="container py-5" style="margin-top: 100px;">
 		<div class="row d-flex align-items-center justify-content-center">
 			<div class="col-md-7 col-lg-5 text-center">
-				<img src="/static/images/bangdream/main-star.png"
-					 class="img-fluid" alt="Login Image">
 				<form method="post" action="/perform_login">
-					<div class="d-grid">
+					<div class="d-flex justify-content-center align-items-center">
+						<img src="/static/images/bangdream/main-star.png"
+							 class="img-fluid" alt="Login Image" style="width: 60px; height: 60px;">
 						<span class="text-lg-center my-4 fw-bold" style="font-size: 30px; color: #FF3E7F;">NStory</span>
 					</div>
 					<span th:text="${errMsg}" style="font-size: 16px; color: #de3a00"></span>
@@ -80,7 +80,7 @@
 			</div>
 		</div>
 	</div>
-</div>
+</main>
 <!-- Footer -->
 <footer class="py-3">
 	<div class="container">

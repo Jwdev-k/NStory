@@ -1,7 +1,7 @@
 package nk.service.NStory.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import nk.service.NStory.dto.BoardInfo;
+import nk.service.NStory.dto.bbs.BoardInfo;
 import nk.service.NStory.repository.BoardInfoMapper;
 import nk.service.NStory.service.BoardInfoIF;
 import org.springframework.stereotype.Service;

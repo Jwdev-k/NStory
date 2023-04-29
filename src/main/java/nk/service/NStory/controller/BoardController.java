@@ -41,8 +41,8 @@ public class BoardController {
     private final BoardInfoService boardInfoService;
     private final PageUtil pageUtil = new PageUtil();
 
-    @RequestMapping(value = "/whiteboard")
-    public String boardList(HttpServletResponse response, HttpServletRequest request, Model model, @RequestParam String bid
+    @RequestMapping(value = "/whiteboard/{bid}")
+    public String boardList(HttpServletResponse response, HttpServletRequest request, Model model, @PathVariable String bid
             , @RequestParam(required = false, defaultValue = "1") int page, @RequestParam(required = false) String str
             , @RequestParam(required = false, defaultValue = "title") SearchType type) throws Exception {
         int totalCount;
@@ -83,9 +83,9 @@ public class BoardController {
         return "WhiteBoard";
     }
 
-    @GetMapping(value = "/whitepost")
+    @GetMapping(value = "/whitepost/{bid}")
     public String addBoard(@AuthenticationPrincipal CustomUserDetails userDetails, HttpServletRequest request
-            , @RequestParam String bid) throws Exception {
+            , @PathVariable String bid) throws Exception {
         if (userDetails == null) {
             return "redirect:" + request.getHeader("referer");
         } else {
@@ -106,7 +106,7 @@ public class BoardController {
             whiteBoardService.insertBoard(new WhiteBoard(0, bid, title, editordata, userDetails.getUsername(), userDetails.getEmail()
                     , CurrentTime.getTime4(), 0, 0, 0, isNotice, true));
         }
-        return "redirect:/whiteboard?bid=" + bid;
+        return "redirect:/whiteboard/" + bid;
     }
 
     @GetMapping(value = "/whiteview")
@@ -149,15 +149,15 @@ public class BoardController {
         }
         WhiteBoard wb = whiteBoardService.getBoardView(id);
         if (wb != null) {
-            request.setAttribute("boardInfo", wb);
-            request.setAttribute("redirectURL", "/whiteboard?bid=" + wb.getBid() + "&page=" + lastPage);
+            request.setAttribute("whiteboard", wb);
+            request.setAttribute("boardAdmin", boardInfoService.getBoardInfo(wb.getBid()).getEmail());
+            request.setAttribute("redirectURL", "/whiteboard/" + wb.getBid() + "?page=" + lastPage);
 
             ArrayList<CommentDTO> commentList = commentService.getCommentList(id);
             ArrayList<ReplyDTO> replyList = replyService.getReplyList(id);
             request.setAttribute("commentList", commentList);
             request.setAttribute("replyList", replyList);
-            request.setAttribute("totalCount"
-                    , "(" + (commentList.size() + replyList.size()) + ")");
+            request.setAttribute("totalCount", (commentList.size() + replyList.size()));
             if (userDetails != null) {
                 LikesHistory likesHistory = likeHistoryService.getLikeType(id, userDetails.getEmail());
                 request.setAttribute("LikeType", likesHistory != null ? likesHistory.getLike_type() : null);
@@ -175,12 +175,12 @@ public class BoardController {
         if (userDetails.getEmail().equals(email)) {
             whiteBoardService.deleteBoard(id, userDetails.getEmail());
         }
-        return ResponseEntity.ok().body("/whiteboard?bid=" + bid);
+        return ResponseEntity.ok().body("/whiteboard/" + bid);
     }
 
-    @GetMapping(value = "/whitepostup")
+    @GetMapping(value = "/whitepostup/{bid}")
     public String updateBoard(@AuthenticationPrincipal CustomUserDetails userDetails, HttpServletRequest request
-            ,@RequestParam String bid, @RequestParam int id) throws Exception {
+            ,@PathVariable String bid, @RequestParam int id) throws Exception {
         if (userDetails == null) {
             return "redirect:" + request.getHeader("referer");
         } else {

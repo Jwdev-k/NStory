@@ -48,7 +48,7 @@
         <li><a href="/shop">NStory SHOP</a></li>
         <li><h5>게시판</h5></li>
         <li th:each="list : ${boardInfoList}">
-            <a th:href="@{/whiteboard(bid=${list.bid})}" th:text="${list.kname}"></a>
+            <a th:href="@{/whiteboard/{bid}(bid=${list.bid})}" th:text="${list.kname}"></a>
         </li>
     </ul>
     <ul class="menu-info">
@@ -62,44 +62,38 @@
             <span class="sr-only"></span>
         </div>
     </div>
-    <div class="container mt-5" id="table" th:object="${boardInfo}">
-        <div class="container board-title">
-            <h4 class="fw-bold mt-4" th:text="*{kname}"></h4>
-            <p class="fw-bold" th:text="*{subname}"></p>
+    <div class="container mt-5" id="table" th:object="${boardInfo}" style="width: 1200px; height: auto;">
+        <div class="container align-items-center">
+            <div class="d-flex justify-content-start align-items-center">
+            <img class="board-img" src="/static/images/bangdream/BG-Morfonica.png" alt="null">
+                <div class="d-grid mt-3 p-3">
+                    <h4 class="fw-bold" th:text="*{kname}"></h4>
+                    <a href="#" th:text="'@' + *{username}"></a>
+                    <p class="text-secondary" th:text="*{subname}"></p>
+                </div>
+            </div>
         </div>
+        <hr>
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="card shadow-sm">
+                    <div class="card shadow-sm mb-5">
                         <div class="card-body">
                             <div class="card-title">
-                                <div class="d-sm-flex justify-content-between align-items-center">
-                                    <a th:href="@{/whitepost(bid=${bid})}" class="btn btn-primary btn-sm"
-                                       sec:authorize="isAuthenticated()" th:if="${!#strings.equals(bid, 'mainNotice')}">
-                                        <i class="fa-solid fa-pen-to-square fa-lg"></i> 작성하기</a>
-                                    <form>
-                                        <input type="hidden" name="bid" th:value="${bid}">
-                                        <label class="my-3">
-                                            <select name="type" class="form-select-sm" id="search-type">
-                                                <option value="title">제목</option>
-                                                <option value="contents">내용</option>
-                                                <option value="author">작성자</option>
-                                            </select>
-                                            <input type="text" class="form-control-sm" name="str" style="width: 300px;"
-                                                   placeholder="검색어를 입력하세요">
-                                            <button class="btn btn-primary btn-sm" type="submit">검색</button>
-                                        </label>
-                                    </form>
+                                <div class="d-sm-flex justify-content-end align-items-center">
+                                <a th:href="@{/whitepost/{bid}(bid=${bid})}" class="btn btn-primary btn-sm"
+                                   sec:authorize="isAuthenticated()" th:if="${!#strings.equals(bid, 'mainNotice')}">
+                                    <i class="fa-solid fa-pen-to-square fa-lg"></i> 작성하기</a>
                                 </div>
                             </div>
-                            <table class="table table-light table-hover">
+                            <table class="table table-light">
                                 <thead>
                                 <tr>
                                     <th class="text-center" scope="col">번호</th>
                                     <th scope="col">제목</th>
                                     <th class="text-center" scope="col">작성자</th>
                                     <th class="text-center" scope="col">작성일</th>
-                                    <th class="text-center" scope="col">조회수</th>
+                                    <th class="text-center" scope="col"><i class="fa fa-eye"></i></th>
                                     <th class="text-center" scope="col"><i class="fa fa-thumbs-up"></i></th>
                                     <th class="text-center" scope="col"><i class="fa fa-commenting"></i></th>
                                 </tr>
@@ -107,132 +101,151 @@
                                 <tbody>
                                 <th:block th:each="list : ${noticeList}">
                                     <tr>
-                                        <td class="text-center"><span class="fw-bold text-custom-primary">공지사항</span></td>
-                                        <td class="table-contents-title">
+                                        <td class="text-center back-white"><span class="fw-bold text-custom-primary">공지사항</span></td>
+                                        <td class="table-contents-title back-white">
                                             <a th:href="@{/whiteview(id=${list.id})}"
                                                class="text-decoration-none text-custom-primary">
                                                 <span class="fw-bold" th:text="${list.title}"></span>
                                             </a>
                                         </td>
-                                        <td class="text-center"><span th:text="${list.author}"></span></td>
-                                        <td class="text-center"><span th:text="${list.creationDate}"></span></td>
-                                        <td class="text-center"><span th:text="${list.views}"></span></td>
-                                        <td class="text-center"><span th:text="${list.like_count}"></span></td>
-                                        <td class="text-center"><span th:text="${list.cm_rp_counts}"></span></td>
+                                        <td class="text-center back-white"><span th:text="${list.author}"></span>
+                                            <i th:if="${#strings.equals(list.email, boardInfo.email)}"
+                                               class="fa fa-check-circle fa-sm" style="color: deeppink;" title="주인장"></i></td>
+                                        <td class="text-center back-white" th:text="${list.creationDate}"></td>
+                                        <td class="text-center back-white" th:text="${list.views}"></td>
+                                        <td class="text-center back-white" th:text="${list.like_count}"></td>
+                                        <td class="text-center back-white" th:text="${list.cm_rp_counts}"></td>
                                     </tr>
                                 </th:block>
                                 <th:block th:each="list : ${boardList}">
                                     <tr>
                                         <td class="text-center"><span th:text="${list.id}"></span></td>
-                                        <td>
+                                        <td class="table-contents-title">
                                             <a th:href="@{/whiteview(id=${list.id})}" class="text-black">
-                                                <span class="fw-bold" th:text="${list.title}"></span>
+                                                <span th:text="${list.title}"></span>
                                             </a>
                                         </td>
-                                        <td class="text-center"><span th:text="${list.author}"></span></td>
-                                        <td class="text-center"><span th:text="${list.creationDate}"></span></td>
-                                        <td class="text-center"><span th:text="${list.views}"></span></td>
-                                        <td class="text-center"><span th:text="${list.like_count}"></span></td>
-                                        <td class="text-center"><span th:text="${list.cm_rp_counts}"></span></td>
+                                        <td class="text-center"><span th:text="${list.author}"></span>
+                                            <i th:if="${#strings.equals(list.email, boardInfo.email)}"
+                                               class="fa fa-check-circle fa-sm" style="color: deeppink;" title="주인장"></i></td>
+                                        <td class="text-center" th:text="${list.creationDate}"></td>
+                                        <td class="text-center" th:text="${list.views}" title="조회수"></td>
+                                        <td class="text-center" th:text="${list.like_count}" title="좋아요"></td>
+                                        <td class="text-center" th:text="${list.cm_rp_counts}" title="댓글수"></td>
                                     </tr>
                                 </th:block>
                                 </tbody>
                             </table>
                             <div class="d-sm-flex justify-content-end align-items-center">
-                                <a th:href="@{/whitepost(bid=${bid})}" class="btn btn-primary btn-sm"
+                                <a th:href="@{/whitepost/{bid}(bid=${bid})}" class="btn btn-primary btn-sm"
                                    sec:authorize="isAuthenticated()" th:if="${!#strings.equals(bid, 'mainNotice')}">
                                     <i class="fa-solid fa-pen-to-square fa-lg"></i> 작성하기</a>
                             </div>
+                            <div class="d-sm-flex justify-content-end align-items-center">
+                                <form>
+                                    <input type="hidden" name="bid" th:value="${bid}">
+                                    <label class="my-3">
+                                        <select name="type" class="form-select-sm" id="search-type">
+                                            <option value="title">제목</option>
+                                            <option value="contents">내용</option>
+                                            <option value="author">작성자</option>
+                                        </select>
+                                        <input type="text" class="form-control-sm" name="str"
+                                               placeholder="검색어를 입력하세요">
+                                        <button class="btn btn-primary btn-sm" type="submit">검색</button>
+                                    </label>
+                                </form>
+                            </div>
                         </div>
-                    </div>
-                    <div class="d-flex justify-content-center py-5" th:object="${pageMaker}" th:if="${!isSearch}">
-                        <ul class="pagination">
-                            <li class="page-item">
-                                <a class="page-link bg-light" th:href="@{/whiteboard(bid=${bid},page=1)}"
-                                   style="color: black;" aria-label="Previous">
-                                    <span aria-hidden="true"><i class="fa-solid fa-angle-double-left fa-xs"></i></span>
-                                </a>
-                            </li>
-                            <li class="page-item" th:if="${pageMaker.isPrev}">
-                                <a class="page-link bg-light"
-                                   th:href="@{/whiteboard(bid=${bid},page=${pageMaker.startPage - 10})}"
-                                   style="color: black;" aria-label="Previous">
-                                    <span aria-hidden="true"><i class="fa-solid fa-angle-left fa-xs"></i></span>
-                                </a>
-                            </li>
-                            <th:block th:each="page : ${#numbers.sequence(pageMaker.startPage,pageMaker.endPage)}">
-                                <li class="page-item" th:if="${pageMaker.page == page}">
-                                    <a class="page-link bg-light" style="color: red;"
-                                       th:href="@{/whiteboard(bid=${bid},page=${page})}" th:text="${page}"></a>
+                        <div class="d-flex justify-content-center" th:object="${pageMaker}" th:if="${!isSearch}">
+                            <ul class="pagination">
+                                <li class="page-item">
+                                    <a class="page-link bg-light" th:href="@{/whiteboard(bid=${bid},page=1)}"
+                                       style="color: black;" aria-label="Previous">
+                                        <span aria-hidden="true"><i class="fa-solid fa-angle-double-left fa-xs"></i></span>
+                                    </a>
                                 </li>
-                                <li class="page-item" th:unless="${pageMaker.page == page}">
-                                    <a class="page-link bg-light" style="color: black;"
-                                       th:href="@{/whiteboard(bid=${bid},page=${page})}" th:text="${page}"></a>
+                                <li class="page-item" th:if="${pageMaker.isPrev}">
+                                    <a class="page-link bg-light"
+                                       th:href="@{/whiteboard(bid=${bid},page=${pageMaker.startPage - 10})}"
+                                       style="color: black;" aria-label="Previous">
+                                        <span aria-hidden="true"><i class="fa-solid fa-angle-left fa-xs"></i></span>
+                                    </a>
                                 </li>
-                            </th:block>
-                            <li class="page-item" th:if="${pageMaker.isNext}">
-                                <a class="page-link bg-light"
-                                   th:href="@{/whiteboard(bid=${bid},page=${pageMaker.endPage + 1})}"
-                                   style="color: black;" aria-label="Next">
-                                    <span aria-hidden="true"><i class="fa-solid fa-angle-right fa-xs"></i></span>
-                                </a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link bg-light"
-                                   th:href="@{/whiteboard(bid=${bid},page=${pageMaker.lastEndPage})}"
-                                   style="color: black;" aria-label="Next">
-                                    <span aria-hidden="true"><i class="fa-solid fa-angle-double-right fa-xs"></i></span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="d-flex justify-content-center my-3" th:object="${pageMaker}"
-                         th:unless="${!isSearch}">
-                        <ul class="pagination">
-                            <li class="page-item">
-                                <a class="page-link bg-light"
-                                   th:href="@{/whiteboard(bid=${bid},page=1,type=${type},str=${str})}"
-                                   style="color: black;" aria-label="Previous">
-                                    <span aria-hidden="true"><i class="fa-solid fa-angle-double-left fa-xs"></i></span>
-                                </a>
-                            </li>
-                            <li class="page-item" th:if="${pageMaker.isPrev}">
-                                <a class="page-link bg-light"
-                                   th:href="@{/whiteboard(bid=${bid},page=${pageMaker.startPage - 10},type=${str},str=${str})}"
-                                   style="color: black;" aria-label="Previous">
-                                    <span aria-hidden="true"><i class="fa-solid fa-angle-left fa-xs"></i></span>
-                                </a>
-                            </li>
-                            <th:block
-                                    th:each="page : ${#numbers.sequence(pageMaker.startPage,pageMaker.endPage)}">
-                                <li class="page-item" th:if="${pageMaker.page == page}">
-                                    <a class="page-link bg-light" style="color: red;"
-                                       th:href="@{/whiteboard(bid=${bid},page=${page},type=${type},str=${str})}"
-                                       th:text="${page}"></a>
+                                <th:block th:each="page : ${#numbers.sequence(pageMaker.startPage,pageMaker.endPage)}">
+                                    <li class="page-item" th:if="${pageMaker.page == page}">
+                                        <a class="page-link bg-light" style="color: red;"
+                                           th:href="@{/whiteboard(bid=${bid},page=${page})}" th:text="${page}"></a>
+                                    </li>
+                                    <li class="page-item" th:unless="${pageMaker.page == page}">
+                                        <a class="page-link bg-light" style="color: black;"
+                                           th:href="@{/whiteboard(bid=${bid},page=${page})}" th:text="${page}"></a>
+                                    </li>
+                                </th:block>
+                                <li class="page-item" th:if="${pageMaker.isNext}">
+                                    <a class="page-link bg-light"
+                                       th:href="@{/whiteboard(bid=${bid},page=${pageMaker.endPage + 1})}"
+                                       style="color: black;" aria-label="Next">
+                                        <span aria-hidden="true"><i class="fa-solid fa-angle-right fa-xs"></i></span>
+                                    </a>
                                 </li>
-                                <li class="page-item" th:unless="${pageMaker.page == page}">
-                                    <a class="page-link bg-light" style="color: black;"
-                                       th:href="@{/whiteboard(bid=${bid},page=${page},type=${type},str=${str})}"
-                                       th:text="${page}"></a>
+                                <li class="page-item">
+                                    <a class="page-link bg-light"
+                                       th:href="@{/whiteboard(bid=${bid},page=${pageMaker.lastEndPage})}"
+                                       style="color: black;" aria-label="Next">
+                                        <span aria-hidden="true"><i class="fa-solid fa-angle-double-right fa-xs"></i></span>
+                                    </a>
                                 </li>
-                            </th:block>
-                            <li class="page-item" th:if="${pageMaker.isNext}">
-                                <a class="page-link bg-light"
-                                   th:href="@{/whiteboard(bid=${bid},page=${pageMaker.endPage + 1},type=${type},str=${str})}"
-                                   style="color: black;"
-                                   aria-label="Next">
-                                    <span aria-hidden="true"><i class="fa-solid fa-angle-right fa-xs"></i></span>
-                                </a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link bg-light"
-                                   th:href="@{/whiteboard(bid=${bid},page=${pageMaker.lastEndPage},type=${type},str=${str})}"
-                                   style="color: black;"
-                                   aria-label="Next">
-                                    <span aria-hidden="true"><i class="fa-solid fa-angle-double-right fa-xs"></i></span>
-                                </a>
-                            </li>
-                        </ul>
+                            </ul>
+                        </div>
+                        <div class="d-flex justify-content-center" th:object="${pageMaker}"
+                             th:unless="${!isSearch}">
+                            <ul class="pagination">
+                                <li class="page-item">
+                                    <a class="page-link bg-light"
+                                       th:href="@{/whiteboard(bid=${bid},page=1,type=${type},str=${str})}"
+                                       style="color: black;" aria-label="Previous">
+                                        <span aria-hidden="true"><i class="fa-solid fa-angle-double-left fa-xs"></i></span>
+                                    </a>
+                                </li>
+                                <li class="page-item" th:if="${pageMaker.isPrev}">
+                                    <a class="page-link bg-light"
+                                       th:href="@{/whiteboard(bid=${bid},page=${pageMaker.startPage - 10},type=${str},str=${str})}"
+                                       style="color: black;" aria-label="Previous">
+                                        <span aria-hidden="true"><i class="fa-solid fa-angle-left fa-xs"></i></span>
+                                    </a>
+                                </li>
+                                <th:block
+                                        th:each="page : ${#numbers.sequence(pageMaker.startPage,pageMaker.endPage)}">
+                                    <li class="page-item" th:if="${pageMaker.page == page}">
+                                        <a class="page-link bg-light" style="color: red;"
+                                           th:href="@{/whiteboard(bid=${bid},page=${page},type=${type},str=${str})}"
+                                           th:text="${page}"></a>
+                                    </li>
+                                    <li class="page-item" th:unless="${pageMaker.page == page}">
+                                        <a class="page-link bg-light" style="color: black;"
+                                           th:href="@{/whiteboard(bid=${bid},page=${page},type=${type},str=${str})}"
+                                           th:text="${page}"></a>
+                                    </li>
+                                </th:block>
+                                <li class="page-item" th:if="${pageMaker.isNext}">
+                                    <a class="page-link bg-light"
+                                       th:href="@{/whiteboard(bid=${bid},page=${pageMaker.endPage + 1},type=${type},str=${str})}"
+                                       style="color: black;"
+                                       aria-label="Next">
+                                        <span aria-hidden="true"><i class="fa-solid fa-angle-right fa-xs"></i></span>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link bg-light"
+                                       th:href="@{/whiteboard(bid=${bid},page=${pageMaker.lastEndPage},type=${type},str=${str})}"
+                                       style="color: black;"
+                                       aria-label="Next">
+                                        <span aria-hidden="true"><i class="fa-solid fa-angle-double-right fa-xs"></i></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>

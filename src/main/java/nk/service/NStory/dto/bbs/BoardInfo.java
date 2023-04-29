@@ -1,4 +1,4 @@
-package nk.service.NStory.dto;
+package nk.service.NStory.dto.bbs;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,6 +10,7 @@ public class BoardInfo {
     private String kname;
     private String subname;
     private String email;
+    private String username;
 
     public BoardInfo(String bid, String kname) { //TODO getBoardNameList() 메서드에서 사용중
         this.bid = bid;

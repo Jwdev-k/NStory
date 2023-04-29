@@ -1,6 +1,6 @@
 package nk.service.NStory.service;
 
-import nk.service.NStory.dto.BoardInfo;
+import nk.service.NStory.dto.bbs.BoardInfo;
 
 import java.util.ArrayList;
 
