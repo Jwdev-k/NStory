@@ -25,7 +25,7 @@
     background-color: #fff;
 }
 .search-form {
-    max-width: 800px;
+    max-width: 300px;
     margin: 20px auto 40px;
 }
 label{
@@ -58,8 +58,13 @@ label{
     min-height: 700px;
     width: 100%;
 }
+.comment-add {
+    width: 100vh;
+    max-width: 600px;
+}
 .comment-box {
-    width: 600px;
+    width: auto;
+    max-width: 500px;
 }
 .reply-box {
     width: auto;
@@ -96,9 +101,15 @@ label{
 }
 
 .table-contents-title {
-    width: 700px;
+    width: 500px;
 }
 
 .back-white {
     background-color: white !important;
+}
+
+.edit-reply-contents,
+.edit-comment-contents {
+    max-width: 500px;
+    width: auto;
 }

@@ -62,7 +62,7 @@
             <span class="sr-only"></span>
         </div>
     </div>
-    <div class="container mt-5" id="table" th:object="${boardInfo}" style="width: 1200px; height: auto;">
+    <div class="container mt-5 vw-100" id="table" th:object="${boardInfo}">
         <div class="container align-items-center">
             <div class="d-flex justify-content-start align-items-center">
             <img class="board-img" src="/static/images/bangdream/BG-Morfonica.png" alt="null">
@@ -86,7 +86,7 @@
                                     <i class="fa-solid fa-pen-to-square fa-lg"></i> 작성하기</a>
                                 </div>
                             </div>
-                            <table class="table table-light">
+                            <table class="table table-light table-hover">
                                 <thead>
                                 <tr>
                                     <th class="text-center" scope="col">번호</th>
@@ -143,14 +143,13 @@
                             </div>
                             <div class="d-sm-flex justify-content-end align-items-center">
                                 <form>
-                                    <input type="hidden" name="bid" th:value="${bid}">
                                     <label class="my-3">
                                         <select name="type" class="form-select-sm" id="search-type">
                                             <option value="title">제목</option>
                                             <option value="contents">내용</option>
                                             <option value="author">작성자</option>
                                         </select>
-                                        <input type="text" class="form-control-sm" name="str"
+                                        <input type="text" class="form-control-sm search-form" name="str"
                                                placeholder="검색어를 입력하세요">
                                         <button class="btn btn-primary btn-sm" type="submit">검색</button>
                                     </label>
@@ -160,14 +159,14 @@
                         <div class="d-flex justify-content-center" th:object="${pageMaker}" th:if="${!isSearch}">
                             <ul class="pagination">
                                 <li class="page-item">
-                                    <a class="page-link bg-light" th:href="@{/whiteboard(bid=${bid},page=1)}"
+                                    <a class="page-link bg-light" th:href="@{/whiteboard/{bid}(bid=${bid},page=1)}"
                                        style="color: black;" aria-label="Previous">
                                         <span aria-hidden="true"><i class="fa-solid fa-angle-double-left fa-xs"></i></span>
                                     </a>
                                 </li>
                                 <li class="page-item" th:if="${pageMaker.isPrev}">
                                     <a class="page-link bg-light"
-                                       th:href="@{/whiteboard(bid=${bid},page=${pageMaker.startPage - 10})}"
+                                       th:href="@{/whiteboard/{bid}(bid=${bid},page=${pageMaker.startPage - 10})}"
                                        style="color: black;" aria-label="Previous">
                                         <span aria-hidden="true"><i class="fa-solid fa-angle-left fa-xs"></i></span>
                                     </a>
@@ -175,23 +174,23 @@
                                 <th:block th:each="page : ${#numbers.sequence(pageMaker.startPage,pageMaker.endPage)}">
                                     <li class="page-item" th:if="${pageMaker.page == page}">
                                         <a class="page-link bg-light" style="color: red;"
-                                           th:href="@{/whiteboard(bid=${bid},page=${page})}" th:text="${page}"></a>
+                                           th:href="@{/whiteboard/{bid}(bid=${bid},page=${page})}" th:text="${page}"></a>
                                     </li>
                                     <li class="page-item" th:unless="${pageMaker.page == page}">
                                         <a class="page-link bg-light" style="color: black;"
-                                           th:href="@{/whiteboard(bid=${bid},page=${page})}" th:text="${page}"></a>
+                                           th:href="@{/whiteboard/{bid}(bid=${bid},page=${page})}" th:text="${page}"></a>
                                     </li>
                                 </th:block>
                                 <li class="page-item" th:if="${pageMaker.isNext}">
                                     <a class="page-link bg-light"
-                                       th:href="@{/whiteboard(bid=${bid},page=${pageMaker.endPage + 1})}"
+                                       th:href="@{/whiteboard/{bid}(bid=${bid},page=${pageMaker.endPage + 1})}"
                                        style="color: black;" aria-label="Next">
                                         <span aria-hidden="true"><i class="fa-solid fa-angle-right fa-xs"></i></span>
                                     </a>
                                 </li>
                                 <li class="page-item">
                                     <a class="page-link bg-light"
-                                       th:href="@{/whiteboard(bid=${bid},page=${pageMaker.lastEndPage})}"
+                                       th:href="@{/whiteboard/{bid}(bid=${bid},page=${pageMaker.lastEndPage})}"
                                        style="color: black;" aria-label="Next">
                                         <span aria-hidden="true"><i class="fa-solid fa-angle-double-right fa-xs"></i></span>
                                     </a>
@@ -203,14 +202,14 @@
                             <ul class="pagination">
                                 <li class="page-item">
                                     <a class="page-link bg-light"
-                                       th:href="@{/whiteboard(bid=${bid},page=1,type=${type},str=${str})}"
+                                       th:href="@{/whiteboard/{bid}(bid=${bid},page=1,type=${type},str=${str})}"
                                        style="color: black;" aria-label="Previous">
                                         <span aria-hidden="true"><i class="fa-solid fa-angle-double-left fa-xs"></i></span>
                                     </a>
                                 </li>
                                 <li class="page-item" th:if="${pageMaker.isPrev}">
                                     <a class="page-link bg-light"
-                                       th:href="@{/whiteboard(bid=${bid},page=${pageMaker.startPage - 10},type=${str},str=${str})}"
+                                       th:href="@{/whiteboard/{bid}(bid=${bid},page=${pageMaker.startPage - 10},type=${str},str=${str})}"
                                        style="color: black;" aria-label="Previous">
                                         <span aria-hidden="true"><i class="fa-solid fa-angle-left fa-xs"></i></span>
                                     </a>
@@ -219,18 +218,18 @@
                                         th:each="page : ${#numbers.sequence(pageMaker.startPage,pageMaker.endPage)}">
                                     <li class="page-item" th:if="${pageMaker.page == page}">
                                         <a class="page-link bg-light" style="color: red;"
-                                           th:href="@{/whiteboard(bid=${bid},page=${page},type=${type},str=${str})}"
+                                           th:href="@{/whiteboard/{bid}(bid=${bid},page=${page},type=${type},str=${str})}"
                                            th:text="${page}"></a>
                                     </li>
                                     <li class="page-item" th:unless="${pageMaker.page == page}">
                                         <a class="page-link bg-light" style="color: black;"
-                                           th:href="@{/whiteboard(bid=${bid},page=${page},type=${type},str=${str})}"
+                                           th:href="@{/whiteboard/{bid}(bid=${bid},page=${page},type=${type},str=${str})}"
                                            th:text="${page}"></a>
                                     </li>
                                 </th:block>
                                 <li class="page-item" th:if="${pageMaker.isNext}">
                                     <a class="page-link bg-light"
-                                       th:href="@{/whiteboard(bid=${bid},page=${pageMaker.endPage + 1},type=${type},str=${str})}"
+                                       th:href="@{/whiteboard/{bid}(bid=${bid},page=${pageMaker.endPage + 1},type=${type},str=${str})}"
                                        style="color: black;"
                                        aria-label="Next">
                                         <span aria-hidden="true"><i class="fa-solid fa-angle-right fa-xs"></i></span>
@@ -238,7 +237,7 @@
                                 </li>
                                 <li class="page-item">
                                     <a class="page-link bg-light"
-                                       th:href="@{/whiteboard(bid=${bid},page=${pageMaker.lastEndPage},type=${type},str=${str})}"
+                                       th:href="@{/whiteboard/{bid}(bid=${bid},page=${pageMaker.lastEndPage},type=${type},str=${str})}"
                                        style="color: black;"
                                        aria-label="Next">
                                         <span aria-hidden="true"><i class="fa-solid fa-angle-double-right fa-xs"></i></span>

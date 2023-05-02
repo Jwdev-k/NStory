@@ -67,7 +67,6 @@ public class BoardController {
         }
         model.addAttribute("noticeList", whiteBoardService.getNoticeList(bid));
         request.setAttribute("boardInfo", boardInfoService.getBoardInfo(bid));
-        request.setAttribute("bid", bid); //게시판 이름
         request.setAttribute("isSearch", isSearch);
 
         model.addAttribute("pageMaker", pageUtil);

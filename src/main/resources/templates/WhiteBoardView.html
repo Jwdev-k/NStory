@@ -128,14 +128,14 @@
             <hr>
             <h4 th:text="${totalCount} + '개의 댓글'"></h4>
             <div class="d-flex justify-content-center">
-                <form class="comment-box" id="comment-add">
+                <form class="comment-add" id="comment-add">
                     <div class="form-group">
                         <label for="reply-textarea">댓글 작성</label>
                         <textarea class="form-control reply-text" id="reply-textarea" name="contents" rows="3"
                                   maxlength="300" placeholder="내용을 입력하세요." required></textarea>
                         <input type="hidden" name="id" th:value="*{id}">
                         <div class="d-flex justify-content-end">
-                            <button type="submit" class="btn btn-primary mt-2">작성</button>
+                            <button type="submit" class="btn btn-primary mt-2 mb-5">작성</button>
                         </div>
                     </div>
                 </form>
