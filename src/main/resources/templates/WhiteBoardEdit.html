@@ -25,14 +25,17 @@
     <div class="container">
         <a class="navbar-brand" href="/">NStory</a>
         <ul class="navbar-nav">
-            <li class="box" th:if="${#authentication.principal.profileImg != null}" sec:authorize="isAuthenticated()">
-                <img class="profile" th:src="@{/storage/prf/img}" alt=""></li>
-            <li class="box" th:unless="${#authentication.principal.profileImg != null}" sec:authorize="isAuthenticated()">
-                <img class="profile" src="/static/images/default_profileImg.png" alt=""></li>
+            <li class="nav-item" th:if="${#authentication.principal.profileImg != null}" sec:authorize="isAuthenticated()">
+                <img class="box" th:src="@{/storage/prf/img}" alt=""></li>
+            <li class="nav-item" th:unless="${#authentication.principal.profileImg != null}"
+                sec:authorize="isAuthenticated()">
+                <img class="box" src="/static/images/default_profileImg.png" alt=""></li>
             <li class="nav-item" sec:authorize="isAuthenticated()">
                 <a class="nav-link" href="/info" th:text="${#authentication.principal.username}"></a></li>
             <li class="nav-item" sec:authorize="isAuthenticated()">
-                <a class="nav-link" th:text="'Lv ' + ${#authentication.principal.level} + ' / nCoin : ' + ${#authentication.principal.nCoin}"></a></li>
+                <a class="nav-link"
+                   th:text="'Lv.' + ${#authentication.principal.level} + ' / nCoin : ' + ${#authentication.principal.nCoin}"></a>
+            </li>
             <li class="nav-item" th:if="${#authentication != null}">
                 <a class="nav-link" href="/logout">로그아웃</a></li>
             <li class="nav-item" th:unless="${#authentication != null}">

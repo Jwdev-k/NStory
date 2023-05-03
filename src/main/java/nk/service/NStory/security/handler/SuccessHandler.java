@@ -23,14 +23,13 @@ public class SuccessHandler implements AuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-        log.info("Try Login IP : " + request.getRemoteHost() + "\n"
-                + userDetails.getEmail() + ": Login Success");
-        if (userDetails.isOAuth()) //TODO 소셜로그인 강제 자동로그인 쿠키생성
-            rememberMeServices.onLoginSuccess(request, response, authentication);
+        log.info("Try Login IP : " + request.getRemoteHost() + "\n" + userDetails.getEmail() + ": Login Success");
         if (userDetails.isFirstLogin()) {
             ScriptUtils.alertAndMovePage(response, "첫 로그인 보너스 경험치. +100이 지급 되었습니다.", "/");
         } else {
             response.sendRedirect("/");
         }
+        if (userDetails.isOAuth()) //TODO 소셜로그인 강제 자동로그인 쿠키생성
+            rememberMeServices.onLoginSuccess(request, response, authentication);
     }
 }

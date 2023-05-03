@@ -160,8 +160,12 @@ input[type="checkbox"]:checked:enabled {
 }
 .menu-info {
     list-style: none;
-    padding: 0;
-    margin-top: 250%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20px;
+    text-align: center;
 }
 .menu-info p {
     font-size: 10px;
@@ -218,4 +222,8 @@ a {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+.dark-mode {
+    background-color: #1a202c;
+    color: #fff;
 }

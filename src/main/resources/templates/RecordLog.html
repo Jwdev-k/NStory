@@ -24,14 +24,17 @@
     <div class="container">
         <a class="navbar-brand" href="/">NStory</a>
         <ul class="navbar-nav">
-            <li class="box" th:if="${#authentication.principal.profileImg != null}" sec:authorize="isAuthenticated()">
-                <img class="profile" th:src="@{/storage/prf/img}" alt=""></li>
-            <li class="box" th:unless="${#authentication.principal.profileImg != null}" sec:authorize="isAuthenticated()">
-                <img class="profile" src="/static/images/default_profileImg.png" alt=""></li>
+            <li class="nav-item" th:if="${#authentication.principal.profileImg != null}" sec:authorize="isAuthenticated()">
+                <img class="box" th:src="@{/storage/prf/img}" alt=""></li>
+            <li class="nav-item" th:unless="${#authentication.principal.profileImg != null}"
+                sec:authorize="isAuthenticated()">
+                <img class="box" src="/static/images/default_profileImg.png" alt=""></li>
             <li class="nav-item" sec:authorize="isAuthenticated()">
                 <a class="nav-link" href="/info" th:text="${#authentication.principal.username}"></a></li>
             <li class="nav-item" sec:authorize="isAuthenticated()">
-                <a class="nav-link" th:text="'Lv ' + ${#authentication.principal.level} + ' / nCoin : ' + ${#authentication.principal.nCoin}"></a></li>
+                <a class="nav-link"
+                   th:text="'Lv.' + ${#authentication.principal.level} + ' / nCoin : ' + ${#authentication.principal.nCoin}"></a>
+            </li>
             <li class="nav-item" th:if="${#authentication != null}">
                 <a class="nav-link" href="/logout">로그아웃</a></li>
             <li class="nav-item" th:unless="${#authentication != null}">
@@ -67,11 +70,16 @@
                     <div class="card-body">
                         <p class="card-title" th:text="${list.contents}" style="font-size: 15px;"></p>
                     </div>
-                    <div class="card-footer" style="border: 0;">
-                        <p class="card-text" th:text="${list.name}"></p>
+                    <div class="card-footer d-flex justify-content-between align-items-center" style="border: 0;">
+                        <div class="card-text">
+                            <img class="box" th:src="@{/general/prf/} + ${list.aid}" alt="profile">
+                            <span th:text="${list.name}"></span>
+                            <span> | </span>
+                            <span th:text="${list.time}"></span>
+                        </div>
                         <th:block th:if="${#strings.equals(Email,list.email)}">
                             <form method="post" action="/record/frmlog_delete">
-                                <button class="btn btn-danger btn-sm" type="submit" style="float: right;"
+                                <button class="btn btn-danger btn-sm" type="submit"
                                         onclick="if(!confirm('삭제하시면 복구할수 없습니다. \n 정말로 삭제하시겠습니까??')){
                                                     return false;
                                                 }">삭제
@@ -80,7 +88,6 @@
                                 <input type="hidden" name="email" th:value="${list.email}">
                             </form>
                         </th:block>
-                        <p class="card-text" th:text="${list.time}"></p>
                     </div>
                 </div>
             </div>

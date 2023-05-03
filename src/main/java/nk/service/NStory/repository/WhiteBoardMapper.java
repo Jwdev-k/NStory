@@ -3,6 +3,7 @@ package nk.service.NStory.repository;
 import nk.service.NStory.dto.Enum.SearchType;
 import nk.service.NStory.dto.bbs.WhiteBoard;
 import nk.service.NStory.dto.bbs.WhiteBoardList;
+import nk.service.NStory.dto.bbs.WhiteBoardView;
 import org.apache.ibatis.annotations.*;
 
 import java.util.ArrayList;
@@ -14,7 +15,9 @@ public interface WhiteBoardMapper {
             "FROM whiteboard as wb WHERE wb.bid = #{bid} AND wb.isNotice = 0 AND wb.isEnable = 1 ORDER BY wb.id DESC LIMIT #{start}, 50")
     ArrayList<WhiteBoardList> boardList(@Param("bid") String bid, @Param("start") int start) throws Exception;
     @Select("SELECT * FROM whiteboard WHERE isEnable = 1 AND id = #{id}")
-    WhiteBoard getBoardView(int id) throws Exception;
+    WhiteBoard getBoard(int id) throws Exception;
+    @Select("SELECT wb.*, a.id as aid FROM whiteboard wb INNER JOIN account a ON a.email = wb.email WHERE wb.isEnable = 1 AND wb.id = #{id}")
+    WhiteBoardView getBoardView(int id) throws Exception;
     @Select("SELECT count(*) FROM whiteboard WHERE bid = #{bid} AND isEnable = 1 AND isNotice = 0")
     int totalCount(String bid) throws Exception;
     @Insert("INSERT INTO whiteboard VALUE(null, #{bid}, #{title}, #{contents}, #{author}, #{email}, #{creationDate}, #{views}, #{like_count}, #{dislike_count}, #{isNotice}, #{isEnable})")

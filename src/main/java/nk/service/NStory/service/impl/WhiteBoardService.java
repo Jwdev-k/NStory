@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import nk.service.NStory.dto.Enum.SearchType;
 import nk.service.NStory.dto.bbs.WhiteBoard;
 import nk.service.NStory.dto.bbs.WhiteBoardList;
+import nk.service.NStory.dto.bbs.WhiteBoardView;
 import nk.service.NStory.repository.WhiteBoardMapper;
 import nk.service.NStory.service.WhiteBoardServiceIF;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,12 @@ public class WhiteBoardService implements WhiteBoardServiceIF {
     }
 
     @Override
-    public WhiteBoard getBoardView(int id) throws Exception {
+    public WhiteBoard getBoard(int id) throws Exception {
+        return whiteBoardMapper.getBoard(id);
+    }
+
+    @Override
+    public WhiteBoardView getBoardView(int id) throws Exception {
         return whiteBoardMapper.getBoardView(id);
     }
 

@@ -21,16 +21,15 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-lg fixed-top">
-    <button class="btn menu-btn position-relative" id="menu-btn"><img src="/static/images/svg/menu.svg" alt="Menu">
-    </button>
+    <button class="btn menu-btn position-relative" id="menu-btn"><img src="/static/images/svg/menu.svg" alt="Menu"></button>
     <div class="container">
         <a class="navbar-brand" href="/">NStory</a>
         <ul class="navbar-nav">
-            <li class="box" th:if="${#authentication.principal.profileImg != null}" sec:authorize="isAuthenticated()">
-                <img class="profile" th:src="@{/storage/prf/img}" alt=""></li>
-            <li class="box" th:unless="${#authentication.principal.profileImg != null}"
+            <li class="nav-item" th:if="${#authentication.principal.profileImg != null}" sec:authorize="isAuthenticated()">
+                <img class="box" th:src="@{/storage/prf/img}" alt=""></li>
+            <li class="nav-item" th:unless="${#authentication.principal.profileImg != null}"
                 sec:authorize="isAuthenticated()">
-                <img class="profile" src="/static/images/default_profileImg.png" alt=""></li>
+                <img class="box" src="/static/images/default_profileImg.png" alt=""></li>
             <li class="nav-item" sec:authorize="isAuthenticated()">
                 <a class="nav-link" href="/info" th:text="${#authentication.principal.username}"></a></li>
             <li class="nav-item" sec:authorize="isAuthenticated()">
@@ -93,9 +92,8 @@
                                         </div>
                                         <div class="card-body">
                                             <div class="card-text">
-                                                <img class="box-mini" style="object-fit: cover;"
-                                                     th:src="@{/general/prf/} + ${list.aid}" alt="profile">
-                                                <span style="font-size: 14px" th:text="${list.author}"></span>
+                                                <img class="box-mini" th:src="@{/general/prf/} + ${list.aid}" alt="profile">
+                                                <span style="font-size: 12px" th:text="${list.author}"></span>
                                                 <span><i class="fa fa-eye fa-sm" aria-hidden="true"></i></span>
                                                 <span class="main-list-icon" th:text="${list.views}"></span>
                                                 <span><i class="fa fa-thumbs-up fa-sm" aria-hidden="true"></i> </span>
@@ -115,7 +113,7 @@
                     <div class="card-header">베스트 게시글</div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-4 mb-4" th:each="list : ${bestList}">
+                            <div class="col-md-6 mb-4" th:each="list : ${bestList}">
                                 <a th:href="@{/whiteview(id=${list.id})}">
                                     <div class="card">
                                         <div class="card-subtitle">
@@ -123,9 +121,8 @@
                                         </div>
                                         <div class="card-body">
                                             <div class="card-text">
-                                                <img class="box-mini" style="object-fit: cover;"
-                                                     th:src="@{/general/prf/} + ${list.aid}" alt="profile">
-                                                <span style="font-size: 14px" th:text="${list.author}"></span>
+                                                <img class="box-mini" th:src="@{/general/prf/} + ${list.aid}" alt="profile">
+                                                <span style="font-size: 13px" th:text="${list.author}"></span>
                                                 <span><i class="fa fa-eye fa-sm" aria-hidden="true"></i></span>
                                                 <span class="main-list-icon" th:text="${list.views}"></span>
                                                 <span><i class="fa fa-thumbs-up fa-sm" aria-hidden="true"></i> </span>
@@ -145,7 +142,7 @@
                     <div class="card-header">최근 게시물</div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-4 mb-4" th:each="list : ${recentList}">
+                            <div class="col-md-6 mb-4" th:each="list : ${recentList}">
                                 <a th:href="@{/whiteview(id=${list.id})}">
                                     <div class="card">
                                         <div class="card-subtitle">
@@ -153,9 +150,8 @@
                                         </div>
                                         <div class="card-body">
                                             <div class="card-text">
-                                                <img class="box-mini" style="object-fit: cover;"
-                                                     th:src="@{/general/prf/} + ${list.aid}" alt="profile">
-                                                <span style="font-size: 14px" th:text="${list.author}"></span>
+                                                <img class="box-mini" th:src="@{/general/prf/} + ${list.aid}" alt="profile">
+                                                <span style="font-size: 13px" th:text="${list.author}"></span>
                                                 <span><i class="fa fa-eye fa-sm" aria-hidden="true"></i></span>
                                                 <span class="main-list-icon" th:text="${list.views}"></span>
                                                 <span><i class="fa fa-thumbs-up fa-sm" aria-hidden="true"></i> </span>

@@ -9,6 +9,7 @@ import nk.service.NStory.dto.Enum.SearchType;
 import nk.service.NStory.dto.LikesHistory;
 import nk.service.NStory.dto.ReplyDTO;
 import nk.service.NStory.dto.bbs.WhiteBoard;
+import nk.service.NStory.dto.bbs.WhiteBoardView;
 import nk.service.NStory.security.CustomUserDetails;
 import nk.service.NStory.service.impl.*;
 import nk.service.NStory.utils.AES256;
@@ -146,7 +147,7 @@ public class BoardController {
             cookie.setHttpOnly(true);
             response.addCookie(cookie);
         }
-        WhiteBoard wb = whiteBoardService.getBoardView(id);
+        WhiteBoardView wb = whiteBoardService.getBoardView(id);
         if (wb != null) {
             request.setAttribute("whiteboard", wb);
             request.setAttribute("boardAdmin", boardInfoService.getBoardInfo(wb.getBid()).getEmail());
@@ -183,7 +184,7 @@ public class BoardController {
         if (userDetails == null) {
             return "redirect:" + request.getHeader("referer");
         } else {
-            WhiteBoard wb = whiteBoardService.getBoardView(id);
+            WhiteBoard wb = whiteBoardService.getBoard(id);
             if (wb != null && wb.getEmail().equals(userDetails.getEmail())) {
                 request.setAttribute("boardInfo", wb);
                 boolean isAdmin = boardInfoService.getBoardInfo(bid).getEmail().equals(userDetails.getEmail());

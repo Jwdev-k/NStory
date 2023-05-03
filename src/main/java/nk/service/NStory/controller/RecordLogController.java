@@ -3,7 +3,7 @@ package nk.service.NStory.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import nk.service.NStory.dto.RecordLogDTO;
+import nk.service.NStory.dto.record.RecordLogDTO;
 import nk.service.NStory.security.CustomUserDetails;
 import nk.service.NStory.service.impl.RecordLogService;
 import nk.service.NStory.utils.CurrentTime;

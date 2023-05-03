@@ -1,4 +1,4 @@
-package nk.service.NStory.dto;
+package nk.service.NStory.dto.record;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

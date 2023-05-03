@@ -3,12 +3,14 @@ package nk.service.NStory.service;
 import nk.service.NStory.dto.Enum.SearchType;
 import nk.service.NStory.dto.bbs.WhiteBoard;
 import nk.service.NStory.dto.bbs.WhiteBoardList;
+import nk.service.NStory.dto.bbs.WhiteBoardView;
 
 import java.util.ArrayList;
 
 public interface WhiteBoardServiceIF {
     ArrayList<WhiteBoardList> boardList(String bid, int start) throws Exception;
-    WhiteBoard getBoardView(int id) throws Exception;
+    WhiteBoard getBoard(int id) throws Exception;
+    WhiteBoardView getBoardView(int id) throws Exception;
     int totalCount(String bid) throws Exception;
     void insertBoard(WhiteBoard wb) throws Exception;
     void deleteBoard(int id, String email) throws Exception;
