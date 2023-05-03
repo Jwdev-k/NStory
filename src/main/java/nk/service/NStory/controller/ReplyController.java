@@ -20,7 +20,8 @@ public class ReplyController {
     public ResponseEntity<String> addReply(@AuthenticationPrincipal CustomUserDetails userDetails
             , @RequestParam(required = false) String name, @RequestParam int id, @RequestParam int cid
             , @RequestParam String contents) throws Exception {
-        if (userDetails != null && name == null) {
+        contents = contents.replaceAll("(?i)<script.*?>.*?</script.*?>", "");
+        if (userDetails != null && name == null && contents.length() > 0) {
             if (contents.length() > 300) {
                 contents = contents.substring(0, 300);
             }
@@ -35,7 +36,8 @@ public class ReplyController {
     @PostMapping(value = "/whiteview/reply/edit")
     public ResponseEntity<String> editReply(@AuthenticationPrincipal CustomUserDetails userDetails
             ,@RequestParam int rid, @RequestParam(required = false) String name, @RequestParam String contents) throws Exception {
-        if (userDetails != null && name == null) {
+        contents = contents.replaceAll("(?i)<script.*?>.*?</script.*?>", "");
+        if (userDetails != null && name == null && contents.length() > 0) {
             if (contents.length() > 300) {
                 contents = contents.substring(0, 300);
             }

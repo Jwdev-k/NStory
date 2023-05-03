@@ -108,3 +108,13 @@ main {
 .main-list-icon {
     font-size: 12px;
 }
+.userinfo-t-c {
+    font-size: 14px;
+    font-weight: bold;
+    color: black;
+    width: auto;
+    max-width: 50%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}

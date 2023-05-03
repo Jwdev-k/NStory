@@ -20,7 +20,8 @@ public class CommentController {
     public ResponseEntity<String> addComment(@AuthenticationPrincipal CustomUserDetails userDetails
             , @RequestParam int id, @RequestParam(required = false) String name
             , @RequestParam String contents) throws Exception {
-        if (userDetails != null && name == null) {
+        contents = contents.replaceAll("(?i)<script.*?>.*?</script.*?>", "");
+        if (userDetails != null && name == null && contents.length() > 0) {
             if (contents.length() > 300) {
                 contents = contents.substring(0, 300);
             }
@@ -36,7 +37,8 @@ public class CommentController {
     public ResponseEntity<String> editComment(@AuthenticationPrincipal CustomUserDetails userDetails
             , @RequestParam int cid, @RequestParam(required = false) String name
             , @RequestParam String contents) throws Exception {
-        if (userDetails != null && name == null) {
+        contents = contents.replaceAll("(?i)<script.*?>.*?</script.*?>", "");
+        if (userDetails != null && name == null && contents.length() > 0) {
             if (contents.length() > 300) {
                 contents = contents.substring(0, 300);
             }

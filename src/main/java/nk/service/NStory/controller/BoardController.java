@@ -103,6 +103,7 @@ public class BoardController {
         if (userDetails == null) {
             return "redirect:" + request.getHeader("referer");
         } else {
+            editordata = editordata.replaceAll("(?i)<script.*?>.*?</script.*?>", "");
             whiteBoardService.insertBoard(new WhiteBoard(0, bid, title, editordata, userDetails.getUsername(), userDetails.getEmail()
                     , CurrentTime.getTime4(), 0, 0, 0, isNotice, true));
         }
@@ -204,6 +205,7 @@ public class BoardController {
         if (userDetails == null) {
             return "redirect:" + request.getHeader("referer");
         } else {
+            editordata = editordata.replaceAll("(?i)<script.*?>.*?</script.*?>", "");
             whiteBoardService.updateBoard(
                     new WhiteBoard(id, title, editordata, userDetails.getUsername(), userDetails.getEmail(), isNotice));
         }

@@ -62,7 +62,6 @@
     </ul>
 </div>
 <main>
-    <div class="container-fluid">
         <div class="container mt-5">
             <div class="row justify-content-center">
                 <div class="col-lg-6 col-md-8">
@@ -128,12 +127,29 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-lg-6 col-md-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <ul class="nav nav-tabs card-header-tabs w-100">
+                                <li class="nav-item w-50">
+                                    <a class="btn fw-bold text-white w-100" id="recent-posts-btn" onclick="postsBtn();">작성한 게시물 목록</a>
+                                </li>
+                                <li class="nav-item w-50">
+                                    <a class="btn fw-bold text-muted w-100" id="recent-comments-btn" onclick="commentsBtn();">작성한 댓글 목록</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-body" style="overflow: auto; max-height: 740px;">
+                            <ul class="list-group" id="recent-list">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
     <div class="modal" id="userInfo" tabindex="-1" style="display: none; top: 10%;" sec:authorize="isAuthenticated()">
         <div class="modal-dialog">
-            <div class="modal-content" style="width: 530px; height: 700px;">
+            <div class="modal-content" style="width: 700px; height: 700px;">
                 <div class="modal-header">
                     <h5 class="modal-title">이미지 업로드</h5>
                     <button class="btn-close" onclick="closeUserInfo()" aria-label="Close"></button>
@@ -168,4 +184,5 @@
 <script src="/static/js/popup.js"></script>
 <script src="/static/js/menuEvent.js"></script>
 <script src="/static/js/prfUpload.js"></script>
+<script src="/static/js/myHistory.js"></script>
 </html>

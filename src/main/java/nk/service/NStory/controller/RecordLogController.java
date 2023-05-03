@@ -40,8 +40,9 @@ public class RecordLogController {
     public String FrmLogAdd(HttpServletRequest request, @RequestParam String contents
             , @AuthenticationPrincipal CustomUserDetails userDetails) throws Exception {
         if (userDetails != null) {
-            if (contents.length() > 50) {
-                contents = contents.substring(0, 50);
+            String outputString = contents.replaceAll("(?i)<script.*?>.*?</script.*?>", "");
+            if (outputString.length() > 50) {
+                contents = outputString.substring(0, 50);
             }
             recordLogService.addLog(new RecordLogDTO(0, contents, userDetails.getEmail(), userDetails.getUsername(), CurrentTime.getTime()));
         }
