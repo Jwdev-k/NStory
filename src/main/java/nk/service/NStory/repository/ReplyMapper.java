@@ -13,7 +13,7 @@ public interface ReplyMapper {
     ReplyDTO getReply(int rid) throws Exception;
     @Insert("INSERT INTO reply VALUE(null, #{cid}, #{id}, #{email}, #{name}, #{contents}, #{time}, #{isEnable})")
     void addReply(ReplyDTO replyDTO) throws Exception;
-    @Update("UPDATE reply SET name = #{name},contents = #{contents} WHERE rid = #{rid}")
+    @Update("UPDATE reply SET name = #{name},contents = #{contents} WHERE rid = #{rid} AND email = #{email}")
     void replyEdit(ReplyDTO replyDTO) throws Exception;
     @Delete("DELETE FROM reply WHERE rid = #{rid}")
     void deleteReply(int rid) throws Exception;

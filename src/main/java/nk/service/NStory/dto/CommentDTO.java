@@ -15,8 +15,9 @@ public class CommentDTO {
     private boolean isEnable;
     private int aid;
 
-    public CommentDTO(int cid, String name, String contents) {
+    public CommentDTO(int cid, String email, String name, String contents) {
         this.cid = cid;
+        this.email = email;
         this.name = name;
         this.contents = contents;
     }

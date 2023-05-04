@@ -13,7 +13,7 @@ public interface CommentMapper {
     CommentDTO getComment(int cid) throws Exception;
     @Insert("INSERT INTO comment VALUE(null, #{id}, #{email}, #{name}, #{contents}, #{time}, #{isEnable})")
     void addComment(CommentDTO commentDTO) throws Exception;
-    @Update("UPDATE comment SET name= #{name}, contents = #{contents} WHERE cid = #{cid}")
+    @Update("UPDATE comment SET name= #{name}, contents = #{contents} WHERE cid = #{cid} AND email = #{email}")
     void commentEdit(CommentDTO commentDTO) throws Exception;
     @Delete("DELETE FROM comment WHERE cid = #{cid}")
     void deleteComment(@Param("cid") int cid) throws Exception;

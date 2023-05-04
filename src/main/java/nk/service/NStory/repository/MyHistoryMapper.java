@@ -12,6 +12,6 @@ public interface MyHistoryMapper {
     @Select("SELECT id, title, creationDate FROM whiteboard WHERE email = #{email} AND isEnable = 1 ORDER BY id DESC")
     ArrayList<HistoryPostsDTO> getMyPosts(String email) throws Exception;
 
-    @Select("SELECT id, contents, time FROM comment UNION SELECT id, contents, time FROM reply WHERE email = #{email} AND isEnable = 1 ORDER BY time DESC")
+    @Select("SELECT id, contents, time FROM comment WHERE email = #{email} AND isEnable = 1 UNION SELECT id, contents, time FROM reply WHERE email = #{email} AND isEnable = 1 ORDER BY time DESC")
     ArrayList<HistoryCommentsDTO> getMyComments(String email) throws Exception;
 }

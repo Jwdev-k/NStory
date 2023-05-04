@@ -42,7 +42,7 @@ public class CommentController {
             if (contents.length() > 300) {
                 contents = contents.substring(0, 300);
             }
-            commentService.commentEdit(new CommentDTO(cid, userDetails.getUsername(), contents));
+            commentService.commentEdit(new CommentDTO(cid, userDetails.getEmail(), userDetails.getUsername(), contents));
         } else {
             return ResponseEntity.badRequest().body(null);
         }

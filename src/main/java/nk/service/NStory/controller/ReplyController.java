@@ -41,7 +41,7 @@ public class ReplyController {
             if (contents.length() > 300) {
                 contents = contents.substring(0, 300);
             }
-            replyService.replyEdit(new ReplyDTO(rid, userDetails.getUsername(), contents));
+            replyService.replyEdit(new ReplyDTO(rid, userDetails.getEmail(), userDetails.getUsername(), contents));
         } else {
             return ResponseEntity.badRequest().body(null);
         }

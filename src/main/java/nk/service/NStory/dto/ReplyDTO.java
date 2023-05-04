@@ -16,8 +16,9 @@ public class ReplyDTO {
     private boolean isEnable;
     private int aid;
 
-    public ReplyDTO(int rid, String name, String contents) {
+    public ReplyDTO(int rid, String email, String name, String contents) {
         this.rid = rid;
+        this.email = email;
         this.name = name;
         this.contents = contents;
     }
