@@ -71,13 +71,7 @@ public class MainController {
         return ResponseEntity.ok(responseJson.toJSONString());
     }
 
-    @GetMapping(value = "/storage/prf/img", produces = MediaType.IMAGE_PNG_VALUE)
-    public ResponseEntity<byte[]> getProfileImage(@AuthenticationPrincipal CustomUserDetails userDetails) {
-        byte[] ImageByteArray = userDetails.getProfileImg();
-        return new ResponseEntity<>(ImageByteArray, HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/general/prf/{id}", produces = MediaType.IMAGE_PNG_VALUE)
+    @GetMapping(value = "/general/prf_img/{id}", produces = MediaType.IMAGE_PNG_VALUE)
     public ResponseEntity<byte[]> getProfileImage(HttpServletRequest request, @PathVariable int id) throws Exception {
         ByteImageDTO ImageByteArray = accountService.getUserImage(id);
         if (ImageByteArray != null && ImageByteArray.getImage().length > 0) {

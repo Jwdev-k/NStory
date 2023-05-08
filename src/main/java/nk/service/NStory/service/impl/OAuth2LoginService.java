@@ -53,15 +53,17 @@ public class OAuth2LoginService extends DefaultOAuth2UserService {
                 accountService.register(new AccountDTO(0, email, passwordEncoder.encode(provider), name,
                         null, null, "USER", CurrentTime.getTime(), CurrentTime.getTime(),
                         1, 0, 0, true, true));
-                return new CustomUserDetails(oAuth2UserInfo, name, email, passwordEncoder.encode(provider), null
-                        , null, 1, 0, 0, true
+                AccountDTO account2 = accountService.login(email);
+                return new CustomUserDetails(oAuth2UserInfo, account2.getId(), account2.getName(), account2.getEmail()
+                        , passwordEncoder.encode(provider), account2.getComment()
+                        , account2.getLevel(), account2.getExp(), account2.getNCoin(), account2.isEnable()
                         , Collections.singleton(new SimpleGrantedAuthority("ROLE_" + "USER"))
-                        , false, true);
+                        , updateStatus.checkingReward(account2), account2.isOAuth());
             } else {
                 accountService.UpdateLastLoginDate(CurrentTime.getTime(), email);
-                return new CustomUserDetails(oAuth2UserInfo, account.getName(), account.getEmail(), passwordEncoder.encode(provider)
-                        , account.getComment(), account.getProfileImg(), account.getLevel(), account.getExp()
-                        , account.getNCoin(), account.isEnable()
+                return new CustomUserDetails(oAuth2UserInfo, account.getId(), account.getName(), account.getEmail()
+                        , passwordEncoder.encode(provider), account.getComment()
+                        , account.getLevel(), account.getExp(), account.getNCoin(), account.isEnable()
                         , Collections.singleton(new SimpleGrantedAuthority("ROLE_" + account.getRole()))
                         , updateStatus.checkingReward(account), account.isOAuth());
             }

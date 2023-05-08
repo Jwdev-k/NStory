@@ -25,11 +25,8 @@
     <div class="container">
         <a class="navbar-brand" href="/">NStory</a>
         <ul class="navbar-nav">
-            <li class="nav-item" th:if="${#authentication.principal.profileImg != null}" sec:authorize="isAuthenticated()">
-                <img class="box" th:src="@{/storage/prf/img}" alt=""></li>
-            <li class="nav-item" th:unless="${#authentication.principal.profileImg != null}"
-                sec:authorize="isAuthenticated()">
-                <img class="box" src="/static/images/default_profileImg.png" alt=""></li>
+            <li class="nav-item" sec:authorize="isAuthenticated()">
+                <img class="box" th:src="@{/general/prf_img/} + ${#authentication.principal.aid}" alt=""></li>
             <li class="nav-item" sec:authorize="isAuthenticated()">
                 <a class="nav-link" href="/info" th:text="${#authentication.principal.username}"></a></li>
             <li class="nav-item" sec:authorize="isAuthenticated()">
@@ -92,7 +89,7 @@
                                         </div>
                                         <div class="card-body">
                                             <div class="card-text">
-                                                <img class="box-mini" th:src="@{/general/prf/} + ${list.aid}" alt="profile">
+                                                <img class="box-mini" th:src="@{/general/prf_img/} + ${list.aid}" alt="profile">
                                                 <span style="font-size: 12px" th:text="${list.author}"></span>
                                                 <span><i class="fa fa-eye fa-sm" aria-hidden="true"></i></span>
                                                 <span class="main-list-icon" th:text="${list.views}"></span>
@@ -121,7 +118,7 @@
                                         </div>
                                         <div class="card-body">
                                             <div class="card-text">
-                                                <img class="box-mini" th:src="@{/general/prf/} + ${list.aid}" alt="profile">
+                                                <img class="box-mini" th:src="@{/general/prf_img/} + ${list.aid}" alt="profile">
                                                 <span style="font-size: 13px" th:text="${list.author}"></span>
                                                 <span><i class="fa fa-eye fa-sm" aria-hidden="true"></i></span>
                                                 <span class="main-list-icon" th:text="${list.views}"></span>
@@ -150,7 +147,7 @@
                                         </div>
                                         <div class="card-body">
                                             <div class="card-text">
-                                                <img class="box-mini" th:src="@{/general/prf/} + ${list.aid}" alt="profile">
+                                                <img class="box-mini" th:src="@{/general/prf_img/} + ${list.aid}" alt="profile">
                                                 <span style="font-size: 13px" th:text="${list.author}"></span>
                                                 <span><i class="fa fa-eye fa-sm" aria-hidden="true"></i></span>
                                                 <span class="main-list-icon" th:text="${list.views}"></span>

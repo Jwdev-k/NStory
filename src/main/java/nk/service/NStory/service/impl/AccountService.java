@@ -63,14 +63,13 @@ public class AccountService implements AccountServiceIF {
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (accountDTO.getProfileImg() != null && accountDTO.getProfileImg().length > 0) { // 프로필 정보 업데이트
             accountMapper.UpdateAccountInfo(accountDTO);
-            userDetails.setProfileImg(accountDTO.getProfileImg());
         } else {
             accountMapper.UpdateAccountInfo2(accountDTO);
             userDetails.setUsername(accountDTO.getName());
             userDetails.setComment(accountDTO.getComment());
         }
         Authentication newAuth;
-        if (userDetails.isOAuth()) { // OAuth 객체 Null이 아닌경우
+        if (userDetails.isOAuth()) { // OAuth 계정 인 경우
             newAuth = new OAuth2AuthenticationToken(userDetails, userDetails.getAuthorities(),
                     userDetails.getOAuth2UserInfo() != null ? userDetails.getName() : "RememberMe");
         } else {

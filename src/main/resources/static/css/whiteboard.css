@@ -61,14 +61,15 @@ label{
 .comment-add {
     width: 100vh;
     max-width: 600px;
+    padding:  10px;
 }
 .comment-box {
     width: auto;
-    max-width: 500px;
+    max-width: 400px;
 }
 .reply-box {
     width: auto;
-    max-width: 500px;
+    max-width: 400px;
 }
 .reply-card{
     min-height: 500px;
@@ -79,7 +80,7 @@ label{
     margin-left: 20px;
 }
 .reply-text{
-    height: 100px;
+    height: 80px;
     resize: none;
 }
 

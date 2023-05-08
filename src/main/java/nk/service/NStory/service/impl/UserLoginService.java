@@ -30,9 +30,8 @@ public class UserLoginService implements UserDetailsService {
                 throw new AuthenticationCredentialsNotFoundException("인증 요청 거부 (계정 비활성화 상태)");
             } else {
                 accountService.UpdateLastLoginDate(CurrentTime.getTime(), email);
-                return new CustomUserDetails(account.getName(), account.getEmail(), account.getPassword()
-                        , account.getComment(), account.getProfileImg(), account.getLevel(), account.getExp()
-                        , account.getNCoin(), account.isEnable()
+                return new CustomUserDetails(account.getId(), account.getName(), account.getEmail(), account.getPassword()
+                        , account.getComment(), account.getLevel(), account.getExp(), account.getNCoin(), account.isEnable()
                         , Collections.singleton(new SimpleGrantedAuthority("ROLE_" + "USER"))
                         , updateStatus.checkingReward(account), account.isOAuth());
             }

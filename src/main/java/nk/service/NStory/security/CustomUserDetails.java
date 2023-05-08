@@ -20,11 +20,11 @@ public class CustomUserDetails implements UserDetails, OAuth2User {
 
     private OAuth2UserInfo oAuth2UserInfo;
 
+    private int aid;
     private String username;
     private String password;
     private String email;
     private String comment;
-    private byte[] profileImg;
     private int level;
     private int exp;
     private int nCoin;
@@ -37,14 +37,14 @@ public class CustomUserDetails implements UserDetails, OAuth2User {
     private boolean isOAuth;
 
     //Login
-    public CustomUserDetails(String username, String email, String password, String comment, byte[] profileImg
+    public CustomUserDetails(int aid, String username ,String email, String password, String comment
             , int level, int exp, int nCoin, boolean isEnabled, Collection<? extends GrantedAuthority> authorities
             , boolean firstLogin, boolean isOAuth) {
+        this.aid = aid;
         this.username = username;
         this.email = email;
         this.password = password;
         this.comment = comment;
-        this.profileImg = profileImg;
         this.level = level;
         this.exp = exp;
         this.nCoin = nCoin;
@@ -55,15 +55,15 @@ public class CustomUserDetails implements UserDetails, OAuth2User {
     }
 
     //OAuth2 로그인
-    public CustomUserDetails(OAuth2UserInfo attributes, String username, String email, String password, String comment
-            , byte[] profileImg, int level, int exp, int nCoin, boolean isEnabled, Collection<? extends GrantedAuthority> authorities
+    public CustomUserDetails(OAuth2UserInfo attributes, int aid, String username, String email, String password, String comment
+            , int level, int exp, int nCoin, boolean isEnabled, Collection<? extends GrantedAuthority> authorities
             , boolean firstLogin, boolean isOAuth) {
         this.oAuth2UserInfo = attributes;
+        this.aid = aid;
         this.username = username;
         this.email = email;
         this.password = password;
         this.comment = comment;
-        this.profileImg = profileImg;
         this.level = level;
         this.exp = exp;
         this.nCoin = nCoin;

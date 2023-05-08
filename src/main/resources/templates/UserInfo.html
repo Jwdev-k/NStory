@@ -14,7 +14,8 @@
     <link rel="stylesheet" href="/static/css/bootstrap-utilities.css">
     <link rel="stylesheet" href="/static/css/main.css">
     <link rel="stylesheet" href="/static/css/custom-theme.css">
-    <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.3.js"
+            integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
     <script src="/static/js/bootstrap.min.js"></script>
     <script src="/static/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="/static/assets/CropperJS/cropper.min.css"/>
@@ -22,15 +23,13 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-lg fixed-top">
-    <button class="btn menu-btn position-relative" id="menu-btn"><img src="/static/images/svg/menu.svg" alt="Menu"></button>
+    <button class="btn menu-btn position-relative" id="menu-btn"><img src="/static/images/svg/menu.svg" alt="Menu">
+    </button>
     <div class="container">
         <a class="navbar-brand" href="/">NStory</a>
         <ul class="navbar-nav">
-            <li class="nav-item" th:if="${#authentication.principal.profileImg != null}" sec:authorize="isAuthenticated()">
-                <img class="box" th:src="@{/storage/prf/img}" alt=""></li>
-            <li class="nav-item" th:unless="${#authentication.principal.profileImg != null}"
-                sec:authorize="isAuthenticated()">
-                <img class="box" src="/static/images/default_profileImg.png" alt=""></li>
+            <li class="nav-item" sec:authorize="isAuthenticated()">
+                <img class="box" th:src="@{/general/prf_img/} + ${#authentication.principal.aid}" alt=""></li>
             <li class="nav-item" sec:authorize="isAuthenticated()">
                 <a class="nav-link" href="/info" th:text="${#authentication.principal.username}"></a></li>
             <li class="nav-item" sec:authorize="isAuthenticated()">
@@ -62,91 +61,88 @@
     </ul>
 </div>
 <main>
-        <div class="container mt-5">
-            <div class="row justify-content-center">
-                <div class="col-lg-6 col-md-8">
-                    <div class="card border-0 shadow">
-                        <div class="card-body text-light">
-                            <h5 class="text-center text-black fw-bold">계정 정보</h5>
-                            <div class="text-center">
-                                <div class="overflow-hidden mb-3 mt-5">
-                                    <a href="javascript:openUserInfo()">
-                                        <img class="profile2" th:if="${#authentication.principal.profileImg != null}"
-                                             th:src="@{/storage/prf/img}" alt="prf">
-                                    </a>
-                                    <a href="javascript:openUserInfo()">
-                                        <img class="profile2"
-                                             th:unless="${#authentication.principal.profileImg != null}"
-                                             src="/static/images/default_profileImg.png" alt="prf">
-                                    </a>
-                                </div>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-5 col-md-7">
+                <div class="card border-0 shadow">
+                    <div class="card-body text-light">
+                        <h5 class="text-center text-black fw-bold">계정 정보</h5>
+                        <div class="text-center">
+                            <div class="overflow-hidden mb-3 mt-5">
+                                <a href="javascript:openUserInfo()">
+                                    <img class="profile2"
+                                         th:src="@{/general/prf_img/} + ${#authentication.principal.aid}" alt="prf">
+                                </a>
                             </div>
-                            <form method="post" action="/account/profile_update">
-                                <div class="form-group mb-3">
-                                    <label for="nickname" class="form-label text-black fw-bold">사용자 이름 :</label>
-                                    <input type="text" class="form-control" id="nickname"
-                                           name="nickname" th:value="${#authentication.principal.username}">
-                                </div>
-                                <div class="form-group mb-3">
-                                    <label for="comment" class="form-label text-black fw-bold">소개글(최대 100자) :</label>
-                                    <textarea class="form-control" id="comment" maxlength="100"
-                                              style="height: 80px; resize: none;"
-                                              name="comment" th:text="${#authentication.principal.comment}"></textarea>
-                                </div>
-                                <div class="form-group mb-3">
-                                    <label for="email" class="form-label text-black fw-bold">이메일 주소 :</label>
-                                    <input type="email" class="form-control" id="email"
-                                           th:value="${#authentication.principal.email}" readonly>
-                                </div>
-                                <div class="form-group mb-3">
-                                    <label for="password" class="form-label text-black fw-bold">비밀번호 :</label>
-                                    <input type="text" class="form-control" id="password"
-                                           th:value="${pwValue}" readonly>
-                                </div>
-                                <div class="form-group" th:if="${!#authentication.principal.isOAuth}">
-                                    <a class="btn btn-primary btn-block mt-3" href="/new_pw">비밀번호 변경</a>
-                                </div>
-                                <div sec:authorize="hasRole('ROLE_ADMIN')">
-                                    <a href="#">유저 관리</a>
-                                    <span class="text-black"> / </span>
-                                    <a href="/chatroom">채팅룸</a>
-                                </div>
-                                <div class="form-group row justify-content-end">
-                                    <div class="col-sm-3">
-                                        <button type="button" class="btn btn-secondary mt-2"
-                                                onclick="location.href='/'">취소
-                                        </button>
-                                        <button type="submit" class="btn btn-primary mt-2"
-                                                onclick="if(!confirm('정말로 저장하시겠습니까??')){
+                        </div>
+                        <form method="post" action="/account/profile_update">
+                            <div class="form-group mb-3">
+                                <label for="nickname" class="form-label text-black fw-bold">사용자 이름 :</label>
+                                <input type="text" class="form-control" id="nickname"
+                                       name="nickname" th:value="${#authentication.principal.username}">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="comment" class="form-label text-black fw-bold">소개글(최대 100자) :</label>
+                                <textarea class="form-control" id="comment" maxlength="100"
+                                          style="height: 80px; resize: none;"
+                                          name="comment" th:text="${#authentication.principal.comment}"></textarea>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="email" class="form-label text-black fw-bold">이메일 주소 :</label>
+                                <input type="email" class="form-control" id="email"
+                                       th:value="${#authentication.principal.email}" readonly>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="password" class="form-label text-black fw-bold">비밀번호 :</label>
+                                <input type="text" class="form-control" id="password"
+                                       th:value="${pwValue}" readonly>
+                            </div>
+                            <div class="form-group" th:if="${!#authentication.principal.isOAuth}">
+                                <a class="btn btn-primary btn-block mt-3" href="/new_pw">비밀번호 변경</a>
+                            </div>
+                            <div sec:authorize="hasRole('ROLE_ADMIN')">
+                                <a href="#">유저 관리</a>
+                                <span class="text-black"> / </span>
+                                <a href="/chatroom">채팅룸</a>
+                            </div>
+                            <div class="form-group row justify-content-end">
+                                <div class="col-sm-3">
+                                    <button type="button" class="btn btn-secondary mt-2"
+                                            onclick="location.href='/'">취소
+                                    </button>
+                                    <button type="submit" class="btn btn-primary mt-2"
+                                            onclick="if(!confirm('정말로 저장하시겠습니까??')){
                                 return false;
                             }">저장
-                                        </button>
-                                    </div>
+                                    </button>
                                 </div>
-                            </form>
-                        </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-8">
-                    <div class="card">
-                        <div class="card-header">
-                            <ul class="nav nav-tabs card-header-tabs w-100">
-                                <li class="nav-item w-50">
-                                    <a class="btn fw-bold text-white w-100" id="recent-posts-btn" onclick="postsBtn();">작성한 게시물 목록</a>
-                                </li>
-                                <li class="nav-item w-50">
-                                    <a class="btn fw-bold text-muted w-100" id="recent-comments-btn" onclick="commentsBtn();">작성한 댓글 목록</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="card-body" style="overflow: auto; max-height: 740px;">
-                            <ul class="list-group" id="recent-list">
-                            </ul>
-                        </div>
+            </div>
+            <div class="col-lg-6 col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <ul class="nav nav-tabs card-header-tabs w-100">
+                            <li class="nav-item w-50">
+                                <a class="btn fw-bold text-white w-100" id="recent-posts-btn" onclick="postsBtn();">작성한
+                                    게시물 목록</a>
+                            </li>
+                            <li class="nav-item w-50">
+                                <a class="btn fw-bold text-muted w-100" id="recent-comments-btn"
+                                   onclick="commentsBtn();">작성한 댓글 목록</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-body" style="overflow-y: auto; max-height: 625px;">
+                        <ul class="list-group" id="recent-list">
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     <div class="modal" id="userInfo" tabindex="-1" style="display: none; top: 10%;" sec:authorize="isAuthenticated()">
         <div class="modal-dialog">
             <div class="modal-content" style="width: 700px; height: 700px;">
