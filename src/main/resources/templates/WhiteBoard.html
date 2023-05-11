@@ -65,11 +65,42 @@
     <div class="container mt-5 vw-100" id="table" th:object="${boardInfo}">
         <div class="container align-items-center">
             <div class="d-flex justify-content-start align-items-center">
-            <img class="board-img" src="/static/images/bangdream/BG-Morfonica.png" alt="null">
+            <img class="board-img" th:src="@{/bbs/main_img/} + *{bid}" alt="mainImg">
                 <div class="d-grid mt-3 p-3">
                     <h4 class="fw-bold" th:text="*{kname}"></h4>
                     <a href="#" th:text="'@' + *{username}"></a>
                     <p class="text-secondary" th:text="*{subname}"></p>
+                </div>
+            </div>
+            <div class="d-flex justify-content-end align-items-center text-center" onclick="openBoardSet();">
+                <button class="btn" th:if="${#strings.equals(#authentication.principal.email, boardInfo.email)}">
+                    <i class="fa-solid fa-gear fa-lg" title="게시판 설정"></i> 설정
+                </button>
+            </div>
+            <div class="modal" id="boardSettings" tabindex="-1" style="display: none;">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">게시판 수정</h5>
+                            <button class="btn-close" onclick="closeBoardSet()" aria-label="Close"></button>
+                        </div>
+                        <!--팝업 컨텐츠 영역-->
+                        <form method="post" th:action="@{/whiteboard/setup/} + *{bid}" enctype="multipart/form-data">
+                            <div class="modal-body">
+                                <span>대표 이미지 변경(100x100권장) : </span>
+                                <input type="file" name="setImage" accept="image/jpeg, image/jpg, image/png">
+                                <label>
+                                    <span>게시판 설명(최대 100자) : </span>
+                                    <textarea name="subname" maxlength="100" placeholder="내용을 입력해 주세요.(최대 100자)" th:text="*{subname}"
+                                              style="resize: none; width: 100%; height: 100px; padding: 10px;" required></textarea>
+                                </label>
+                            </div>
+                            <div class="modal-footer">
+                                <a class="btn btn-secondary" onclick="closeBoardSet()">닫기</a>
+                                <button type="submit" class="btn btn-success">저장</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

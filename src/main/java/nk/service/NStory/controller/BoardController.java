@@ -4,6 +4,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import nk.service.NStory.dto.ByteImageDTO;
 import nk.service.NStory.dto.CommentDTO;
 import nk.service.NStory.dto.Enum.SearchType;
 import nk.service.NStory.dto.LikesHistory;
@@ -15,14 +16,18 @@ import nk.service.NStory.service.impl.*;
 import nk.service.NStory.utils.AES256;
 import nk.service.NStory.utils.CurrentTime;
 import nk.service.NStory.utils.PageUtil;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
@@ -219,5 +224,23 @@ public class BoardController {
         // 업로드된 이미지 URL 반환
         String ImageByteArray = new String(Base64.getEncoder().encode(file.getBytes()), StandardCharsets.UTF_8);
         return ResponseEntity.ok().body("data:image/jpeg;base64," + ImageByteArray);
+    }
+
+    @PostMapping(value = "/whiteboard/setup/{bid}", produces = MediaType.IMAGE_PNG_VALUE)
+    public String SettingsSave(HttpServletRequest request, @RequestParam(required = false) MultipartFile setImage
+            , @RequestParam String subname, @PathVariable String bid) throws Exception {
+        boardInfoService.updateSettings(setImage.getBytes(), subname, bid);
+        return "redirect:" + request.getHeader("referer");
+    }
+
+    @GetMapping(value = "/bbs/main_img/{bid}", produces = MediaType.IMAGE_JPEG_VALUE)
+    public ResponseEntity<byte[]> getProfileImage(@PathVariable String bid) throws Exception {
+        ByteImageDTO ImageByteArray = boardInfoService.getMainImage(bid);
+        if (ImageByteArray != null && ImageByteArray.getImage().length > 0) {
+            return new ResponseEntity<>(ImageByteArray.getImage(), HttpStatus.OK);
+        }
+        File defaultImg = ResourceUtils.getFile("classpath:static/images/bangdream/main-star.png");
+        FileInputStream in = new FileInputStream(defaultImg);
+        return new ResponseEntity<>(in.readAllBytes(), HttpStatus.OK);
     }
 }

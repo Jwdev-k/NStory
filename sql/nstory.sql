@@ -2,7 +2,7 @@
 --
 -- Host: localhost    Database: nstory
 -- ------------------------------------------------------
--- Server version	5.5.5-10.6.4-MariaDB
+-- Server version	5.5.5-10.9.3-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -39,18 +39,8 @@ CREATE TABLE `account` (
   `isOAuth` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email_un` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `account`
---
-
-LOCK TABLES `account` WRITE;
-/*!40000 ALTER TABLE `account` DISABLE KEYS */;
-
-/*!40000 ALTER TABLE `account` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `comment`
@@ -64,7 +54,7 @@ CREATE TABLE `comment` (
   `id` int(11) NOT NULL COMMENT '게시판 아이디',
   `email` varchar(50) NOT NULL COMMENT '이메일',
   `name` varchar(100) NOT NULL COMMENT '작성자이름',
-  `contents` varchar(100) NOT NULL COMMENT '내용',
+  `contents` varchar(300) NOT NULL COMMENT '내용',
   `time` varchar(19) NOT NULL COMMENT '작성시간',
   `isEnable` tinyint(1) NOT NULL,
   PRIMARY KEY (`cid`),
@@ -72,18 +62,8 @@ CREATE TABLE `comment` (
   KEY `comment_FK_1` (`email`),
   CONSTRAINT `comment_FK` FOREIGN KEY (`id`) REFERENCES `whiteboard` (`id`) ON DELETE CASCADE,
   CONSTRAINT `comment_FK_1` FOREIGN KEY (`email`) REFERENCES `account` (`email`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=213 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `comment`
---
-
-LOCK TABLES `comment` WRITE;
-/*!40000 ALTER TABLE `comment` DISABLE KEYS */;
-
-/*!40000 ALTER TABLE `comment` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `exptable`
@@ -101,14 +81,22 @@ CREATE TABLE `exptable` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `exptable`
+-- Table structure for table `likes_history`
 --
 
-LOCK TABLES `exptable` WRITE;
-/*!40000 ALTER TABLE `exptable` DISABLE KEYS */;
-
-/*!40000 ALTER TABLE `exptable` ENABLE KEYS */;
-UNLOCK TABLES;
+DROP TABLE IF EXISTS `likes_history`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `likes_history` (
+  `like_type` tinyint(1) NOT NULL COMMENT '좋아요1/싫어요0',
+  `id` int(11) DEFAULT NULL COMMENT '게시물 번호 리스트',
+  `email` varchar(50) NOT NULL COMMENT '이메일',
+  KEY `whiteboard_likes_FK` (`email`),
+  KEY `likes_history_FK` (`id`),
+  CONSTRAINT `likes_history_FK` FOREIGN KEY (`id`) REFERENCES `whiteboard` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `whiteboard_likes_FK` FOREIGN KEY (`email`) REFERENCES `account` (`email`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `recordlog`
@@ -126,18 +114,8 @@ CREATE TABLE `recordlog` (
   PRIMARY KEY (`id`),
   KEY `Email_FK` (`email`),
   CONSTRAINT `Email_FK` FOREIGN KEY (`email`) REFERENCES `account` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=428 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=444 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `recordlog`
---
-
-LOCK TABLES `recordlog` WRITE;
-/*!40000 ALTER TABLE `recordlog` DISABLE KEYS */;
-
-/*!40000 ALTER TABLE `recordlog` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `reply`
@@ -152,7 +130,7 @@ CREATE TABLE `reply` (
   `id` int(11) NOT NULL COMMENT '게시판 아이디',
   `email` varchar(50) NOT NULL COMMENT '이메일',
   `name` varchar(100) NOT NULL COMMENT '작성자 닉네임',
-  `contents` varchar(100) NOT NULL COMMENT '내용',
+  `contents` varchar(300) NOT NULL COMMENT '내용',
   `time` varchar(19) NOT NULL COMMENT '작성시간',
   `isEnable` tinyint(1) NOT NULL,
   PRIMARY KEY (`rid`),
@@ -162,18 +140,8 @@ CREATE TABLE `reply` (
   CONSTRAINT `reply_FK` FOREIGN KEY (`cid`) REFERENCES `comment` (`cid`) ON DELETE CASCADE,
   CONSTRAINT `reply_FK_1` FOREIGN KEY (`email`) REFERENCES `account` (`email`) ON DELETE CASCADE,
   CONSTRAINT `reply_id_fk` FOREIGN KEY (`id`) REFERENCES `whiteboard` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `reply`
---
-
-LOCK TABLES `reply` WRITE;
-/*!40000 ALTER TABLE `reply` DISABLE KEYS */;
-
-/*!40000 ALTER TABLE `reply` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `whiteboard`
@@ -183,31 +151,25 @@ DROP TABLE IF EXISTS `whiteboard`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `whiteboard` (
-`id` int(11) NOT NULL AUTO_INCREMENT COMMENT '번호',
-`bid` varchar(100) NOT NULL COMMENT '게시판이름',
-`title` varchar(50) NOT NULL COMMENT '제목',
-`contents` longtext NOT NULL COMMENT '내용',
-`author` varchar(100) NOT NULL COMMENT '작성자',
-`email` varchar(50) NOT NULL COMMENT '작성자 이메일',
-`creationDate` varchar(19) NOT NULL DEFAULT '1999-01-01' COMMENT '작성일자',
-`views` int(11) NOT NULL DEFAULT 0 COMMENT '조회수',
-`like` int(11) NOT NULL DEFAULT 0 COMMENT '좋아요',
-`dislike` int(11) NOT NULL DEFAULT 0 COMMENT '싫어요',
-`isEnable` tinyint(1) NOT NULL COMMENT '활성화 여부',PRIMARY KEY (`id`),KEY `whiteboard_FK` (`email`),KEY `bid_pk` (`bid`),
-CONSTRAINT `bid_pk` FOREIGN KEY (`bid`) REFERENCES `whiteboard_list` (`bid`) ON DELETE CASCADE,
-CONSTRAINT `whiteboard_FK` FOREIGN KEY (`email`) REFERENCES `account` (`email`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=utf8mb4;
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '번호',
+  `bid` varchar(100) NOT NULL COMMENT '게시판이름',
+  `title` varchar(50) NOT NULL COMMENT '제목',
+  `contents` longtext NOT NULL COMMENT '내용',
+  `author` varchar(100) NOT NULL COMMENT '작성자',
+  `email` varchar(50) NOT NULL COMMENT '작성자 이메일',
+  `creationDate` varchar(19) NOT NULL DEFAULT '1999-01-01',
+  `views` int(11) NOT NULL DEFAULT 0 COMMENT '조회수',
+  `like_count` int(11) NOT NULL DEFAULT 0 COMMENT '좋아요',
+  `dislike_count` int(11) NOT NULL DEFAULT 0 COMMENT '싫어요',
+  `isNotice` tinyint(1) NOT NULL DEFAULT 0,
+  `isEnable` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `whiteboard_FK` (`email`),
+  KEY `bid_pk` (`bid`),
+  CONSTRAINT `bid_pk` FOREIGN KEY (`bid`) REFERENCES `whiteboard_list` (`bid`) ON DELETE CASCADE,
+  CONSTRAINT `whiteboard_FK` FOREIGN KEY (`email`) REFERENCES `account` (`email`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=10032 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `whiteboard`
---
-
-LOCK TABLES `whiteboard` WRITE;
-/*!40000 ALTER TABLE `whiteboard` DISABLE KEYS */;
-
-/*!40000 ALTER TABLE `whiteboard` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `whiteboard_list`
@@ -218,23 +180,15 @@ DROP TABLE IF EXISTS `whiteboard_list`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `whiteboard_list` (
   `bid` varchar(100) NOT NULL COMMENT '게시판 아이디',
-  `kname` varchar(100) NOT NULL COMMENT '게시판 이름',
+  `kname` varchar(30) NOT NULL COMMENT '게시판 이름',
+  `subname` varchar(100) DEFAULT NULL,
   `email` varchar(50) NOT NULL COMMENT '관리자 이메일',
+  `mainImg` mediumblob DEFAULT NULL COMMENT '게시판 대표이미지',
   PRIMARY KEY (`bid`),
   KEY `whiteboard_list_FK` (`email`),
   CONSTRAINT `whiteboard_list_FK` FOREIGN KEY (`email`) REFERENCES `account` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `whiteboard_list`
---
-
-LOCK TABLES `whiteboard_list` WRITE;
-/*!40000 ALTER TABLE `whiteboard_list` DISABLE KEYS */;
-INSERT INTO `whiteboard_list` VALUES ('free','자유게시판','test@gmail.com'),('test','테스트게시판','ryo8887@naver.com');
-/*!40000 ALTER TABLE `whiteboard_list` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Dumping routines for database 'nstory'
@@ -249,16 +203,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- nstory.likes_history definition
-
-CREATE TABLE `likes_history` (
-`like_type` tinyint(1) NOT NULL COMMENT '좋아요1/싫어요0',
-`id` int(11) DEFAULT NULL COMMENT '게시물 번호 리스트',
-`email` varchar(50) NOT NULL COMMENT '이메일',
-KEY `whiteboard_likes_FK` (`email`),
-KEY `likes_history_FK` (`id`),
-CONSTRAINT `likes_history_FK` FOREIGN KEY (`id`) REFERENCES `whiteboard` (`id`) ON DELETE CASCADE,
-CONSTRAINT `whiteboard_likes_FK` FOREIGN KEY (`email`) REFERENCES `account` (`email`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- Dump completed on 2023-04-16 17:02:36
+-- Dump completed on 2023-05-11 10:02:14

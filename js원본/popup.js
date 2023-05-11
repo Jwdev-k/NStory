@@ -18,6 +18,15 @@ function openUserInfo() {
 //팝업 닫기
 function closeUserInfo() {
     document.getElementById("userInfo").style.display = "none";
-    var input = document.getElementById("chooseImg");
-    input.value = null;
+}
+
+//팝업 띄우기
+function openBoardSet() {
+    document.getElementById("boardSettings").style.display = "block";
+
+}
+
+//팝업 닫기
+function closeBoardSet() {
+    document.getElementById("boardSettings").style.display = "none";
 }
