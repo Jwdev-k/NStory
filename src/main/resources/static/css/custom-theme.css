@@ -148,15 +148,11 @@ input[type="checkbox"]:checked:enabled {
     background-color: whitesmoke;
     z-index: 1031;
     transition: left 0.3s ease-in-out;
-    box-shadow: 5px 0 5px rgba(0, 0, 0, 0.5); /* 오른쪽 그림자 */
+    box-shadow: 1px 0 5px rgba(0, 0, 0, 0.5); /* 오른쪽 그림자 */
     opacity: 0;
 }
 .menu {
-    position: relative;
-    top: 50px;
     padding: 0;
-    margin: 10px 0 0 0;
-    text-align: center;
 }
 .menu-info {
     list-style: none;
@@ -164,30 +160,30 @@ input[type="checkbox"]:checked:enabled {
     bottom: 0;
     left: 0;
     right: 0;
-    padding: 20px;
+    padding: 20px 20px 50px;
     text-align: center;
 }
+
 .menu-info p {
     font-size: 10px;
-    color: var(--primary-color);
 }
+
 .menu li {
+    list-style-type: none;
     margin: 10px;
 }
+
 .menu li a:hover {
     color: var(--secondary-color);
 }
+
 .menu li a {
-    color: var(--primary-color);
-    font-weight: bold;
     text-decoration: none;
+    text-align: center;
 }
 .menu li h5 {
-    padding-top: 10px;
+    text-align: center;
     padding-bottom: 10px;
-    border-bottom: 1px solid var(--primary-color);
-    font-weight: bold;
-    color: var(--primary-color);
 }
 .menu-btn {
     height: 40px;
@@ -202,6 +198,7 @@ input[type="checkbox"]:checked:enabled {
     cursor: pointer;
     z-index: 10;
 }
+
 body{
     user-select: none;
     overflow-x: hidden;

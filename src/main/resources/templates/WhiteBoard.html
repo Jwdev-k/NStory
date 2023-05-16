@@ -41,20 +41,44 @@
 </nav>
 <div class="menu-wrapper">
     <button class="menu-close-btn" id="menu-close-btn"><i class="fa fa-close"></i></button>
-    <ul class="menu">
-        <li><h5>MENU</h5></li>
-        <li><a href="/record">방명록</a></li>
-        <li><a href="/ranking">랭킹</a></li>
-        <li><a href="/shop">NStory SHOP</a></li>
-        <li><h5>게시판</h5></li>
-        <li th:each="list : ${boardInfoList}">
-            <a th:href="@{/whiteboard/{bid}(bid=${list.bid})}" th:text="${list.kname}"></a>
+    <a href="/" class="d-flex justify-content-center align-items-center pt-5 mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+        <i class="fa-solid fa-cloud-moon fa-2xl" style="color: #FF3E7F;"></i>
+        <span class="fs-4 text-custom-primary">MENU</span>
+    </a>
+    <hr>
+    <ul class="menu mb-auto nav-pills">
+        <li class="nav-item">
+            <a href="/record" class="nav-link"><span>방명록</span></a>
+        </li>
+        <li class="nav-item">
+            <a href="/ranking" class="nav-link"><span>랭킹</span></a>
+        </li>
+        <li class="nav-item">
+            <a href="/shop" class="nav-link"><span>NStory Shop</span></a>
+        </li>
+        <li class="nav-item"><hr><h5 class="nav-justified fw-bold text-custom-primary">게시판 목록</h5></li>
+        <li class="nav-item" th:each="list : ${boardInfoList}">
+            <a class="nav-link" th:href="@{/whiteboard/{bid}(bid=${list.bid})}" th:text="${list.kname}"></a>
         </li>
     </ul>
-    <ul class="menu-info">
-        <li><p class="text-center">개발중인 메뉴입니다.
-            <br/>현재 테스트 작업중이며 버그 신고는 ckaksj97@gmail.com으로 부탁드립니다.</p></li>
-    </ul>
+    <div class="menu-info d-flex align-items-center">
+        <th:block th:if="${#authentication != null}">
+            <div class="dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
+                <img class="box" th:src="@{/general/prf_img/} + ${#authentication.principal.aid}" alt="">
+                <a class="link-dark" href="/info" th:text="${#authentication.principal.username}"></a>
+            </div>
+            <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
+                <li><a class="dropdown-item" href="/info">프로필</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="/logout">로그아웃</a></li>
+            </ul>
+        </th:block>
+        <th:block th:unless="${#authentication != null}">
+            <ul class="menu-info">
+                <li><p class="text-center"> <a class="link-dark fw-bold" href="/login">로그인</a></li>
+            </ul>
+        </th:block>
+    </div>
 </div>
 <main>
     <div id="loading">
@@ -127,7 +151,7 @@
                                     <i class="fa fa-eye"></i></th>
                                 <th class="text-center d-none d-md-table-cell" scope="col" title="좋아요">
                                     <i class="fa fa-thumbs-up"></i></th>
-                                <th class="text-center d-none d-md-table-cell" scope="col" title="싫어요">
+                                <th class="text-center d-none d-md-table-cell" scope="col" title="댓글수">
                                     <i class="fa fa-commenting"></i></th>
                             </tr>
                             </thead>
