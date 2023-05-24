@@ -64,6 +64,8 @@ public class SecurityConfig {
         http.sessionManagement().sessionFixation().migrateSession()
                 .invalidSessionUrl("/login").maximumSessions(1).maxSessionsPreventsLogin(true).expiredUrl("/login")
                 .sessionRegistry(sessionRegistry());
+
+        http.headers().xssProtection();
         return http.build();
     }
 
