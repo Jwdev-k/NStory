@@ -48,7 +48,6 @@
     <button class="menu-close-btn" id="menu-close-btn"><i class="fa fa-close"></i></button>
     <a href="/"
        class="d-flex justify-content-center align-items-center pt-5 mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
-        <i class="fa-solid fa-cloud-moon fa-2xl" style="color: #FF3E7F;"></i>
         <span class="fs-4 text-custom-primary">MENU</span>
     </a>
     <hr>
@@ -69,8 +68,8 @@
             <a class="nav-link" th:href="@{/whiteboard/{bid}(bid=${list.bid})}" th:text="${list.kname}"></a>
         </li>
     </ul>
-    <div class="menu-info d-flex align-items-center">
-        <th:block th:if="${#authentication != null}">
+    <th:block th:if="${#authentication != null}">
+        <div class="menu-info d-flex align-items-center">
             <div class="dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
                 <img class="box" th:src="@{/general/prf_img/} + ${#authentication.principal.aid}" alt="">
                 <a class="link-dark" href="/info" th:text="${#authentication.principal.username}"></a>
@@ -82,13 +81,15 @@
                 </li>
                 <li><a class="dropdown-item" href="/logout">로그아웃</a></li>
             </ul>
-        </th:block>
-        <th:block th:unless="${#authentication != null}">
+        </div>
+    </th:block>
+    <th:block th:unless="${#authentication != null}">
+        <div class="d-flex align-items-center">
             <ul class="menu-info">
                 <li><p class="text-center"><a class="link-dark fw-bold" href="/login">로그인</a></li>
             </ul>
-        </th:block>
-    </div>
+        </div>
+    </th:block>
 </div>
 <main>
     <div class="container jumbotron">
