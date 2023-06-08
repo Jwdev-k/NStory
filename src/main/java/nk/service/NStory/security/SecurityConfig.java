@@ -59,7 +59,7 @@ public class SecurityConfig {
         http.rememberMe().rememberMeServices(customRememberMeServices()); // 커스텀 자동로그인 설정
 
         http.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .clearAuthentication(true).logoutSuccessUrl("/").invalidateHttpSession(true).deleteCookies("JSESSIONID","7adbbb4c6ATLG");
+                .clearAuthentication(true).logoutSuccessUrl("/").invalidateHttpSession(true).deleteCookies("6ASDF636ADVBN8J$KL","7adbbb4c6ATLG");
 
         http.sessionManagement().sessionFixation().migrateSession()
                 .invalidSessionUrl("/login").maximumSessions(1).maxSessionsPreventsLogin(true).expiredUrl("/login")
