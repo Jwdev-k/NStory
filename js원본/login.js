@@ -6,16 +6,14 @@ $(document).ready(function() {
 
     if(setCookieYN === 'Y') {
         $("#saveEmail").prop("checked", true);
+        const bytes = CryptoJS.AES.decrypt(userInputId, secretKey, {
+            mode: CryptoJS.mode.ECB,
+            padding: CryptoJS.pad.Pkcs7
+        });
+        $("#email").val(bytes.toString(CryptoJS.enc.Utf8));
     } else {
         $("#saveEmail").prop("checked", false);
     }
-
-    const bytes = CryptoJS.AES.decrypt(userInputId, secretKey, {
-        mode: CryptoJS.mode.ECB,
-        padding: CryptoJS.pad.Pkcs7
-    });
-
-    $("#email").val(bytes.toString(CryptoJS.enc.Utf8));
 
     //로그인 버튼 클릭
     $('#login_btn').click(function() {
