@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
+<div class="menu-wrapper" th:fragment="Menu">
+    <button class="menu-close-btn" id="menu-close-btn"><i class="fa fa-close"></i></button>
+    <a href="/"
+       class="d-flex justify-content-center align-items-center pt-5 mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+        <span class="fs-4 fw-bold text-custom-primary">MENU</span>
+    </a>
+    <hr>
+    <ul class="menu mb-auto nav-pills">
+        <li class="nav-item">
+            <a href="/record" class="nav-link"><span>방명록</span></a>
+        </li>
+        <li class="nav-item">
+            <a href="/ranking" class="nav-link"><span>랭킹</span></a>
+        </li>
+        <li class="nav-item">
+            <a href="/shop" class="nav-link"><span>NStory Shop</span></a>
+        </li>
+        <li class="nav-item">
+            <hr>
+            <h5 class="nav-justified fw-bold text-custom-primary">게시판 목록</h5></li>
+        <li class="nav-item" th:each="list : ${boardInfoList}">
+            <a class="nav-link" th:href="@{/whiteboard/{bid}(bid=${list.bid})}" th:text="${list.kname}"></a>
+        </li>
+    </ul>
+    <th:block th:if="${#authentication != null}">
+        <div class="menu-info d-flex align-items-center">
+            <div class="dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
+                <img class="box" th:src="@{/general/prf_img/} + ${#authentication.principal.aid}" alt="">
+                <a class="link-dark" href="/info" th:text="${#authentication.principal.username}"></a>
+            </div>
+            <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
+                <li><a class="dropdown-item" href="/info">프로필</a></li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="/logout">로그아웃</a></li>
+            </ul>
+        </div>
+    </th:block>
+    <th:block th:unless="${#authentication != null}">
+        <div class="d-flex align-items-center">
+            <ul class="menu-info">
+                <li><p class="text-center"><a class="link-dark fw-bold" href="/login">로그인</a></li>
+            </ul>
+        </div>
+    </th:block>
+    <script src="/static/js/menuEvent.js"></script>
+</div>
+</html>
