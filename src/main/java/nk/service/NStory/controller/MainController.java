@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import net.minidev.json.JSONObject;
 import nk.service.NStory.dto.AccountDTO;
 import nk.service.NStory.dto.ByteImageDTO;
+import nk.service.NStory.gpt.ChatGPTClient;
 import nk.service.NStory.security.CustomUserDetails;
 import nk.service.NStory.service.impl.AccountService;
 import nk.service.NStory.service.impl.WhiteBoardService;
@@ -86,5 +87,19 @@ public class MainController {
     @GetMapping(value = "/chatroom")
     public String ChatRoom() {
         return "ChatRoom";
+    }
+
+    /* ChatGPT API 컨트롤러 */
+    @GetMapping(value = "/gpt")
+    public String ChatGPT() {
+        return "ai/ChatGPT";
+    }
+    @PostMapping(value = "/gpt/request")
+    @ResponseBody
+    public ResponseEntity<String> resultGPT(@RequestParam String message) {
+        if (message != null) {
+           return ResponseEntity.ok(ChatGPTClient.AIChat(message));
+        }
+        return ResponseEntity.badRequest().body("null");
     }
 }

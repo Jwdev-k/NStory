@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="layout/defaultHead :: Head">
+    <title>NStory</title>
+</head>
+<body>
+<nav th:replace="layout/defaultNavbar :: Navbar"></nav>
+<div th:replace="layout/sideMenu :: Menu"></div>
+<main>
+    <div class="container">
+        <h1>ChatGPT Service</h1>
+        <div id="chatLog" class="chat-window" style="height: 700px; overflow-y: auto;"></div>
+        <div class="input-group mb-3 mt-2">
+            <input type="text" id="messageInput" class="form-control" placeholder="Send a message" required>
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="button" onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+    </div>
+</main>
+<script>
+    var input = document.getElementById("messageInput");
+    // Send message on Enter key press
+    $('#messageInput').on('keydown', function (e) {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
+    });
+
+    function sendMessage() {
+        const message = $('#messageInput').val();
+        if (message.trim() === '') {
+            return;
+        }
+        input.disabled = true;
+        // Display user message
+        appendMessage('User', message);
+        // Display loading icon for ChatGPT response
+        appendMessage('Loading', '<div class="spinner-border spinner-border-sm text-primary" role="status"></div>');
+        chatLog.scrollTop = chatLog.scrollHeight;
+        $.ajax({
+            url: "gpt/request",
+            type: 'POST',
+            dataType: 'json',
+            data: { message: message }, // Use data object instead of JSON.stringify
+            success: handleResponse,
+            error: handleError
+        });
+        $('#messageInput').val('');
+    }
+
+    function handleResponse(response) {
+        var reply = response.choices[0].message.content.toString().replaceAll('\n', '<br>');
+
+        var chatLog = document.getElementById('chatLog');
+        var loadingIcon = chatLog.querySelector('#loading-icon');
+        loadingIcon.remove();
+
+        appendMessage('ChatGPT', reply);
+        // Scroll to the bottom of the chat log
+        chatLog.scrollTop = chatLog.scrollHeight;
+        input.disabled = false;
+    }
+
+    function handleError(xhr, status, error) {
+        console.error('Error:', error);
+    }
+
+    function appendMessage(sender, message) {
+        const chatLog = document.getElementById('chatLog');
+        const messageContainer = document.createElement('div');
+        messageContainer.style.marginBottom = '20px';
+        if (sender === 'User') {
+            messageContainer.innerHTML = `
+            <div id="user-message">
+                <span><strong>${sender} : </strong>${message}<br></span>
+            </div>
+        `;
+        } else if (sender === 'ChatGPT') {
+            messageContainer.innerHTML = `
+            <div id="chatgpt-message">
+                <span><strong>${sender} : </strong>${message}<br></span>
+            </div>
+        `;
+        }
+        else if (sender === 'Loading') {
+            messageContainer.innerHTML = `
+            <div id="loading-icon">
+                <span><strong>ChatGPT : </strong>${message}<br></span>
+            </div>
+        `;
+        }
+        chatLog.appendChild(messageContainer);
+    }
+</script>
+<footer th:replace="layout/defaultFooter :: Footer"></footer>
+</body>
+</html>
