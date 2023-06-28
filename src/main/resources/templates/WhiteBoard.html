@@ -19,77 +19,8 @@
     <script src="/static/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg fixed-top">
-    <button class="btn menu-btn" id="menu-btn">
-        <img src="/static/images/svg/menu.svg" alt="Menu"></button>
-    <div class="container">
-        <a class="navbar-brand" href="/">NStory</a>
-        <div class="navbar-collapse collapse">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item" sec:authorize="isAuthenticated()">
-                    <img class="box" th:src="@{/general/prf_img/} + ${#authentication.principal.aid}" alt="profileImg">
-                </li>
-                <li class="nav-item" sec:authorize="isAuthenticated()">
-                    <a class="nav-link" href="/info" th:text="${#authentication.principal.username}"></a></li>
-                <li class="nav-item" sec:authorize="isAuthenticated()">
-                    <a class="nav-link"
-                       th:text="'Lv.' + ${#authentication.principal.level} + ' / nCoin : ' + ${#authentication.principal.nCoin}"></a>
-                </li>
-                <li class="nav-item" th:if="${#authentication != null}">
-                    <a class="nav-link" href="/logout">로그아웃</a></li>
-                <li class="nav-item" th:unless="${#authentication != null}">
-                    <a class="nav-link" href="/login">로그인</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
-<div class="menu-wrapper">
-    <button class="menu-close-btn" id="menu-close-btn"><i class="fa fa-close"></i></button>
-    <a href="/"
-       class="d-flex justify-content-center align-items-center pt-5 mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
-        <span class="fs-4 text-custom-primary">MENU</span>
-    </a>
-    <hr>
-    <ul class="menu mb-auto nav-pills">
-        <li class="nav-item">
-            <a href="/record" class="nav-link"><span>방명록</span></a>
-        </li>
-        <li class="nav-item">
-            <a href="/ranking" class="nav-link"><span>랭킹</span></a>
-        </li>
-        <li class="nav-item">
-            <a href="/shop" class="nav-link"><span>NStory Shop</span></a>
-        </li>
-        <li class="nav-item">
-            <hr>
-            <h5 class="nav-justified fw-bold text-custom-primary">게시판 목록</h5></li>
-        <li class="nav-item" th:each="list : ${boardInfoList}">
-            <a class="nav-link" th:href="@{/whiteboard/{bid}(bid=${list.bid})}" th:text="${list.kname}"></a>
-        </li>
-    </ul>
-    <th:block th:if="${#authentication != null}">
-        <div class="menu-info d-flex align-items-center">
-            <div class="dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-                <img class="box" th:src="@{/general/prf_img/} + ${#authentication.principal.aid}" alt="">
-                <a class="link-dark" href="/info" th:text="${#authentication.principal.username}"></a>
-            </div>
-            <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
-                <li><a class="dropdown-item" href="/info">프로필</a></li>
-                <li>
-                    <hr class="dropdown-divider">
-                </li>
-                <li><a class="dropdown-item" href="/logout">로그아웃</a></li>
-            </ul>
-        </div>
-    </th:block>
-    <th:block th:unless="${#authentication != null}">
-        <div class="d-flex align-items-center">
-            <ul class="menu-info">
-                <li><p class="text-center"><a class="link-dark fw-bold" href="/login">로그인</a></li>
-            </ul>
-        </div>
-    </th:block>
-</div>
+<nav th:replace="layout/defaultNavbar :: Navbar"></nav>
+<div th:replace="layout/sideMenu :: Menu"></div>
 <main>
     <div id="loading">
         <div class="spinner-border" role="status">
@@ -150,7 +81,7 @@
                                     <i class="fa-solid fa-pen-to-square fa-lg"></i> 작성하기</a>
                             </div>
                         </div>
-                        <table class="table table-light table-hover">
+                        <table class="table table-hover">
                             <thead>
                             <tr>
                                 <th class="text-center d-none d-md-table-cell" scope="col">번호</th>

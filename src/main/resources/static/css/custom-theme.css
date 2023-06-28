@@ -22,7 +22,7 @@
     color: var(--secondary-color);
 }
 .navbar {
-    background-color: whitesmoke;
+    background-color: white;
     border-bottom: 1px solid #FF3E7F;
 }
 /* 로고 */
@@ -145,7 +145,7 @@ input[type="checkbox"]:checked:enabled {
     left : -200px;
     width: 200px;
     height: 100vh;
-    background-color: whitesmoke;
+    background-color: white;
     z-index: 1031;
     transition: left 0.3s ease-in-out;
     box-shadow: 1px 0 3px rgba(0, 0, 0, 0.5); /* 오른쪽 그림자 */
@@ -205,7 +205,7 @@ body{
     overflow-x: hidden;
 }
 footer {
-    background-color: whitesmoke;
+    background-color: white;
     position: relative;
     bottom: 0;
     width: 100%;

@@ -1,5 +1,5 @@
 .list-group-item {
-    background-color: whitesmoke;
+    background-color: white;
     padding: 20px;
     margin-bottom: 20px;
 }
@@ -25,7 +25,7 @@
     background-color: #fff;
 }
 .search-form {
-    max-width: 300px;
+    width: 300px;
     margin: 20px auto 40px;
 }
 label{
@@ -45,7 +45,7 @@ label{
 .title {
     font-size: 20px;
     margin: 50px;
-    background-color: whitesmoke;
+    background-color: white;
     color: #FF3E7F;
 }
 .board-box {
@@ -53,7 +53,7 @@ label{
 }
 .board-contents{
     justify-content: center;
-    border-radius: 10px 10px;
+    border-radius: 5px 5px;
     height: auto;
     min-height: 700px;
     width: 100%;
