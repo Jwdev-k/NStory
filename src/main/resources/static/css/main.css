@@ -118,3 +118,16 @@ main {
     white-space: nowrap;
     overflow: hidden;
 }
+.neon-clock {
+    font-family: "Courier New", monospace;
+    font-size: 3vw;
+    color: white;
+    text-shadow: 0 0 10px #FF3E7F, 0 0 20px #FF3E7F, 0 0 30px #FF3E7F, 0 0 40px #FF3E7F, 0 0 70px #FF3E7F, 0 0 80px #FF3E7F, 0 0 100px #FF3E7F, 0 0 150px #FF3E7F;
+    text-align: center;
+}
+
+@media (max-width: 912px) {
+    .neon-clock {
+        font-size: 8vw;
+    }
+}

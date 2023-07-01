@@ -8,7 +8,7 @@
 <div th:replace="layout/sideMenu :: Menu"></div>
 <main>
     <div class="container jumbotron shadow-sm">
-        <h4 id="serverTime">loading...</h4>
+        <div id="serverTime" class="neon-clock">loading...</div>
         <p>Discord : Gom._.Gom#3502</p>
     </div>
     <div class="container">
@@ -120,5 +120,6 @@
     </div>
 </main>
 <footer th:replace="layout/defaultFooter :: Footer"></footer>
+<script src="/static/js/serverTime.js"></script>
 </body>
 </html>
