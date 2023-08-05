@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:replace="layout/defaultHead :: Head">
+<head th:replace="~{layout/defaultHead :: Head}">
     <title>NStory</title>
 </head>
 <body>
-<nav th:replace="layout/defaultNavbar :: Navbar"></nav>
-<div th:replace="layout/sideMenu :: Menu"></div>
+<nav th:replace="~{layout/defaultNavbar :: Navbar}"></nav>
+<div th:replace="~{layout/sideMenu :: Menu}"></div>
 <main>
     <div class="container">
         <button sec:authorize="isAuthenticated()" class="btn btn-primary" onclick="openPop()"
@@ -103,7 +103,7 @@
         </div>
     </div>
 </div>
-<footer th:replace="layout/defaultFooter :: Footer"></footer>
+<footer th:replace="~{layout/defaultFooter :: Footer}"></footer>
 </body>
 <script src="/static/js/popup.js"></script>
 <script src="/static/js/menuEvent.js"></script>

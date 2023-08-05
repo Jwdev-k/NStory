@@ -21,8 +21,8 @@
     <script src="/static/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-<nav th:replace="layout/defaultNavbar :: Navbar"></nav>
-<div th:replace="layout/sideMenu :: Menu"></div>
+<nav th:replace="~{layout/defaultNavbar :: Navbar}"></nav>
+<div th:replace="~{layout/sideMenu :: Menu}"></div>
 <main th:object="${whiteboard}">
     <section class="container board-box">
         <div class="container my-5 bg-light-subtle board-contents shadow-sm">

@@ -19,8 +19,8 @@
     <script src="/static/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-<nav th:replace="layout/defaultNavbar :: Navbar"></nav>
-<div th:replace="layout/sideMenu :: Menu"></div>
+<nav th:replace="~{layout/defaultNavbar :: Navbar}"></nav>
+<div th:replace="~{layout/sideMenu :: Menu}"></div>
 <main>
     <div id="loading">
         <div class="spinner-border" role="status">

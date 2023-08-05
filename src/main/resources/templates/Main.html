@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
-<head th:replace="layout/defaultHead :: Head">
+<head th:replace="~{layout/defaultHead :: Head}">
     <title>NStory</title>
 </head>
 <body>
-<nav th:replace="layout/defaultNavbar :: Navbar"></nav>
-<div th:replace="layout/sideMenu :: Menu"></div>
+<nav th:replace="~{layout/defaultNavbar :: Navbar}"></nav>
+<div th:replace="~{layout/sideMenu :: Menu}"></div>
 <main>
     <div class="container jumbotron shadow-sm">
         <div id="serverTime" class="neon-clock">loading...</div>
@@ -118,7 +118,7 @@
         </div>
     </div>
 </main>
-<footer th:replace="layout/defaultFooter :: Footer"></footer>
+<footer th:replace="~{layout/defaultFooter :: Footer}"></footer>
 <script src="/static/js/serverTime.js"></script>
 </body>
 </html>

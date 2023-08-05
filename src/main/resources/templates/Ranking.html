@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
-<head th:replace="layout/defaultHead :: Head">
+<head th:replace="~{layout/defaultHead :: Head}">
     <title>NStory</title>
 </head>
 <body>
-<nav th:replace="layout/defaultNavbar :: Navbar"></nav>
-<div th:replace="layout/sideMenu :: Menu"></div>
+<nav th:replace="~{layout/defaultNavbar :: Navbar}"></nav>
+<div th:replace="~{layout/sideMenu :: Menu}"></div>
 <main>
     <div class="container bg-white" style="border-radius: 10px 10px;">
         <table class="table table-hover caption-top" style="width: 80%; margin: auto;">
@@ -126,7 +126,7 @@
     </div>
     </div>
 </main>
-<footer th:replace="layout/defaultFooter :: Footer"></footer>
+<footer th:replace="~{layout/defaultFooter :: Footer}"></footer>
 </body>
 <script src="/static/js/menuEvent.js"></script>
 </html>
