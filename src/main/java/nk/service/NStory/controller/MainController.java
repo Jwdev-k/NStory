@@ -41,7 +41,7 @@ public class MainController {
     public String userInfo(@AuthenticationPrincipal CustomUserDetails userDetails
             , HttpServletRequest request, Model model) {
         if (userDetails == null) {
-            return "redirect:" + request.getHeader("referer");
+            return "redirect:/";
         } else if (userDetails.isOAuth()) {
             model.addAttribute("pwValue", "SNS 로그인 사용중입니다.");
         } else {

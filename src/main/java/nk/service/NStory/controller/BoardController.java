@@ -92,7 +92,7 @@ public class BoardController {
     public String addBoard(@AuthenticationPrincipal CustomUserDetails userDetails, HttpServletRequest request
             , @PathVariable String bid) throws Exception {
         if (userDetails == null) {
-            return "redirect:" + request.getHeader("referer");
+            return "redirect:/whiteboard/" + bid;
         } else {
             boolean isAdmin = boardInfoService.getBoardInfo(bid).getEmail().equals(userDetails.getEmail());
             request.setAttribute("isAdmin", isAdmin);
@@ -188,7 +188,7 @@ public class BoardController {
     public String updateBoard(@AuthenticationPrincipal CustomUserDetails userDetails, HttpServletRequest request
             ,@PathVariable String bid, @RequestParam int id) throws Exception {
         if (userDetails == null) {
-            return "redirect:" + request.getHeader("referer");
+            return "redirect:/whiteboard/" + bid;
         } else {
             WhiteBoard wb = whiteBoardService.getBoard(id);
             if (wb != null && wb.getEmail().equals(userDetails.getEmail())) {

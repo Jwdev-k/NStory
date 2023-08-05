@@ -23,7 +23,7 @@ public class MyHistoryController {
     }
 
     @GetMapping("/recent_comment")
-    public ArrayList<HistoryCommentsDTO> getMyCommentList(@AuthenticationPrincipal CustomUserDetails userDetails) throws Exception {
-        return historyService.getMyComments(userDetails.getEmail());
+    public ResponseEntity<ArrayList<HistoryCommentsDTO>> getMyCommentList(@AuthenticationPrincipal CustomUserDetails userDetails) throws Exception {
+        return ResponseEntity.ok().body(historyService.getMyComments(userDetails.getEmail()));
     }
 }
