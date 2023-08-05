@@ -8,11 +8,10 @@ import nk.service.NStory.utils.ScriptUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
-@Component @Slf4j
+@Slf4j
 public class SuccessHandler implements AuthenticationSuccessHandler {
     private final TokenBasedRememberMeServices rememberMeServices;
 

@@ -51,6 +51,8 @@
                                 <a href="#">유저 관리</a>
                                 <span class="text-black"> / </span>
                                 <a href="/chatroom">채팅룸</a>
+                                <span class="text-black"> / </span>
+                                <a href="/gpt">ChatGPT</a>
                             </div>
                             <div class="form-group row justify-content-end">
                                 <div class="col-sm-3">
@@ -101,16 +103,16 @@
                 <input type="file" class="form-control" id="chooseImg" name="profileImg"
                        accept="image/jpeg, image/jpg, image/png" required>
                 <!-- cropperjs를 사용할 이미지 자르기 영역 -->
-                <div class="modal-body text-center" style="height: 500px; width: 500px; margin-bottom: 50px;">
-                    <img id="cropper-img" alt="uploadImg">
+                <div class="modal-body container" style="height: 500px; width: 500px; margin-bottom: 50px;">
+                    <img id="cropper-img" alt="uploadImg" src="/static/images/noimg.jpg" width="500" height="500">
                 </div>
                 <div class="modal-footer">
-                    <a class="btn btn-secondary" onclick="closeUserInfo()">닫기</a>
                     <button id="upload-btn" class="btn btn-success"
                             onclick="if(!confirm('정말로 저장하시겠습니까??')){
                                 return false;
                             }">저장
                     </button>
+                    <a class="btn btn-secondary" onclick="closeUserInfo()">취소</a>
                 </div>
             </div>
         </div>

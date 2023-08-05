@@ -3,6 +3,7 @@ package nk.service.NStory.security;
 import lombok.RequiredArgsConstructor;
 import nk.service.NStory.security.handler.FailureHandler;
 import nk.service.NStory.security.handler.SuccessHandler;
+import nk.service.NStory.security.handler.customLogoutSuccessHandler;
 import nk.service.NStory.service.impl.OAuth2LoginService;
 import nk.service.NStory.service.impl.UserLoginService;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -58,8 +59,8 @@ public class SecurityConfig {
                 .userService(oAuth2LoginService); // 소셜 로그인을 위한 클래스 설정*/
         http.rememberMe().rememberMeServices(customRememberMeServices()); // 커스텀 자동로그인 설정
 
-        http.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .clearAuthentication(true).logoutSuccessUrl("/").invalidateHttpSession(true).deleteCookies("6ASDF636ADVBN8J$KL","7adbbb4c6ATLG");
+        http.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessHandler(new customLogoutSuccessHandler())
+                .clearAuthentication(true).invalidateHttpSession(true).deleteCookies("6ASDF636ADVBN8J$KL","7adbbb4c6ATLG");
 
         http.sessionManagement().sessionFixation().migrateSession()
                 .invalidSessionUrl("/login").maximumSessions(1).maxSessionsPreventsLogin(true).expiredUrl("/login")

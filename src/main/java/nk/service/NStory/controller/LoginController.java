@@ -43,11 +43,6 @@ public class LoginController {
         return "Login";
     }
 
-    @GetMapping(value = "/logout")
-    public String Logout(HttpServletRequest request) {
-        return "redirect:" + request.getHeader("referer");
-    }
-
     @GetMapping(value = "/sign_up")
     public String Register(HttpServletRequest request, HttpSession session) {
         request.setAttribute("email", session.getAttribute("SignUpSession"));
@@ -177,7 +172,7 @@ public class LoginController {
         if (password.length() >= 6 && password.length() <= 16 && password.equals(password2)) {
             accountService.resetPassword(userDetails.getEmail(), passwordEncoder.encode(password));
             new SecurityContextLogoutHandler().logout(request, response, auth);
-            ScriptUtils.alertAndMovePage(response, "패스워드가 변경되었습니다. 다시 로그인 해주세요.", "/login");
+            ScriptUtils.alertAndMovePage(response, "패스워드가 변경되었습니다. 다시 로그인 해주세요.", "/logout?flag=1");
             return null;
         } else {
             request.setAttribute("errMsg", "입력한 패스워드가 일치하지않습니다. 다시 입력해주세요.");

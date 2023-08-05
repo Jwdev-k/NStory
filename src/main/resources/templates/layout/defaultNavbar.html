@@ -18,7 +18,7 @@
                        th:text="'Lv.' + ${#authentication.principal.level} + ' / nCoin : ' + ${#authentication.principal.nCoin}"></a>
                 </li>
                 <li class="nav-item" th:if="${#authentication != null}">
-                    <a class="nav-link" href="/logout">로그아웃</a></li>
+                    <a class="nav-link" href="/logout?flag=0">로그아웃</a></li>
                 <li class="nav-item" th:unless="${#authentication != null}">
                     <a class="nav-link" href="/login">로그인</a></li>
             </ul>

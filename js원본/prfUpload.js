@@ -1,5 +1,5 @@
 $(function() {
-     var cropper;
+    var cropper;
 
     // 이미지 파일 선택 시
     $("#chooseImg").on("change", function(e) {
@@ -10,6 +10,11 @@ $(function() {
         reader.onload = function(e) {
             $("#cropper-img").attr("src", e.target.result);
             // Cropper.js 인스턴스 생성
+            if (cropper) {
+                // 기존 인스턴스를 초기화 하기위해 추가.
+                cropper.destroy();
+            }
+
             cropper = new Cropper($("#cropper-img")[0], {
                 aspectRatio: 1,
                 viewMode: 3,

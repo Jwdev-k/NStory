@@ -10,7 +10,7 @@ import java.util.Map;
 
 @Slf4j
 public class ChatGPTClient {
-    private static final String API_KEY = "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";
+    private static final String API_KEY = "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";
     private static final String API_URL = "https://api.openai.com/v1/chat/completions";
 
     public static String AIChat(String message) {
