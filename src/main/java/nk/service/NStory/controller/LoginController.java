@@ -114,8 +114,8 @@ public class LoginController {
 
     @GetMapping(value = "/check_code")
     public String checkCode(@AuthenticationPrincipal CustomUserDetails userDetails, HttpServletRequest request
-            , @ModelAttribute("email") String email, @ModelAttribute("isSignUp") boolean isSignUp) {
-        if (userDetails != null || email.length() <= 0) {
+            , @ModelAttribute("email") String email) {
+        if (userDetails != null || email.length() == 0) {
             return "redirect:" + request.getHeader("referer");
         }
         return "checkCode";
