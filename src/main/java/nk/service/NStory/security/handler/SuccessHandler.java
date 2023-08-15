@@ -23,12 +23,30 @@ public class SuccessHandler implements AuthenticationSuccessHandler {
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         log.info("Try Login IP : " + request.getRemoteHost() + "\n" + userDetails.getEmail() + ": Login Success");
-        if (userDetails.isOAuth()) //TODO 소셜로그인 강제 자동로그인 쿠키생성
+
+        String requestURL = request.getRequestURL().append("?").append(request.getQueryString()).toString();
+        String requestURI = request.getRequestURI();
+
+        if (userDetails.isOAuth()) {
+            // 소셜로그인인 경우 강제 자동로그인 쿠키 생성
             rememberMeServices.onLoginSuccess(request, response, authentication);
+        }
+
         if (userDetails.isFirstLogin()) {
-            ScriptUtils.alertAndMovePage(response, "첫 로그인 보너스 경험치. +100이 지급 되었습니다.", "/");
+            // 첫 로그인 보너스 경험치 지급
+            String alertMsg = "첫 로그인 보너스 경험치. +100이 지급되었습니다.";
+            if (requestURI.equals("/")) {
+                ScriptUtils.alertAndMovePage(response, alertMsg, "/");
+            } else {
+                ScriptUtils.alertAndMovePage(response, alertMsg, requestURL);
+            }
         } else {
-            response.sendRedirect("/");
+            // 일반적인 로그인 시 처리
+            if (requestURI.equals("/") || requestURI.equals("/perform_login")) {
+                response.sendRedirect("/");
+            } else {
+                response.sendRedirect(requestURL);
+            }
         }
     }
 }

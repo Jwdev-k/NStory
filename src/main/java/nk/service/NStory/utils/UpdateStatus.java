@@ -59,14 +59,14 @@ public class UpdateStatus {
     @Transactional
     public boolean checkingReward(AccountDTO account) throws Exception {
         boolean firstLogin = false;
-            if (account.getLastDateTime() != null) {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                LocalDate lastDate = LocalDate.parse(account.getLastDateTime().substring(0, 10), formatter);
-                if (LocalDate.now().isAfter(lastDate)) {
-                    firstLogin = true;
-                    accountMapper.UpdateExp(100, account.getEmail());
-                }
+        if (account.getLastDateTime() != null) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate lastDate = LocalDate.parse(account.getLastDateTime().substring(0, 10), formatter);
+            if (LocalDate.now().isAfter(lastDate)) {
+                firstLogin = true;
+                accountMapper.UpdateExp(100, account.getEmail());
             }
-            return firstLogin;
+        }
+        return firstLogin;
     }
 }

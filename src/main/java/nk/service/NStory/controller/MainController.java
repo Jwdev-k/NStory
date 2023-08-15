@@ -29,7 +29,7 @@ public class MainController {
     private final AccountService accountService;
     private final WhiteBoardService whiteBoardService;
 
-    @RequestMapping(value = "/")
+    @GetMapping(value = "/")
     public String mainPage(HttpServletRequest request) throws Exception {
         request.setAttribute("bestList", whiteBoardService.getBestList());
         request.setAttribute("recentList", whiteBoardService.getRecentList());

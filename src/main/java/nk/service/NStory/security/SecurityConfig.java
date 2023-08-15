@@ -57,7 +57,7 @@ public class SecurityConfig {
                 .successHandler(new SuccessHandler(customRememberMeServices()))
                 .userInfoEndpoint()
                 .userService(oAuth2LoginService); // 소셜 로그인을 위한 클래스 설정*/
-        http.rememberMe().rememberMeServices(customRememberMeServices()); // 커스텀 자동로그인 설정
+        http.rememberMe().rememberMeServices(customRememberMeServices()).authenticationSuccessHandler(new SuccessHandler(customRememberMeServices())); // 커스텀 자동로그인 설정
 
         http.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessHandler(new customLogoutSuccessHandler())
                 .clearAuthentication(true).invalidateHttpSession(true).deleteCookies("6ASDF636ADVBN8J$KL","7adbbb4c6ATLG");
