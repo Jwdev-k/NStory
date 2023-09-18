@@ -1,8 +1,8 @@
 const secretKey = "ff5de6778574803f9006470720d0ede7dcf18f3756de29081d1aa2acae7e12d1";
 
 $(document).ready(function() {
-    var userInputId = getCookie("userInputId");
-    var setCookieYN = getCookie("setCookieYN");
+    var userInputId = getCookie("8777ec8809e");
+    var setCookieYN = getCookie("c69f45faa12");
 
     if(setCookieYN === 'Y') {
         $("#saveEmail").prop("checked", true);
@@ -23,11 +23,11 @@ $(document).ready(function() {
                 mode: CryptoJS.mode.ECB,
                 padding: CryptoJS.pad.Pkcs7
             });
-            setCookie("userInputId", userInputId, 60);
-            setCookie("setCookieYN", "Y", 60);
+            setCookie("8777ec8809e", userInputId, 60);
+            setCookie("c69f45faa12", "Y", 60);
         } else {
-            deleteCookie("userInputId");
-            deleteCookie("setCookieYN");
+            deleteCookie("8777ec8809e");
+            deleteCookie("c69f45faa12");
         }
 
         document.form.submit();

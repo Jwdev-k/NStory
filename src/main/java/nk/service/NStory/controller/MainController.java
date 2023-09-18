@@ -38,8 +38,7 @@ public class MainController {
     }
 
     @GetMapping(value = "/info")
-    public String userInfo(@AuthenticationPrincipal CustomUserDetails userDetails
-            , HttpServletRequest request, Model model) {
+    public String userInfo(@AuthenticationPrincipal CustomUserDetails userDetails, Model model) {
         if (userDetails == null) {
             return "redirect:/";
         } else if (userDetails.isOAuth()) {

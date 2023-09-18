@@ -24,7 +24,7 @@ public class GlobalInterceptor implements HandlerInterceptor {
             return true;
         }
         String clientIp = request.getHeader("X-Forwarded-For");
-        if (clientIp == null || "".equals(clientIp)) {
+        if (clientIp == null || clientIp.isEmpty()) {
             clientIp = request.getRemoteAddr();
         }
 

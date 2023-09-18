@@ -47,17 +47,21 @@ public class SecurityConfig {
                 .authorizeHttpRequests().anyRequest().permitAll()
                 .and().httpBasic(Customizer.withDefaults())
                 .authenticationManager(authenticationManager).anonymous().disable();
+
         http.formLogin()
                 .loginPage("/login").usernameParameter("email").passwordParameter("password")
                 .loginProcessingUrl("/perform_login").successHandler(new SuccessHandler(customRememberMeServices()))
                 .failureHandler(new FailureHandler());
+
         http.oauth2Login()
                 .loginPage("/login")
                 .failureUrl("/login")
                 .successHandler(new SuccessHandler(customRememberMeServices()))
                 .userInfoEndpoint()
                 .userService(oAuth2LoginService); // 소셜 로그인을 위한 클래스 설정*/
-        http.rememberMe().rememberMeServices(customRememberMeServices()).authenticationSuccessHandler(new SuccessHandler(customRememberMeServices())); // 커스텀 자동로그인 설정
+
+        http.rememberMe().rememberMeServices(customRememberMeServices())
+                .authenticationSuccessHandler(new SuccessHandler(customRememberMeServices())); // 커스텀 자동로그인 설정
 
         http.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessHandler(new customLogoutSuccessHandler())
                 .clearAuthentication(true).invalidateHttpSession(true).deleteCookies("6ASDF636ADVBN8J$KL","7adbbb4c6ATLG");
@@ -78,7 +82,7 @@ public class SecurityConfig {
 
     @Bean
     public TokenBasedRememberMeServices customRememberMeServices() {
-        CustomRememberMe customRememberMeServices = new CustomRememberMe("customKey", userLoginService);
+        CustomRememberMe customRememberMeServices = new CustomRememberMe("NStory_ATLG_customKey", userLoginService);
         customRememberMeServices.setTokenValiditySeconds(86400 * 30);
         customRememberMeServices.setParameter("remember-me");
         customRememberMeServices.setCookieName("7adbbb4c6ATLG");

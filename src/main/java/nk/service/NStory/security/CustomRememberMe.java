@@ -31,7 +31,7 @@ public class CustomRememberMe extends TokenBasedRememberMeServices {
     private String createCustomRememberMeValue(Authentication authentication) {
         CustomUserDetails user = (CustomUserDetails) authentication.getPrincipal();
 
-        return user.getEmail() + ":" + user.isOAuth();
+        return user.getEmail() + ":" + user.getName();
     }
 
     @Override
@@ -49,10 +49,9 @@ public class CustomRememberMe extends TokenBasedRememberMeServices {
         // 저장된 쿠키에서 사용자 이름 대신 값을 읽어옵니다.
         String customValue = cookieTokens[0];
 
-        // 저장된 값을 파싱하여 사용자 이름(username)과 권한(authorities)을 추출합니다.
+        // 저장된 값을 파싱하여 사용자 이름(username)과 프로바이더(provider)를 추출합니다.
         String[] tokens = customValue.split(":");
         String email = tokens[0];
-        // boolean isOAuth = Boolean.parseBoolean(tokens[1]);
 
         AccountDTO account = accountService.login(email);
         if (account != null) {

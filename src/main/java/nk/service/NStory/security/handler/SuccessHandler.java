@@ -42,7 +42,8 @@ public class SuccessHandler implements AuthenticationSuccessHandler {
             }
         } else {
             // 일반적인 로그인 시 처리
-            if (requestURI.equals("/") || requestURI.equals("/perform_login")) {
+            if (requestURI.equals("/") || requestURI.equals("/perform_login")
+                    || requestURI.contains("/login/oauth2/code/")/* 소셜로그인 */) {
                 response.sendRedirect("/");
             } else {
                 response.sendRedirect(requestURL);
