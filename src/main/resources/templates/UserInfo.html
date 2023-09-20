@@ -44,10 +44,15 @@
                                 <input type="text" class="form-control" id="password"
                                        th:value="${pwValue}" readonly>
                             </div>
-                            <div class="form-group" th:if="${!#authentication.principal.isOAuth}">
-                                <a class="btn btn-primary btn-block mt-3" href="/new_pw">비밀번호 변경</a>
+                            <div class="justify_content_between">
+                                <div class="form-group" th:if="${!#authentication.principal.isOAuth}">
+                                    <a class="btn btn-primary btn-block mt-3" href="/new_pw">비밀번호 변경</a>
+                                </div>
+                                <div class="form-group">
+                                    <a class="btn btn-primary btn-block mt-3" href="#" id="leave">회원탈퇴</a>
+                                </div>
                             </div>
-                            <div sec:authorize="hasRole('ROLE_ADMIN')">
+                            <div class="mt-2" sec:authorize="hasRole('ROLE_ADMIN')">
                                 <a href="#">유저 관리</a>
                                 <span class="text-black"> / </span>
                                 <a href="/chatroom">채팅룸</a>
@@ -61,8 +66,8 @@
                                     </button>
                                     <button type="submit" class="btn btn-primary mt-2"
                                             onclick="if(!confirm('정말로 저장하시겠습니까??')){
-                                return false;
-                            }">저장
+                                                return false;
+                                            }">저장
                                     </button>
                                 </div>
                             </div>
@@ -70,13 +75,13 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6 col-md-8 d-">
+            <div class="col-lg-6 col-md-8">
                 <div class="card">
                     <div class="card-header">
                         <ul class="nav nav-tabs card-header-tabs w-100">
                             <li class="nav-item w-50">
-                                <a class="btn fw-bold text-white w-100" id="recent-posts-btn" onclick="postsBtn();">작성한
-                                    게시물 목록</a>
+                                <a class="btn fw-bold text-white w-100" id="recent-posts-btn"
+                                   onclick="postsBtn();">작성한 게시물 목록</a>
                             </li>
                             <li class="nav-item w-50">
                                 <a class="btn fw-bold text-muted w-100" id="recent-comments-btn"
@@ -124,4 +129,24 @@
 <script src="/static/js/menuEvent.js"></script>
 <script src="/static/js/prfUpload.js"></script>
 <script src="/static/js/myHistory.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#leave").click(function () {
+            if (confirm("정말로 탈퇴를 하시겠습니까?")) {
+                $.ajax({
+                    url: "/account/delete",
+                    method: "Delete",
+                    dataType: "json",
+                    success: function (response) {
+                        alert(response.msg);
+                        window.location.href = response.redirectUrl;
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("요청 실패: " + error);
+                    }
+                });
+            }
+        });
+    });
+</script>
 </html>

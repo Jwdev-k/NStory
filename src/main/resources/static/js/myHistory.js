@@ -13,10 +13,14 @@ function postsBtn() {
         dataType: "json",
         success: function(data) {
             var html = "";
-            for (var i = 0; i < data.length; i++) {
-                var list = data[i];
-                html += "<li class='list-group-item d-flex justify-content-between'><a class='userinfo-t-c' href='/whiteview?id=" + list.id + "'>" + list.title +
+            if (data.length > 0) {
+                for (var i = 0; i < data.length; i++) {
+                    var list = data[i];
+                    html += "<li class='list-group-item d-flex justify-content-between'><a class='userinfo-t-c' href='/whiteview?id=" + list.id + "'>" + list.title +
                     "</a><span>작성일 : " + list.creationDate + "</span></li>";
+                }
+            } else {
+                html += "<li class='list-group-item d-flex justify-content-center'><span>작성한 게시물이 없습니다.</span></li>"
             }
             $("#recent-list").html(html);
         },
@@ -37,10 +41,14 @@ function commentsBtn() {
         dataType: "json",
         success: function(data) {
             var html = "";
-            for (var i = 0; i < data.length; i++) {
-                var list = data[i];
-                html += "<li class='list-group-item d-flex justify-content-between'><a class='userinfo-t-c' href='/whiteview?id=" + list.id + "'>" + list.contents +
+            if (data.length > 0) {
+                for (var i = 0; i < data.length; i++) {
+                    var list = data[i];
+                    html += "<li class='list-group-item d-flex justify-content-between'><a class='userinfo-t-c' href='/whiteview?id=" + list.id + "'>" + list.contents +
                     "</a><span>작성일 : " + list.time + "</span></li>";
+                }
+            } else {
+                html += "<li class='list-group-item d-flex justify-content-center'><span>작성한 댓글이 없습니다.</span></li>"
             }
             $("#recent-list").html(html);
         },

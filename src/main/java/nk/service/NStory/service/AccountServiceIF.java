@@ -12,4 +12,5 @@ public interface AccountServiceIF {
     void UpdateAccountInfo(AccountDTO accountDTO) throws Exception;
     void resetPassword(String email, String password) throws Exception;
     ByteImageDTO getUserImage(int id) throws Exception;
+    void deleteAccount(int aid) throws Exception;
 }

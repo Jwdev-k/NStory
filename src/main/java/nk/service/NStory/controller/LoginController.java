@@ -13,6 +13,7 @@ import nk.service.NStory.dto.SecurityCodeDTO;
 import nk.service.NStory.security.CustomUserDetails;
 import nk.service.NStory.service.impl.AccountService;
 import nk.service.NStory.service.impl.MailService;
+import nk.service.NStory.service.leave.leaveService;
 import nk.service.NStory.utils.CurrentTime;
 import nk.service.NStory.utils.RandomPassword;
 import nk.service.NStory.utils.ScriptUtils;
@@ -26,6 +27,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.HashMap;
+
 @Controller
 @Slf4j
 @RequiredArgsConstructor
@@ -34,6 +37,7 @@ public class LoginController {
     private final BCryptPasswordEncoder passwordEncoder;
     private final MailService mailService;
     private final SecurityCode securityCode;
+    private final leaveService leaveService;
 
     @RequestMapping(value = "/login")
     public String Login(@AuthenticationPrincipal CustomUserDetails userDetails) {
@@ -45,7 +49,11 @@ public class LoginController {
 
     @GetMapping(value = "/sign_up")
     public String Register(HttpServletRequest request, HttpSession session) {
-        request.setAttribute("email", session.getAttribute("SignUpSession"));
+        if (session.getAttribute("SignUpSession") != null) {
+            request.setAttribute("email", session.getAttribute("SignUpSession"));
+        } else {
+            return "redirect:/";
+        }
         return "Sign_Up";
     }
 
@@ -55,7 +63,7 @@ public class LoginController {
             , @RequestParam String name, @RequestParam String token) throws Exception {
         String SessionEmail = session.getAttribute("SignUpSession").toString();
         if (userDetails != null) {
-            return "redirect:" + request.getHeader("referer");
+            return "redirect:/";
         } else if (email != null && password != null && name != null && name.length() >= 2 && !accountService.checkEmail(email)
                 && RecaptchaConfig.verify(token) && SessionEmail.equals(email)) {
             accountService.register(new AccountDTO(0, email, passwordEncoder.encode(password), name, "", null
@@ -75,11 +83,13 @@ public class LoginController {
     }
 
     @PostMapping(value = "/agree")
-    public String Register(@AuthenticationPrincipal CustomUserDetails userDetails, HttpServletRequest request,
-                           @RequestParam(defaultValue = "false") boolean agree, @RequestParam(required = false) String token) throws Exception {
+    public String Register(@AuthenticationPrincipal CustomUserDetails userDetails, HttpServletRequest request
+            , HttpSession session, @RequestParam(defaultValue = "false") boolean agree
+            , @RequestParam(required = false) String token, RedirectAttributes redirectAttributes) throws Exception {
         if (userDetails != null) {
             return "redirect:" + request.getHeader("referer");
         } else if (RecaptchaConfig.verify(token) && agree) {
+            redirectAttributes.addFlashAttribute( "checkEmailSession", true);
             return "redirect:/check_email";
         }
         request.setAttribute("errMsg", "이용약관에 필수로 동의하셔야합니다.");
@@ -115,7 +125,7 @@ public class LoginController {
     @GetMapping(value = "/check_code")
     public String checkCode(@AuthenticationPrincipal CustomUserDetails userDetails, HttpServletRequest request
             , @ModelAttribute("email") String email) {
-        if (userDetails != null || email.length() == 0) {
+        if (userDetails != null || email.isEmpty()) {
             return "redirect:" + request.getHeader("referer");
         }
         return "checkCode";
@@ -181,15 +191,17 @@ public class LoginController {
     }
 
     @GetMapping(value = "/check_email")
-    public String checkEmail(@AuthenticationPrincipal CustomUserDetails userDetails, HttpServletRequest request) {
-        if (userDetails != null) {
-            return "redirect:" + request.getHeader("referer");
+    public String checkEmail(@ModelAttribute("checkEmailSession") boolean checkEmailSession
+            , @AuthenticationPrincipal CustomUserDetails userDetails) {
+        if (userDetails == null && checkEmailSession) {
+            return "CheckEmail";
+        } else {
+            return "redirect:/";
         }
-        return "CheckEmail";
     }
 
     @PostMapping(value = "/check_email")
-    public String checkEmailPost(HttpServletRequest request, @RequestParam String email
+    public String checkEmailPost(HttpServletRequest request, HttpSession session, @RequestParam String email
             , @RequestParam String token, RedirectAttributes redirectAttributes) throws Exception {
         if (email != null && token != null) {
             if (!accountService.checkEmail2(email) && RecaptchaConfig.verify(token)) {
@@ -199,11 +211,29 @@ public class LoginController {
 
                 redirectAttributes.addFlashAttribute("email", email);
                 redirectAttributes.addFlashAttribute("isSignUp", true);
+                session.removeAttribute("CheckEmailSession");
                 return "redirect:/check_code";
             } else {
                 request.setAttribute("error", "이미 가입된 이메일 입니다. 다시 시도 해주세요.");
             }
         }
         return "CheckEmail";
+    }
+
+    @ResponseBody
+    @DeleteMapping(value = "/account/delete")
+    public ResponseEntity<HashMap<String, String>> accountDelete(
+            @AuthenticationPrincipal CustomUserDetails userDetails) throws Exception {
+        HashMap<String, String> json = new HashMap<>();
+        switch (userDetails.getName()) {
+            case "google" -> leaveService.deleteGoogleAccount(userDetails, userDetails.getOAuth2_accessToken());
+            case "naver" -> leaveService.deleteNaverAccount(userDetails, userDetails.getOAuth2_accessToken());
+            case "kakao" -> leaveService.deleteKakaoAccount(userDetails, userDetails.getOAuth2_accessToken());
+            // NStory 가입 계정일 경우.
+            default -> accountService.deleteAccount(userDetails.getAid());
+        }
+        json.put("msg", "회원탈퇴 처리가 정상적으로 되었습니다.");
+        json.put("redirectUrl", "/logout?flag=1");
+        return ResponseEntity.ok(json);
     }
 }

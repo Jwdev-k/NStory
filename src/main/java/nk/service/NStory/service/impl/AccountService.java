@@ -89,4 +89,11 @@ public class AccountService implements AccountServiceIF {
     public ByteImageDTO getUserImage(int id) throws Exception {
         return accountMapper.getUserImage(id);
     }
+
+    @Transactional
+    @Override
+    public void deleteAccount(int aid) throws Exception {
+        accountMapper.deleteAccount(aid);
+        log.info("번호 : " + aid + "계정이 회원탈퇴 처리 되었습니다.");
+    }
 }

@@ -37,7 +37,6 @@ public class OAuth2LoginService extends DefaultOAuth2UserService {
         OAuth2User oAuth2User = super.loadUser(userRequest);
         OAuth2UserInfo oAuth2UserInfo = null;
         String provider = userRequest.getClientRegistration().getRegistrationId();
-
         switch (provider) {
             case "naver" -> oAuth2UserInfo = new NaverUserInfo(oAuth2User.getAttributes());
             case "kakao" -> oAuth2UserInfo = new KakaoUserInfo(oAuth2User.getAttributes());
@@ -58,14 +57,14 @@ public class OAuth2LoginService extends DefaultOAuth2UserService {
                         , passwordEncoder.encode(provider), account2.getComment()
                         , account2.getLevel(), account2.getExp(), account2.getNCoin(), account2.isEnable()
                         , Collections.singleton(new SimpleGrantedAuthority("ROLE_" + "USER"))
-                        , updateStatus.checkingReward(account2), account2.isOAuth());
+                        , updateStatus.checkingReward(account2), account2.isOAuth(), userRequest.getAccessToken().getTokenValue(), provider);
             } else {
                 accountService.UpdateLastLoginDate(CurrentTime.getTime(), email);
                 return new CustomUserDetails(oAuth2UserInfo, account.getId(), account.getName(), account.getEmail()
                         , passwordEncoder.encode(provider), account.getComment()
                         , account.getLevel(), account.getExp(), account.getNCoin(), account.isEnable()
                         , Collections.singleton(new SimpleGrantedAuthority("ROLE_" + account.getRole()))
-                        , updateStatus.checkingReward(account), account.isOAuth());
+                        , updateStatus.checkingReward(account), account.isOAuth(), userRequest.getAccessToken().getTokenValue(), provider);
             }
         }
         throw new OAuth2AuthenticationException("인증 정보가 없음");

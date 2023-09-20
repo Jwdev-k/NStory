@@ -38,6 +38,9 @@ public class CustomUserDetails implements UserDetails, OAuth2User {
     private boolean firstLogin;
     private boolean isOAuth;
 
+    //OAuth2 로그인용
+    private String oAuth2_accessToken;
+
     // 자동로그인용
     private String providerName = "nstory";
 
@@ -62,7 +65,7 @@ public class CustomUserDetails implements UserDetails, OAuth2User {
     //OAuth2 로그인
     public CustomUserDetails(OAuth2UserInfo attributes, int aid, String username, String email, String password, String comment
             , int level, int exp, int nCoin, boolean isEnabled, Collection<? extends GrantedAuthority> authorities
-            , boolean firstLogin, boolean isOAuth) {
+            , boolean firstLogin, boolean isOAuth, String oAuth2_accessToken, String providerName) {
         this.oAuth2UserInfo = attributes;
         this.aid = aid;
         this.username = username;
@@ -76,6 +79,8 @@ public class CustomUserDetails implements UserDetails, OAuth2User {
         this.authorities = authorities;
         this.firstLogin = firstLogin;
         this.isOAuth = isOAuth;
+        this.oAuth2_accessToken = oAuth2_accessToken;
+        this.providerName = providerName;
     }
 
     // 자동로그인
@@ -104,7 +109,7 @@ public class CustomUserDetails implements UserDetails, OAuth2User {
 
     @Override
     public String getName() { // 로그인 출처
-        return oAuth2UserInfo != null ? oAuth2UserInfo.getProvider() : providerName;
+        return providerName;
     }
 
     @Override

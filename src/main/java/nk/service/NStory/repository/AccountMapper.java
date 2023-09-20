@@ -31,4 +31,7 @@ public interface AccountMapper {
     void resetPassword(@Param("email") String email, @Param("password") String password) throws Exception;
     @Select("SELECT profileImg FROM account WHERE id = #{id}")
     ByteImageDTO getUserImage(int id) throws Exception;
+
+    @Delete("DELETE FROM account WHERE id = #{aid}")
+    void deleteAccount(int aid) throws Exception;
 }
