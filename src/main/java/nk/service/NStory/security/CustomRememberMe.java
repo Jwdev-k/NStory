@@ -7,7 +7,6 @@ import nk.service.NStory.dto.AccountDTO;
 import nk.service.NStory.service.impl.AccountService;
 import nk.service.NStory.utils.CurrentTime;
 import nk.service.NStory.utils.UpdateStatus;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,13 +18,13 @@ import org.springframework.security.web.authentication.rememberme.TokenBasedReme
 import java.util.Collections;
 
 public class CustomRememberMe extends TokenBasedRememberMeServices {
-    @Autowired
-    private AccountService accountService;
-    @Autowired
-    private UpdateStatus updateStatus;
+    private final AccountService accountService;
+    private final UpdateStatus updateStatus;
 
-    public CustomRememberMe(String key, UserDetailsService userDetailsService) {
+    public CustomRememberMe(String key, UserDetailsService userDetailsService, AccountService accountService, UpdateStatus updateStatus) {
         super(key, userDetailsService);
+        this.accountService = accountService;
+        this.updateStatus = updateStatus;
     }
 
     private String createCustomRememberMeValue(Authentication authentication) {

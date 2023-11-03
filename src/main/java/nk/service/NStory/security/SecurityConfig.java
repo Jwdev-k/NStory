@@ -4,8 +4,10 @@ import lombok.RequiredArgsConstructor;
 import nk.service.NStory.security.handler.FailureHandler;
 import nk.service.NStory.security.handler.SuccessHandler;
 import nk.service.NStory.security.handler.customLogoutSuccessHandler;
+import nk.service.NStory.service.impl.AccountService;
 import nk.service.NStory.service.impl.OAuth2LoginService;
 import nk.service.NStory.service.impl.UserLoginService;
+import nk.service.NStory.utils.UpdateStatus;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,6 +33,8 @@ public class SecurityConfig {
     AuthenticationManager authenticationManager;
     private final UserLoginService userLoginService;
     private final OAuth2LoginService oAuth2LoginService;
+    private final AccountService accountService;
+    private final UpdateStatus updateStatus;
 
     @Bean //정적 파일 ignoring
     public WebSecurityCustomizer customizer() {
@@ -82,7 +86,7 @@ public class SecurityConfig {
 
     @Bean
     public TokenBasedRememberMeServices customRememberMeServices() {
-        CustomRememberMe customRememberMeServices = new CustomRememberMe("NStory_ATLG_customKey", userLoginService);
+        CustomRememberMe customRememberMeServices = new CustomRememberMe("NStory_ATLG_customKey", userLoginService, accountService, updateStatus);
         customRememberMeServices.setTokenValiditySeconds(86400 * 30);
         customRememberMeServices.setParameter("remember-me");
         customRememberMeServices.setCookieName("7adbbb4c6ATLG");
