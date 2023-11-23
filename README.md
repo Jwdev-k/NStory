@@ -8,8 +8,8 @@
 
 #### 📗 주요 프레임워크 / 라이브러리
 
-- Java 17
-- SpringBoot 3.0.5
+- JDK 21
+- SpringBoot 3.1.5
 - Spring Security
 - Mybatis framework
 - OAuth 2.0

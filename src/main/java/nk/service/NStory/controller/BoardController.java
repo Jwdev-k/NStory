@@ -27,9 +27,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -54,7 +54,7 @@ public class BoardController {
         int totalCount;
         boolean isSearch;
         pageUtil.setPerPageNum(50);
-        if (str != null && str.length() > 0) {
+        if (str != null && !str.isEmpty()) {
             model.addAttribute("boardList", whiteBoardService.searchList(bid, page, type, str));
             totalCount = whiteBoardService.searchTotalCount(bid, type, str);
             pageUtil.setPage(page);
@@ -240,7 +240,6 @@ public class BoardController {
             return new ResponseEntity<>(ImageByteArray.getImage(), HttpStatus.OK);
         }
         File defaultImg = ResourceUtils.getFile("classpath:static/images/bangdream/main-star.png");
-        FileInputStream in = new FileInputStream(defaultImg);
-        return new ResponseEntity<>(in.readAllBytes(), HttpStatus.OK);
+        return ResponseEntity.ok(Files.readAllBytes(defaultImg.toPath()));
     }
 }
