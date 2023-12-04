@@ -13,16 +13,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
+import org.springframework.security.web.header.writers.XXssProtectionHeaderWriter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -42,46 +42,44 @@ public class SecurityConfig {
     }
 
     @Bean //웹 필터
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
-        authenticationManagerBuilder.userDetailsService(userLoginService);
-        authenticationManager = authenticationManagerBuilder.build();
+    protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        //deprecated에 따른 필터 설정 기존 메서드식에서 람다식으로 변경.
+        http.csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests((authorizeRequests) -> authorizeRequests.anyRequest().permitAll())
+                .httpBasic(Customizer.withDefaults())
+                .anonymous(AbstractHttpConfigurer::disable)
 
-        http.csrf().disable()
-                .authorizeHttpRequests().anyRequest().permitAll()
-                .and().httpBasic(Customizer.withDefaults())
-                .authenticationManager(authenticationManager).anonymous().disable();
+                .formLogin((formLogin) ->
+                        formLogin.loginPage("/login").usernameParameter("email").passwordParameter("password")
+                                .loginProcessingUrl("/perform_login")
+                                .successHandler(new SuccessHandler(customRememberMeServices()))
+                                .failureHandler(new FailureHandler()))
 
-        http.formLogin()
-                .loginPage("/login").usernameParameter("email").passwordParameter("password")
-                .loginProcessingUrl("/perform_login").successHandler(new SuccessHandler(customRememberMeServices()))
-                .failureHandler(new FailureHandler());
+                .oauth2Login((oauth2Login) ->
+                        oauth2Login.loginPage("/login")
+                                .failureUrl("/login")
+                                .successHandler(new SuccessHandler(customRememberMeServices()))
+                                .userInfoEndpoint((userInfoEndpointConfig) ->
+                                        userInfoEndpointConfig.userService(oAuth2LoginService))) // 소셜 로그인을 위한 클래스 설정*/)
+                .rememberMe((rememberMe) ->
+                        rememberMe.rememberMeServices(customRememberMeServices())
+                                .authenticationSuccessHandler(new SuccessHandler(customRememberMeServices()))) // 커스텀 자동로그인 설정
 
-        http.oauth2Login()
-                .loginPage("/login")
-                .failureUrl("/login")
-                .successHandler(new SuccessHandler(customRememberMeServices()))
-                .userInfoEndpoint()
-                .userService(oAuth2LoginService); // 소셜 로그인을 위한 클래스 설정*/
+                .logout((logout) ->
+                        logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                                .logoutSuccessHandler(new customLogoutSuccessHandler())
+                                .clearAuthentication(true).invalidateHttpSession(true)
+                                .deleteCookies("6ASDF636ADVBN8J$KL","7adbbb4c6ATLG"))
 
-        http.rememberMe().rememberMeServices(customRememberMeServices())
-                .authenticationSuccessHandler(new SuccessHandler(customRememberMeServices())); // 커스텀 자동로그인 설정
+                .sessionManagement((sessionMgt) ->
+                        sessionMgt.sessionFixation().migrateSession()
+                                .invalidSessionUrl("/login").maximumSessions(1)
+                                .maxSessionsPreventsLogin(true).expiredUrl("/login")
+                                .sessionRegistry(sessionRegistry()))
+                .headers(headers ->
+                        headers.xssProtection(xss -> xss.headerValue(XXssProtectionHeaderWriter.HeaderValue.ENABLED_MODE_BLOCK)));
 
-        http.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessHandler(new customLogoutSuccessHandler())
-                .clearAuthentication(true).invalidateHttpSession(true).deleteCookies("6ASDF636ADVBN8J$KL","7adbbb4c6ATLG");
-
-        http.sessionManagement().sessionFixation().migrateSession()
-                .invalidSessionUrl("/login").maximumSessions(1).maxSessionsPreventsLogin(true).expiredUrl("/login")
-                .sessionRegistry(sessionRegistry());
-
-        http.headers().xssProtection();
         return http.build();
-    }
-
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
-            throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
     }
 
     @Bean
@@ -97,6 +95,7 @@ public class SecurityConfig {
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
     @Bean
     public SessionRegistry sessionRegistry() {
         return new SessionRegistryImpl();
