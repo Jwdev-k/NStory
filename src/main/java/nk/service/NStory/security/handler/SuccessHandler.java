@@ -32,18 +32,19 @@ public class SuccessHandler implements AuthenticationSuccessHandler {
             rememberMeServices.onLoginSuccess(request, response, authentication);
         }
 
+        boolean isLoginPage = requestURI.equals("/") || requestURI.equals("/perform_login")
+                || requestURI.contains("/login/oauth2/code/");
         if (userDetails.isFirstLogin()) {
             // 첫 로그인 보너스 경험치 지급
             String alertMsg = "첫 로그인 보너스 경험치. +100이 지급되었습니다.";
-            if (requestURI.equals("/")) {
+            if (isLoginPage) {
                 ScriptUtils.alertAndMovePage(response, alertMsg, "/");
             } else {
                 ScriptUtils.alertAndMovePage(response, alertMsg, requestURL);
             }
         } else {
             // 일반적인 로그인 시 처리
-            if (requestURI.equals("/") || requestURI.equals("/perform_login")
-                    || requestURI.contains("/login/oauth2/code/")/* 소셜로그인 */) {
+            if (isLoginPage) {
                 response.sendRedirect("/");
             } else {
                 response.sendRedirect(requestURL);
