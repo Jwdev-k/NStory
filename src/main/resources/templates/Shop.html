@@ -16,13 +16,13 @@
             </ol>
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img class="d-block w-100" src="https://picsum.photos/900/350" alt="First slide">
+                    <img class="d-block w-100" src="https://picsum.photos/1200/385" alt="First slide">
                 </div>
                 <div class="carousel-item">
-                    <img class="d-block w-100" src="https://picsum.photos/900/350" alt="Second slide">
+                    <img class="d-block w-100" src="https://picsum.photos/1200/385" alt="Second slide">
                 </div>
                 <div class="carousel-item">
-                    <img class="d-block w-100" src="https://picsum.photos/900/350" alt="Third slide">
+                    <img class="d-block w-100" src="https://picsum.photos/1200/385" alt="Third slide">
                 </div>
             </div>
             <button class="carousel-control-prev carousel-dark" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -35,67 +35,15 @@
             </button>
         </div>
         <div class="row">
-            <div class="col-lg-4 col-md-4 mb-4">
+            <div class="col-lg-4 col-md-4 mb-4" th:each="list : ${ShopList}">
                 <div class="card h-100">
-                    <a href="#"><img class="card-img-top" src="/static/images/bangdream/boost.png" alt=""></a>
+                    <a href="#"><img class="card-img-top" th:src="@{/shop/itemImg/} + ${list.itemImg}" alt=""></a>
                     <div class="card-body">
                         <h4 class="card-title">
-                            <a href="#">부스트</a>
+                            <a href="#" th:text="${list.itemName}">아이템 이름</a>
                         </h4>
-                        <h5>100 NCoin</h5>
-                        <p class="card-text">EXP 2배 아이템</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-4 mb-4">
-                <div class="card h-100">
-                    <a href="#"><img class="card-img-top" src="/static/images/bangdream/coin.png" alt=""></a>
-                    <div class="card-body">
-                        <h4 class="card-title">
-                            <a href="#">코인</a>
-                        </h4>
-                        <h5>100 NCoin</h5>
-                        <p class="card-text">코인으로 교환한다.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-4 mb-4">
-                <div class="card h-100">
-                    <a href="#"><img class="card-img-top" src="/static/images/bangdream/ticket-double.png" alt=""></a>
-                    <div class="card-body">
-                        <h4 class="card-title">
-                            <a href="#">연습티켓 (더블)</a>
-                        </h4>
-                        <h5>500 NCoin</h5>
-                        <p class="card-text">300의 경험치를 획득한다.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-4 mb-4">
-                <div class="card h-100">
-                    <a href="#"><img class="card-img-top" src="/static/images/bangdream/ticket-triple.png" alt=""></a>
-                    <div class="card-body">
-                        <h4 class="card-title">
-                            <a href="#">연습티켓 (트리플)</a>
-                        </h4>
-                        <h5>1000 NCoin</h5>
-                        <p class="card-text">600의 경험치를 획득한다.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-4 mb-4">
-                <div class="card h-100">
-                    <a href="#"><img class="card-img-top" src="/static/images/bangdream/ticket-quadruple.png" alt=""></a>
-                    <div class="card-body">
-                        <h4 class="card-title">
-                            <a href="#">연습티켓 (프리미엄)</a>
-                        </h4>
-                        <h5>1500 NCoin</h5>
-                        <p class="card-text">1200의 경험치를 획득한다.</p>
+                        <h5 th:text="${list.itemPrice + ' NCoin'}">0 NCoin</h5>
+                        <p class="card-text" th:text="${list.itemDsrp}">아이템 설명</p>
                     </div>
                 </div>
             </div>
