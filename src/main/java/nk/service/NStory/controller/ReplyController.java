@@ -18,8 +18,8 @@ public class ReplyController {
 
     @PostMapping(value = "/whiteview/reply/add")
     public ResponseEntity<String> addReply(@AuthenticationPrincipal CustomUserDetails userDetails
-            , @RequestParam(required = false) String name, @RequestParam int id, @RequestParam int cid
-            , @RequestParam String contents) throws Exception {
+            , @RequestParam(name = "name", required = false) String name, @RequestParam(name = "id") int id, @RequestParam(name = "cid") int cid
+            , @RequestParam(name = "contents") String contents) throws Exception {
         contents = contents.replaceAll("(?i)<script.*?>.*?</script.*?>", "");
         if (userDetails != null && name == null && contents.length() > 0) {
             if (contents.length() > 300) {
@@ -35,7 +35,7 @@ public class ReplyController {
 
     @PostMapping(value = "/whiteview/reply/edit")
     public ResponseEntity<String> editReply(@AuthenticationPrincipal CustomUserDetails userDetails
-            ,@RequestParam int rid, @RequestParam(required = false) String name, @RequestParam String contents) throws Exception {
+            ,@RequestParam(name = "rid") int rid, @RequestParam(name = "name", required = false) String name, @RequestParam(name = "contents") String contents) throws Exception {
         contents = contents.replaceAll("(?i)<script.*?>.*?</script.*?>", "");
         if (userDetails != null && name == null && contents.length() > 0) {
             if (contents.length() > 300) {
@@ -50,7 +50,7 @@ public class ReplyController {
 
     @PostMapping(value = "/whiteview/reply/delete")
     public ResponseEntity<String> deleteReply(@AuthenticationPrincipal CustomUserDetails userDetails
-            ,@RequestParam int rid) throws Exception {
+            ,@RequestParam(name = "rid") int rid) throws Exception {
         ReplyDTO reply = replyService.getReply(rid);
         if (userDetails != null && reply.getEmail().equals(userDetails.getEmail())) {
             replyService.deleteReply(rid);

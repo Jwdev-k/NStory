@@ -59,8 +59,8 @@ public class LoginController {
 
     @PostMapping(value = "/sign_up")
     public String Register(@AuthenticationPrincipal CustomUserDetails userDetails, HttpServletRequest request
-            , HttpServletResponse response, HttpSession session, @RequestParam String email, @RequestParam String password
-            , @RequestParam String name, @RequestParam String token) throws Exception {
+            , HttpServletResponse response, HttpSession session, @RequestParam(name = "email") String email, @RequestParam(name = "password") String password
+            , @RequestParam(name = "name") String name, @RequestParam(name = "token") String token) throws Exception {
         String SessionEmail = session.getAttribute("SignUpSession").toString();
         if (userDetails != null) {
             return "redirect:/";
@@ -84,8 +84,8 @@ public class LoginController {
 
     @PostMapping(value = "/agree")
     public String Register(@AuthenticationPrincipal CustomUserDetails userDetails, HttpServletRequest request
-            , HttpSession session, @RequestParam(defaultValue = "false") boolean agree
-            , @RequestParam(required = false) String token, RedirectAttributes redirectAttributes) throws Exception {
+            , HttpSession session, @RequestParam(name = "agree", defaultValue = "false") boolean agree
+            , @RequestParam(name = "token", required = false) String token, RedirectAttributes redirectAttributes) throws Exception {
         if (userDetails != null) {
             return "redirect:" + request.getHeader("referer");
         } else if (RecaptchaConfig.verify(token) && agree) {
@@ -105,8 +105,8 @@ public class LoginController {
     }
 
     @PostMapping(value = "/findpw")
-    public String findPassword(HttpServletRequest request, @RequestParam String email
-            , @RequestParam String token, RedirectAttributes redirectAttributes) throws Exception {
+    public String findPassword(HttpServletRequest request, @RequestParam(name = "email") String email
+            , @RequestParam(name = "token") String token, RedirectAttributes redirectAttributes) throws Exception {
         if (email != null && token != null) {
             if (accountService.checkEmail(email) && RecaptchaConfig.verify(token)) { // 메일발송
                 String generateCode = securityCode.generateSecurityCode();
@@ -134,8 +134,8 @@ public class LoginController {
     @ResponseBody
     @PostMapping(value = "/check_code")
     public ResponseEntity<String> checkCode(HttpServletRequest request, HttpSession session
-            , @RequestParam String email, @RequestParam String code
-            , @RequestParam(required = false, defaultValue = "false") boolean isSignUp) throws Exception {
+            , @RequestParam(name = "email") String email, @RequestParam(name = "code") String code
+            , @RequestParam(name = "isSignUp", required = false, defaultValue = "false") boolean isSignUp) throws Exception {
         JSONObject responseJson = new JSONObject();
         if (code != null && email != null) {
             SecurityCodeDTO codeDTO = securityCode.getSecurityCode(email, request);
@@ -177,7 +177,7 @@ public class LoginController {
 
     @PostMapping(value = "/new_pw")
     public String newPassword(HttpServletRequest request, HttpServletResponse response, Authentication auth
-            , @RequestParam String password, @RequestParam String password2) throws Exception {
+            , @RequestParam(name = "password") String password, @RequestParam(name = "password2") String password2) throws Exception {
         CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
         if (password.length() >= 6 && password.length() <= 16 && password.equals(password2)) {
             accountService.resetPassword(userDetails.getEmail(), passwordEncoder.encode(password));
@@ -201,8 +201,8 @@ public class LoginController {
     }
 
     @PostMapping(value = "/check_email")
-    public String checkEmailPost(HttpServletRequest request, HttpSession session, @RequestParam String email
-            , @RequestParam String token, RedirectAttributes redirectAttributes) throws Exception {
+    public String checkEmailPost(HttpServletRequest request, HttpSession session, @RequestParam(name = "email") String email
+            , @RequestParam(name = "token") String token, RedirectAttributes redirectAttributes) throws Exception {
         if (email != null && token != null) {
             if (!accountService.checkEmail2(email) && RecaptchaConfig.verify(token)) {
                 String generateCode = securityCode.generateSecurityCode();

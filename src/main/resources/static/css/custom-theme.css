@@ -1,6 +1,6 @@
 :root {
-    --primary-color: #FF3E7F;
-    --secondary-color: #8B5EB5;
+    --primary-color: #000000;
+    --secondary-color: #3656ff;
 }
 * {
     font-family: 'Noto Sans KR', sans-serif;
@@ -22,8 +22,8 @@
     color: var(--secondary-color);
 }
 .navbar {
-    background-color: white;
-    border-bottom: 1px solid #FF3E7F;
+    background-color: #ffffff;
+    border-bottom: 1px solid #000000;
 }
 /* 로고 */
 .navbar-brand {

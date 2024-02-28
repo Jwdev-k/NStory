@@ -24,7 +24,7 @@ public class RecordLogController {
 
     @RequestMapping(value = "/record")
     public String main(@AuthenticationPrincipal CustomUserDetails userDetails, Model model
-            ,@RequestParam(required = false, defaultValue = "1") int page) throws Exception {
+            ,@RequestParam(name = "page", required = false, defaultValue = "1") int page) throws Exception {
         model.addAttribute("Email", userDetails != null ? userDetails.getEmail() : null);
         model.addAttribute("recordLogList", recordLogService.recordLogList(page));
         int totalCount = recordLogService.totalCount();
@@ -37,7 +37,7 @@ public class RecordLogController {
     }
 
     @PostMapping(value = "/record/frmlog")
-    public String FrmLogAdd(HttpServletRequest request, @RequestParam String contents
+    public String FrmLogAdd(HttpServletRequest request, @RequestParam(name = "contents") String contents
             , @AuthenticationPrincipal CustomUserDetails userDetails) throws Exception {
         if (userDetails != null) {
             String outputString = contents.replaceAll("(?i)<script.*?>.*?</script.*?>", "");
@@ -51,7 +51,7 @@ public class RecordLogController {
 
     @PostMapping(value = "/record/frmlog_delete")
     public String FrmLogDelete(@AuthenticationPrincipal CustomUserDetails userDetails, HttpServletResponse response
-            , HttpServletRequest request, @RequestParam int id, @RequestParam String email) throws Exception {
+            , HttpServletRequest request, @RequestParam(name = "id") int id, @RequestParam(name = "email") String email) throws Exception {
         if (userDetails.getEmail().equals(email)) {
             recordLogService.deleteLog(id, email);
         } else {

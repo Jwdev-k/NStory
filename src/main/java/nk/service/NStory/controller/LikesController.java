@@ -19,7 +19,7 @@ public class LikesController {
 
     @PostMapping(value = "/b_bup")
     public ResponseEntity<String> like(@AuthenticationPrincipal CustomUserDetails userDetails
-            , @RequestParam int id) throws Exception {
+            , @RequestParam(name = "id") int id) throws Exception {
         if (userDetails != null) {
             LikesHistory likesHistory = likeHistoryService.getLikeType(id, userDetails.getEmail());
             LikesHistory likeObj = new LikesHistory(1, id, userDetails.getEmail());
@@ -43,7 +43,7 @@ public class LikesController {
 
     @PostMapping(value = "/b_pdown")
     public ResponseEntity<String> dLike(@AuthenticationPrincipal CustomUserDetails userDetails
-            , @RequestParam int id) throws Exception {
+            , @RequestParam(name = "id") int id) throws Exception {
         if (userDetails != null) {
             LikesHistory likesHistory = likeHistoryService.getLikeType(id, userDetails.getEmail());
             LikesHistory likeObj = new LikesHistory(0, id, userDetails.getEmail());

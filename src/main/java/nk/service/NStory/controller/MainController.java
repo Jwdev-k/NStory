@@ -50,8 +50,8 @@ public class MainController {
     }
 
     @PostMapping(value = "/account/profile_update")
-    public String updateAccountInfo(HttpServletRequest request, @RequestParam String nickname
-            , @RequestParam String comment, @AuthenticationPrincipal CustomUserDetails userDetails) throws Exception {
+    public String updateAccountInfo(HttpServletRequest request, @RequestParam(name = "nickname") String nickname
+            , @RequestParam(name = "comment") String comment, @AuthenticationPrincipal CustomUserDetails userDetails) throws Exception {
         if (comment.length() > 100) {
             comment = comment.substring(0, 100);
         }
@@ -61,7 +61,7 @@ public class MainController {
 
     @ResponseBody
     @PostMapping(value = "/account/prf_update")
-    public ResponseEntity<String> updateAccountInfo2(HttpServletRequest request, @RequestParam MultipartFile profileImg
+    public ResponseEntity<String> updateAccountInfo2(HttpServletRequest request, @RequestParam(name = "profileImg") MultipartFile profileImg
             , @AuthenticationPrincipal CustomUserDetails userDetails) throws Exception {
         accountService.UpdateAccountInfo(new AccountDTO(userDetails.getEmail(), profileImg.getBytes()));
 
@@ -72,7 +72,7 @@ public class MainController {
     }
 
     @GetMapping(value = "/general/prf_img/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
-    public ResponseEntity<byte[]> getProfileImage(@PathVariable int id) throws Exception {
+    public ResponseEntity<byte[]> getProfileImage(@PathVariable(name = "id") int id) throws Exception {
         ByteImageDTO ImageByteArray = accountService.getUserImage(id);
         if (ImageByteArray != null && ImageByteArray.getImage().length > 0) {
             return new ResponseEntity<>(ImageByteArray.getImage(), HttpStatus.OK);
@@ -95,7 +95,7 @@ public class MainController {
     }
     @PostMapping(value = "/gpt/request")
     @ResponseBody
-    public ResponseEntity<String> resultGPT(@RequestParam String message) {
+    public ResponseEntity<String> resultGPT(@RequestParam(name = "message") String message) {
         if (message != null) {
            return ResponseEntity.ok(ChatGPTClient.AIChat(message));
         }

@@ -31,7 +31,7 @@ public class ShopController {
     }
 
     @GetMapping(value = "/itemImg/{imgName}")
-    public ResponseEntity<byte[]> getImage(@PathVariable String imgName) {
+    public ResponseEntity<byte[]> getImage(@PathVariable(name = "imgName") String imgName) {
         try {
             String imgPath = System.getProperty("user.dir") + File.separator + "ShopImages" + File.separator + imgName;
             Path path = Paths.get(imgPath);

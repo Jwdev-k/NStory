@@ -48,9 +48,9 @@ public class BoardController {
     private final PageUtil pageUtil = new PageUtil();
 
     @RequestMapping(value = "/whiteboard/{bid}")
-    public String boardList(HttpServletResponse response, HttpServletRequest request, Model model, @PathVariable String bid
-            , @RequestParam(required = false, defaultValue = "1") int page, @RequestParam(required = false) String str
-            , @RequestParam(required = false, defaultValue = "title") SearchType type) throws Exception {
+    public String boardList(HttpServletResponse response, HttpServletRequest request, Model model, @PathVariable(name = "bid") String bid
+            , @RequestParam(name = "page", required = false, defaultValue = "1") int page, @RequestParam(name = "str",required = false) String str
+            , @RequestParam(name = "type", required = false, defaultValue = "title") SearchType type) throws Exception {
         int totalCount;
         boolean isSearch;
         pageUtil.setPerPageNum(50);
@@ -90,7 +90,7 @@ public class BoardController {
 
     @GetMapping(value = "/whitepost/{bid}")
     public String addBoard(@AuthenticationPrincipal CustomUserDetails userDetails, HttpServletRequest request
-            , @PathVariable String bid) throws Exception {
+            , @PathVariable(name = "bid") String bid) throws Exception {
         if (userDetails == null) {
             return "redirect:/whiteboard/" + bid;
         } else {
@@ -103,8 +103,8 @@ public class BoardController {
 
     @PostMapping(value = "/whiteboard/add")
     public String addBoard2(@AuthenticationPrincipal CustomUserDetails userDetails, HttpServletRequest request
-            , @RequestParam String bid, @RequestParam String title, @RequestParam String editordata
-            , @RequestParam(required = false) boolean isNotice) throws Exception {
+            , @RequestParam(name="bid") String bid, @RequestParam(name = "title") String title, @RequestParam(name = "editordata") String editordata
+            , @RequestParam(name = "isNotice",required = false) boolean isNotice) throws Exception {
         if (userDetails == null) {
             return "redirect:" + request.getHeader("referer");
         } else {
@@ -116,7 +116,7 @@ public class BoardController {
     }
 
     @GetMapping(value = "/whiteview")
-    public String boardView(HttpServletRequest request, HttpServletResponse response, @RequestParam int id
+    public String boardView(HttpServletRequest request, HttpServletResponse response, @RequestParam(name = "id") int id
             ,@AuthenticationPrincipal CustomUserDetails userDetails) throws Exception {
         int lastPage = 1;
         boolean isViews = false;
@@ -177,7 +177,7 @@ public class BoardController {
     @ResponseBody
     @PostMapping(value = "/whiteboard/delete")
     public ResponseEntity<String> deleteBoard(@AuthenticationPrincipal CustomUserDetails userDetails
-            , @RequestParam String bid, @RequestParam int id, @RequestParam String email) throws Exception {
+            , @RequestParam(name = "bid") String bid, @RequestParam(name = "id") int id, @RequestParam String email) throws Exception {
         if (userDetails.getEmail().equals(email)) {
             whiteBoardService.deleteBoard(id, userDetails.getEmail());
         }
@@ -186,7 +186,7 @@ public class BoardController {
 
     @GetMapping(value = "/whitepostup/{bid}")
     public String updateBoard(@AuthenticationPrincipal CustomUserDetails userDetails, HttpServletRequest request
-            ,@PathVariable String bid, @RequestParam int id) throws Exception {
+            ,@PathVariable(name = "bid") String bid, @RequestParam(name = "id") int id) throws Exception {
         if (userDetails == null) {
             return "redirect:/whiteboard/" + bid;
         } else {
@@ -205,8 +205,8 @@ public class BoardController {
 
     @PostMapping(value = "/whiteboard/update")
     public String updateBoard2(@AuthenticationPrincipal CustomUserDetails userDetails, HttpServletRequest request
-            , @RequestParam int id, @RequestParam String title, @RequestParam String editordata
-            , @RequestParam(required = false) boolean isNotice) throws Exception {
+            , @RequestParam(name = "id") int id, @RequestParam String title, @RequestParam String editordata
+            , @RequestParam(name = "isNotice", required = false) boolean isNotice) throws Exception {
         if (userDetails == null) {
             return "redirect:" + request.getHeader("referer");
         } else {
@@ -227,14 +227,14 @@ public class BoardController {
     }
 
     @PostMapping(value = "/whiteboard/setup/{bid}", produces = MediaType.IMAGE_PNG_VALUE)
-    public String SettingsSave(HttpServletRequest request, @RequestParam(required = false) MultipartFile setImage
-            , @RequestParam String subname, @PathVariable String bid) throws Exception {
+    public String SettingsSave(HttpServletRequest request, @RequestParam(name = "setImage", required = false) MultipartFile setImage
+            , @RequestParam(name = "subname") String subname, @PathVariable(name = "bid") String bid) throws Exception {
         boardInfoService.updateSettings(setImage.getBytes(), subname, bid);
         return "redirect:" + request.getHeader("referer");
     }
 
     @GetMapping(value = "/bbs/main_img/{bid}", produces = MediaType.IMAGE_JPEG_VALUE)
-    public ResponseEntity<byte[]> getProfileImage(@PathVariable String bid) throws Exception {
+    public ResponseEntity<byte[]> getProfileImage(@PathVariable(name = "bid") String bid) throws Exception {
         ByteImageDTO ImageByteArray = boardInfoService.getMainImage(bid);
         if (ImageByteArray != null && ImageByteArray.getImage().length > 0) {
             return new ResponseEntity<>(ImageByteArray.getImage(), HttpStatus.OK);

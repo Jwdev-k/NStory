@@ -4,8 +4,8 @@ $(document).ready(function() {
 function postsBtn() {
     var postbtn = document.getElementById("recent-posts-btn");
     var commentbtn = document.getElementById("recent-comments-btn");
-    postbtn.className = "btn fw-bold text-white w-100";
-    commentbtn.className = "btn fw-bold text-mute w-100";
+    postbtn.className = "btn fw-bold text-primary w-100";
+    commentbtn.className = "btn fw-bold text-white w-100";
 
     $.ajax({
         type: "GET",
@@ -32,8 +32,8 @@ function postsBtn() {
 function commentsBtn() {
     var postbtn = document.getElementById("recent-posts-btn");
     var commentbtn = document.getElementById("recent-comments-btn");
-    postbtn.className = "btn fw-bold text-mute w-100";
-    commentbtn.className = "btn fw-bold text-white w-100";
+    postbtn.className = "btn fw-bold text-white w-100";
+    commentbtn.className = "btn fw-bold text-primary w-100";
 
     $.ajax({
         type: "GET",

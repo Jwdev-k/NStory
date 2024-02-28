@@ -18,10 +18,10 @@ public class CommentController {
 
     @PostMapping(value = "/whiteview/comment/add")
     public ResponseEntity<String> addComment(@AuthenticationPrincipal CustomUserDetails userDetails
-            , @RequestParam int id, @RequestParam(required = false) String name
-            , @RequestParam String contents) throws Exception {
+            , @RequestParam(name = "id") int id, @RequestParam(name = "name", required = false) String name
+            , @RequestParam(name = "contents") String contents) throws Exception {
         contents = contents.replaceAll("(?i)<script.*?>.*?</script.*?>", "");
-        if (userDetails != null && name == null && contents.length() > 0) {
+        if (userDetails != null && name == null && !contents.isEmpty()) {
             if (contents.length() > 300) {
                 contents = contents.substring(0, 300);
             }
@@ -35,10 +35,10 @@ public class CommentController {
 
     @PostMapping(value = "/whiteview/comment/edit")
     public ResponseEntity<String> editComment(@AuthenticationPrincipal CustomUserDetails userDetails
-            , @RequestParam int cid, @RequestParam(required = false) String name
-            , @RequestParam String contents) throws Exception {
+            , @RequestParam(name = "cid") int cid, @RequestParam(name = "name", required = false) String name
+            , @RequestParam(name = "contents") String contents) throws Exception {
         contents = contents.replaceAll("(?i)<script.*?>.*?</script.*?>", "");
-        if (userDetails != null && name == null && contents.length() > 0) {
+        if (userDetails != null && name == null && !contents.isEmpty()) {
             if (contents.length() > 300) {
                 contents = contents.substring(0, 300);
             }
@@ -51,7 +51,7 @@ public class CommentController {
 
     @PostMapping(value = "/whiteview/comment/delete")
     public ResponseEntity<String> deleteComment(@AuthenticationPrincipal CustomUserDetails userDetails
-            , @RequestParam int cid) throws Exception {
+            , @RequestParam(name = "cid") int cid) throws Exception {
         CommentDTO comment = commentService.getComment(cid);
         if (comment.getEmail().equals(userDetails.getEmail())) {
             commentService.deleteComment(cid);

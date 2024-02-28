@@ -9,7 +9,7 @@
 #### 📗 주요 프레임워크 / 라이브러리
 
 - JDK 21
-- SpringBoot 3.1.5
+- SpringBoot 3.2.3
 - Spring Security
 - Mybatis framework
 - OAuth 2.0
@@ -22,7 +22,7 @@
 
 #### 🔨 Build Tools
 
-- Gradle 7.6.x
+- Gradle 8.6
 
 #### 📚 DataBase
 
@@ -76,7 +76,3 @@
 ### 🧾 Database(ERD)
 
 <img src="https://user-images.githubusercontent.com/82058641/235068176-3c02f1ef-a3bb-4d65-9362-f795da95443a.PNG" alt="ERD"/>
-
-### 📷 Light Theme Login Page
-
-<img src="https://user-images.githubusercontent.com/82058641/231667899-c2481313-262f-4ddd-827f-8bdb23cfa5d5.png" alt="main" width="800" height="442"/>

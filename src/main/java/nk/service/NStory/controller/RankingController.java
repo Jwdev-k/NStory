@@ -19,8 +19,8 @@ public class RankingController {
 
     @RequestMapping(value = "/ranking")
     public String RankingMain(Model model, HttpServletRequest request
-            , @RequestParam(required = false, defaultValue = "1") int page
-            , @RequestParam(required = false) String search) throws Exception {
+            , @RequestParam(name = "page", required = false, defaultValue = "1") int page
+            , @RequestParam(name = "search", required = false) String search) throws Exception {
         int totalCount;
         boolean isSearch;
         if (search != null && search.length() > 0) {

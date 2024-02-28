@@ -1,6 +1,6 @@
 plugins {
 	java
-	id("org.springframework.boot") version "3.1.5"
+	id("org.springframework.boot") version "3.2.3"
 	id("io.spring.dependency-management") version "1.1.0"
 	id("org.graalvm.buildtools.native") version "0.9.18"
 }
@@ -25,12 +25,12 @@ dependencies {
 	implementation ("org.springframework.boot:spring-boot-starter-oauth2-client")
 	implementation ("org.springframework.boot:spring-boot-starter-websocket")
 	implementation("org.springframework.boot:spring-boot-starter-mail")
-	implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.2")
+	implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3")
 	implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity6")
-	implementation ("de.codecentric:spring-boot-admin-starter-client:3.0.2")
+	implementation ("de.codecentric:spring-boot-admin-starter-client:3.0.3")
 	compileOnly("org.projectlombok:lombok")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
-	runtimeOnly("org.mariadb.jdbc:mariadb-java-client:3.1.2")
+	runtimeOnly("org.mariadb.jdbc:mariadb-java-client:3.3.3")
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 	annotationProcessor("org.projectlombok:lombok")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")

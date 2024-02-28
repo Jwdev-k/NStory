@@ -129,12 +129,14 @@
                     <div class="d-flex card-group align-items-center mb-3">
                         <img class="box" style="object-fit: cover; margin-right: 10px;"
                              th:src="@{/general/prf_img/} + ${list.aid}" alt="profileImg">
-                        <h5 class="card-title" th:text="${list.name}"></h5>
-                        <i th:if="${#strings.equals(list.email, boardAdmin)}"
-                           class="fa fa-check-circle fa-sm mb-1 mx-1" style="color: deeppink;" title="주인장"></i>
+                        <div>
+                            <span class="card-title" th:text="${list.name}"></span>
+                            <i th:if="${#strings.equals(list.email, boardAdmin)}"
+                               class="fa fa-check-circle fa-sm mb-1 mx-1" style="color: deeppink;" title="주인장"></i>
+                            <p class="card-subtitle text-muted reply-time" th:text="${list.time}"></p>
+                        </div>
                     </div>
                     <p class="card-text edit-comment-contents" th:text="${list.contents}"></p>
-                    <p class="card-subtitle text-muted reply-time" th:text="${list.time}"></p>
                     <div class="d-flex reply-btn">
                         <button class="btn btn-sm text-secondary reply-toggle">댓글 쓰기</button>
                         <a class="btn btn-sm text-secondary edit-comment"
@@ -170,12 +172,14 @@
                                     <div class="d-flex card-group align-items-center mb-3">
                                         <img class="box" style="object-fit: cover; margin-right: 10px;"
                                              th:src="@{/general/prf_img/} + ${list2.aid}" alt="profileImg">
-                                        <span class="card-title" th:text="${list2.name}"></span>
-                                        <i th:if="${#strings.equals(list2.email, boardAdmin)}"
-                                           class="fa fa-check-circle fa-sm mb-1 mx-1" style="color: deeppink;" title="주인장"></i>
+                                        <div>
+                                            <span class="card-title" th:text="${list2.name}"></span>
+                                            <i th:if="${#strings.equals(list2.email, boardAdmin)}"
+                                               class="fa fa-check-circle fa-sm mb-1 mx-1" style="color: deeppink;" title="주인장"></i>
+                                            <p class="card-subtitle text-muted reply-time" th:text="${list2.time}"></p>
+                                        </div>
                                     </div>
                                     <p class="card-text edit-reply-contents" th:text="${list2.contents}"></p>
-                                    <p class="card-subtitle text-muted reply-time" th:text="${list2.time}"></p>
                                     <div class="d-flex reply-btn">
                                         <a class="btn btn-sm text-secondary edit-reply"
                                            th:if="${#authentication != null} AND ${#strings.equals(list2.email,#authentication.principal.email)}">수정</a>
@@ -184,7 +188,7 @@
                                             <input type="hidden" name="rid" th:value="${list2.rid}">
                                             <button type="submit" class="btn btn-sm text-secondary"
                                                     onclick="if(!confirm('삭제하시면 복구할수 없습니다. \n 정말로 삭제하시겠습니까??'))
-                                                    { return false;}">삭제</button>
+                                             { return false;}">삭제</button>
                                         </form>
                                     </div>
                                 </div>
