@@ -32,7 +32,7 @@ public class UserLoginService implements UserDetailsService {
                 accountService.UpdateLastLoginDate(CurrentTime.getTime(), email);
                 return new CustomUserDetails(account.getId(), account.getName(), account.getEmail(), account.getPassword()
                         , account.getComment(), account.getLevel(), account.getExp(), account.getNCoin(), account.isEnable()
-                        , Collections.singleton(new SimpleGrantedAuthority("ROLE_" + "USER"))
+                        , Collections.singleton(new SimpleGrantedAuthority("ROLE_" + account.getRole()))
                         , updateStatus.checkingReward(account), account.isOAuth());
             }
         } else {

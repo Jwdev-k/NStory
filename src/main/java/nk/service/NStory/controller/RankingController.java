@@ -23,7 +23,7 @@ public class RankingController {
             , @RequestParam(name = "search", required = false) String search) throws Exception {
         int totalCount;
         boolean isSearch;
-        if (search != null && search.length() > 0) {
+        if (search != null && !search.isEmpty()) {
             model.addAttribute("rankingList", rankingService.ExpRankNameSerach(page, search));
             pageUtil.setPage(page);
             totalCount = rankingService.searchTotalCount(search);

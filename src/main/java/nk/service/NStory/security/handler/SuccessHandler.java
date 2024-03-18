@@ -27,10 +27,10 @@ public class SuccessHandler implements AuthenticationSuccessHandler {
         String requestURL = request.getRequestURL().append("?").append(request.getQueryString()).toString();
         String requestURI = request.getRequestURI();
 
-        if (userDetails.isOAuth()) {
+/*        if (userDetails.isOAuth()) {
             // 소셜로그인인 경우 강제 자동로그인 쿠키 생성
             rememberMeServices.onLoginSuccess(request, response, authentication);
-        }
+        }*/
 
         boolean isLoginPage = requestURI.equals("/") || requestURI.equals("/perform_login")
                 || requestURI.contains("/login/oauth2/code/");

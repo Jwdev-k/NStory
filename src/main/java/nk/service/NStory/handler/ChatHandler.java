@@ -1,6 +1,7 @@
 package nk.service.NStory.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import nk.service.NStory.dto.ChatMessage;
 import nk.service.NStory.dto.Enum.ChatType;
 import nk.service.NStory.utils.CurrentTime;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Slf4j
 public class ChatHandler extends TextWebSocketHandler {
 
     private static final List<WebSocketSession> sessions = new ArrayList<>();
@@ -43,8 +45,10 @@ public class ChatHandler extends TextWebSocketHandler {
                     ChatMessage chatMessage = new ChatMessage();
                     if (session.getPrincipal() != null) {
                         sb.append(CurrentTime.getTime2() + " " + session.getPrincipal().getName() +  " : " + message.getPayload());
+                        log.debug(session.getPrincipal().getName() +  " : " + message.getPayload());
                     } else {
                         sb.append(CurrentTime.getTime2() + " 익명 : " + message.getPayload());
+                        log.debug("익명 : " + message.getPayload());
                     }
                     chatMessage.setChatType(ChatType.CHAT_TYPE);
                     chatMessage.setContent(sb.toString());
