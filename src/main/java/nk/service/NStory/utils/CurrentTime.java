@@ -7,20 +7,18 @@ import java.time.format.DateTimeFormatter;
 
 @Component
 public class CurrentTime {
+    private static final LocalDateTime localDateTime = LocalDateTime.now();
+
     public static String getTime() {
-        LocalDateTime localDateTime = LocalDateTime.now();
         return localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
     public static String getTime2() {
-        LocalDateTime localDateTime = LocalDateTime.now();
         return localDateTime.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
     }
     public static String getTime3() {
-        LocalDateTime localDateTime = LocalDateTime.now();
         return localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
     }
     public static String getTime4() {
-        LocalDateTime localDateTime = LocalDateTime.now();
         return localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
     }
 }

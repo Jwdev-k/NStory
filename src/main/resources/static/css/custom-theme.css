@@ -6,13 +6,16 @@
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 13px;
 }
+main {
+    margin-top: 55px;
+}
 @media (max-width: 912px) {
      * {
          font-family: 'Noto Sans KR', sans-serif;
          font-size: 11px;
      }
     main {
-        margin-top: 250px;
+        margin-top: 85px;
     }
 }
 .text-custom-primary {

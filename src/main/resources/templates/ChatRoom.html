@@ -7,30 +7,37 @@
 <nav th:replace="~{layout/defaultNavbar :: Navbar}"></nav>
 <div th:replace="~{layout/sideMenu :: Menu}"></div>
 <main>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="chat-window">
-                    <h3 class="fw-bold">채팅방</h3>
-                    <hr/>
-                    <div class="message-list" id="chat-window">
-                        <!-- 채팅내용 <div> -->
-                    </div>
-                    <div class="input-group">
-                        <input type="text" id="message" class="form-control" placeholder="메시지를 입력하세요" maxlength="100">
-                        <div class="input-group-append">
-                            <button type="button" class="btn btn-primary" onclick="sendMessage()">
-                                <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
-                        </div>
-                    </div>
+    <div class="row">
+        <!-- WebRTC 화면 공유 영역 -->
+        <div class="col video-container">
+            <div class="video"></div>
+        </div>
+        <!-- 채팅창 -->
+        <div class="chat-window">
+            <button id="user-list-toggle" class="btn btn-secondary toggle-button">
+                <i class="fa fa-users" aria-hidden="true"></i>
+            </button>
+            <div class="message-list" id="chat-window">
+                <hr>
+                <!-- 채팅 내용 -->
+            </div>
+            <div class="input-group">
+                <input type="text" id="message" class="form-control" placeholder="메시지를 입력하세요" maxlength="100">
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-primary" onclick="sendMessage()">
+                        <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                    </button>
                 </div>
             </div>
-            <div class="user-list col-md-2">
-                <h5 class="fw-bold" id="user-list-count">유저 리스트(0)</h5>
-                <hr/>
-                <div class="user" id="user-list">
-                    <!-- 유저리스트 <p>-->
-                </div>
+        </div>
+        <div class="user-list-content hidden" id="user-list">
+            <span class="fw-bold mt-3" id="user-list-count">유저 리스트(0)</span>
+            <button id="close-user-list" class="close-button">
+                <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+            </button>
+            <hr/>
+            <div class="user" id="user-list-p">
+                <!-- 유저 리스트 <p> -->
             </div>
         </div>
     </div>
@@ -39,4 +46,5 @@
 </body>
 <script src="/static/js/mainChat.js"></script>
 <script src="/static/js/menuEvent.js"></script>
+<link rel="stylesheet" href="/static/css/live-chat.css">
 </html>
