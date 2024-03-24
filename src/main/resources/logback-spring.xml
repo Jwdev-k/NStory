@@ -26,7 +26,7 @@
     <appender name="ChatLog_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>./logs/chatlog.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>chatlog-%d{yyyy-MM-dd}.gz</fileNamePattern>
+            <fileNamePattern>./logs/chatlog.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
         </rollingPolicy>
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level - %msg%n</pattern>

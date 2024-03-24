@@ -13,17 +13,17 @@
             <div class="col-sm-4" th:each="list : ${RoomList}">
                 <div class="card mb-4 card-record border-primary" style="height: auto;">
                     <div class="card-body">
-                        <a class="card-title" th:text="${list.value.roomName}" style="font-size: 15px;"
-                           th:href="@{/chatroom/{roomId}(roomId = ${list.value.roomId})}"></a>
+                        <a class="card-title" th:text="${list.roomName}" style="font-size: 15px;"
+                           th:href="@{/chatroom/{roomId}(roomId = ${list.roomId})}"></a>
                     </div>
                     <div class="card-footer d-flex justify-content-between align-items-center" style="border: 0;">
                         <div class="card-text">
-                            <img class="box" th:src="@{/general/prf_img/} + ${list.value.aid}" alt="profile">
-                            <span th:text="${list.value.hostName}"></span>
+                            <img class="box" th:src="@{/general/prf_img/} + ${list.aid}" alt="profile">
+                            <span th:text="${list.hostName}"></span>
                             <span> | 비공개 여부 :  </span>
-                            <span th:text="${list.value.isSecret}"></span>
+                            <span th:text="${list.isSecret}"></span>
                         </div>
-                        <th:block th:if="${#strings.equals(aid,list.value.aid)}">
+                        <th:block th:if="${#strings.equals(aid,list.aid)}">
                             <form method="post" action="">
                                 <button class="btn btn-danger btn-sm" type="submit"
                                         onclick="if(!confirm('삭제하시면 복구할수 없습니다. \n 정말로 삭제하시겠습니까??')){

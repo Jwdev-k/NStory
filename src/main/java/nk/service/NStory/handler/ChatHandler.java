@@ -12,14 +12,14 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import java.io.IOException;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.LinkedList;
+import java.util.List;
+
 
 @Slf4j
 public class ChatHandler extends TextWebSocketHandler {
 
-    private final ChatRoomService chatRoomService = new ChatRoomService();
-    private static final Map<String, String> userList = new ConcurrentHashMap<>(); // roomId, session?..
+    private static final ChatRoomService chatRoomService = new ChatRoomService();
     private final ObjectMapper objectMapper = new ObjectMapper(); //json
 
     @Override
@@ -29,12 +29,8 @@ public class ChatHandler extends TextWebSocketHandler {
         String roomId = path[path.length - 1];
 
         if (roomId != null) {
-            if (session.getPrincipal() != null) {
-                chatRoomService.joinRoom(roomId, session);
-                userList.put(roomId, session.getPrincipal().getName());
-            }
+            chatRoomService.joinRoom(roomId, session);
             sendUserList(roomId);
-
             ChatMessage chatMessage = new ChatMessage();
             chatMessage.setChatType(ChatType.CHAT_TYPE);
             chatMessage.setContent(CurrentTime.getTime2() + " 시스템 : " + " 채팅방과 연결되었습니다.");
@@ -59,9 +55,6 @@ public class ChatHandler extends TextWebSocketHandler {
                     if (session.getPrincipal() != null) {
                         chatMessage.setUserName(session.getPrincipal().getName());
                         log.debug(chatMessage.toString());
-                    } else {
-                        chatMessage.setUserName("익명");
-                        log.debug(chatMessage.toString());
                     }
                     chatMessage.setSendTime(CurrentTime.getTime2());
                     s.sendMessage(new TextMessage(objectMapper.writeValueAsString(chatMessage)));
@@ -77,18 +70,21 @@ public class ChatHandler extends TextWebSocketHandler {
         String roomId = path[path.length - 1];
 
         chatRoomService.leaveRoom(roomId, session);
-        userList.remove(roomId);
-        session.close();
-        if (session.getPrincipal() != null) {
-            userList.remove(session.getId());
-        }
+        //userList.remove(session.getId());
         sendUserList(roomId);
+        session.close();
     }
 
     public void sendUserList(String roomId) throws IOException {
         ChatMessage chatMessage = new ChatMessage();
         chatMessage.setChatType(ChatType.USER_LIST);
-        chatMessage.setContent(objectMapper.writeValueAsString(userList.values()));
+        List<String> userList = new LinkedList<>();
+        for(WebSocketSession s : chatRoomService.getRoom(roomId).getSessionList()) {
+            if(roomId.equals(chatRoomService.getRoom(roomId).getRoomId())) {
+               userList.add(s.getPrincipal().getName());
+            }
+        }
+        chatMessage.setContent(objectMapper.writeValueAsString(userList.toArray()));
         for (WebSocketSession s : chatRoomService.getRoom(roomId).getSessionList()) {
             s.sendMessage(new TextMessage(objectMapper.writeValueAsString(chatMessage)));
         }
