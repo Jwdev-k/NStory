@@ -116,10 +116,27 @@ document.getElementById('close-user-list').addEventListener('click', function ()
 
 let mediaRecorder;
 let currentStream;
-let currentTime;
+let mediaSource = new MediaSource();
+let lastKnownTime = 0; // 마지막으로 알려진 재생 시간
+let seekableStart = 0; // 재생 가능한 범위의 시작 시간
+let seekableEnd = 0;   // 재생 가능한 범위의 종료 시간
 
 const videoElement = document.querySelector('.video');
 videoElement.addEventListener('dblclick', toggleFullScreen);
+videoElement.src = URL.createObjectURL(mediaSource);
+
+// 비디오 로딩이 완료되면 자동으로 재생
+videoElement.addEventListener('loadedmetadata', function() {
+    videoElement.play().catch(error => {
+        console.error('비디오 재생 오류:', error);
+    });
+});
+// 영상 버퍼링 감지 이벤트 리스너
+videoElement.addEventListener('waiting', function () {
+    if (videoElement.readyState === 4) {
+        videoElement.play();
+    }
+});
 
 var ws2 = new WebSocket("wss://" + location.host + "/livestream/" + roomId);
 
@@ -127,23 +144,34 @@ ws2.onopen = function () {
     console.log('화면공유 서버 연결 성공.');
 };
 
-// WebSocket event listener
-ws2.onmessage = function (event) {
-    // 현재 재생 시간 저장
-    let currentTime = videoElement.currentTime;
+mediaSource.addEventListener('sourceopen', function () {
+    console.log("mediaSource 열림")
+    let sourceBuffer = mediaSource.addSourceBuffer('video/webm; codecs="av01.0.05M.08, opus"');
 
-    // 비디오 URL 해제
-    URL.revokeObjectURL(videoElement.src);
-
-    // 새로운 비디오 스트림 설정
-    videoElement.src = URL.createObjectURL(new Blob([event.data], {type: 'video/webm; codecs="av01.0.05M.08, opus"'}));
-
-    // 비디오 로딩 후 설정된 시간으로 이동
-    videoElement.onloadedmetadata = function() {
-        videoElement.currentTime = currentTime;
-        videoElement.play();
+    ws2.onmessage = function (event) {
+        console.log("영상데이터 받음")
+        if (event.data instanceof Blob) {
+            let reader = new FileReader();
+            reader.onload = function () {
+                sourceBuffer.appendBuffer(reader.result);
+            };
+            reader.readAsArrayBuffer(event.data);
+        }
     };
-};
+
+    sourceBuffer.addEventListener('updateend', function () {
+        console.log("영상 로딩 완료");
+        let seekable = sourceBuffer.buffered;
+        if (seekable.length > 0) {
+            seekableStart = seekable.start(0);
+            seekableEnd = seekable.end(0);
+        }
+        if (videoElement.paused) {
+            videoElement.currentTime = seekableEnd;
+        }
+    });
+});
+mediaSource.open();
 
 async function startSharing() {
     document.getElementById('start-share').disabled = true;
@@ -186,14 +214,12 @@ function startRecording(stream) {
     mediaRecorder.ondataavailable = event => {
         if (event.data.size > 0) {
             if (ws2.readyState === WebSocket.OPEN) {
-                setTimeout(() => {
-                    ws2.send(event.data);
-                }, 3000)
+                ws2.send(event.data);
             }
         }
     };
 
-    mediaRecorder.start(3000);
+    mediaRecorder.start(2000);
 }
 
 function toggleFullScreen() {
