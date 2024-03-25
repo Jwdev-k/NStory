@@ -126,15 +126,22 @@ videoElement.addEventListener('dblclick', toggleFullScreen);
 videoElement.src = URL.createObjectURL(mediaSource);
 
 // 비디오 로딩이 완료되면 자동으로 재생
-videoElement.addEventListener('loadedmetadata', function() {
+function tryPlayVideo() {
+    videoElement.currentTime = seekableEnd;
     videoElement.play().catch(error => {
-        console.error('비디오 재생 오류:', error);
+        setTimeout(tryPlayVideo, 100);
+        console.log("비디오 재생 시도");
     });
-});
+}
+videoElement.addEventListener('loadedmetadata', function () {tryPlayVideo();});
+
 // 영상 버퍼링 감지 이벤트 리스너
 videoElement.addEventListener('waiting', function () {
     if (videoElement.readyState === 4) {
-        videoElement.play();
+        videoElement.currentTime = seekableEnd;
+        videoElement.play().catch(error => {
+            console.error('비디오 재생 오류:', error);
+        });
     }
 });
 
@@ -154,6 +161,11 @@ mediaSource.addEventListener('sourceopen', function () {
             let reader = new FileReader();
             reader.onload = function () {
                 sourceBuffer.appendBuffer(reader.result);
+                let seekable = sourceBuffer.buffered;
+                if (seekable.length > 0) {
+                    seekableStart = seekable.start(0);
+                    seekableEnd = seekable.end(0);
+                }
             };
             reader.readAsArrayBuffer(event.data);
         }
@@ -161,13 +173,14 @@ mediaSource.addEventListener('sourceopen', function () {
 
     sourceBuffer.addEventListener('updateend', function () {
         console.log("영상 로딩 완료");
-        let seekable = sourceBuffer.buffered;
-        if (seekable.length > 0) {
-            seekableStart = seekable.start(0);
-            seekableEnd = seekable.end(0);
-        }
+        isAppendingOrRemoving = false;
         if (videoElement.paused) {
             videoElement.currentTime = seekableEnd;
+        }
+        let seekable = sourceBuffer.buffered;
+        if (seekable.length > 60) {
+            sourceBuffer.remove(0, videoElement.duration - 10);
+            videoElement.load();
         }
     });
 });
@@ -207,18 +220,18 @@ function stopSharing() {
 }
 
 function startRecording(stream) {
-    mediaRecorder = new MediaRecorder(stream, {
-        mimeType: 'video/webm; codecs="av01.0.05M.08, opus"'
-    });
+    let options = {
+        mimeType: 'video/webm; codecs="av01.0.05M.08, opus"'  // 기본 비디오 코덱 설정
+    };
+    mediaRecorder = new MediaRecorder(stream, options);
 
     mediaRecorder.ondataavailable = event => {
         if (event.data.size > 0) {
             if (ws2.readyState === WebSocket.OPEN) {
-                ws2.send(event.data);
+                ws2.send(new Blob([event.data], {type: 'video/webm; codecs="av01.0.05M.08, opus"'}));
             }
         }
     };
-
     mediaRecorder.start(2000);
 }
 
@@ -245,4 +258,8 @@ function toggleFullScreen() {
         }
     }
 }
+$(document).ready(function(){
+    tryPlayVideo();
+});
+
 

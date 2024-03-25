@@ -5,6 +5,7 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 logs/
+liveVideos/
 
 ### STS ###
 .apt_generated

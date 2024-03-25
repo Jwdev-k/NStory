@@ -54,10 +54,10 @@ public class ChatHandler extends TextWebSocketHandler {
                     chatMessage.setContent(message.getPayload());
                     if (session.getPrincipal() != null) {
                         chatMessage.setUserName(session.getPrincipal().getName());
-                        log.debug(chatMessage.toString());
                     }
                     chatMessage.setSendTime(CurrentTime.getTime2());
                     s.sendMessage(new TextMessage(objectMapper.writeValueAsString(chatMessage)));
+                    log.debug(chatMessage.toString());
                 }
             }
         }
@@ -79,9 +79,11 @@ public class ChatHandler extends TextWebSocketHandler {
         ChatMessage chatMessage = new ChatMessage();
         chatMessage.setChatType(ChatType.USER_LIST);
         List<String> userList = new LinkedList<>();
-        for(WebSocketSession s : chatRoomService.getRoom(roomId).getSessionList()) {
-            if(roomId.equals(chatRoomService.getRoom(roomId).getRoomId())) {
-               userList.add(s.getPrincipal().getName());
+        for (WebSocketSession s : chatRoomService.getRoom(roomId).getSessionList()) {
+            if (roomId.equals(chatRoomService.getRoom(roomId).getRoomId())) {
+                if (s.getPrincipal() != null) {
+                    userList.add(s.getPrincipal().getName());
+                }
             }
         }
         chatMessage.setContent(objectMapper.writeValueAsString(userList.toArray()));

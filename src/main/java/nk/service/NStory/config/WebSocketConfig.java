@@ -19,7 +19,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         registry.addHandler(timeHandler(), "/realTime").setAllowedOrigins("/");
         registry.addHandler(chatHandler(), "/mainChat/{roomId}").setAllowedOrigins("/chatroom");
-        registry.addHandler(screenShareHandler(), "/livestream/{roomId}").setAllowedOrigins("*");
+        registry.addHandler(screenShareHandler(), "/livestream/{roomId}").setAllowedOrigins("/chatroom");
     }
 
     @Bean

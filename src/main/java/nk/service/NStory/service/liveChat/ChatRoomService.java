@@ -53,10 +53,9 @@ public class ChatRoomService {
                 room.addUser(session);
                 log.info("roomId: " + roomId + ", sessionId: " + session.getId() + " JOIN! " + CurrentTime.getTime());
                 return;
-            } else {
-                log.error(roomId + "존재하지 않는 방 입니다.");
             }
         }
+        log.error(roomId + "존재하지 않는 방 입니다.");
     }
 
     public void leaveRoom(String roomId, WebSocketSession session) {
@@ -65,10 +64,9 @@ public class ChatRoomService {
                 room.removeUser(session);
                 log.info("roomId: " + roomId + ", sessionId: " + session.getId() + " Leave! " + CurrentTime.getTime());
                 return;
-            } else {
-                log.error(roomId + "존재하지 않는 방 입니다.");
             }
         }
+        log.error(roomId + "존재하지 않는 방 입니다.");
     }
 
     public void joinLiveShare(String roomId, WebSocketSession session) {
@@ -77,10 +75,9 @@ public class ChatRoomService {
                 room.addLiveUser(session);
                 log.info("roomId: " + roomId + ", sessionId: " + session.getId() + " JOIN! " + CurrentTime.getTime());
                 return;
-            } else {
-                log.error(roomId + "존재하지 않는 방 입니다.");
             }
         }
+        log.error(roomId + "존재하지 않는 방 입니다.");
     }
 
     public void leaveLiveShare(String roomId, WebSocketSession session) {
@@ -89,9 +86,8 @@ public class ChatRoomService {
                 room.removeLiveUser(session);
                 log.info("roomId: " + roomId + ", sessionId: " + session.getId() + " Leave! " + CurrentTime.getTime());
                 return;
-            } else {
-                log.error(roomId + "존재하지 않는 방 입니다.");
             }
         }
+        log.error(roomId + "존재하지 않는 방 입니다.");
     }
 }
