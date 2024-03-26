@@ -28,11 +28,11 @@
         <div class="container-fluid" style="width: 500px">
             <form class="py-5 my-5" method="post">
                 <div class="d-grid justify-content-center align-items-center">
-                    <span class="text-lg-center my-4 fw-bold" style="font-size: 30px;">약관 동의</span>
+                    <span class="text-lg-center my-4 text-light fw-bold" style="font-size: 30px;">약관 동의</span>
                 </div>
                 <div class="d-grid justify-content-center align-items-center">
-                    <span class="text-lg-center my-4 text-secondary">STEP1</span>
-                    <span class="text-lg-center my-1 text-danger" th:text="${errMsg}"></span>
+                    <span class="text-lg-center my-4 text-light">STEP1</span>
+                    <span class="text-lg-center my-1 text-danger fw-bold" th:text="${errMsg}"></span>
                 </div>
                 <div class="form-group">
                     <label for="agreeTextarea"><i class="fa-solid fa-book-open"></i> 동의사항</label>
@@ -79,7 +79,7 @@
                     </textarea>
                 </div>
                 <div class="form-group">
-                    <label class="form-check-label" style="color: black;" for="agreeCheck">개인정보 수집 및 이용 동의<label style="color: red;">(필수)</label></label>
+                    <label class="form-check-label text-light fw-bold" style="color: black;" for="agreeCheck">개인정보 수집 및 이용 동의<label style="color: red;">(필수)</label></label>
                     <input type="checkbox" class="form-check-input" id="agreeCheck" name="agree">
                 </div>
                 <div class="d-grid gap-2 col-12 my-5 mx-auto">

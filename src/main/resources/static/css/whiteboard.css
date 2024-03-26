@@ -25,9 +25,18 @@
     background-color: #fff;
 }
 .search-form {
+    color: lightgray;
+    background-color: #1e2022;
     width: 300px;
     margin: 20px auto 40px;
+    border: 0;
 }
+.search-select {
+    color: lightgray;
+    background-color: #1e2022;
+    border: 0;
+}
+
 label{
     display: block;
     margin-bottom: 5px;
@@ -45,15 +54,18 @@ label{
 .title {
     font-size: 20px;
     margin: 50px;
-    background-color: white;
-    color: #FF3E7F;
+    background-color: #1e2022;
+    color: white;
+    border-radius: 3px;
 }
 .board-box {
     max-width: 1200px;
 }
 .board-contents{
+    color: lightgray;
+    background-color: #1e2022;
     justify-content: center;
-    border-radius: 5px 5px;
+    border-radius: 10px 10px;
     height: auto;
     min-height: 700px;
     width: 100%;
@@ -108,12 +120,13 @@ label{
     overflow: hidden;
 }
 
-.back-white {
-    background-color: white !important;
+.table-contents-title a {
+    color: lightgray;
 }
 
 .edit-reply-contents,
 .edit-comment-contents {
+    padding-left: 10px;
     max-width: 500px;
     width: auto;
 }

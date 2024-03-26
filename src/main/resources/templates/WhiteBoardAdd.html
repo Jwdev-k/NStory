@@ -35,11 +35,11 @@
         <form method="post" accept-charset="UTF-8" action="/whiteboard/add">
             <input type="hidden" name="bid" th:value="${bid}">
             <div class="title justify-content-center align-items-center">
-                <h5 class="fw-bold">게시글 제목(필수입력)</h5>
+                <h5 class="fw-bold">게시글 제목<span class="text-custom-primary">(필수입력)</span></h5>
                 <input type="text" class="form-control" id="title" name="title" placeholder="제목을 입력하세요" maxlength="50" required>
                 <div class="form-check" th:if="${isAdmin}">
                     <input class="form-check-input" type="checkbox" id="notice" name="isNotice"/>
-                    <label class="form-check-label fw-bold" for="notice">공지사항 등록</label>
+                    <label class="form-check-label text-custom-primary fw-bold" for="notice">공지사항 등록</label>
                 </div>
             </div>
             <div class="mb-3">

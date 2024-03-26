@@ -17,7 +17,7 @@
                     <div class="card-header">게시판 리스트</div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item" th:each="list : ${boardInfoList}">
-                            <a class="link-dark" th:href="@{/whiteboard/{bid}(bid=${list.bid})}"
+                            <a class="text-white" th:href="@{/whiteboard/{bid}(bid=${list.bid})}"
                                th:text="${list.kname}"></a>
                         </li>
                     </ul>
@@ -32,7 +32,7 @@
                                 <a th:href="@{/whiteview(id=${list.id})}">
                                     <div class="card">
                                         <div class="card-subtitle">
-                                            <span class="badge text-secondary" th:text="${list.kname}"></span>
+                                            <span class="badge text-white" th:text="${list.kname}"></span>
                                         </div>
                                         <div class="card-body">
                                             <div class="card-text">
@@ -62,7 +62,7 @@
                                 <a th:href="@{/whiteview(id=${list.id})}">
                                     <div class="card">
                                         <div class="card-subtitle">
-                                            <span class="badge text-secondary" th:text="${list.kname}"></span>
+                                            <span class="badge text-white" th:text="${list.kname}"></span>
                                         </div>
                                         <div class="card-body">
                                             <div class="card-text">
@@ -92,7 +92,7 @@
                                 <a th:href="@{/whiteview(id=${list.id})}">
                                     <div class="card">
                                         <div class="card-subtitle">
-                                            <span class="badge text-secondary" th:text="${list.kname}"></span>
+                                            <span class="badge text-white" th:text="${list.kname}"></span>
                                         </div>
                                         <div class="card-body">
                                             <div class="card-text">

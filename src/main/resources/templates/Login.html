@@ -31,18 +31,18 @@
 					<div class="d-flex justify-content-center align-items-center">
 						<img src="/static/images/bangdream/main-star.png"
 							 class="img-fluid" alt="Login Image" style="width: 60px; height: 60px;">
-						<span class="text-lg-center my-4 fw-bold" style="font-size: 30px;">NStory</span>
+						<span class="text-lg-center text-light my-4 fw-bold" style="font-size: 30px;">NStory</span>
 					</div>
 					<span th:text="${errMsg}" style="font-size: 16px; color: #de3a00"></span>
 					<!-- Email input -->
 					<div class="input-group mb-4" data-validate = "Email is reauired">
-						<span class="input-group-text" id="icon2"><i class="fa-solid fa-user"></i></span>
+						<span class="input-group-text" id="icon2"><i class="fa-solid fa-user text-black"></i></span>
 						<input type="email" id="email" name="email" class="form-control form-control-lg"
 							   placeholder="이메일" maxlength="50" required/>
 					</div>
 					<!-- Password input -->
 					<div class="input-group mb-4" data-validate="Password is required">
-						<span class="input-group-text" id="icon3"><i class="fa-solid fa-lock"></i></span>
+						<span class="input-group-text" id="icon3"><i class="fa-solid fa-lock text-black"></i></span>
 						<input type="password" name="password" class="form-control form-control-lg"
 							   placeholder="패스워드" maxlength="16" autocomplete="off" required/>
 					</div>
@@ -50,7 +50,7 @@
 						<!-- Checkbox -->
 						<div class="form-check">
 							<input class="form-check-input" type="checkbox" id="saveEmail" name="remember-me"/>
-							<label class="form-check-label" for="saveEmail">자동 로그인</label>
+							<label class="form-check-label text-light" for="saveEmail">자동 로그인</label>
 						</div>
 						<a class="form-switch" href="/findpw">패스워드 찾기</a>
 					</div>
@@ -58,12 +58,12 @@
 					<div class="d-grid gap-2 col-12 mx-auto">
 						<button type="submit" id="login_btn" class="btn btn-primary fw-bold">로그인</button>
 					</div>
-					<div class="d-flex justify-content-around my-4">
+					<div class="d-flex text-light justify-content-around my-4">
 						<p>아직 회원이 아니신가요?
 							<a class="form-label" href="/agree">회원가입</a></p>
 					</div>
 					<div class="d-grid align-items-center my-4">
-						<p class="text-center fw-bold mx-3 mb-0">또는</p>
+						<p class="text-center text-light fw-bold mx-3 mb-0">또는</p>
 					</div>
 					<div class="d-flex justify-content-center my-4">
 						<div class="justify-content-center mx-3">

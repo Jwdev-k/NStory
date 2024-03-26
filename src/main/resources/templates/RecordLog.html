@@ -44,37 +44,37 @@
     <div class="d-flex justify-content-center py-5" th:object="${pageMaker}">
         <ul class="pagination">
             <li class="page-item">
-                <a class="page-link bg-light" th:href="@{/record(page=1)}"
-                   style="color: black;" aria-label="Previous">
+                <a class="page-link" th:href="@{/record(page=1)}"
+                   style="color: white;" aria-label="Previous">
                     <span aria-hidden="true"><i class="fa-solid fa-angle-double-left fa-xs"></i></span>
                 </a>
             </li>
             <li class="page-item" th:if="${pageMaker.isPrev}">
-                <a class="page-link bg-light" th:href="@{/record(page=${pageMaker.startPage - 10})}"
-                   style="color: black;" aria-label="Previous">
+                <a class="page-link" th:href="@{/record(page=${pageMaker.startPage - 10})}"
+                   style="color: white;" aria-label="Previous">
                     <span aria-hidden="true"><i class="fa-solid fa-angle-left fa-xs"></i></span>
                 </a>
             </li>
             <th:block th:each="page : ${#numbers.sequence(pageMaker.startPage,pageMaker.endPage)}">
                 <li class="page-item" th:if="${crtPage == page}">
-                    <a class="page-link bg-light" style="color: red;"
+                    <a class="page-link" style="color: red;"
                        th:href="@{/record(page=${page})}" th:text="${page}"></a>
                 </li>
                 <li class="page-item" th:unless="${crtPage == page}">
-                    <a class="page-link bg-light" style="color: black;"
+                    <a class="page-link" style="color: white;"
                        th:href="@{/record(page=${page})}" th:text="${page}"></a>
                 </li>
             </th:block>
             <li class="page-item" th:if="${pageMaker.isNext}">
-                <a class="page-link bg-light" th:href="@{/record(page=${pageMaker.endPage + 1})}"
-                   style="color: black;"
+                <a class="page-link" th:href="@{/record(page=${pageMaker.endPage + 1})}"
+                   style="color: white;"
                    aria-label="Next">
                     <span aria-hidden="true"><i class="fa-solid fa-angle-right fa-xs"></i></span>
                 </a>
             </li>
             <li class="page-item">
-                <a class="page-link bg-light" th:href="@{/record(page=${pageMaker.lastEndPage})}"
-                   style="color: black;"
+                <a class="page-link" th:href="@{/record(page=${pageMaker.lastEndPage})}"
+                   style="color: white;"
                    aria-label="Next">
                     <span aria-hidden="true"><i class="fa-solid fa-angle-double-right fa-xs"></i></span>
                 </a>

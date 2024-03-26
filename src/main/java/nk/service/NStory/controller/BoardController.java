@@ -177,7 +177,7 @@ public class BoardController {
     @ResponseBody
     @PostMapping(value = "/whiteboard/delete")
     public ResponseEntity<String> deleteBoard(@AuthenticationPrincipal CustomUserDetails userDetails
-            , @RequestParam(name = "bid") String bid, @RequestParam(name = "id") int id, @RequestParam String email) throws Exception {
+            , @RequestParam(name = "bid") String bid, @RequestParam(name = "id") int id, @RequestParam(name = "email") String email) throws Exception {
         if (userDetails.getEmail().equals(email)) {
             whiteBoardService.deleteBoard(id, userDetails.getEmail());
         }
@@ -205,7 +205,8 @@ public class BoardController {
 
     @PostMapping(value = "/whiteboard/update")
     public String updateBoard2(@AuthenticationPrincipal CustomUserDetails userDetails, HttpServletRequest request
-            , @RequestParam(name = "id") int id, @RequestParam String title, @RequestParam String editordata
+            , @RequestParam(name = "id") int id, @RequestParam(name= "title") String title
+            , @RequestParam(name= "editordata") String editordata
             , @RequestParam(name = "isNotice", required = false) boolean isNotice) throws Exception {
         if (userDetails == null) {
             return "redirect:" + request.getHeader("referer");

@@ -8,12 +8,12 @@
 <nav th:replace="~{layout/defaultNavbar :: Navbar}"></nav>
 <div th:replace="~{layout/sideMenu :: Menu}"></div>
 <main>
-    <div class="container mt-5">
+    <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-5 col-md-7">
-                <div class="card border-0 shadow">
+                <div class="card">
+                    <h5 class="card-header text-center fw-bold">계정 정보</h5>
                     <div class="card-body text-light">
-                        <h5 class="text-center text-black fw-bold">계정 정보</h5>
                         <div class="text-center">
                             <div class="overflow-hidden mb-3 mt-5">
                                 <a href="javascript:openUserInfo()">
@@ -24,23 +24,23 @@
                         </div>
                         <form method="post" action="/account/profile_update">
                             <div class="form-group mb-3">
-                                <label for="nickname" class="form-label text-black fw-bold">사용자 이름 :</label>
+                                <label for="nickname" class="form-label fw-bold">사용자 이름 :</label>
                                 <input type="text" class="form-control" id="nickname"
                                        name="nickname" th:value="${#authentication.principal.username}">
                             </div>
                             <div class="form-group mb-3">
-                                <label for="comment" class="form-label text-black fw-bold">소개글(최대 100자) :</label>
+                                <label for="comment" class="form-label fw-bold">소개글(최대 100자) :</label>
                                 <textarea class="form-control" id="comment" maxlength="100"
                                           style="height: 80px; resize: none;"
                                           name="comment" th:text="${#authentication.principal.comment}"></textarea>
                             </div>
                             <div class="form-group mb-3">
-                                <label for="email" class="form-label text-black fw-bold">이메일 주소 :</label>
+                                <label for="email" class="form-label fw-bold">이메일 주소 :</label>
                                 <input type="email" class="form-control" id="email"
                                        th:value="${#authentication.principal.email}" readonly>
                             </div>
                             <div class="form-group mb-3">
-                                <label for="password" class="form-label text-black fw-bold">비밀번호 :</label>
+                                <label for="password" class="form-label fw-bold">비밀번호 :</label>
                                 <input type="text" class="form-control" id="password"
                                        th:value="${pwValue}" readonly>
                             </div>

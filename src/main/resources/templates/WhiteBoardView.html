@@ -25,18 +25,18 @@
 <div th:replace="~{layout/sideMenu :: Menu}"></div>
 <main th:object="${whiteboard}">
     <section class="container board-box">
-        <div class="container my-5 bg-light-subtle board-contents shadow-sm">
+        <div class="container my-5 board-contents shadow-sm">
             <div class="py-3">
                 <h3 th:text="*{title}"></h3>
                 <div class="d-flex justify-content-between align-items-center">
                     <span class="justify-content-start">
                         <img class="box" th:src="@{/general/prf_img/} + *{aid}" alt="profile">
-                        <span class="text-muted" th:text="*{author}"></span>
+                        <span th:text="*{author}"></span>
                         <i th:if="${#strings.equals(whiteboard.email, boardAdmin)}"
-                           class="fa fa-check-circle fa-sm" style="color: deeppink;" title="주인장"></i>
-                        <span class="text-muted" th:text="' | ' + *{creationDate}"></span>
+                           class="fa fa-check-circle fa-sm text-custom-primary" title="주인장"></i>
+                        <span th:text="' | ' + *{creationDate}"></span>
                     </span>
-                    <span class="text-muted justify-content-end"
+                    <span class="justify-content-end"
                           th:text="'좋아요: ' + *{like_count} + ' | 싫어요: ' + *{dislike_count} + ' | 조회수: ' + *{views}">
                     </span>
                 </div>
@@ -81,7 +81,7 @@
                 </button>
             </form>
         </div>
-        <div th:unless="${#authentication != null}" class="text-center">
+        <div th:unless="${#authentication != null}" class="text-center text-light">
             <p class="fw-bold">로그인 후 이용 가능합니다.</p>
                 <button class="btn btn-outline-primary m-1 blur" disabled>
                     <i class="fa fa-thumbs-up"></i><span th:text="' ' + *{like_count}"></span>
@@ -90,7 +90,7 @@
                     <i class="fa fa-thumbs-down"></i><span th:text="' ' + *{dislike_count}"></span>
                 </button>
         </div>
-        <div class="container reply-card mb-5 mt-5" id="d-form">
+        <div class="container reply-card mb-5 mt-5 text-light" id="d-form">
             <hr>
             <h5 th:text="${totalCount} + '개의 댓글'"></h5>
             <div class="d-flex justify-content-center mt-5 mb-2">
@@ -119,7 +119,7 @@
                 </form>
             </div>
             <div class="card-body" th:if="${#lists.size(commentList) <= 0}">
-                <div class="d-flex justify-content-center align-items-center mt-5">
+                <div class="d-flex justify-content-center align-items-center mt-5 text-light">
                     <h5>아직 댓글이 없습니다.</h5>
                 </div>
             </div>
@@ -132,19 +132,19 @@
                         <div>
                             <span class="card-title" th:text="${list.name}"></span>
                             <i th:if="${#strings.equals(list.email, boardAdmin)}"
-                               class="fa fa-check-circle fa-sm mb-1 mx-1" style="color: deeppink;" title="주인장"></i>
-                            <p class="card-subtitle text-muted reply-time" th:text="${list.time}"></p>
+                               class="fa fa-check-circle fa-sm mb-1 mx-1 text-custom-primary" title="주인장"></i>
+                            <p class="card-subtitle text-secondary reply-time" th:text="${list.time}"></p>
                         </div>
                     </div>
                     <p class="card-text edit-comment-contents" th:text="${list.contents}"></p>
                     <div class="d-flex reply-btn">
-                        <button class="btn btn-sm text-secondary reply-toggle">댓글 쓰기</button>
-                        <a class="btn btn-sm text-secondary edit-comment"
+                        <button class="btn btn-sm text-light reply-toggle">댓글 쓰기</button>
+                        <a class="btn btn-sm text-light edit-comment"
                            th:if="${#authentication != null} AND ${#strings.equals(list.email,#authentication.principal.email)}">수정</a>
                         <form id="comment-del"
                               th:if="${#authentication != null} AND ${#strings.equals(list.email,#authentication.principal.email)}">
                             <input type="hidden" name="cid" th:value="${list.cid}">
-                            <button type="submit" class="btn btn-sm text-secondary"
+                            <button type="submit" class="btn btn-sm text-light"
                                     onclick="if(!confirm('삭제하시면 복구할수 없습니다. \n 정말로 삭제하시겠습니까??'))
                                     { return false;}">삭제</button>
                         </form>
@@ -175,18 +175,18 @@
                                         <div>
                                             <span class="card-title" th:text="${list2.name}"></span>
                                             <i th:if="${#strings.equals(list2.email, boardAdmin)}"
-                                               class="fa fa-check-circle fa-sm mb-1 mx-1" style="color: deeppink;" title="주인장"></i>
-                                            <p class="card-subtitle text-muted reply-time" th:text="${list2.time}"></p>
+                                               class="fa fa-check-circle fa-sm mb-1 mx-1 text-custom-primary" title="주인장"></i>
+                                            <p class="card-subtitle text-secondary reply-time" th:text="${list2.time}"></p>
                                         </div>
                                     </div>
                                     <p class="card-text edit-reply-contents" th:text="${list2.contents}"></p>
                                     <div class="d-flex reply-btn">
-                                        <a class="btn btn-sm text-secondary edit-reply"
+                                        <a class="btn btn-sm text-white edit-reply"
                                            th:if="${#authentication != null} AND ${#strings.equals(list2.email,#authentication.principal.email)}">수정</a>
                                         <form id="reply-del"
                                               th:if="${#authentication != null} AND ${#strings.equals(list2.email,#authentication.principal.email)}">
                                             <input type="hidden" name="rid" th:value="${list2.rid}">
-                                            <button type="submit" class="btn btn-sm text-secondary"
+                                            <button type="submit" class="btn btn-sm text-light"
                                                     onclick="if(!confirm('삭제하시면 복구할수 없습니다. \n 정말로 삭제하시겠습니까??'))
                                              { return false;}">삭제</button>
                                         </form>

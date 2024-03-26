@@ -1,33 +1,45 @@
 :root {
-    --primary-color: #000000;
+    --primary-color: #FFFFFF;
     --secondary-color: #3656ff;
 }
+
 * {
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 13px;
 }
+
+body {
+    background-color: #141517; /* 전체 배경색 변경 */
+}
+
 main {
     margin-top: 55px;
 }
+
 @media (max-width: 912px) {
-     * {
-         font-family: 'Noto Sans KR', sans-serif;
-         font-size: 11px;
-     }
+    * {
+        font-family: 'Noto Sans KR', sans-serif;
+        font-size: 11px;
+    }
     main {
         margin-top: 85px;
     }
 }
+
 .text-custom-primary {
-    color: var(--primary-color);
+    color: #FF3E7F;
 }
+
 .text-custom-secondary {
     color: var(--secondary-color);
 }
+
 .navbar {
-    background-color: #ffffff;
-    border-bottom: 1px solid #000000;
+    background-color: #141517; /* 네비게이션 바 배경색 변경 */
+    border-bottom: 1px solid #6D757D; /* 네비게이션 바 아래 테두리 색상 변경 */
+    height: 46px;
 }
+
 /* 로고 */
 .navbar-brand {
     font-size: 1.5rem;
@@ -35,8 +47,13 @@ main {
     font-weight: bold;
 }
 
+.navbar-brand:hover {
+    color: var(--secondary-color);
+}
+
 /* 메뉴 아이템 */
 .navbar-nav .nav-link {
+    color: var(--primary-color);
     font-weight: bold;
 }
 
@@ -46,14 +63,14 @@ main {
 
 /* 검색 바 */
 .navbar-form .form-control {
-    background-color: #FFF;
-    color: #555;
+    background-color: #1e2022; /* 검색 바 배경색 변경 */
+    color: #FFFFFF;
 }
 
 .navbar-form .btn {
-    background-color: var(--primary-color);
-    color: #FFF;
-    border-color: var(--primary-color);
+    background-color: #FF3E7F;
+    color: #FFFFFF;
+    border-color: #FF3E7F;
 }
 
 .navbar-form .btn:hover {
@@ -67,8 +84,8 @@ main {
 
 /* 일반 버튼 */
 .btn-primary {
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
+    background-color: #1E90FF;
+    border-color: #1E90FF;
     font-weight: bold;
 }
 
@@ -79,23 +96,24 @@ main {
 
 /* outline 버튼 */
 .btn-outline-primary {
-    color: var(--primary-color);
-    border-color: var(--primary-color);
+    color: #1E90FF;
+    border-color: #1E90FF;
     font-weight: bold;
 }
 
 .btn-outline-primary:hover {
-    background-color: var(--primary-color);
-    color: #FFF;
+    background-color: #1E90FF;
+    color: #FFFFFF;
 }
+
 .btn-outline-primary:disabled {
-    background-color: var(--primary-color);
-    color: #FFF;
+    background-color: #1E90FF;
+    color: #FFFFFF;
 }
 
 .btn-outline-secondary:disabled {
     background-color: #6c757d;
-    color: #FFF;
+    color: #FFFFFF;
 }
 
 /* 대형 버튼 */
@@ -104,15 +122,16 @@ main {
     font-size: 1.2rem;
     font-weight: bold;
 }
+
 .card {
     border: none;
-    background-color: #FFFFFF;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #141517;
+    box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1);
 }
 
 .card-header {
+    background-color: #1e2022;
     border-bottom: none;
-    background-color: var(--primary-color);
     color: #FFFFFF;
     font-weight: bold;
 }
@@ -120,11 +139,11 @@ main {
 .card-title {
     font-size: 13px;
     font-weight: bold;
-    color: black;
+    color: #FFFFFF;
 }
 
 .card-text {
-    color: #555555;
+    color: #FFFFFF;
 }
 
 .card-link {
@@ -135,28 +154,43 @@ main {
 .card-link:hover {
     color: var(--secondary-color);
 }
+
 .footer-link:hover {
     color: var(--secondary-color);
 }
+
+.page-link {
+    background-color: #141517;
+}
+
+.table-dark {
+    color: lightgray;
+    background-color: #1e2022;
+}
+
 /* 활성화된 체크박스의 색상 */
 input[type="checkbox"]:checked:enabled {
-    background-color:var(--secondary-color);
+    background-color: var(--secondary-color);
 }
+
 .menu-wrapper {
     position: fixed;
-    top : 0;
-    left : -200px;
+    top: 0;
+    left: -200px;
     width: 200px;
     height: 100vh;
-    background-color: white;
+    color: lightgray;
+    background-color: #1e2022; /* 메뉴 배경색 변경 */
     z-index: 1031;
     transition: left 0.3s ease-in-out;
-    box-shadow: 1px 0 3px rgba(0, 0, 0, 0.5); /* 오른쪽 그림자 */
+    box-shadow: 1px 0 3px rgba(255, 255, 255, 0.5); /* 오른쪽 그림자 */
     opacity: 0;
 }
+
 .menu {
     padding: 0;
 }
+
 .menu-info {
     list-style: none;
     position: absolute;
@@ -165,7 +199,7 @@ input[type="checkbox"]:checked:enabled {
     right: 0;
     padding: 20px 20px 50px;
     text-align: center;
-    border-top: 1px solid #bebebe;
+    border-top: 1px solid #555555;
 }
 
 .menu-info p {
@@ -185,14 +219,17 @@ input[type="checkbox"]:checked:enabled {
     text-decoration: none;
     text-align: center;
 }
+
 .menu li h5 {
     text-align: center;
     padding-bottom: 10px;
 }
+
 .menu-btn {
     height: 40px;
     width: 40px;
 }
+
 .menu-close-btn {
     position: absolute;
     top: 10px;
@@ -203,20 +240,25 @@ input[type="checkbox"]:checked:enabled {
     z-index: 10;
 }
 
-body{
+body {
     user-select: none;
     overflow-x: hidden;
 }
+
 footer {
-    background-color: white;
+    color: lightgray;
+    background-color: #141517;
     position: relative;
     bottom: 0;
     width: 100%;
-    border-top: 1px solid var(--primary-color);
+    height: 46px;
+    border-top: 1px solid #6D757D;
 }
+
 a {
     text-decoration: none;
 }
+
 #loading {
     display: none;
     position: absolute;
@@ -224,7 +266,10 @@ a {
     left: 50%;
     transform: translate(-50%, -50%);
 }
-.dark-mode {
-    background-color: #1a202c;
-    color: #fff;
+
+.list-group-item {
+    color: lightgray;
+    background-color: #141517;
+    box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1);
+    border: 0;
 }
