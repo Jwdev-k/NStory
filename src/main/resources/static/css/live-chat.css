@@ -50,7 +50,7 @@
 .video {
     width: 1326px;
     height: 701px;
-    background-color: #f2f2f2; /* WebRTC 화면 공유 영역 배경색 */
+    background-color: transparent; /* WebRTC 화면 공유 영역 배경색 */
 }
 
 .video-info {
@@ -69,6 +69,10 @@
 
 .video-info span {
     font-size: 14px;
+}
+
+video::-webkit-media-controls-timeline {
+    display: none;
 }
 
 .chat-window {
