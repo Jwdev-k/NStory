@@ -273,3 +273,21 @@ a {
     box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1);
     border: 0;
 }
+
+.input-group-text {
+    color: lightgray !important;
+    background-color: #1e2022 !important;
+}
+
+.form-control {
+    color: lightgray !important;
+    background-color: #1e2022 !important;
+}
+.form-control::placeholder {
+    color: lightgray !important;
+}
+
+.note-frame {
+    color: lightgray !important;
+    background-color: #1e2022 !important;
+}

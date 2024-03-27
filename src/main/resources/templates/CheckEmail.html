@@ -38,9 +38,8 @@
                 </div>
                 <div class="d-grid justify-content-center align-items-center">
                     <span class="text-lg-center my-4 text-light">STEP2</span>
-                    <span class="text-lg-center my-1 text-danger" th:text="${errMsg}"></span>
+                    <span class="text-lg-center my-1 text-danger" th:if="${error != null}" th:text="${error}"></span>
                 </div>
-                <p class="text-center text-black" th:if="${error != null}" th:text="${error}"></p>
                 <input type="email" class="input-group-text col-12 mx-auto" id="email" name="email"
                        placeholder="이메일을 입력해주세요." required>
                 <div class="d-grid gap-2 col-12 my-5 mx-auto">

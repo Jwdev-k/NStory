@@ -92,8 +92,13 @@ label{
     margin-left: 20px;
 }
 .reply-text{
+    color: lightgray !important;
+    background-color: #1e2022 !important;
     height: 80px;
     resize: none;
+}
+.reply-text::placeholder {
+    color: lightgray !important;
 }
 
 .reply-btn {
