@@ -174,14 +174,14 @@
                         <ul class="pagination">
                             <li class="page-item">
                                 <a class="page-link " th:href="@{/whiteboard/{bid}(bid=${bid},page=1)}"
-                                   style="color: white;" aria-label="Previous">
+                                   aria-label="Previous">
                                     <span aria-hidden="true"><i class="fa-solid fa-angle-double-left fa-xs"></i></span>
                                 </a>
                             </li>
                             <li class="page-item" th:if="${pageMaker.isPrev}">
                                 <a class="page-link "
                                    th:href="@{/whiteboard/{bid}(bid=${bid},page=${pageMaker.startPage - 10})}"
-                                   style="color: white;" aria-label="Previous">
+                                   aria-label="Previous">
                                     <span aria-hidden="true"><i class="fa-solid fa-angle-left fa-xs"></i></span>
                                 </a>
                             </li>
@@ -191,21 +191,21 @@
                                        th:href="@{/whiteboard/{bid}(bid=${bid},page=${page})}" th:text="${page}"></a>
                                 </li>
                                 <li class="page-item" th:unless="${pageMaker.page == page}">
-                                    <a class="page-link " style="color: white;"
+                                    <a class="page-link "
                                        th:href="@{/whiteboard/{bid}(bid=${bid},page=${page})}" th:text="${page}"></a>
                                 </li>
                             </th:block>
                             <li class="page-item" th:if="${pageMaker.isNext}">
                                 <a class="page-link "
                                    th:href="@{/whiteboard/{bid}(bid=${bid},page=${pageMaker.endPage + 1})}"
-                                   style="color: white;" aria-label="Next">
+                                   aria-label="Next">
                                     <span aria-hidden="true"><i class="fa-solid fa-angle-right fa-xs"></i></span>
                                 </a>
                             </li>
                             <li class="page-item">
                                 <a class="page-link "
                                    th:href="@{/whiteboard/{bid}(bid=${bid},page=${pageMaker.lastEndPage})}"
-                                   style="color: white;" aria-label="Next">
+                                   aria-label="Next">
                                     <span aria-hidden="true"><i class="fa-solid fa-angle-double-right fa-xs"></i></span>
                                 </a>
                             </li>
@@ -217,14 +217,14 @@
                             <li class="page-item">
                                 <a class="page-link"
                                    th:href="@{/whiteboard/{bid}(bid=${bid},page=1,type=${type},str=${str})}"
-                                   style="color: white;" aria-label="Previous">
+                                   aria-label="Previous">
                                     <span aria-hidden="true"><i class="fa-solid fa-angle-double-left fa-xs"></i></span>
                                 </a>
                             </li>
                             <li class="page-item" th:if="${pageMaker.isPrev}">
                                 <a class="page-link"
                                    th:href="@{/whiteboard/{bid}(bid=${bid},page=${pageMaker.startPage - 10},type=${str},str=${str})}"
-                                   style="color: white;" aria-label="Previous">
+                                   aria-label="Previous">
                                     <span aria-hidden="true"><i class="fa-solid fa-angle-left fa-xs"></i></span>
                                 </a>
                             </li>
@@ -236,7 +236,7 @@
                                        th:text="${page}"></a>
                                 </li>
                                 <li class="page-item" th:unless="${pageMaker.page == page}">
-                                    <a class="page-link" style="color: white;"
+                                    <a class="page-link"
                                        th:href="@{/whiteboard/{bid}(bid=${bid},page=${page},type=${type},str=${str})}"
                                        th:text="${page}"></a>
                                 </li>
@@ -244,14 +244,14 @@
                             <li class="page-item" th:if="${pageMaker.isNext}">
                                 <a class="page-link"
                                    th:href="@{/whiteboard/{bid}(bid=${bid},page=${pageMaker.endPage + 1},type=${type},str=${str})}"
-                                   style="color: white;" aria-label="Next">
+                                   aria-label="Next">
                                     <span aria-hidden="true"><i class="fa-solid fa-angle-right fa-xs"></i></span>
                                 </a>
                             </li>
                             <li class="page-item">
                                 <a class="page-link"
                                    th:href="@{/whiteboard/{bid}(bid=${bid},page=${pageMaker.lastEndPage},type=${type},str=${str})}"
-                                   style="color: white;" aria-label="Next">
+                                   aria-label="Next">
                                     <span aria-hidden="true"><i class="fa-solid fa-angle-double-right fa-xs"></i></span>
                                 </a>
                             </li>

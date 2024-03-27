@@ -1,6 +1,6 @@
 :root {
-    --primary-color: #FFFFFF;
-    --secondary-color: #3656ff;
+    --text-primary-color: #FFFFFF;
+    --uni-secondary-color: #3656ff;
 }
 
 * {
@@ -31,7 +31,7 @@ main {
 }
 
 .text-custom-secondary {
-    color: var(--secondary-color);
+    color: var(--uni-secondary-color);
 }
 
 .navbar {
@@ -43,22 +43,22 @@ main {
 /* 로고 */
 .navbar-brand {
     font-size: 1.5rem;
-    color: var(--primary-color);
+    color: var(--text-primary-color);
     font-weight: bold;
 }
 
 .navbar-brand:hover {
-    color: var(--secondary-color);
+    color: var(--uni-secondary-color);
 }
 
 /* 메뉴 아이템 */
 .navbar-nav .nav-link {
-    color: var(--primary-color);
+    color: var(--text-primary-color);
     font-weight: bold;
 }
 
 .navbar-nav .nav-link:hover {
-    color: var(--secondary-color);
+    color: var(--uni-secondary-color);
 }
 
 /* 검색 바 */
@@ -74,8 +74,8 @@ main {
 }
 
 .navbar-form .btn:hover {
-    background-color: var(--secondary-color);
-    border-color: var(--secondary-color);
+    background-color: var(--uni-secondary-color);
+    border-color: var(--uni-secondary-color);
 }
 
 .btn:disabled {
@@ -90,8 +90,8 @@ main {
 }
 
 .btn-primary:hover {
-    background-color: var(--secondary-color);
-    border-color: var(--secondary-color);
+    background-color: var(--uni-secondary-color);
+    border-color: var(--uni-secondary-color);
 }
 
 /* outline 버튼 */
@@ -147,19 +147,20 @@ main {
 }
 
 .card-link {
-    color: var(--primary-color);
+    color: var(--text-primary-color);
     font-weight: bold;
 }
 
 .card-link:hover {
-    color: var(--secondary-color);
+    color: var(--uni-secondary-color);
 }
 
 .footer-link:hover {
-    color: var(--secondary-color);
+    color: var(--uni-secondary-color);
 }
 
 .page-link {
+    color: lightgray;
     background-color: #141517;
 }
 
@@ -170,7 +171,7 @@ main {
 
 /* 활성화된 체크박스의 색상 */
 input[type="checkbox"]:checked:enabled {
-    background-color: var(--secondary-color);
+    background-color: var(--uni-secondary-color);
 }
 
 .menu-wrapper {
@@ -212,7 +213,7 @@ input[type="checkbox"]:checked:enabled {
 }
 
 .menu li a:hover {
-    color: var(--secondary-color);
+    color: var(--uni-secondary-color);
 }
 
 .menu li a {
@@ -237,6 +238,7 @@ input[type="checkbox"]:checked:enabled {
     background: transparent;
     border: none;
     cursor: pointer;
+    z-index: 10;
     z-index: 10;
 }
 

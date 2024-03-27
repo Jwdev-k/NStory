@@ -1,9 +1,12 @@
 .chat-window {
     width: 330px;
     height: 780px;
-    background-color: whitesmoke;
+    color: lightgray;
+    background-color: #141517;
     padding: 20px;
     border-radius: 10px;
+    border: 1px solid #1e2022;
+    box-shadow: -4px 4px 4px 0px #212529;
 }
 .message-list {
     word-wrap: break-word; /* 영어 텍스트의 길이에 따라 줄바꿈 */
@@ -11,7 +14,13 @@
     width: 300px;
     height: 680px;
     overflow-y: scroll;
+    scrollbar-width: none; /* Firefox에 대한 스크롤바 숨김 */
+    -ms-overflow-style: none; /* IE 및 Edge에 대한 스크롤바 숨김 */
 }
+.message-list::-webkit-scrollbar {
+    display: none; /* Chrome, Safari 및 Opera에 대한 스크롤바 숨김 */
+}
+
 .message {
     border-radius: 10px;
     padding: 10px 10px 1px;
@@ -22,14 +31,14 @@
 .message-bubble {
     display: inline-block;
     max-width: 100%;
-    background-color: #e6e6e6;
+    background-color: #1e2022;
     padding: 10px;
     border-radius: 10px;
     font-size : 12px;
 }
 .message-time {
     font-size: 12px;
-    color: #000000;
+    color: lightgray;
     margin-left: 20px;
 }
 
@@ -68,16 +77,24 @@
 .user-list-content {
     position: absolute;
     margin-top: 50px;
+    padding: 1%;
     right: -300px; /* 초기에 오른쪽에 숨겨진 상태 */
     width: 300px;
     height: 650px;
     overflow-y: scroll;
-    background-color: whitesmoke;
+    scrollbar-width: none; /* Firefox에 대한 스크롤바 숨김 */
+    -ms-overflow-style: none; /* IE 및 Edge에 대한 스크롤바 숨김 */
+    color: lightgray;
+    background-color: #1e2022;
     transition: right 0.3s ease-out;
     z-index: 1000;
     border-radius: 10px; /* 네모 박스 꼭짓점 둥글게 */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08); /* 그림자 추가 */
+    box-shadow: -4px 4px 4px 0px #212529;
 }
+.user-list-content::-webkit-scrollbar {
+    display: none; /* Chrome, Safari 및 Opera에 대한 스크롤바 숨김 */
+}
+
 .user-list-content.slide-in {
     right: 0;
 }

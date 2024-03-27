@@ -90,6 +90,16 @@ main {
     border: 0;
 }
 
+.history-list {
+    overflow-y: scroll;
+    height: 660px;
+    scrollbar-width: none; /* Firefox에 대한 스크롤바 숨김 */
+    -ms-overflow-style: none; /* IE 및 Edge에 대한 스크롤바 숨김 */
+}
+.history-list::-webkit-scrollbar {
+    display: none; /* Chrome, Safari 및 Opera에 대한 스크롤바 숨김 */
+}
+
 @media (max-width: 912px) {
     .neon-clock {
         font-size: 8vw;
