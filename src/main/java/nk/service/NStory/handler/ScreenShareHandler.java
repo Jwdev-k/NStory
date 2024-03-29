@@ -27,7 +27,8 @@ public class ScreenShareHandler extends BinaryWebSocketHandler {
 
         if (roomId != null && session.isOpen()) {
             chatRoomService.joinLiveShare(roomId, session);
-            Path videoPath = Paths.get(System.getProperty("user.dir") + File.separator + "liveVideos" + File.separator + roomId + ".webm");
+            Path videoPath = Paths.get(System.getProperty("user.dir") + File.separator + "liveVideos"
+                    + File.separator + roomId + File.separator + roomId + ".webm");
             if (Files.exists(videoPath)) {
                 session.sendMessage(new BinaryMessage(Files.readAllBytes(videoPath)));
             }
@@ -55,8 +56,18 @@ public class ScreenShareHandler extends BinaryWebSocketHandler {
         List<WebSocketSession> sessionList = chatRoomService.getRoom(roomId).getLiveSessionList();
 
         byte[] mediaData = message.getPayload().array();
+
+        String baseDir = System.getProperty("user.dir") + File.separator + "liveVideos";
+        String roomDir = baseDir + File.separator + roomId;
+
+        // roomId 이름의 폴더가 존재하지 않으면 폴더 생성
+        File directory = new File(roomDir);
+        if (!directory.exists()) {
+            directory.mkdirs(); // 중첩된 디렉터리를 생성
+        }
+
         // liveVideos 폴더에 roomId.webm 파일로 영상 데이터 저장 또는 추가
-        File videoFile = new File(System.getProperty("user.dir") + File.separator + "liveVideos" + File.separator + roomId + ".webm");
+        File videoFile = new File(roomDir + File.separator + roomId + ".webm");
         try (FileOutputStream fileOutputStream = new FileOutputStream(videoFile, true)) { // true: append 모드
             fileOutputStream.write(mediaData); // 영상 데이터 추가
 

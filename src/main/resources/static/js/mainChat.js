@@ -117,9 +117,10 @@ document.getElementById('close-user-list').addEventListener('click', function ()
 let mediaRecorder;
 let currentStream;
 let mediaSource = new MediaSource();
-let lastKnownTime = 0; // 마지막으로 알려진 재생 시간
 let seekableStart = 0; // 재생 가능한 범위의 시작 시간
 let seekableEnd = 0;   // 재생 가능한 범위의 종료 시간
+let sourceBuffer;
+let mediaBlob = [];
 
 const videoElement = document.querySelector('.video');
 videoElement.addEventListener('dblclick', toggleFullScreen);
@@ -133,7 +134,6 @@ function tryPlayVideo() {
         console.log("비디오 재생 시도");
     });
 }
-videoElement.addEventListener('loadedmetadata', function () {tryPlayVideo();});
 
 // 영상 버퍼링 감지 이벤트 리스너
 videoElement.addEventListener('waiting', function () {
@@ -153,38 +153,51 @@ ws2.onopen = function () {
 
 mediaSource.addEventListener('sourceopen', function () {
     console.log("mediaSource 열림")
-    let sourceBuffer = mediaSource.addSourceBuffer('video/webm; codecs="av01.0.05M.08, opus"');
+    sourceBuffer = mediaSource.addSourceBuffer('video/webm; codecs="av01.0.05M.08, opus"');
 
     ws2.onmessage = function (event) {
         console.log("영상데이터 받음")
         if (event.data instanceof Blob) {
-            let reader = new FileReader();
-            reader.onload = function () {
-                sourceBuffer.appendBuffer(reader.result);
-                let seekable = sourceBuffer.buffered;
-                if (seekable.length > 0) {
-                    seekableStart = seekable.start(0);
-                    seekableEnd = seekable.end(0);
-                }
-            };
-            reader.readAsArrayBuffer(event.data);
+            mediaBlob.push(event.data);
         }
     };
 
     sourceBuffer.addEventListener('updateend', function () {
         console.log("영상 로딩 완료");
-        isAppendingOrRemoving = false;
+        console.log("seekableStart: " + seekableStart);
+        console.log("seekableEnd: " + seekableEnd);
+        setTimeout(processMediaBlob, 100);
         if (videoElement.paused) {
             videoElement.currentTime = seekableEnd;
         }
+
         let seekable = sourceBuffer.buffered;
-        if (seekable.length > 60) {
-            sourceBuffer.remove(0, videoElement.duration - 10);
-            videoElement.load();
+        if (seekable.length > 0) {
+            seekableStart = seekable.start(0);
+            seekableEnd = seekable.end(0);
         }
+/*        if (seekableEnd > 60) {
+            sourceBuffer.remove(seekableEnd - 50, videoElement.duration - 10);
+            videoElement.pause();
+            videoElement.play();
+            console.log("sourceBuffer remove! 10");
+        }*/
     });
 });
-mediaSource.open();
+
+// Blob 데이터를 처리하는 함수
+function processMediaBlob() {
+    if (mediaBlob.length > 0 && !sourceBuffer.updating) {
+        let blob = mediaBlob.shift(); // 배열에서 Blob 데이터를 가져옴
+        let reader = new FileReader();
+        reader.onload = function() {
+            sourceBuffer.appendBuffer(reader.result); // ArrayBuffer를 sourceBuffer에 추가
+        };
+        reader.readAsArrayBuffer(blob); // Blob을 ArrayBuffer로 변환
+    } else if (sourceBuffer.updating || mediaBlob.length == 0) {
+        setTimeout(processMediaBlob, 100); // sourceBuffer가 업데이트 중일 경우 재시도
+    }
+}
 
 async function startSharing() {
     document.getElementById('start-share').disabled = true;
@@ -259,7 +272,7 @@ function toggleFullScreen() {
     }
 }
 $(document).ready(function(){
-    tryPlayVideo();
+    processMediaBlob();
 });
 
 
