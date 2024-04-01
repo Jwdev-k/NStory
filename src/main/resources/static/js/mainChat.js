@@ -116,34 +116,52 @@ document.getElementById('close-user-list').addEventListener('click', function ()
 
 let mediaRecorder;
 let currentStream;
-let mediaSource = new MediaSource();
-let seekableStart = 0; // 재생 가능한 범위의 시작 시간
-let seekableEnd = 0;   // 재생 가능한 범위의 종료 시간
-let sourceBuffer;
-let mediaBlob = [];
+let hls;
 
 const videoElement = document.querySelector('.video');
 videoElement.addEventListener('dblclick', toggleFullScreen);
-videoElement.src = URL.createObjectURL(mediaSource);
 
-// 비디오 로딩이 완료되면 자동으로 재생
-function tryPlayVideo() {
-    videoElement.currentTime = seekableEnd;
-    videoElement.play().catch(error => {
-        setTimeout(tryPlayVideo, 100);
-        console.log("비디오 재생 시도");
-    });
-}
+$(document).ready(function() {
+    if (Hls.isSupported()) {
+        hls = new Hls();
 
-// 영상 버퍼링 감지 이벤트 리스너
-videoElement.addEventListener('waiting', function () {
-    if (videoElement.readyState === 4) {
-        videoElement.currentTime = seekableEnd;
-        videoElement.play().catch(error => {
-            console.error('비디오 재생 오류:', error);
+        hls.on(Hls.Events.ERROR, function(event, data) {
+            if (data.type === Hls.ErrorTypes.NETWORK_ERROR) {
+                console.log("Network error occurred, retrying...");
+                hls.startLoad();
+            }
+        });
+
+        hls.on(Hls.Events.MANIFEST_LOADED, function() {
+            console.log("New m3u8 manifest loaded");
+            videoElement.play();
+        });
+
+        hls.on(Hls.Events.MANIFEST_PARSED, function() {
+            videoElement.play();
+        });
+
+        loadM3U8();
+    } else if (videoElement.canPlayType('application/vnd.apple.mpegurl')) {
+        videoElement.src = '/livestream/videos/' + roomId;
+
+        videoElement.addEventListener('error', function() {
+            console.log("Error occurred, retrying...");
+            videoElement.load();
+        });
+
+        videoElement.addEventListener('loadedmetadata', function() {
+            videoElement.play();
         });
     }
 });
+
+function loadM3U8() {
+    const m3u8Url = '/livestream/videos/' + roomId + '.m3u8';
+
+    hls.loadSource(m3u8Url);
+    hls.attachMedia(videoElement);
+}
 
 var ws2 = new WebSocket("wss://" + location.host + "/livestream/" + roomId);
 
@@ -151,53 +169,10 @@ ws2.onopen = function () {
     console.log('화면공유 서버 연결 성공.');
 };
 
-mediaSource.addEventListener('sourceopen', function () {
-    console.log("mediaSource 열림")
-    sourceBuffer = mediaSource.addSourceBuffer('video/webm; codecs="av01.0.05M.08, opus"');
-
-    ws2.onmessage = function (event) {
-        console.log("영상데이터 받음")
-        if (event.data instanceof Blob) {
-            mediaBlob.push(event.data);
-        }
-    };
-
-    sourceBuffer.addEventListener('updateend', function () {
-        console.log("영상 로딩 완료");
-        console.log("seekableStart: " + seekableStart);
-        console.log("seekableEnd: " + seekableEnd);
-        setTimeout(processMediaBlob, 100);
-        if (videoElement.paused) {
-            videoElement.currentTime = seekableEnd;
-        }
-
-        let seekable = sourceBuffer.buffered;
-        if (seekable.length > 0) {
-            seekableStart = seekable.start(0);
-            seekableEnd = seekable.end(0);
-        }
-/*        if (seekableEnd > 60) {
-            sourceBuffer.remove(seekableEnd - 50, videoElement.duration - 10);
-            videoElement.pause();
-            videoElement.play();
-            console.log("sourceBuffer remove! 10");
-        }*/
-    });
-});
-
-// Blob 데이터를 처리하는 함수
-function processMediaBlob() {
-    if (mediaBlob.length > 0 && !sourceBuffer.updating) {
-        let blob = mediaBlob.shift(); // 배열에서 Blob 데이터를 가져옴
-        let reader = new FileReader();
-        reader.onload = function() {
-            sourceBuffer.appendBuffer(reader.result); // ArrayBuffer를 sourceBuffer에 추가
-        };
-        reader.readAsArrayBuffer(blob); // Blob을 ArrayBuffer로 변환
-    } else if (sourceBuffer.updating || mediaBlob.length == 0) {
-        setTimeout(processMediaBlob, 100); // sourceBuffer가 업데이트 중일 경우 재시도
-    }
-}
+ws2.onmessage = function(event) {
+    console.log(event.data);
+    loadM3U8();
+};
 
 async function startSharing() {
     document.getElementById('start-share').disabled = true;
@@ -241,11 +216,15 @@ function startRecording(stream) {
     mediaRecorder.ondataavailable = event => {
         if (event.data.size > 0) {
             if (ws2.readyState === WebSocket.OPEN) {
-                ws2.send(new Blob([event.data], {type: 'video/webm; codecs="av01.0.05M.08, opus"'}));
+                ws2.send(event.data);
             }
+
         }
     };
-    mediaRecorder.start(2000);
+    setInterval(() => {
+        mediaRecorder.stop();
+        mediaRecorder.start();
+    }, 2000); // 2000ms = 2초
 }
 
 function toggleFullScreen() {
@@ -271,8 +250,5 @@ function toggleFullScreen() {
         }
     }
 }
-$(document).ready(function(){
-    processMediaBlob();
-});
 
 

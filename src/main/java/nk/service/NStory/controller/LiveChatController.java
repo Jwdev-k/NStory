@@ -5,9 +5,7 @@ import lombok.RequiredArgsConstructor;
 import nk.service.NStory.security.CustomUserDetails;
 import nk.service.NStory.service.liveChat.ChatRoomService;
 import nk.service.NStory.utils.PageUtil;
-import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -17,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -47,15 +46,23 @@ public class LiveChatController {
         return "ChatRoom";
     }
 
-    @GetMapping(value = "/livestream/videos/{roomId}")
-    public ResponseEntity<UrlResource> getLiveStream(Model model, @PathVariable(name = "roomId") String roomId) throws Exception {
-        model.addAttribute("RoomInfo",chatRoomService.getRoom(roomId));
-        String videoFileName = roomId + ".webm";
-        Path videoPath = Paths.get(System.getProperty("user.dir") + File.separator + "liveVideos"+ File.separator + videoFileName);
-        UrlResource videoResource = new UrlResource(videoPath.toUri());
+    @GetMapping(value = "/livestream/videos/{roomId}.m3u8")
+    public ResponseEntity<byte[]> getLiveStreamM3U8(@PathVariable(name = "roomId") String roomId) throws Exception {
+        String videoFileName = roomId + ".m3u8";
+        Path m3u8Path = Paths.get(System.getProperty("user.dir") + File.separator + "liveVideos" + File.separator + roomId + File.separator + videoFileName);
+        if (Files.exists(m3u8Path)) {
+            return ResponseEntity.ok().body(Files.readAllBytes(m3u8Path));
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
 
-        if (videoResource.exists() || videoResource.isReadable()) {
-            return ResponseEntity.ok().contentType(MediaType.parseMediaType("video/webm")).body(videoResource);
+    @GetMapping(value = "/livestream/videos/{roomId}.ts")
+    public ResponseEntity<byte[]> getLiveStreamTS(@PathVariable(name = "roomId") String roomId) throws Exception {
+        String videoFileName = roomId + ".ts";
+        Path tsPath = Paths.get(System.getProperty("user.dir") + File.separator + "liveVideos" + File.separator + roomId + File.separator + videoFileName);
+        if (Files.exists(tsPath)) {
+            return ResponseEntity.ok().body(Files.readAllBytes(tsPath));
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
