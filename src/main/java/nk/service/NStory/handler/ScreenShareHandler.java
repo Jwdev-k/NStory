@@ -75,23 +75,22 @@ public class ScreenShareHandler extends BinaryWebSocketHandler {
                 } else {
                     appendToM3U8(videoFile.getAbsolutePath(), m3u8File);
                 }
-            });
-            for (WebSocketSession s : sessionList) {
-                if (s.isOpen()) {
-                    CompletableFuture.runAsync(() -> {
+
+                for (WebSocketSession s : sessionList) {
+                    if (s.isOpen()) {
                         try {
                             s.sendMessage(new TextMessage("Updated Video"));
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                    });
+                    }
                 }
-            }
+            });
         }
     }
 
     private void convertToM3U8(String inputFilePath, String outputM3U8Path) {
-        String ffmpegCommand = String.format("ffmpeg -i %s -profile:v baseline -level 3.0 -s 1920x1080 -start_number 0 -hls_time 10 -hls_list_size 0 -f hls %s",
+        String ffmpegCommand = String.format("ffmpeg -i %s -start_number 0 -hls_time 4 -hls_list_size 0 -f hls %s",
                 inputFilePath, outputM3U8Path);
 
         ProcessBuilder processBuilder = new ProcessBuilder();
@@ -147,6 +146,8 @@ public class ScreenShareHandler extends BinaryWebSocketHandler {
             Files.write(path, lines);
         } catch (IOException e) {
             throw new RuntimeException("Failed to append TS stream to M3U8 file", e);
+        } finally {
+            deleteFile(inputFilePath);
         }
     }
 
@@ -184,6 +185,19 @@ public class ScreenShareHandler extends BinaryWebSocketHandler {
             }
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException("Failed to convert video to M3U8", e);
+        } finally {
+            deleteFile(inputFilePath);
+        }
+    }
+
+    private void deleteFile(String filePath) {
+        File file = new File(filePath);
+        if (file.exists()) {
+            if (file.delete()) {
+                log.info("Deleted file: " + filePath);
+            } else {
+                log.warn("Failed to delete file: " + filePath);
+            }
         }
     }
 }

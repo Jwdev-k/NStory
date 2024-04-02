@@ -2,6 +2,8 @@ package nk.service.NStory.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import nk.service.NStory.dto.liveChat.LiveRoom;
 import nk.service.NStory.security.CustomUserDetails;
 import nk.service.NStory.service.liveChat.ChatRoomService;
 import nk.service.NStory.utils.PageUtil;
@@ -10,15 +12,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.UUID;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 public class LiveChatController {
@@ -46,23 +48,46 @@ public class LiveChatController {
         return "ChatRoom";
     }
 
-    @GetMapping(value = "/livestream/videos/{roomId}.m3u8")
-    public ResponseEntity<byte[]> getLiveStreamM3U8(@PathVariable(name = "roomId") String roomId) throws Exception {
-        String videoFileName = roomId + ".m3u8";
-        Path m3u8Path = Paths.get(System.getProperty("user.dir") + File.separator + "liveVideos" + File.separator + roomId + File.separator + videoFileName);
-        if (Files.exists(m3u8Path)) {
-            return ResponseEntity.ok().body(Files.readAllBytes(m3u8Path));
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
+    @PostMapping(value = "/chatroom/add")
+    public String ChatRoomAdd(@AuthenticationPrincipal CustomUserDetails userDetails
+            , @RequestParam(name = "roomName") String roomName
+            , @RequestParam(name = "roomPassword", defaultValue = "") String roomPassword
+            , @RequestParam(name = "isSecret", defaultValue = "0") boolean isSecret) {
+        LiveRoom liveRoom = new LiveRoom();
+        liveRoom.setRoomId(UUID.randomUUID().toString());
+        liveRoom.setRoomName(roomName);
+        liveRoom.setRoomPassword(roomPassword);
+        liveRoom.setSecret(isSecret);
+        liveRoom.setHostName(userDetails.getUsername());
+        liveRoom.setAid(userDetails.getAid());
+        liveRoom.setEmail(userDetails.getEmail());
+        chatRoomService.addRoom(liveRoom);
+
+        return "redirect:/chatroom/" + liveRoom.getRoomId();
     }
 
-    @GetMapping(value = "/livestream/videos/{roomId}.ts")
-    public ResponseEntity<byte[]> getLiveStreamTS(@PathVariable(name = "roomId") String roomId) throws Exception {
-        String videoFileName = roomId + ".ts";
-        Path tsPath = Paths.get(System.getProperty("user.dir") + File.separator + "liveVideos" + File.separator + roomId + File.separator + videoFileName);
-        if (Files.exists(tsPath)) {
-            return ResponseEntity.ok().body(Files.readAllBytes(tsPath));
+    @PostMapping(value = "/chatroom/remove")
+    public String ChatRoomAdd(@AuthenticationPrincipal CustomUserDetails userDetails
+            , @RequestParam(name = "roomId") String roomId) {
+        LiveRoom liveRoom = chatRoomService.getRoom(roomId);
+        if (liveRoom.getAid() == userDetails.getAid()) {
+            chatRoomService.removeRoom(roomId);
+        }
+        return "redirect:/livechat?page=1";
+    }
+
+    @GetMapping(value = "/livestream/videos/{roomId}/{filename}")
+    @ResponseBody
+    public ResponseEntity<byte[]> getLiveStreamVideos(@PathVariable(name = "roomId") String roomId
+            ,@PathVariable(name = "filename") String filename) throws Exception {
+        Path videoPath = Paths.get(System.getProperty("user.dir") + File.separator + "liveVideos" + File.separator + roomId + File.separator + filename);
+
+        log.info("Requested filename: " + filename);
+        log.info("Generated roomId: " + roomId);
+        log.info("Video path: " + videoPath);
+
+        if (Files.exists(videoPath)) {
+            return ResponseEntity.ok().body(Files.readAllBytes(videoPath));
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }

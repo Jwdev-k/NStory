@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.util.LinkedList;
-import java.util.UUID;
 
 @Service
 @Slf4j
@@ -24,17 +23,10 @@ public class ChatRoomService {
 
     public void removeRoom(String roomId) {
         Rooms.removeIf(lr -> lr.getRoomId().equals(roomId));
+        log.info(CurrentTime.getTime() + "/ RoomId: " + roomId + " 채팅방이 삭제되었습니다.");
     }
 
     public LinkedList<LiveRoom> getRooms() {
-        LiveRoom liveRoom = new LiveRoom();
-        liveRoom.setRoomName("테스트");
-        liveRoom.setAid(2);
-        liveRoom.setRoomName("테스트 룸 입니다.");
-        liveRoom.setSecret(false);
-        liveRoom.setHostName("GomGom");
-        liveRoom.setRoomId(UUID.randomUUID().toString());
-        Rooms.add(liveRoom);
         return Rooms;
     }
 

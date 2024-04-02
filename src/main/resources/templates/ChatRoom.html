@@ -22,6 +22,14 @@
                         <div id="share-controls" class="mt-2">
                             <button id="start-share" class="btn btn-success" onclick="startSharing()">화면 공유 시작</button>
                             <button id="stop-share" class="btn btn-danger" onclick="stopSharing()" disabled>화면 공유 중지</button>
+                            <form method="post" action="/chatroom/remove">
+                                <button class="btn btn-danger btn-sm" type="submit"
+                                        onclick="if(!confirm('닫으시면 복구할수 없습니다. \n 정말로 닫으시겠습니까?')){
+                                                    return false;
+                                                }">라이브 스트리밍 닫기
+                                </button>
+                                <input type="hidden" name="roomId" th:value="${RoomInfo.roomId}">
+                            </form>
                         </div>
                     </span>
                 </div>

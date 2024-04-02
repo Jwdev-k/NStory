@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml"
->
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="~{layout/defaultHead :: Head}">
     <title>NStory</title>
 </head>
@@ -9,6 +9,9 @@
 <div th:replace="~{layout/sideMenu :: Menu}"></div>
 <main>
     <div class="container">
+        <button sec:authorize="isAuthenticated()" class="btn btn-primary" onclick="openPop()"
+                style="width: 100%;">라이브 스트리밍 시작
+        </button>
         <div class="row justify-content-center my-3">
             <div class="col-sm-4" th:each="list : ${RoomList}">
                 <div class="card mb-4 card-record border-primary" style="height: auto;">
@@ -76,7 +79,39 @@
         </ul>
     </div>
 </main>
+<div class="modal" id="popup_layer" tabindex="-1" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">라이브 스트리밍 생성</h5>
+                <button class="btn-close" onclick="closePop()" aria-label="Close"></button>
+            </div>
+            <!--팝업 컨텐츠 영역-->
+            <form method="post" action="/chatroom/add">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="roomName" class="form-label">제목</label>
+                        <input type="text" class="form-control" id="roomName" name="roomName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="roomPassword" class="form-label">비밀번호</label>
+                        <input type="password" class="form-control" id="roomPassword" name="roomPassword">
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="isSecret" name="isSecret" value="1">
+                        <label class="form-check-label" for="isSecret">비밀방 여부</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-secondary" onclick="closePop()">닫기</a>
+                    <button type="submit" class="btn btn-success">등록</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <footer th:replace="~{layout/defaultFooter :: Footer}"></footer>
 </body>
+<script src="/static/js/popup.js"></script>
 <script src="/static/js/menuEvent.js"></script>
 </html>

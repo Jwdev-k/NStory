@@ -1,5 +1,5 @@
 .chat-window {
-    width: 330px;
+    width: 440px;
     height: 780px;
     color: lightgray;
     background-color: #141517;
@@ -11,7 +11,7 @@
 .message-list {
     word-wrap: break-word; /* 영어 텍스트의 길이에 따라 줄바꿈 */
     margin-top: 20px;
-    width: 300px;
+    width: 400px;
     height: 680px;
     overflow-y: scroll;
     scrollbar-width: none; /* Firefox에 대한 스크롤바 숨김 */
@@ -83,7 +83,7 @@ video::-webkit-media-controls-timeline {
     margin-top: 50px;
     padding: 1%;
     right: -300px; /* 초기에 오른쪽에 숨겨진 상태 */
-    width: 300px;
+    width: 400px;
     height: 650px;
     overflow-y: scroll;
     scrollbar-width: none; /* Firefox에 대한 스크롤바 숨김 */

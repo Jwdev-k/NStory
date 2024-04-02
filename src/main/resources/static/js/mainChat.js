@@ -121,6 +121,8 @@ let hls;
 const videoElement = document.querySelector('.video');
 videoElement.addEventListener('dblclick', toggleFullScreen);
 
+let currentLevel = -1;
+
 $(document).ready(function() {
     if (Hls.isSupported()) {
         hls = new Hls();
@@ -134,6 +136,12 @@ $(document).ready(function() {
 
         hls.on(Hls.Events.MANIFEST_LOADED, function() {
             console.log("New m3u8 manifest loaded");
+
+            if (currentLevel === -1) {
+                currentLevel = hls.levels.length - 3;
+            }
+
+            hls.loadLevel = currentLevel;
             videoElement.play();
         });
 
@@ -157,7 +165,7 @@ $(document).ready(function() {
 });
 
 function loadM3U8() {
-    const m3u8Url = '/livestream/videos/' + roomId + '.m3u8';
+    const m3u8Url = '/livestream/videos/' + roomId + '/' + roomId + '.m3u8';
 
     hls.loadSource(m3u8Url);
     hls.attachMedia(videoElement);
@@ -171,7 +179,18 @@ ws2.onopen = function () {
 
 ws2.onmessage = function(event) {
     console.log(event.data);
+
+    // 비디오 플레이어에서 현재 재생 중인 시간을 저장
+    const currentTime = videoElement.currentTime;
+
+    // 오디오 코덱을 임시로 교체하여 비디오를 끊지 않게 함
+    hls.swapAudioCodec();
+
+    // m3u8 재로딩
     loadM3U8();
+
+    // 비디오 플레이어의 시간을 이전의 시간으로 설정하여 끊김 없이 재생
+    videoElement.currentTime = currentTime;
 };
 
 async function startSharing() {
