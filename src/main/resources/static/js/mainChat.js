@@ -116,42 +116,12 @@ document.getElementById('close-user-list').addEventListener('click', function ()
 
 let mediaRecorder;
 let currentStream;
-let hls;
 
-const videoElement = document.querySelector('.video');
-videoElement.addEventListener('dblclick', toggleFullScreen);
+let player;
 
-let currentLevel = -1;
-
-$(document).ready(function() {
-    if (Hls.isSupported()) {
-        hls = new Hls();
-
-        hls.on(Hls.Events.ERROR, function(event, data) {
-            if (data.type === Hls.ErrorTypes.NETWORK_ERROR) {
-                console.log("Network error occurred, retrying...");
-                hls.startLoad();
-            }
-        });
-
-        hls.on(Hls.Events.MANIFEST_LOADED, function() {
-            console.log("New m3u8 manifest loaded");
-
-            if (currentLevel === -1) {
-                currentLevel = hls.levels.length - 3;
-            }
-
-            hls.loadLevel = currentLevel;
-            videoElement.play();
-        });
-
-        hls.on(Hls.Events.MANIFEST_PARSED, function() {
-            videoElement.play();
-        });
-
-        loadM3U8();
-    } else if (videoElement.canPlayType('application/vnd.apple.mpegurl')) {
-        videoElement.src = '/livestream/videos/' + roomId;
+document.addEventListener('DOMContentLoaded', function() {
+    if (videojs.browser.IS_IOS || videojs.browser.IS_ANDROID) {
+        videoElement.src = '/livestream/videos/' + roomId + '/' + roomId + '.m3u8';
 
         videoElement.addEventListener('error', function() {
             console.log("Error occurred, retrying...");
@@ -161,14 +131,54 @@ $(document).ready(function() {
         videoElement.addEventListener('loadedmetadata', function() {
             videoElement.play();
         });
+    } else {
+        const options = {
+            html5: {
+                hls: {
+                    overrideNative: true,
+                    overrideNativeMediaElements: true,
+                    debug: true,
+                }
+            },
+            controls: true,
+            autoplay: true,
+            preload: 'auto',
+            liveui: true,
+            withCredentials: false
+        };
+
+        player = videojs('videoPlayer', options);
+
+        player.ready(() => {
+            const hlsTech = player.tech({ IWillNotUseThisInPlugins: true }).hls;
+
+            if (hlsTech) {
+                hlsTech.on('hlsFragLoaded', function(event, data) {
+                    hlsTech.config.maxBufferSize = 10 * 1000 * 1000;  // 최대 버퍼 크기 (바이트)
+                    hlsTech.config.maxBufferLength = 30;  // 버퍼 최대 길이 (초)
+                    hlsTech.config.maxMaxBufferLength = 600;  // 최대 버퍼 최대 길이 (초)
+                });
+            }
+        });
+
+        player.on('error', function() {
+            console.log("Error occurred, retrying...");
+            setTimeout(loadM3U8, 3000);
+        });
+
+        player.on('loadedmetadata', function() {
+            player.play();
+        });
+
+        loadM3U8();
     }
 });
 
 function loadM3U8() {
-    const m3u8Url = '/livestream/videos/' + roomId + '/' + roomId + '.m3u8';
-
-    hls.loadSource(m3u8Url);
-    hls.attachMedia(videoElement);
+    player.src({
+        src: '/livestream/videos/' + roomId + '/' + roomId + '.m3u8',
+        type: 'application/x-mpegURL'
+    });
 }
 
 var ws2 = new WebSocket("wss://" + location.host + "/livestream/" + roomId);
@@ -179,18 +189,6 @@ ws2.onopen = function () {
 
 ws2.onmessage = function(event) {
     console.log(event.data);
-
-    // 비디오 플레이어에서 현재 재생 중인 시간을 저장
-    const currentTime = videoElement.currentTime;
-
-    // 오디오 코덱을 임시로 교체하여 비디오를 끊지 않게 함
-    hls.swapAudioCodec();
-
-    // m3u8 재로딩
-    loadM3U8();
-
-    // 비디오 플레이어의 시간을 이전의 시간으로 설정하여 끊김 없이 재생
-    videoElement.currentTime = currentTime;
 };
 
 async function startSharing() {
@@ -243,7 +241,7 @@ function startRecording(stream) {
     setInterval(() => {
         mediaRecorder.stop();
         mediaRecorder.start();
-    }, 2000); // 2000ms = 2초
+    }, 3000); // 2000ms = 2초
 }
 
 function toggleFullScreen() {

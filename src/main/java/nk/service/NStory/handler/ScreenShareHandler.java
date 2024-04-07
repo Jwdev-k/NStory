@@ -64,12 +64,21 @@ public class ScreenShareHandler extends BinaryWebSocketHandler {
         }
 
         // liveVideos 폴더에 roomId.m3u8 파일로 영상 데이터 저장 또는 추가
-        int crtTimes = (int) System.currentTimeMillis();
-        File videoFile = new File(roomDir + File.separator + roomId + crtTimes + ".webm");
+        int segmentNumber = 0;  // 세그먼트 번호를 저장할 변수
+        // 동일한 파일명의 .webm 파일이 있는지 확인
+        while (true) {
+            File videoFile = new File(roomDir + File.separator + "live" + "-" + segmentNumber + ".webm");
+            if (!videoFile.exists()) {
+                break; // 동일한 파일명의 .webm 파일이 없으면 while 문 종료
+            }
+            segmentNumber++; // 세그먼트 번호 증가
+        }
+        File videoFile = new File(roomDir + File.separator + "live" + "-" + segmentNumber + ".webm");
         try (FileOutputStream fileOutputStream = new FileOutputStream(videoFile)) { // true: append 모드
             fileOutputStream.write(mediaData); // 영상 데이터 추가
+
             CompletableFuture.runAsync(() -> {
-                String m3u8File = roomDir + File.separator + roomId + ".m3u8";
+                String m3u8File = roomDir + File.separator + roomId + ".tmp.m3u8";
                 if (!Files.exists(Path.of(m3u8File))) {
                     convertToM3U8(videoFile.getAbsolutePath(), m3u8File);
                 } else {
@@ -90,8 +99,8 @@ public class ScreenShareHandler extends BinaryWebSocketHandler {
     }
 
     private void convertToM3U8(String inputFilePath, String outputM3U8Path) {
-        String ffmpegCommand = String.format("ffmpeg -i %s -start_number 0 -hls_time 4 -hls_list_size 0 -f hls %s",
-                inputFilePath, outputM3U8Path);
+        String ffmpegCommand = String.format("ffmpeg -i %s -c:v libx264 -c:a aac -b:a 128k -start_number 0 -hls_time 4 -hls_list_size 0 -hls_flags omit_endlist -hls_segment_filename %s-%%d.ts -f hls %s",
+                inputFilePath, inputFilePath.replaceAll(".webm", ""), outputM3U8Path);
 
         ProcessBuilder processBuilder = new ProcessBuilder();
         //processBuilder.command("bash", "-c", ffmpegCommand); // Linux/macOS에서는 bash를 사용
@@ -122,6 +131,7 @@ public class ScreenShareHandler extends BinaryWebSocketHandler {
                 throw new RuntimeException("FFmpeg process failed with exit code: " + exitValue);
             }
 
+            process.destroy();
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException("Failed to convert video to M3U8", e);
         }
@@ -135,19 +145,56 @@ public class ScreenShareHandler extends BinaryWebSocketHandler {
         try {
             // 기존 M3U8 파일 열기
             Path path = Paths.get(outputM3U8Path);
-            List<String> lines = Files.readAllLines(path);
+            List<String> oldLines = Files.readAllLines(path);
+
+            int segmentCount = 0;
+
+            for (String line : oldLines) {
+                if (line.startsWith("#EXTINF")) { // 세그먼트 정보만 포함된 라인
+                    segmentCount++;
+                }
+            }
+
+            if(segmentCount == 4) {
+                oldLines.set(2, "#EXT-X-TARGETDURATION:3");
+
+                Path newPath = Path.of(path.toString().replace(".tmp", ""));
+                if (!Files.exists(newPath)) {
+                    Files.copy(path, newPath); // tmp에서 스트림용 m3u8 생성
+                } else {
+                    // EXT-X-MEDIA-SEQUENCE 값 증가
+                    int mediaSequence = Integer.parseInt(oldLines.get(3).split(":")[1]);
+                    oldLines.set(3, "#EXT-X-MEDIA-SEQUENCE:" + (mediaSequence + 1));
+
+                    Files.write(newPath, oldLines);
+                }
+
+/*                // 세그먼트만 m3u8에서 초기화 시켜서 새로운 m3u8 tmp 생성
+                for (String line : oldLines) {
+                    if (!line.startsWith("#EXTINF")) { // 세그먼트 정보만 포함된 라인
+                        if (!line.contains(".ts")) {
+                            newTmp.add(line);
+                        }
+                    }
+                }*/
+
+                oldLines.remove(4);
+                oldLines.remove(4);
+                // 새로운 내용을 파일에 쓰기
+                Files.write(path, oldLines);
+            }
+
+            List<String> newLines = Files.readAllLines(path); //m3u8 세그먼트 초기화 후 파일 다시 읽어들임
 
             // TS 스트림 정보 추가
-            lines.add("#EXTINF:10.0,");
+            long tsDuration = getDurationOfTS(tsFilePath);
+            newLines.add(String.format("#EXTINF:%.1f,", (float) tsDuration / 1000));  // milliseconds to seconds
             String tsName = new File(tsFilePath).getName();
-            lines.add(tsName);
-
-            // 기존 M3U8 파일 업데이트
-            Files.write(path, lines);
+            newLines.add(tsName);
+            // tmp m3u8 세그먼트 추가
+            Files.write(path, newLines);
         } catch (IOException e) {
             throw new RuntimeException("Failed to append TS stream to M3U8 file", e);
-        } finally {
-            deleteFile(inputFilePath);
         }
     }
 
@@ -183,11 +230,51 @@ public class ScreenShareHandler extends BinaryWebSocketHandler {
             if (exitValue != 0) {
                 throw new RuntimeException("FFmpeg process failed with exit code: " + exitValue);
             }
+
+            process.destroy();
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException("Failed to convert video to M3U8", e);
-        } finally {
-            deleteFile(inputFilePath);
         }
+    }
+
+    private long getDurationOfTS(String tsFilePath) throws IOException {
+        String ffprobeCommand = String.format("ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 %s", tsFilePath);
+
+        ProcessBuilder processBuilder = new ProcessBuilder();
+        processBuilder.command("cmd.exe", "/c", ffprobeCommand); // Windows에서는 cmd를 사용
+        processBuilder.directory(Path.of(".").toAbsolutePath().normalize().toFile());
+
+        try {
+            Process process = processBuilder.start();
+
+            // 결과 읽기
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+                String durationStr = reader.readLine();
+                if (durationStr != null) {
+                    return (long) (Double.parseDouble(durationStr.trim()) * 1000);  // seconds to milliseconds
+                }
+            }
+
+            // 에러 스트림 처리
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getErrorStream()))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    log.warn(line);
+                }
+            }
+
+            // FFprobe 실행 결과 확인
+            int exitValue = process.waitFor();
+            if (exitValue != 0) {
+                throw new RuntimeException("FFprobe process failed with exit code: " + exitValue);
+            }
+
+            process.destroy();
+        } catch (InterruptedException e) {
+            throw new RuntimeException("Failed to get TS duration", e);
+        }
+
+        return 0;
     }
 
     private void deleteFile(String filePath) {

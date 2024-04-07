@@ -12,7 +12,7 @@
         <div class="col video-container">
             <div class="d-flex flex-column">
                 <!--th:src="@{/livestream/videos/} + ${RoomInfo.roomId} + '/stream'"-->
-                <video class="video" id="videoPlayer" autoplay controls playsinline width="1326" height="auto"></video>
+                <video class="video video-js vjs-default-skin" id="videoPlayer" autoplay controls preload="auto" width="1326" height="auto"></video>
                 <div class="video-info">
                     <h2 th:text="${RoomInfo.roomName}">방제목</h2>
                     <span class="justify-content-start">
@@ -67,9 +67,8 @@
 </main>
 <footer th:replace="~{layout/defaultFooter :: Footer}"></footer>
 </body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.7/hls.min.js"
-        integrity="sha512-d2LJXmb1f9rxipaqXL2Th9/uypFA0hcVVgKL7M/2klxaQBhmYySaZ/noWKLkAkjuBSw35F0noiiR1+QMz/QeKw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/video.js/8.11.8/video-js.min.css" integrity="sha512-7ygWwJCkEsI7sNqXtHyZv+W9eCZwAgNcYwaV7tdLvWtDxTmASJLyigHOhufdziF812S99GnAM8JuDIc2+Ppkiw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/video.js/8.11.8/video.min.js" integrity="sha512-TWLMwKjsaWe04JNa85TPldLXZhgh5SEMsPyGw8C/9t+IDnziUkJP/VbOe0Gv/ZfQ0djSebIJfpn9kigIsjfXqQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="/static/js/mainChat.js"></script>
 <script src="/static/js/menuEvent.js"></script>
 <link rel="stylesheet" href="/static/css/live-chat.css">
