@@ -137,29 +137,23 @@ document.addEventListener('DOMContentLoaded', function() {
                 hls: {
                     overrideNative: true,
                     overrideNativeMediaElements: true,
-                    debug: true,
+                    smoothQualityChange: true,
+                    autoStartLoad: true,
+                    debug: true, // 디버그 모드 활성화
                 }
             },
+            startLevel: 4,
             controls: true,
             autoplay: true,
             preload: 'auto',
             liveui: true,
-            withCredentials: false
+            withCredentials: false,
+            liveSyncDurationCount: 3, // 라이브 스트리밍의 경우 사용자가 현재 시간보다 이전의 세그먼트를 로드할 수 있는 시간
+            maxBufferLength: 48, // 버퍼 최대 길이를 설정 (초 단위, 세그먼트 길이 * 세그먼트 수 = 12초 * 4 = 48초)
+            maxMaxBufferLength: 60 // 최대 버퍼 길이를 설정 (초 단위)
         };
 
         player = videojs('videoPlayer', options);
-
-        player.ready(() => {
-            const hlsTech = player.tech({ IWillNotUseThisInPlugins: true }).hls;
-
-            if (hlsTech) {
-                hlsTech.on('hlsFragLoaded', function(event, data) {
-                    hlsTech.config.maxBufferSize = 10 * 1000 * 1000;  // 최대 버퍼 크기 (바이트)
-                    hlsTech.config.maxBufferLength = 30;  // 버퍼 최대 길이 (초)
-                    hlsTech.config.maxMaxBufferLength = 600;  // 최대 버퍼 최대 길이 (초)
-                });
-            }
-        });
 
         player.on('error', function() {
             console.log("Error occurred, retrying...");

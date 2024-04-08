@@ -67,9 +67,9 @@ public class ScreenShareHandler extends BinaryWebSocketHandler {
         int segmentNumber = 0;  // 세그먼트 번호를 저장할 변수
         // 동일한 파일명의 .webm 파일이 있는지 확인
         while (true) {
-            File videoFile = new File(roomDir + File.separator + "live" + "-" + segmentNumber + ".webm");
-            if (!videoFile.exists()) {
-                break; // 동일한 파일명의 .webm 파일이 없으면 while 문 종료
+            File tsVideoFile = new File(roomDir + File.separator + "live" + "-" + segmentNumber + ".ts");
+            if (!tsVideoFile.exists()) {
+                break; // 동일한 파일명의 .ts 파일이 없으면 while 문 종료
             }
             segmentNumber++; // 세그먼트 번호 증가
         }
@@ -82,7 +82,10 @@ public class ScreenShareHandler extends BinaryWebSocketHandler {
                 if (!Files.exists(Path.of(m3u8File))) {
                     convertToM3U8(videoFile.getAbsolutePath(), m3u8File);
                 } else {
-                    appendToM3U8(videoFile.getAbsolutePath(), m3u8File);
+                    // TS 파일 생성
+                    String tsFilePath = videoFile.getAbsolutePath().replace(".webm", ".ts");
+                    convertToTS(videoFile.getAbsolutePath(), tsFilePath);
+                    appendToM3U8(tsFilePath, m3u8File);
                 }
 
                 for (WebSocketSession s : sessionList) {
@@ -99,8 +102,8 @@ public class ScreenShareHandler extends BinaryWebSocketHandler {
     }
 
     private void convertToM3U8(String inputFilePath, String outputM3U8Path) {
-        String ffmpegCommand = String.format("ffmpeg -i %s -c:v libx264 -c:a aac -b:a 128k -start_number 0 -hls_time 4 -hls_list_size 0 -hls_flags omit_endlist -hls_segment_filename %s-%%d.ts -f hls %s",
-                inputFilePath, inputFilePath.replaceAll(".webm", ""), outputM3U8Path);
+        String ffmpegCommand = String.format("ffmpeg -i %s -c:v libx264 -preset veryfast -b:v 2M -c:a aac -start_number 0 -hls_time 4 -hls_list_size 0 -hls_flags omit_endlist -hls_segment_filename %s-%%d.ts -f hls %s",
+                inputFilePath, inputFilePath.replace(".webm", "").replace("-0", ""), outputM3U8Path);
 
         ProcessBuilder processBuilder = new ProcessBuilder();
         //processBuilder.command("bash", "-c", ffmpegCommand); // Linux/macOS에서는 bash를 사용
@@ -134,14 +137,12 @@ public class ScreenShareHandler extends BinaryWebSocketHandler {
             process.destroy();
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException("Failed to convert video to M3U8", e);
+        } finally {
+            deleteFile(inputFilePath);
         }
     }
 
-    private void appendToM3U8(String inputFilePath, String outputM3U8Path) {
-        // TS 파일 생성
-        String tsFilePath = inputFilePath.replace(".webm", ".ts");
-        convertToTS(inputFilePath, tsFilePath);
-
+    private void appendToM3U8(String tsFilePath, String outputM3U8Path) {
         try {
             // 기존 M3U8 파일 열기
             Path path = Paths.get(outputM3U8Path);
@@ -178,8 +179,10 @@ public class ScreenShareHandler extends BinaryWebSocketHandler {
                     }
                 }*/
 
+                // m3u8 원본 업데이트 후 tmp에서 세그먼트 1개 삭제
                 oldLines.remove(4);
                 oldLines.remove(4);
+
                 // 새로운 내용을 파일에 쓰기
                 Files.write(path, oldLines);
             }
@@ -200,7 +203,8 @@ public class ScreenShareHandler extends BinaryWebSocketHandler {
 
     private void convertToTS(String inputFilePath, String outputTSPath) {
         // FFmpeg를 사용하여 WebM을 TS로 변환
-        String ffmpegCommand = String.format("ffmpeg -i %s -c:v libx264 -c:a aac %s", inputFilePath, outputTSPath);
+        String ffmpegCommand = String.format("ffmpeg -i %s -c:v libx264 -preset veryfast -b:v 2M -c:a aac %s",
+                inputFilePath, outputTSPath);
 
         ProcessBuilder processBuilder = new ProcessBuilder();
 
@@ -234,6 +238,8 @@ public class ScreenShareHandler extends BinaryWebSocketHandler {
             process.destroy();
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException("Failed to convert video to M3U8", e);
+        } finally {
+            deleteFile(inputFilePath);
         }
     }
 

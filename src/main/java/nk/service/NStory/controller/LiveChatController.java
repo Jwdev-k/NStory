@@ -7,8 +7,7 @@ import nk.service.NStory.dto.liveChat.LiveRoom;
 import nk.service.NStory.security.CustomUserDetails;
 import nk.service.NStory.service.liveChat.ChatRoomService;
 import nk.service.NStory.utils.PageUtil;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +18,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Controller
@@ -86,8 +86,19 @@ public class LiveChatController {
         log.info("Generated roomId: " + roomId);
         log.info("Video path: " + videoPath);
 
+        CacheControl cacheControl = CacheControl.noStore().mustRevalidate().cachePrivate().sMaxAge(0, TimeUnit.SECONDS);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentLength(videoPath.toFile().length());
         if (Files.exists(videoPath)) {
-            return ResponseEntity.ok().body(Files.readAllBytes(videoPath));
+            if (filename.contains(".ts")) {
+                headers.setContentType(MediaType.valueOf("video/MP2T")); // MPEG-2 Transport Stream
+                headers.setContentDispositionFormData("inline", filename);
+            } else {
+                headers.setContentType(MediaType.valueOf("application/vnd.apple.mpegurl")); // HLS MIME type
+                headers.setContentDispositionFormData("inline", "playlist.m3u8");
+            }
+            return ResponseEntity.ok().cacheControl(cacheControl).headers(headers).body(Files.readAllBytes(videoPath));
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
