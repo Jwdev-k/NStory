@@ -13,7 +13,7 @@
             <div class="col-lg-5 col-md-7">
                 <div class="card">
                     <h5 class="card-header text-center fw-bold">계정 정보</h5>
-                    <div class="card-body text-light">
+                    <div class="card-body text-custom-primary">
                         <div class="text-center">
                             <div class="overflow-hidden mb-3 mt-5">
                                 <a href="javascript:openUserInfo()">
@@ -102,7 +102,7 @@
             <div class="modal-content" style="width: 700px; height: 700px;">
                 <div class="modal-header">
                     <h5 class="modal-title">이미지 업로드</h5>
-                    <button class="btn-close" onclick="closeUserInfo()" aria-label="Close"></button>
+                    <button class="menu-close-btn" onclick="closeUserInfo()"><i class="fa fa-xl fa-close"></i></button>
                 </div>
                 <!--팝업 컨텐츠 영역-->
                 <input type="file" class="form-control" id="chooseImg" name="profileImg"
@@ -112,12 +112,12 @@
                     <img id="cropper-img" alt="uploadImg" src="/static/images/noimg.jpg" width="500" height="500">
                 </div>
                 <div class="modal-footer">
+                    <a class="btn btn-secondary" onclick="closeUserInfo()">취소</a>
                     <button id="upload-btn" class="btn btn-success"
                             onclick="if(!confirm('정말로 저장하시겠습니까??')){
                                 return false;
                             }">저장
                     </button>
-                    <a class="btn btn-secondary" onclick="closeUserInfo()">취소</a>
                 </div>
             </div>
         </div>

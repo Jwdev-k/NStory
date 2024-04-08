@@ -137,6 +137,10 @@ label{
     width: auto;
 }
 
+.text-notice {
+    color: #FF3E7F;
+}
+
 @media (max-width: 912px) {
     .note-video-clip {
         max-width: 100%;

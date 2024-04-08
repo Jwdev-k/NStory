@@ -1,5 +1,5 @@
 :root {
-    --text-primary-color: #FFFFFF;
+    --text-primary-color: lightgrey;
     --uni-secondary-color: #3656ff;
 }
 
@@ -27,7 +27,7 @@ main {
 }
 
 .text-custom-primary {
-    color: #FF3E7F;
+    color: var(--text-primary-color);
 }
 
 .text-custom-secondary {
@@ -80,6 +80,10 @@ main {
 
 .btn:disabled {
     border-color: transparent;
+}
+
+.btn-close {
+    fill: lightgray !important;
 }
 
 /* 일반 버튼 */
@@ -169,6 +173,16 @@ main {
     background-color: #1e2022;
 }
 
+.modal {
+    color: lightgray;
+}
+.modal-content{
+    background-color: #141517;
+}
+.modal-header {
+    background-color: #1e2022;
+}
+
 /* 활성화된 체크박스의 색상 */
 input[type="checkbox"]:checked:enabled {
     background-color: var(--uni-secondary-color);
@@ -232,6 +246,7 @@ input[type="checkbox"]:checked:enabled {
 }
 
 .menu-close-btn {
+    color: lightgray;
     position: absolute;
     top: 10px;
     right: 10px;

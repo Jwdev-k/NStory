@@ -33,19 +33,19 @@
 					<span class="text-lg-center my-4 text-secondary">STEP3</span>
 					<span class="text-lg-center my-1 text-danger" th:text="${errMsg}"></span>
 				</div>
-				<label class="text-light">닉네임</label>
+				<label class="text-custom-primary">닉네임</label>
 				<div class="input-group mb-3" data-validate="Name is required">
 					<span class="input-group-text" id="icon1"><i class="fa-solid fa-user"></i></span>
 					<input class="form-control form-control-lg" aria-describedby="icon1"
 						   type="text" name="name" placeholder="닉네임은 최소 2자 이상" minlength="2" required>
 				</div>
-				<label class="text-light">이메일</label>
+				<label class="text-custom-primary">이메일</label>
 				<div class="input-group mb-3" data-validate = "email is reauired">
 					<span class="input-group-text" id="icon2"><i class="fa-solid fa-envelope"></i></span>
 					<input class="form-control form-control-lg" aria-describedby="icon2" th:value="${email}"
 						   type="email" name="email" placeholder="이메일 주소를 입력해 주세요." maxlength="50" readonly>
 				</div>
-				<label class="text-light">패스워드</label>
+				<label class="text-custom-primary">패스워드</label>
 				<div class="input-group mb-3" data-validate="Password is required">
 					<span class="input-group-text" id="icon3"><i class="fa-solid fa-lock"></i></span>
 					<input class="form-control form-control-lg" aria-describedby="icon3"

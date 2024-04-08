@@ -12,7 +12,15 @@
         <button sec:authorize="isAuthenticated()" class="btn btn-primary" onclick="openPop()"
                 style="width: 100%;">라이브 스트리밍 시작
         </button>
-        <div class="row justify-content-center my-3">
+        <div class="row justify-content-center my-3" th:if="${RoomList.size() == 0}">
+            <div class="col-sm-12 d-flex flex-column justify-content-center align-items-center" style="height: 75vh;">
+                <i class="fa-solid fa-video-slash fa-bounce fa-2xl" style="color: #FFD43B;"></i>
+                <span class="text-custom-primary text-center my-3 fw-bold" style="font-size: 20px;">
+                    진행중인 라이브 스트리밍이 없어요!
+                </span>
+            </div>
+        </div>
+        <div class="row justify-content-center my-3" th:unless="${RoomList.size() == 0}">
             <div class="col-sm-4" th:each="list : ${RoomList}">
                 <div class="card mb-4 card-record border-primary" style="height: auto;">
                     <div class="card-body">

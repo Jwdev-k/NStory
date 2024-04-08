@@ -31,7 +31,7 @@
         <div class="container align-items-center">
             <div class="d-flex justify-content-start align-items-center">
                 <img class="board-img" th:src="@{/bbs/main_img/} + *{bid}" alt="mainImg">
-                <div class="d-grid mt-3 p-3 text-light">
+                <div class="d-grid mt-3 p-3 text-custom-primary">
                     <h4 class="fw-bold" th:text="*{kname}"></h4>
                     <a href="#" th:text="'@' + *{username}"></a>
                     <p th:text="*{subname}"></p>
@@ -47,7 +47,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">게시판 수정</h5>
-                            <button class="btn-close" onclick="closeBoardSet()" aria-label="Close"></button>
+                            <button class="menu-close-btn" onclick="closeBoardSet()"><i class="fa fa-xl fa-close"></i></button>
                         </div>
                         <!--팝업 컨텐츠 영역-->
                         <form method="post" th:action="@{/whiteboard/setup/} + *{bid}" enctype="multipart/form-data">
@@ -102,17 +102,17 @@
                             <th:block th:each="list : ${noticeList}">
                                 <tr>
                                     <td class="text-center d-none d-md-table-cell">
-                                        <span class="fw-bold text-custom-primary">공지사항</span></td>
+                                        <span class="fw-bold text-notice">공지사항</span></td>
                                     <td class="table-contents-title back-white">
                                         <a th:href="@{/whiteview(id=${list.id})}"
-                                           class="text-decoration-none text-custom-primary">
+                                           class="text-decoration-none text-notice">
                                             <span class="fw-bold" th:text="${list.title}"></span>
                                         </a>
                                     </td>
                                     <td class="text-center back-white d-none d-md-table-cell">
                                         <span th:text="${list.author}"></span>
                                         <i th:if="${#strings.equals(list.email, boardInfo.email)}"
-                                           class="fa fa-check-circle fa-sm text-custom-primary" title="주인장"></i></td>
+                                           class="fa fa-check-circle fa-sm text-notice" title="주인장"></i></td>
                                     <td class="text-center back-white d-none d-md-table-cell"
                                         th:text="${list.creationDate}"></td>
                                     <td class="text-center back-white d-none d-md-table-cell"
@@ -135,7 +135,7 @@
                                     <td class="text-center d-none d-md-table-cell">
                                         <span th:text="${list.author}"></span>
                                         <i th:if="${#strings.equals(list.email, boardInfo.email)}"
-                                           class="fa fa-check-circle fa-sm text-custom-primary" title="주인장"></i></td>
+                                           class="fa fa-check-circle fa-sm text-notice" title="주인장"></i></td>
                                     <td class="text-center d-none d-md-table-cell"
                                         th:text="${list.creationDate}"></td>
                                     <td class="text-center d-none d-md-table-cell" th:text="${list.views}"
