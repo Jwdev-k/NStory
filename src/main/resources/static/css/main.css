@@ -25,7 +25,7 @@ main {
 }
 .jumbotron{
     width: 100%;
-    height: 200px;
+    height: 150px;
     margin-bottom: 30px;
     margin-top: 30px;
     padding: 30px 60px;
@@ -77,9 +77,14 @@ main {
     font-family: "Courier New", monospace;
     font-size: 3vw;
     font-weight: bold;
-    color: lightgray;
-    text-shadow: 0 0 1px #FF3E7F, 0 0 1px #FF3E7F, 0 0 1px #FF3E7F, 0 0 1px #FF3E7F, 0 0 1px #FF3E7F, 0 0 1px #FF3E7F, 0 0 1px #FF3E7F, 0 0 1px #FF3E7F;
+    color: white;
+    text-shadow: 0 0 1px #ffd43b, 0 0 1px #ffd43b, 0 0 1px #ffd43b, 0 0 1px #ffd43b, 0 0 1px #ffd43b, 0 0 1px #ffd43b, 0 0 1px #ffd43b, 0 0 1px #ffd43b;
     text-align: center;
+}
+@media (max-width: 912px) {
+    .neon-clock {
+        font-size: 8vw;
+    }
 }
 
 .rank-search-form {
@@ -98,10 +103,4 @@ main {
 }
 .history-list::-webkit-scrollbar {
     display: none; /* Chrome, Safari 및 Opera에 대한 스크롤바 숨김 */
-}
-
-@media (max-width: 912px) {
-    .neon-clock {
-        font-size: 8vw;
-    }
 }

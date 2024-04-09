@@ -7,7 +7,7 @@
 <nav th:replace="~{layout/defaultNavbar :: Navbar}"></nav>
 <div th:replace="~{layout/sideMenu :: Menu}"></div>
 <main>
-    <div class="container col-md-2 col-lg-5">
+    <div class="container col-md-2 col-lg-7">
         <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
             <ol class="carousel-indicators">
                 <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -34,7 +34,7 @@
                 <span class="visually-hidden">Next</span>
             </button>
         </div>
-        <div class="row">
+        <div class="row" style="width:600px; height:auto;">
             <div class="col-lg-4 col-md-4 mb-4" th:each="list : ${ShopList}">
                 <div class="card h-100">
                     <a href="#"><img class="card-img-top" th:src="@{/shop/itemImg/} + ${list.itemImg}" alt=""></a>
@@ -42,7 +42,7 @@
                         <h4 class="card-title">
                             <a href="#" th:text="${list.itemName}">아이템 이름</a>
                         </h4>
-                        <h5 th:text="${list.itemPrice + ' NCoin'}">0 NCoin</h5>
+                        <h5 class="card-text" th:text="${list.itemPrice + ' NCoin'}">0 NCoin</h5>
                         <p class="card-text" th:text="${list.itemDsrp}">아이템 설명</p>
                     </div>
                 </div>
