@@ -38,12 +38,12 @@
                                             <div class="card-text">
                                                 <img class="box-mini" th:src="@{/general/prf_img/} + ${list.aid}"
                                                      alt="profile">
-                                                <span style="font-size: 12px" th:text="${list.author}"></span>
+                                                <span class="main-list-icon" th:text="${list.author}"></span>
                                                 <span><i class="fa fa-eye fa-sm" aria-hidden="true"></i></span>
                                                 <span class="main-list-icon" th:text="${list.views}"></span>
-                                                <span><i class="fa fa-thumbs-up fa-sm" aria-hidden="true"></i> </span>
+                                                <span><i class="fa fa-thumbs-up fa-sm" aria-hidden="true"></i></span>
                                                 <span class="main-list-icon" th:text="${list.like_count}"></span>
-                                                <span><i class="fa fa-commenting fa-sm" aria-hidden="true"></i> </span>
+                                                <span><i class="fa fa-commenting fa-sm" aria-hidden="true"></i></span>
                                                 <span class="main-list-icon" th:text="${list.cm_rp_counts}"></span>
                                             </div>
                                             <p class="main-list-title mb-0" th:text="${list.title}"></p>

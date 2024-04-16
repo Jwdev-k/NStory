@@ -47,7 +47,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">게시판 수정</h5>
-                            <button class="menu-close-btn" onclick="closeBoardSet()"><i class="fa fa-xl fa-close"></i></button>
+                            <button class="modal-close-btn" onclick="closeBoardSet()"><i class="fa fa-xl fa-close"></i></button>
                         </div>
                         <!--팝업 컨텐츠 영역-->
                         <form method="post" th:action="@{/whiteboard/setup/} + *{bid}" enctype="multipart/form-data">
@@ -163,7 +163,7 @@
                                         <option value="contents">내용</option>
                                         <option value="author">작성자</option>
                                     </select>
-                                    <input type="text" class="form-control-sm search-form" name="str"
+                                    <input type="search" class="form-control-sm search-form" name="str"
                                            placeholder="검색어를 입력하세요">
                                     <button class="btn btn-primary btn-sm p-2" type="submit">검색</button>
                                 </label>

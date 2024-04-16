@@ -6,8 +6,8 @@
     object-fit: cover;
 }
 .box-mini {
-    width: 20px;
-    height: 20px;
+    width: 25px;
+    height: 25px;
     border-radius: 70%;
     overflow: hidden;
     object-fit: cover;
@@ -61,7 +61,7 @@ main {
     opacity: 0.5;
 }
 .main-list-icon {
-    font-size: 12px;
+    font-size: 14px;
 }
 .userinfo-t-c {
     font-size: 14px;
@@ -90,17 +90,12 @@ main {
 .rank-search-form {
     color: lightgray;
     background-color: #1e2022;
-    width: 200px;
-    margin: 20px auto 40px;
+    width: 300px;
+    height: 30px;
     border: 0;
 }
 
 .history-list {
     overflow-y: scroll;
     height: 660px;
-    scrollbar-width: none; /* Firefox에 대한 스크롤바 숨김 */
-    -ms-overflow-style: none; /* IE 및 Edge에 대한 스크롤바 숨김 */
-}
-.history-list::-webkit-scrollbar {
-    display: none; /* Chrome, Safari 및 Opera에 대한 스크롤바 숨김 */
 }

@@ -195,6 +195,12 @@ main {
 .modal-footer {
     border-top: 1px solid rgba(255,255,255, .06);
 }
+.modal-close-btn {
+    color: lightgray;
+    background: transparent;
+    border: none;
+}
+
 /* 활성화된 체크박스의 색상 */
 input[type="checkbox"]:checked:enabled {
     background-color: var(--uni-secondary-color);
