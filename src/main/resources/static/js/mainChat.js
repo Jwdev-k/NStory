@@ -120,6 +120,8 @@ let currentStream;
 let player;
 
 document.addEventListener('DOMContentLoaded', function() {
+    videojs.log.level('debug');
+
     if (videojs.browser.IS_IOS || videojs.browser.IS_ANDROID) {
         videoElement.src = '/livestream/videos/' + roomId + '/' + roomId + '.m3u8';
 
@@ -133,31 +135,41 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     } else {
         const options = {
-            html5: {
-                hls: {
-                    overrideNative: true,
-                    overrideNativeMediaElements: true,
-                    smoothQualityChange: true,
-                    autoStartLoad: true,
-                    debug: true, // 디버그 모드 활성화
-                }
-            },
-            startLevel: 4,
             controls: true,
             autoplay: true,
             preload: 'auto',
             liveui: true,
-            withCredentials: false,
-            liveSyncDurationCount: 3, // 라이브 스트리밍의 경우 사용자가 현재 시간보다 이전의 세그먼트를 로드할 수 있는 시간
-            maxBufferLength: 48, // 버퍼 최대 길이를 설정 (초 단위, 세그먼트 길이 * 세그먼트 수 = 12초 * 4 = 48초)
-            maxMaxBufferLength: 60 // 최대 버퍼 길이를 설정 (초 단위)
+            html5: {
+                hls: {
+                    overrideNative: true,
+                    enableWorker: true,
+                    withCredentials: false,
+                    bandwidth: 1000000,
+                    enableLowInitialPlaylist: false,
+                    smoothQualityChange: true
+                }
+            }
         };
 
         player = videojs('videoPlayer', options);
 
+        player.on('timeupdate', function() {
+            var currentTime = player.currentTime(); // 현재 재생 시간을 초 단위로 얻음
+            var duration = player.duration(); // 비디오 총 재생 시간을 초 단위로 얻음
+
+            // 현재 재생 시간과 총 재생 시간을 표시
+            console.log('Current Time: ' + currentTime + ' / Duration: ' + duration);
+        });
+
+        player.on('buffered', function() {
+            console.log('비디오 버퍼링 중...');
+            var bufferedPercent = player.bufferedPercent();
+            console.log('Buffered Percent: ' + bufferedPercent);
+        });
+
         player.on('error', function() {
             console.log("Error occurred, retrying...");
-            setTimeout(loadM3U8, 3000);
+            setTimeout(loadM3U8, 1000);
         });
 
         player.on('loadedmetadata', function() {
@@ -170,7 +182,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function loadM3U8() {
     player.src({
-        src: '/livestream/videos/' + roomId + '/' + roomId + '.m3u8',
+        src: '/livestream/videos/' + roomId + '/' + 'NSLive.m3u8',
         type: 'application/x-mpegURL'
     });
 }
@@ -220,7 +232,7 @@ function stopSharing() {
 
 function startRecording(stream) {
     let options = {
-        mimeType: 'video/webm; codecs="av01.0.05M.08, opus"'  // 기본 비디오 코덱 설정
+        mimeType: 'video/webm;codecs=h264,aac'  // 기본 비디오 코덱 설정
     };
     mediaRecorder = new MediaRecorder(stream, options);
 
@@ -235,7 +247,7 @@ function startRecording(stream) {
     setInterval(() => {
         mediaRecorder.stop();
         mediaRecorder.start();
-    }, 3000); // 2000ms = 2초
+    }, 3000); // 1000ms = 1초
 }
 
 function toggleFullScreen() {

@@ -78,7 +78,7 @@ public class ScreenShareHandler extends BinaryWebSocketHandler {
             fileOutputStream.write(mediaData); // 영상 데이터 추가
 
             CompletableFuture.runAsync(() -> {
-                String m3u8File = roomDir + File.separator + roomId + ".tmp.m3u8";
+                String m3u8File = roomDir + File.separator + "NSLive" + ".tmp.m3u8";
                 if (!Files.exists(Path.of(m3u8File))) {
                     convertToM3U8(videoFile.getAbsolutePath(), m3u8File);
                 } else {
@@ -102,7 +102,7 @@ public class ScreenShareHandler extends BinaryWebSocketHandler {
     }
 
     private void convertToM3U8(String inputFilePath, String outputM3U8Path) {
-        String ffmpegCommand = String.format("ffmpeg -i %s -c:v libx264 -preset veryfast -b:v 2M -c:a aac -start_number 0 -hls_time 4 -hls_list_size 0 -hls_flags omit_endlist -hls_segment_filename %s-%%d.ts -f hls %s",
+        String ffmpegCommand = String.format("ffmpeg -i %s -s 1280x720 -c:v libx264 -preset veryfast -b:v 1000K -c:a aac -strict experimental -start_number 0 -hls_time 4 -hls_list_size 0 -hls_flags omit_endlist -hls_segment_filename %s-%%d.ts -f hls %s",
                 inputFilePath, inputFilePath.replace(".webm", "").replace("-0", ""), outputM3U8Path);
 
         ProcessBuilder processBuilder = new ProcessBuilder();
@@ -156,7 +156,7 @@ public class ScreenShareHandler extends BinaryWebSocketHandler {
                 }
             }
 
-            if(segmentCount == 4) {
+            if(segmentCount > 2) {
                 oldLines.set(2, "#EXT-X-TARGETDURATION:3");
 
                 Path newPath = Path.of(path.toString().replace(".tmp", ""));
@@ -203,7 +203,7 @@ public class ScreenShareHandler extends BinaryWebSocketHandler {
 
     private void convertToTS(String inputFilePath, String outputTSPath) {
         // FFmpeg를 사용하여 WebM을 TS로 변환
-        String ffmpegCommand = String.format("ffmpeg -i %s -c:v libx264 -preset veryfast -b:v 2M -c:a aac %s",
+        String ffmpegCommand = String.format("ffmpeg -i %s -s 1280x720 -c:v libx264 -b:v 1000K -preset veryfast -c:a aac -strict experimental %s",
                 inputFilePath, outputTSPath);
 
         ProcessBuilder processBuilder = new ProcessBuilder();
@@ -257,6 +257,7 @@ public class ScreenShareHandler extends BinaryWebSocketHandler {
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
                 String durationStr = reader.readLine();
                 if (durationStr != null) {
+                    process.destroy();
                     return (long) (Double.parseDouble(durationStr.trim()) * 1000);  // seconds to milliseconds
                 }
             }
