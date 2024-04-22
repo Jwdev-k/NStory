@@ -123,7 +123,7 @@ document.addEventListener('DOMContentLoaded', function() {
     videojs.log.level('debug');
 
     if (videojs.browser.IS_IOS || videojs.browser.IS_ANDROID) {
-        videoElement.src = '/livestream/videos/' + roomId + '/' + roomId + '.m3u8';
+        videoElement.src = '/livestream/videos/' + roomId + '/' + 'NSLive.m3u8';
 
         videoElement.addEventListener('error', function() {
             console.log("Error occurred, retrying...");
@@ -144,8 +144,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     overrideNative: true,
                     enableWorker: true,
                     withCredentials: false,
-                    bandwidth: 1000000,
-                    enableLowInitialPlaylist: false,
                     smoothQualityChange: true
                 }
             }
@@ -232,7 +230,7 @@ function stopSharing() {
 
 function startRecording(stream) {
     let options = {
-        mimeType: 'video/webm;codecs=h264,aac'  // 기본 비디오 코덱 설정
+        mimeType: 'video/webm;codecs=h264'  // 기본 비디오 코덱 설정
     };
     mediaRecorder = new MediaRecorder(stream, options);
 

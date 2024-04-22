@@ -102,7 +102,7 @@ public class ScreenShareHandler extends BinaryWebSocketHandler {
     }
 
     private void convertToM3U8(String inputFilePath, String outputM3U8Path) {
-        String ffmpegCommand = String.format("ffmpeg -i %s -s 1280x720 -c:v libx264 -preset veryfast -b:v 1000K -c:a aac -strict experimental -start_number 0 -hls_time 4 -hls_list_size 0 -hls_flags omit_endlist -hls_segment_filename %s-%%d.ts -f hls %s",
+        String ffmpegCommand = String.format("ffmpeg -i %s -vf scale=-1:720 -c:v libx264 -b:v 2000K -maxrate 2000k -bufsize 2000k -preset veryfast -c:a aac -b:a 48k -start_number 0 -hls_time 4 -hls_list_size 0 -hls_flags omit_endlist -hls_segment_filename %s-%%d.ts -f hls %s",
                 inputFilePath, inputFilePath.replace(".webm", "").replace("-0", ""), outputM3U8Path);
 
         ProcessBuilder processBuilder = new ProcessBuilder();
@@ -203,7 +203,7 @@ public class ScreenShareHandler extends BinaryWebSocketHandler {
 
     private void convertToTS(String inputFilePath, String outputTSPath) {
         // FFmpeg를 사용하여 WebM을 TS로 변환
-        String ffmpegCommand = String.format("ffmpeg -i %s -s 1280x720 -c:v libx264 -b:v 1000K -preset veryfast -c:a aac -strict experimental %s",
+        String ffmpegCommand = String.format("ffmpeg -i %s -vf scale=-1:720 -c:v libx264 -b:v 2000K -maxrate 2000k -bufsize 2000k -preset veryfast -c:a aac -b:a 48k %s",
                 inputFilePath, outputTSPath);
 
         ProcessBuilder processBuilder = new ProcessBuilder();
