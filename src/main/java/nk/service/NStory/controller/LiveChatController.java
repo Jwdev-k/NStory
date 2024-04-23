@@ -45,9 +45,20 @@ public class LiveChatController {
 
     //@PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(value = "/chatroom/{roomId}")
-    public String ChatRoom(Model model, @PathVariable(name = "roomId") String roomId) {
-        model.addAttribute("RoomInfo",chatRoomService.getRoom(roomId));
-        return "ChatRoom";
+    public String ChatRoom(HttpServletRequest request, Model model
+            , @PathVariable(name = "roomId") String roomId, @RequestParam(name = "pw", required = false) String pw) {
+        LiveRoom liveRoom = chatRoomService.getRoom(roomId);
+        if (!liveRoom.isSecret()) {
+            model.addAttribute("RoomInfo", liveRoom);
+            return "ChatRoom";
+        } else {
+            if(liveRoom.getRoomPassword().equals(pw)) {
+                model.addAttribute("RoomInfo", liveRoom);
+                return "ChatRoom";
+            } else {
+                return "redirect:" + request.getHeader("referer");
+            }
+        }
     }
 
     @PostMapping(value = "/chatroom/add")
