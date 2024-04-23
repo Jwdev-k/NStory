@@ -2,9 +2,10 @@ package nk.service.NStory.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 @AllArgsConstructor
-@Getter
+@Getter @Setter
 public class AccountDTO {
     private int id;
     private String email;

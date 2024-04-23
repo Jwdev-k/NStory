@@ -64,7 +64,6 @@ public class UpdateStatus {
             LocalDate lastDate = LocalDate.parse(account.getLastDateTime().substring(0, 10), formatter);
             if (LocalDate.now().isAfter(lastDate)) {
                 firstLogin = true;
-                accountMapper.UpdateExp(100, account.getEmail());
             }
         }
         return firstLogin;

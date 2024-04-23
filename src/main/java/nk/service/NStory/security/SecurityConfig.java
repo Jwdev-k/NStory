@@ -50,18 +50,18 @@ public class SecurityConfig {
                 .formLogin((formLogin) ->
                         formLogin.loginPage("/login").usernameParameter("email").passwordParameter("password")
                                 .loginProcessingUrl("/perform_login")
-                                .successHandler(new SuccessHandler(customRememberMeServices()))
+                                .successHandler(new SuccessHandler(customRememberMeServices(), updateStatus))
                                 .failureHandler(new FailureHandler()))
 
                 .oauth2Login((oauth2Login) ->
                         oauth2Login.loginPage("/login")
                                 .failureUrl("/login")
-                                .successHandler(new SuccessHandler(customRememberMeServices()))
+                                .successHandler(new SuccessHandler(customRememberMeServices(), updateStatus))
                                 .userInfoEndpoint((userInfoEndpointConfig) ->
                                         userInfoEndpointConfig.userService(oAuth2LoginService))) // 소셜 로그인을 위한 클래스 설정*/)
                 .rememberMe((rememberMe) ->
                         rememberMe.rememberMeServices(customRememberMeServices())
-                                .authenticationSuccessHandler(new SuccessHandler(customRememberMeServices()))) // 커스텀 자동로그인 설정
+                                .authenticationSuccessHandler(new SuccessHandler(customRememberMeServices(), updateStatus))) // 커스텀 자동로그인 설정
 
                 .logout((logout) ->
                         logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
