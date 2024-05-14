@@ -1,6 +1,7 @@
 package nk.service.NStory.security;
 
 import lombok.RequiredArgsConstructor;
+import nk.service.NStory.security.filter.RecaptchaFilter;
 import nk.service.NStory.security.handler.FailureHandler;
 import nk.service.NStory.security.handler.SuccessHandler;
 import nk.service.NStory.security.handler.customLogoutSuccessHandler;
@@ -20,6 +21,7 @@ import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
 import org.springframework.security.web.header.writers.XXssProtectionHeaderWriter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -46,6 +48,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorizeRequests) -> authorizeRequests.anyRequest().permitAll())
                 .httpBasic(Customizer.withDefaults())
                 .anonymous(AbstractHttpConfigurer::disable)
+                .addFilterBefore(new RecaptchaFilter(), UsernamePasswordAuthenticationFilter.class)
 
                 .formLogin((formLogin) ->
                         formLogin.loginPage("/login").usernameParameter("email").passwordParameter("password")
