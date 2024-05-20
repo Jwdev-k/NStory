@@ -24,9 +24,8 @@
             <div class="col-sm-4" th:each="list : ${RoomList}">
                 <div class="card mb-4 card-record border-primary" style="height: auto;">
                     <div class="card-body">
-                        <a class="card-title" th:text="${list.roomName}" style="font-size: 15px;"
-                           th:href="@{/chatroom/{roomId}(roomId = ${list.roomId})}"
-                           th:onclick="return navigateToRoom([[${list.isSecret}]], [[${list.roomPassword}]])">
+                        <a class="card-title" th:text="${list.roomName}" style="font-size: 15px;" href=""
+                           th:onclick="return navigateToRoom([[${list.isSecret}]], [[${list.roomPassword}]], [[${list.roomId}]])">
                         </a>
                     </div>
                     <div class="card-footer d-flex justify-content-between align-items-center" style="border: 0;">
@@ -97,7 +96,7 @@
                 <button class="modal-close-btn" onclick="closePop()"><i class="fa fa-xl fa-close"></i></button>
             </div>
             <!--팝업 컨텐츠 영역-->
-            <form method="post" action="/chatroom/add">
+            <form method="post" action="/chatroom/add" onsubmit="return isCheckedPW();">
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="roomName" class="form-label">제목</label>
@@ -113,7 +112,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <a class="btn btn-secondary" onclick="closePop()">닫기</a>
+                    <a class="btn btn-secondary" onclick="closePop();">닫기</a>
                     <button type="submit" class="btn btn-success">등록</button>
                 </div>
             </form>
@@ -131,7 +130,7 @@
     // 비밀방 여부 체크박스 상태 변경 이벤트 리스너 추가
     isSecretCheckbox.addEventListener("change", function() {
         // 비밀방 여부 체크박스가 체크되었는지 확인
-        if (this.checked) {
+        if (isSecretCheckbox.checked) {
             roomPasswordInput.disabled = false; // 비밀번호 입력 필드 활성화
         } else {
             roomPasswordInput.disabled = true;  // 비밀번호 입력 필드 비활성화
@@ -143,19 +142,47 @@
         roomPasswordInput.disabled = true;  // 비밀번호 입력 필드 초기 비활성화
     }
 
-    function navigateToRoom(isSecret, roomPassword) {
+    function isCheckedPW() {
+        if (isSecretCheckbox && roomPassword.length < 4) {
+            alert('비밀방을 선택한 경우 비밀번호는 4자리 이상이어야 합니다.');
+            return false;  // Prevent form submission
+        }
+        return true;  // Allow form submission
+    }
+
+    function navigateToRoom(isSecret, roomPassword, roomId) {
+        var currentHref = '/chatroom/auth/' + roomId;
         if (isSecret) {
             const enteredPassword = prompt("비밀번호를 입력하세요:");
             if (enteredPassword !== roomPassword) {
                 alert("비밀번호가 일치하지 않습니다.");
             } else {
-                const currentHref = document.querySelector('.card-title').getAttribute('href');
-
-                window.location.href = currentHref.toString() + "?pw=" + enteredPassword;
+                $.ajax({
+                    type: "POST",
+                    url: currentHref,
+                    headers: {
+                        "Room-Password": enteredPassword
+                    },
+                    success: function(response) {
+                        window.location.href = "/chatroom/" + roomId;
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("[서버 오류] 요청에 실패 하였습니다.");
+                    }
+                });
             }
-            return false; // 패스워드 입력이 필요할 경우 기본 href주소로 이동 막음
+        } else {
+            $.ajax({
+                type: "POST",
+                url: currentHref,
+                success: function(response) {
+                    window.location.href = "/chatroom/" + roomId;
+                },
+                error: function(xhr, status, error) {
+                    console.error("[서버 오류] 요청에 실패 하였습니다.");
+                }
+            });
         }
-        return true; // 페이지 이동을 허용합니다.
     }
 </script>
 </html>

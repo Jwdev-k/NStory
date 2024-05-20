@@ -1,6 +1,7 @@
 package nk.service.NStory.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nk.service.NStory.dto.liveChat.LiveRoom;
@@ -31,7 +32,8 @@ public class LiveChatController {
     private final PageUtil pageUtil = new PageUtil();
 
     @GetMapping(value = "/livechat")
-    public String LiveChat(HttpServletRequest request, Model model, @AuthenticationPrincipal CustomUserDetails userDetails
+    public String LiveChat(HttpServletRequest request
+            , Model model, @AuthenticationPrincipal CustomUserDetails userDetails
             , @RequestParam(name = "page", required = false, defaultValue = "1") int page) {
         request.setAttribute("RoomList", chatRoomService.getRooms());
         int totalCount = chatRoomService.getRooms().size();
@@ -45,18 +47,48 @@ public class LiveChatController {
 
     //@PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(value = "/chatroom/{roomId}")
-    public String ChatRoom(HttpServletRequest request, Model model
-            , @PathVariable(name = "roomId") String roomId, @RequestParam(name = "pw", required = false) String pw) {
+    public String ChatRoom(HttpServletRequest request, HttpSession session
+            , @AuthenticationPrincipal CustomUserDetails userDetails
+            , @PathVariable(name = "roomId") String roomId) {
         LiveRoom liveRoom = chatRoomService.getRoom(roomId);
         if (!liveRoom.isSecret()) {
-            model.addAttribute("RoomInfo", liveRoom);
+            session.removeAttribute("LiveAuthSession");
+            request.setAttribute("RoomInfo", liveRoom);
             return "ChatRoom";
         } else {
-            if(liveRoom.getRoomPassword().equals(pw)) {
-                model.addAttribute("RoomInfo", liveRoom);
-                return "ChatRoom";
+            if (session.getAttribute("LiveAuthSession") != null) {
+                int liveAuth = Integer.parseInt(session.getAttribute("LiveAuthSession").toString());
+                if (liveAuth == 1) {
+                    session.removeAttribute("LiveAuthSession");
+                    request.setAttribute("RoomInfo", liveRoom);
+                    return "ChatRoom";
+                } else {
+                    return "redirect:" + request.getHeader("referer");
+                }
+            } else if(userDetails != null) {
+                if (liveRoom.getAid() == userDetails.getAid()) {
+                    request.setAttribute("RoomInfo", liveRoom);
+                    return "ChatRoom";
+                }
+            }
+        }
+        return "redirect:" + request.getHeader("referer");
+    }
+
+    @PostMapping(value = "/chatroom/auth/{roomId}")
+    @ResponseBody
+    public ResponseEntity<Boolean> CheckPassword(HttpSession session, @PathVariable(name = "roomId") String roomId
+            , @RequestHeader(name = "Room-Password", required = false) String password) {
+        LiveRoom liveRoom = chatRoomService.getRoom(roomId);
+        if(!liveRoom.isSecret()) {
+            session.setAttribute("LiveAuthSession", "0");
+            return ResponseEntity.ok(true);
+        } else {
+            if(liveRoom.getRoomPassword().equals(password)) {
+                session.setAttribute("LiveAuthSession", "1");
+                return ResponseEntity.ok(true);
             } else {
-                return "redirect:" + request.getHeader("referer");
+                return ResponseEntity.badRequest().body(false);
             }
         }
     }
