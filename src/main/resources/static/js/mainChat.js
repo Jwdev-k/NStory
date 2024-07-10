@@ -151,20 +151,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         player = videojs('videoPlayer', options);
 
-        player.on('timeupdate', function() {
-            var currentTime = player.currentTime(); // 현재 재생 시간을 초 단위로 얻음
-            var duration = player.duration(); // 비디오 총 재생 시간을 초 단위로 얻음
-
-            // 현재 재생 시간과 총 재생 시간을 표시
-            console.log('Current Time: ' + currentTime + ' / Duration: ' + duration);
-        });
-
-        player.on('buffered', function() {
-            console.log('비디오 버퍼링 중...');
-            var bufferedPercent = player.bufferedPercent();
-            console.log('Buffered Percent: ' + bufferedPercent);
-        });
-
         player.on('error', function() {
             console.log("Error occurred, retrying...");
             setTimeout(loadM3U8, 1000);
