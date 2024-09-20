@@ -137,10 +137,14 @@ public class LiveChatController {
             if (filename.contains(".ts")) {
                 headers.setContentType(MediaType.valueOf("video/MP2T")); // MPEG-2 Transport Stream
                 headers.setContentDispositionFormData("inline", filename);
+            } else if (filename.contains(".m4s")) {
+                headers.setContentType(MediaType.valueOf("video/mp4")); // MPEG-4 for fragmented MP4 (m4s)
+                headers.setContentDispositionFormData("inline", filename);
             } else {
                 headers.setContentType(MediaType.valueOf("application/x-mpegURL")); // HLS MIME type
                 headers.setContentDispositionFormData("inline", "playlist.m3u8");
             }
+
             return ResponseEntity.ok().headers(headers).body(Files.readAllBytes(videoPath));
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
